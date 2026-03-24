@@ -7,10 +7,4 @@ fn main() {
     // (no need to write `&'static str` explicitly — clippy will flag it).
     const HELLO_WORLD: &str = "Hello, world!";
     println!("{HELLO_WORLD}");
-
-    // `overflowing_add` returns a tuple (result, overflowed): wraps on overflow
-    // and returns `true` if overflow occurred. Here 250 + 10 = 260 wraps to 4
-    // in u8 (260 - 256 = 4), so this prints `(4, true)`.
-    // Use `{:?}` (Debug format) because tuples don't implement `Display`.
-    println!("{:?}", 250u8.overflowing_add(10));
 }

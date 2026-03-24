@@ -96,8 +96,7 @@ mod tests {
     #[tokio::test]
     async fn test_greet_unknown_user() {
         let mut mock = MockUserRepository::new();
-        mock.expect_find_by_id()
-            .returning(|_| Ok(None));
+        mock.expect_find_by_id().returning(|_| Ok(None));
 
         assert_eq!(greet_user_mock(&mock, 42).await, "User not found.");
     }
@@ -108,9 +107,6 @@ mod tests {
         mock.expect_find_by_id()
             .returning(|_| Err("connection timeout".to_string()));
 
-        assert_eq!(
-            greet_user_mock(&mock, 1).await,
-            "Error: connection timeout"
-        );
+        assert_eq!(greet_user_mock(&mock, 1).await, "Error: connection timeout");
     }
 }

@@ -45,6 +45,7 @@ fn main() {
     println!("skip(2).take(3): {middle:?}");
 
     // --- 6. take_while and skip_while ---
+    #[allow(clippy::useless_vec)] // intentional: demonstrating iterator adaptors on Vec
     let data = vec![1, 2, 3, 5, 4, 3];
     let ascending: Vec<&i32> = data.iter().take_while(|&&n| n < 5).collect();
     println!("take_while < 5: {ascending:?}");

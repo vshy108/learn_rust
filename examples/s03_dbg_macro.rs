@@ -29,6 +29,7 @@ fn main() {
     // stderr shows: 2 = 2, 3 = 3, 2 + 3 = 5
 
     // --- 4. With complex expressions ---
+    #[allow(clippy::useless_vec)] // intentional: demonstrating dbg! with Vec
     let v = vec![1, 2, 3, 4, 5];
     let sum: i32 = dbg!(v.iter().sum());
     println!("sum = {sum}");

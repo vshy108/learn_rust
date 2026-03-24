@@ -88,6 +88,7 @@ fn main() {
 
     // --- Gotcha: empty ranges ---
     // `5..3` is empty (start > end for exclusive range).
+    #[allow(clippy::reversed_empty_ranges)] // intentional: demonstrating the gotcha
     let count = (5..3).count();
     println!();
     println!("(5..3).count() = {count}"); // 0

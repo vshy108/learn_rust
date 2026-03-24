@@ -5,6 +5,9 @@
 //
 // Run: cargo run --example s21_manual_iteration
 
+// Clippy suggests for-loops and arrays instead of vec! — but this example
+// intentionally demonstrates manual .next() calls on iterators.
+
 fn main() {
     println!("=== Manual Iteration ===");
 

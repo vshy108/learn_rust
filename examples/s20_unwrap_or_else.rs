@@ -8,6 +8,11 @@
 fn main() {
     println!("=== unwrap_or_else ===");
 
+    // Clippy flags calling unwrap_or/unwrap_or_else on literal Some/None/Ok/Err values
+    // because the result is statically known. We do it here intentionally to demonstrate
+    // the API — in real code, these would come from function returns.
+
+
     // --- 1. Option::unwrap_or_else ---
     let some_val: Option<i32> = Some(42);
     let none_val: Option<i32> = None;

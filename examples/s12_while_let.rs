@@ -24,6 +24,9 @@ fn main() {
     println!("Stack is now empty: {stack:?}");
 
     // --- 2. while let with an iterator ---
+    // Clippy suggests `for word in iter` — which IS the idiomatic way.
+    // We use while let here intentionally to show the pattern.
+
     let data = vec!["hello", "world", "rust"];
     let mut iter = data.iter();
     while let Some(word) = iter.next() {

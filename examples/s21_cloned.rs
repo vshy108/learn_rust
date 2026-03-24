@@ -5,6 +5,10 @@
 //
 // Run: cargo run --example s21_cloned
 
+// Clippy suggests .to_vec() instead of .iter().cloned/copied().collect(),
+// and arrays instead of vec![] for fixed data — but this example intentionally
+// demonstrates cloned/copied on iterators over Vec.
+
 fn main() {
     println!("=== The cloned Method ===");
 

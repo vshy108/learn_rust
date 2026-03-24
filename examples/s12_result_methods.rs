@@ -43,7 +43,9 @@ fn main() {
     println!("and_then Err: {chained_err:?}");
 
     // --- 4. unwrap_or / unwrap_or_else ---
+    #[allow(clippy::unnecessary_literal_unwrap)] // intentional: demonstrating the method on known values
     let ok: Result<i32, &str> = Ok(42);
+    #[allow(clippy::unnecessary_literal_unwrap)]
     let err_val: Result<i32, &str> = Err("fail");
     println!("unwrap_or Ok: {}", ok.unwrap_or(0));
     println!("unwrap_or Err: {}", err_val.unwrap_or(0));
@@ -58,6 +60,7 @@ fn main() {
     println!("err(): {:?}", e.err()); // Some("bad")
 
     // --- 6. or_else: provide fallback Result ---
+    #[allow(clippy::unnecessary_lazy_evaluations)] // intentional: demonstrating or_else
     let fallback: Result<i32, &str> = Err("first").or_else(|_| Ok(99));
     println!("or_else: {fallback:?}"); // Ok(99)
 

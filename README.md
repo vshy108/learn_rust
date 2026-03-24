@@ -4,6 +4,8 @@ A comprehensive Rust learning project with **324 standalone examples** across **
 
 Written for developers coming from Python.
 
+The topic list and section structure are based on the Udemy course [Learn to Code with Rust](https://www.udemy.com/course/learn-to-code-with-rust/). Thanks to the course author for the excellent curriculum.
+
 ## Quick Start
 
 ```bash

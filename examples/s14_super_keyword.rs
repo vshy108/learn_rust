@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates the `super` keyword for referring to the parent module.
 //
 // `super::` moves up one level in the module hierarchy.

@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates PartialEq for enums.
 //
 // For enums, PartialEq compares variants AND their contained data.

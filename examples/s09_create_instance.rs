@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates creating struct instances.
 //
 // Field init shorthand: if a variable has the same name as a struct field,

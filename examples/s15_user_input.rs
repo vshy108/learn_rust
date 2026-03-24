@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates collecting user input with read_line.
 //
 // `std::io::stdin().read_line(&mut buffer)` reads from stdin.

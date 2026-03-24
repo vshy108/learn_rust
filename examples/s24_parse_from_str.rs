@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates the parse_from_str function for parsing dates and times.
 //
 // Format specifiers: %Y=year, %m=month, %d=day, %H=hour, %M=min, %S=sec, etc.

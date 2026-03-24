@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Section 1, Topic 3: Multiple main functions
 //
 // In Python, every .py file can be an entry point via `if __name__ == "__main__":`.

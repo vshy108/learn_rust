@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates generics in enum definitions.
 //
 // The two most important generic enums in Rust are:

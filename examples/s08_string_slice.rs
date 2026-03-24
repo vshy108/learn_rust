@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates creating a string slice from a String.
 //
 // A **string slice** (`&str`) is a reference to a contiguous sequence of

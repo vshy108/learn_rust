@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates using `pub use` to re-export names.
 //
 // `pub use` lets you re-export items from submodules,

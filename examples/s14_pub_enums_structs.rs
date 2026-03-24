@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates visibility rules for pub enums, structs, and fields.
 //
 // Key difference:

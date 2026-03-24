@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates struct update syntax.
 //
 // Struct update syntax lets you create a new struct from an existing one,

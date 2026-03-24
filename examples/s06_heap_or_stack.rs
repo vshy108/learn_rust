@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates how to determine whether a value lives on the stack or heap.
 //
 // Rule of thumb:

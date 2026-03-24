@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates the size of `bool` in Rust.
 //
 // A `bool` in Rust occupies 1 byte (8 bits), even though it only needs 1 bit.

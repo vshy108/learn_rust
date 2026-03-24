@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates the Copy trait — types that are duplicated on assignment.
 //
 // In Rust, `Copy` means "bitwise copy on assignment." The original value

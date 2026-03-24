@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates the Box smart pointer.
 //
 // `Box<T>` allocates data on the heap. Useful for:

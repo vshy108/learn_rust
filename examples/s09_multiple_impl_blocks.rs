@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates multiple impl blocks for the same struct.
 //
 // Rust allows splitting methods across multiple `impl` blocks.

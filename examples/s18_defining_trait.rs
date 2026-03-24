@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates defining a trait.
 //
 // A trait declaration lists method signatures. Types that

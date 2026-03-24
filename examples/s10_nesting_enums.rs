@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates nesting enums inside other enums.
 //
 // Enums can contain other enums as associated data, enabling

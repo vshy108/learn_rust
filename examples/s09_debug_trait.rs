@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates deriving the Debug trait for structs.
 //
 // `#[derive(Debug)]` auto-generates a `fmt::Debug` implementation,

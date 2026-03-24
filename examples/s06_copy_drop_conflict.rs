@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates why Copy and Drop cannot coexist on the same type.
 //
 // `Copy`: implicit bitwise copy on assignment — no custom logic.

@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates tuples in Rust.
 //
 // A tuple is a fixed-size, ordered collection of values of potentially

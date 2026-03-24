@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Introduces generics at a high level — just enough to read Rust code.
 //
 // In Python, functions work on any type by default (duck typing).

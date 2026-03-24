@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates the FromIterator trait.
 //
 // `FromIterator` is what makes `.collect()` work.

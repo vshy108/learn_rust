@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates filter and find methods.
 //
 // - `filter(pred)` keeps only elements where pred returns true (lazy)

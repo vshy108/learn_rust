@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates `if let` — a concise way to match a single pattern.
 //
 // `match` is powerful but verbose when you only care about one variant.

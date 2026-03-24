@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates custom error types with thiserror.
 //
 // `thiserror` provides derive macros to easily create custom error types

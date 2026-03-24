@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates fixtures with the rstest crate.
 //
 // `rstest` provides:

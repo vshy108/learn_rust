@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates enum memory layout.
 //
 // Rust enums use a tag (discriminant) + the largest variant's data:

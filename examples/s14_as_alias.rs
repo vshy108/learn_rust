@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates creating aliases with the `as` keyword.
 //
 // `as` renames imports to avoid collisions or improve clarity.

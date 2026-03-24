@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates `clone()` — explicit deep copying.
 //
 // In Rust, assignment of non-Copy types MOVES ownership. If you need a

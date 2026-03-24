@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates struct basics in Rust.
 //
 // A struct groups related data into a named type. Think of it like

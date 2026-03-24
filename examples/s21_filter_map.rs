@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates the filter_map method.
 //
 // `filter_map` combines filter + map in one step.

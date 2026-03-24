@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates the builder pattern for structs.
 //
 // The builder pattern is used when a struct has many fields, some optional.

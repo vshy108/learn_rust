@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_imports, unused_parens)]
 // Demonstrates a MovieTheater struct for testing examples.
 //
 // This struct will be used in subsequent testing examples.

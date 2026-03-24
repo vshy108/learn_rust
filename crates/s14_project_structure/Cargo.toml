@@ -1,0 +1,4 @@
+[package]
+name = "s14_project_structure"
+version = "0.1.0"
+edition = "2024"

@@ -15,6 +15,10 @@ thiserror = "2"
 name = "lc_0001_two_sum"
 path = "leetcode/lc_0001_two_sum.rs"
 
+[[example]]
+name = "lc_0002_add_two_numbers"
+path = "leetcode/lc_0002_add_two_numbers.rs"
+
 [dev-dependencies]
 mockall = "0.13"
 pretty_assertions = "1"

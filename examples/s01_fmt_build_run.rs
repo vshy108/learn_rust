@@ -70,6 +70,14 @@ fn main() {
 
     println!("Core Cargo commands (Python equivalents in parentheses):\n");
     for (command, description) in cargo_commands() {
+        // {command:20} is a width format specifier:
+        //   - Prints `command` in a field at least 20 characters wide.
+        //   - If `command` is shorter than 20 chars, it is padded with spaces
+        //     on the right (strings are left-aligned by default).
+        //   - If `command` is 20+ chars, no truncation occurs; it prints fully.
+        //   - This keeps the descriptions aligned in a neat column.
+        //   - Other alignments: {:>20} (right), {:^20} (center).
+        //   - Custom fill char: {:-<20} pads with dashes instead of spaces.
         println!("  {command:20} {description}");
     }
 

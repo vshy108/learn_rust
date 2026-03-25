@@ -146,12 +146,14 @@ fn main() {
     println!("two_sum([2, 7, 11, 15], {target}) = {result:?}");
 }
 
-/// Macro that generates the same set of tests for any Solution type.
-/// This avoids duplicating test cases — both modules run identical tests.
-///
-/// Usage: `test_two_sum!(test_module_name, path::to::Solution);`
-macro_rules! test_two_sum {
-    ($mod_name:ident, $solution:path) => {
+#[cfg(test)]
+mod tests {
+    /// Macro that generates the same set of tests for any Solution type.
+    /// This avoids duplicating test cases — both modules run identical tests.
+    ///
+    /// Usage: `test_two_sum!(test_module_name, path::to::Solution);`
+    macro_rules! test_two_sum {
+        ($mod_name:ident, $solution:path) => {
         mod $mod_name {
             use $solution as Solution;
 
@@ -199,11 +201,9 @@ macro_rules! test_two_sum {
                 );
             }
         }
-    };
-}
+        };
+    }
 
-#[cfg(test)]
-mod tests {
     // Run the SAME tests against both solutions.
     test_two_sum!(my_tests, crate::my_solution::Solution);
     test_two_sum!(ai_tests, crate::ai_solution::Solution);

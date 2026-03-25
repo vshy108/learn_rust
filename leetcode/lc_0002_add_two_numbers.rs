@@ -225,9 +225,11 @@ fn main() {
     println!("[2,4,3] + [5,6,4] = {:?}", list_to_vec(result));
 }
 
-/// Macro that generates the same set of tests for any Solution type.
-macro_rules! test_add_two_numbers {
-    ($mod_name:ident, $solution:path) => {
+#[cfg(test)]
+mod tests {
+    /// Macro that generates the same set of tests for any Solution type.
+    macro_rules! test_add_two_numbers {
+        ($mod_name:ident, $solution:path) => {
         mod $mod_name {
             use $solution as Solution;
             use crate::{list_to_vec, vec_to_list};
@@ -280,11 +282,9 @@ macro_rules! test_add_two_numbers {
                 assert_eq!(list_to_vec(result), vec![0, 1]);
             }
         }
-    };
-}
+        };
+    }
 
-#[cfg(test)]
-mod tests {
     // Run the SAME tests against both solutions.
     test_add_two_numbers!(my_tests, crate::my_solution::Solution);
 

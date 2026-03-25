@@ -10,6 +10,11 @@ chrono = "0.4"
 regex = "1"
 thiserror = "2"
 
+# Register leetcode/ files as runnable examples alongside examples/.
+[[example]]
+name = "lc_0001_two_sum"
+path = "leetcode/lc_0001_two_sum.rs"
+
 [dev-dependencies]
 mockall = "0.13"
 pretty_assertions = "1"

@@ -20,9 +20,9 @@ name = "lc_0002_add_two_numbers"
 path = "leetcode/lc_0002_add_two_numbers.rs"
 
 [dev-dependencies]
-mockall = "0.13"
+mockall = "0.14"
 pretty_assertions = "1"
-rstest = "0.23"
+rstest = "0.26"
 
 [workspace]
 members = [".", "crates/s14_project_structure", "crates/s21_wordle"]

@@ -41,15 +41,9 @@ If the code is not fully optimized before handing off to the user, you will be f
   - ALWAYS use `polars` instead of other data frame libraries for tabular data manipulation.
   - If a polars dataframe will be printed, NEVER simultaneously print the number of entries in the dataframe nor the schema as it is redundant.
   - NEVER ingest more than 10 rows of a data frame at a time. Only analyze subsets of data to avoid overloading your memory context.
-- If using Python to implement Rust code using PyO3/maturin:
-  - Rebuild the Python package with maturin after finishing all Rust code changes.
-  - ALWAYS use `uv` for Python package management and to create a `.venv` if it is not present. NEVER use the base system Python installation.
-  - Ensure `.venv` is added to `.gitignore`.
-  - Ensure `ipykernel` and `ipywidgets` is installed in `.venv` for Jupyter Notebook compatibility. This should not be in package requirements.
-
 ## Audience
 
-Assume the user is a Python expert, but a Rust novice. Include additional code comments around Rust-specific nuances that a Python developer may not recognize.
+Assume the user is a Rust novice. Include additional code comments around Rust-specific nuances.
 
 ## Code Style and Formatting
 
@@ -198,15 +192,12 @@ pub fn calculate_total(items: &[Item], tax_rate: f64) -> Result<f64, Calculation
 - Use `cargo` for building, testing, and dependency management
 - Use `cargo test` for running tests
 - Use `cargo doc` for generating documentation
-- NEVER build with `cargo build --features python`: this will always fail. Instead, ALWAYS use `maturin`.
-
 ## Before Committing
 
 - [ ] All tests pass (`cargo test`)
 - [ ] No compiler warnings (`cargo build`)
 - [ ] Clippy passes (`cargo clippy -- -D warnings`)
 - [ ] Code is formatted (`cargo fmt --check`)
-- [ ] If the project creates a Python package and Rust code is touched, rebuild the Python package (`source .venv/bin/activate && maturin develop --release --features python`)
 - [ ] If the project creates a WASM package and Rust code is touched, rebuild the WASM package (`wasm-pack build --target web --out-dir web/pkg`)
 - [ ] All public items have doc comments
 - [ ] No commented-out code or debug statements

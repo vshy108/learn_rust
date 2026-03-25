@@ -4,8 +4,6 @@
 // It then RETURNS the value (unlike `println!` which returns `()`).
 // This makes it perfect for quick debugging without restructuring code.
 //
-// Python equivalent: print(f"{expr=}") (PEP 572-style) or `breakpoint()`.
-//
 // Run: cargo run --example s03_dbg_macro
 
 fn main() {

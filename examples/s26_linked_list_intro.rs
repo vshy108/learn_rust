@@ -5,9 +5,6 @@
 // Rust needs to know the size of every type at compile time, so we
 // must use `Box` to give nodes a known size (one pointer).
 //
-// **Python analogy:** In Python, `node.next = other_node` just stores
-// a reference (pointer). In Rust, we must be explicit with `Box`.
-//
 // Run: cargo run --example s26_linked_list_intro
 
 fn main() {

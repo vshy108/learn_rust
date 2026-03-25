@@ -4,8 +4,7 @@
 // The new binding *shadows* (hides) the previous one. This is NOT the same
 // as mutation (`mut`) — it creates an entirely new variable.
 //
-// Python equivalent: just reassign `x = "new"`. But Rust's shadowing is
-// more powerful because it can change the *type* of the binding.
+// Rust's shadowing can change the *type* of the binding.
 //
 // Run: cargo run --example s02_variable_shadowing
 

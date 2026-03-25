@@ -3,8 +3,7 @@
 // Every value in Rust has a **lifetime** — the period from creation
 // to when it's dropped. For owned values, this is the scope they live in.
 //
-// Python comparison: Python uses garbage collection; Rust tracks lifetimes
-// at compile time, so there's no GC overhead.
+// Rust tracks lifetimes at compile time, so there's no GC overhead.
 //
 // Run: cargo run --example s19_concrete_lifetimes_values
 

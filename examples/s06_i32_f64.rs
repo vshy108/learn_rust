@@ -4,8 +4,6 @@
 // are allocated on the **stack**. They implement the `Copy` trait, meaning
 // assignment copies bits rather than moving ownership.
 //
-// In Python, ALL objects live on the heap — even `int`. Rust is different.
-//
 // Run: cargo run --example s06_i32_f64
 
 fn main() {

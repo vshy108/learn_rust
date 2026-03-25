@@ -2,7 +2,6 @@
 //
 // A type alias creates an alternative name for an existing type using `type`.
 // It does NOT create a new type — the alias and original are interchangeable.
-// This is similar to Python's `TypeAlias` or `type` statement (PEP 613/695).
 //
 // Run: cargo run --example s02_type_aliases
 

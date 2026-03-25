@@ -30,7 +30,7 @@ fn main() {
     println!("vec: {v:?}, len={}, cap={}", v.len(), v.capacity());
 
     // Vec metadata is on the stack; elements are on the heap.
-    // When Vec grows past capacity, it reallocates (like Python's list).
+    // When Vec grows past capacity, it reallocates.
 
     // --- 3. & (reference): borrow without owning ---
     let s = String::from("hello");

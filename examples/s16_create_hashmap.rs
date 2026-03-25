@@ -1,7 +1,7 @@
 // Demonstrates creating a HashMap.
 //
 // `HashMap<K, V>` stores key-value pairs with O(1) average lookup.
-// Like Python's `dict`, but keys must implement `Eq` and `Hash`.
+// Keys must implement `Eq` and `Hash`.
 //
 // Not in the prelude — must `use std::collections::HashMap`.
 //

@@ -1,6 +1,6 @@
 // Introduces closures — anonymous functions that capture their environment.
 //
-// Closures are like Python's `lambda` but much more powerful:
+// Closures are anonymous functions that capture their environment:
 // - Can capture surrounding variables
 // - Can have multiple statements
 // - Type inference for parameters and return

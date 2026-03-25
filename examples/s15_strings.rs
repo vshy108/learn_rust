@@ -4,10 +4,6 @@
 // - `String` — owned, heap-allocated, growable, UTF-8 string.
 // - `&str` — borrowed string slice, a view into UTF-8 data.
 //
-// Think of it like Python:
-// - `String` ≈ `str` (mutable, owned)
-// - `&str` ≈ a read-only view/reference
-//
 // Run: cargo run --example s15_strings
 
 fn main() {

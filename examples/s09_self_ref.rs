@@ -7,9 +7,6 @@
 // | `&mut self` | `&mut Self` | Yes       | Yes         | No        |
 // | `self`      | `Self`      | Yes       | Yes (local) | Yes       |
 //
-// Python analogy: `&self` is like `self` in a read-only method,
-// `&mut self` is like `self` in a method that modifies attributes.
-//
 // Run: cargo run --example s09_self_ref
 
 #[derive(Debug)]

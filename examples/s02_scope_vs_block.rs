@@ -3,7 +3,6 @@
 // A *block* is any code enclosed in `{}`. Blocks create a new *scope*:
 // variables declared inside a block are not accessible outside it.
 //
-// Unlike Python (which only creates scope at function/class/module level),
 // Rust creates a new scope for EVERY `{}` block — including `if`, `for`,
 // `match`, and even bare `{}` blocks.
 //
@@ -24,7 +23,7 @@ fn main() {
 
     // --- 2. Blocks as expressions ---
     // The last expression in a block (WITHOUT a semicolon) becomes the
-    // block's value. Think of it like Python's walrus operator on steroids.
+    // block's value.
     let result = {
         let a = 3;
         let b = 7;
@@ -42,8 +41,8 @@ fn main() {
 
     // --- 3. Variables are dropped at end of scope ---
     // When a variable goes out of scope, Rust automatically calls `drop()`
-    // on it (if it implements Drop). This is like Python's `__del__`, but
-    // deterministic — it happens immediately when scope ends.
+    // on it (if it implements Drop). The drop is deterministic — it happens
+    // immediately when scope ends.
     {
         let s = String::from("scoped string");
         println!("s = {s}");

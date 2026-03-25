@@ -5,9 +5,6 @@
 // - `Box<T>`: owns the data on the heap. Dropped when Box goes out of scope.
 // - References have zero cost; Box has a heap allocation.
 //
-// **Python analogy:** Python variables are all like Box — they own a reference
-// to heap data. Rust references are more like C pointers but with safety.
-//
 // Run: cargo run --example s26_box_vs_refs
 
 fn main() {

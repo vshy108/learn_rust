@@ -20,8 +20,8 @@ fn main() {
     println!("{zero}.is_negative() = {}", zero.is_negative()); // false
 
     // --- 2. Zero is neither ---
-    // Gotcha for Python developers: Python's math.copysign distinguishes
-    // +0.0 and -0.0 for floats, but for integers, 0 is simply neutral.
+    // For integers, 0 is simply neutral. For floats, +0.0 and -0.0
+    // are distinguished (see float sign methods below).
 
     // --- 3. signum() method ---
     // Returns -1, 0, or 1 indicating the sign.

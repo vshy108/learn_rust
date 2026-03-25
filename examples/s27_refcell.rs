@@ -6,10 +6,6 @@
 // - One mutable borrow (&mut T) — OK
 // - Shared + mutable at same time — PANICS at runtime
 //
-// **Python analogy:** Like having a mutable object that checks at runtime
-// whether you're violating access rules. Python doesn't have this concept
-// because everything is always mutable and single-threaded GIL-protected.
-//
 // **Gotcha:** RefCell is NOT thread-safe (`!Sync`). Use `Mutex<T>` or
 // `RwLock<T>` for multi-threaded interior mutability.
 //

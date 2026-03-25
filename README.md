@@ -2,8 +2,6 @@
 
 A comprehensive Rust learning project with **324 standalone examples** across **27 sections**, progressing from basics to smart pointers. Each topic is a self-contained file with `fn main()`, inline comments explaining Rust-specific nuances, and unit tests.
 
-Written for developers coming from Python.
-
 The topic list and section structure are based on the Udemy course [Learn to Code with Rust](https://www.udemy.com/course/learn-to-code-with-rust/). Thanks to the course author for the excellent curriculum.
 
 ## Quick Start

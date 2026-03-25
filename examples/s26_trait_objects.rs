@@ -4,9 +4,6 @@
 // types behind the same interface. This is especially useful for
 // error handling where multiple error types must be returned.
 //
-// **Python analogy:** Similar to Python's duck typing — any object
-// with the right methods works. But in Rust, this is explicit via `dyn Trait`.
-//
 // Run: cargo run --example s26_trait_objects
 
 use std::fmt;

@@ -1,14 +1,11 @@
 // Section 1, Topic 2: Parameters in the main function
 //
-// In Python, the entry point is `if __name__ == "__main__":` and you use
-// `sys.argv` or `argparse` for command-line arguments.
-//
-// In Rust, `fn main()` is the entry point. It can have two signatures:
+// `fn main()` is the entry point. It can have two signatures:
 //   1. `fn main()`            — no parameters, no return value
 //   2. `fn main() -> Result<(), E>`  — returns a Result for error handling
 //
 // Rust does NOT allow `fn main(args: ...)`. Instead, use `std::env::args()`
-// to access command-line arguments (similar to Python's `sys.argv`).
+// to access command-line arguments.
 
 use std::env;
 
@@ -16,11 +13,10 @@ use std::env;
 ///
 /// # Returns
 ///
-/// A vector of all arguments, where index 0 is the program path
-/// (like Python's `sys.argv[0]`).
+/// A vector of all arguments, where index 0 is the program path.
 fn collect_args() -> Vec<String> {
     // `env::args()` returns an iterator over the CLI arguments.
-    // The first element is the path to the binary (like sys.argv[0] in Python).
+    // The first element is the path to the binary.
     env::args().collect()
 }
 
@@ -35,7 +31,6 @@ fn collect_args() -> Vec<String> {
 /// The number of user-provided arguments.
 fn count_user_args(args: &[String]) -> usize {
     // Skip the first element (program path), count the rest.
-    // In Python: len(sys.argv) - 1
     args.len().saturating_sub(1)
 }
 
@@ -47,7 +42,7 @@ fn main() {
     println!("Number of user arguments: {}", count_user_args(&args));
 
     // Print each user-supplied argument.
-    // `enumerate()` is like Python's enumerate() — gives (index, value).
+    // `enumerate()` gives (index, value) pairs.
     // We skip(1) to ignore the program name.
     for (i, arg) in args.iter().skip(1).enumerate() {
         println!("  arg[{}]: {arg}", i + 1);

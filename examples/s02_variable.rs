@@ -1,6 +1,6 @@
 // Demonstrates variable basics in Rust.
 //
-// Key differences from Python:
+// Key points:
 //   - Variables are immutable by default (use `mut` to make them mutable).
 //   - Rust is statically typed, but the compiler can infer types.
 //   - Variables must be initialized before use (no `None` equivalent by default).
@@ -17,8 +17,7 @@ fn main() {
     println!("x = {x}");
 
     // --- 2. Mutable variables ---
-    // Add `mut` to allow reassignment. This is an explicit opt-in,
-    // unlike Python where all variables are mutable.
+    // Add `mut` to allow reassignment. This is an explicit opt-in.
     let mut y = 10;
     println!("y before = {y}");
     y = 20;
@@ -58,7 +57,6 @@ fn main() {
 
     // --- 6. Multiple bindings at once (destructuring) ---
     // You can bind multiple values using tuple destructuring.
-    // This is similar to Python's `a, b = 1, 2`.
     let (a, b, c) = (1, 2.0, "three");
     println!("a = {a}, b = {b}, c = {c}");
 

@@ -3,8 +3,8 @@
 // Stack: fast, fixed-size, LIFO, auto-cleaned when scope ends.
 // Heap: slower, dynamic-size, explicitly allocated, cleaned by Drop trait.
 //
-// Python puts everything on the heap. Rust lets you choose — and defaults
-// to stack when possible for performance.
+// Rust lets you choose stack vs heap — and defaults to stack when possible
+// for performance.
 //
 // Run: cargo run --example s06_stack_vs_heap
 

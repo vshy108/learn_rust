@@ -5,7 +5,6 @@
 // `isize`: signed, same size as a pointer
 //
 // These are used for indexing collections and representing sizes/lengths.
-// Python has no equivalent — its `int` is arbitrary-precision.
 //
 // Run: cargo run --example s03_usize_isize
 

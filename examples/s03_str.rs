@@ -1,7 +1,6 @@
 // Demonstrates the `str` type and its relationship with `String` and `&str`.
 //
-// In Python, there's one string type: `str`.
-// In Rust, there are multiple:
+// In Rust, there are multiple string types:
 //   - `str`     — a string *slice* type (unsized, rarely used directly)
 //   - `&str`    — a *reference* to a string slice (most common for read-only)
 //   - `String`  — an owned, heap-allocated, growable string
@@ -23,7 +22,6 @@ fn main() {
     // `str` represents a sequence of UTF-8 bytes whose length is only
     // known at runtime. You can't put it on the stack directly:
     //   let s: str = *"hello";  // error: the size of `str` cannot be known
-    // This is similar to how Python's `memoryview` exposes raw buffer data.
 
     // `&str` is a "fat pointer": it stores both:
     //   1. A pointer to the first byte

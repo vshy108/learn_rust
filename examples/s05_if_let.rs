@@ -4,8 +4,7 @@
 // `match` is powerful but verbose when you only care about one variant.
 // `if let` is syntactic sugar for a `match` with one arm + a wildcard `_`.
 //
-// Python equivalent: roughly `if (m := re.match(...)): use(m)`
-// but Rust's `if let` works with *any* pattern, not just Option/Result.
+// Rust's `if let` works with *any* pattern, not just Option/Result.
 //
 // Run: cargo run --example s05_if_let
 

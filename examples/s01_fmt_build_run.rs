@@ -1,13 +1,12 @@
 // Section 1, Topic 5: fmt, build, and run
 //
-// In Python, you might use: black (formatter), mypy (type-check), python file.py (run).
-// In Rust, the equivalent workflow uses `cargo` subcommands:
+// Rust uses `cargo` subcommands for its development workflow:
 //
-//   cargo fmt    — auto-formats code (like Python's `black` or `ruff format`)
+//   cargo fmt    — auto-formats code
 //   cargo build  — compiles the project (type-checks + generates binary)
 //   cargo run    — builds AND runs in one step
-//   cargo check  — fast type-check without producing a binary (like mypy)
-//   cargo clippy — linter with style/performance suggestions (like ruff/pylint)
+//   cargo check  — fast type-check without producing a binary
+//   cargo clippy — linter with style/performance suggestions
 //
 // This example demonstrates code that `cargo fmt` would reformat,
 // and shows how to programmatically check formatting rules.
@@ -19,18 +18,12 @@
 /// A vector of (command, description) pairs.
 fn cargo_commands() -> Vec<(&'static str, &'static str)> {
     vec![
-        ("cargo fmt", "Auto-format code (like black/ruff format)"),
-        (
-            "cargo check",
-            "Fast type-check, no binary output (like mypy)",
-        ),
+        ("cargo fmt", "Auto-format code"),
+        ("cargo check", "Fast type-check, no binary output"),
         ("cargo build", "Compile to binary (type-check + codegen)"),
-        ("cargo run", "Build + run in one step (like python main.py)"),
-        (
-            "cargo clippy",
-            "Lint for style/perf issues (like ruff/pylint)",
-        ),
-        ("cargo test", "Run all tests (like pytest)"),
+        ("cargo run", "Build + run in one step"),
+        ("cargo clippy", "Lint for style/perf issues"),
+        ("cargo test", "Run all tests"),
     ]
 }
 
@@ -45,7 +38,6 @@ fn cargo_commands() -> Vec<(&'static str, &'static str)> {
 /// `true` if the line is within the 100-character limit.
 fn is_within_line_limit(line: &str) -> bool {
     // rustfmt default max line width is 100 characters.
-    // In Python, PEP 8 recommends 79 (or 88 for black).
     line.len() <= 100
 }
 
@@ -60,15 +52,14 @@ fn is_within_line_limit(line: &str) -> bool {
 /// `true` if the line does not start with a tab character.
 fn uses_spaces_not_tabs(line: &str) -> bool {
     // Rust convention: 4 spaces for indentation (enforced by rustfmt).
-    // Unlike Python (which also uses spaces), tabs will cause rustfmt to
-    // reformat your code.
+    // Tabs will cause rustfmt to reformat your code.
     !line.starts_with('\t')
 }
 
 fn main() {
     println!("=== Rust Development Workflow: fmt, build, and run ===\n");
 
-    println!("Core Cargo commands (Python equivalents in parentheses):\n");
+    println!("Core Cargo commands:\n");
     for (command, description) in cargo_commands() {
         // {command:20} is a width format specifier:
         //   - Prints `command` in a field at least 20 characters wide.

@@ -6,10 +6,6 @@
 // **Gotcha:** You cannot call `.drop()` directly (use `std::mem::drop()`
 // if you need to drop early). Rust calls Drop automatically.
 //
-// **Python analogy:** Similar to `__del__`, but Drop is deterministic —
-// it runs exactly when the value goes out of scope, not when the GC
-// gets around to it.
-//
 // Run: cargo run --example s26_drop_trait
 
 /// A resource that prints when created and dropped.

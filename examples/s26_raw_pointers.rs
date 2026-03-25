@@ -4,8 +4,7 @@
 // Rust's safety guarantees. Creating them is safe, but
 // dereferencing them requires `unsafe`.
 //
-// **Gotcha for Python devs:** Unlike Python references which are
-// always safe, raw pointers can dangle, alias mutably, or be null.
+// **Gotcha:** Raw pointers can dangle, alias mutably, or be null.
 // Rust's borrow checker does NOT track raw pointers.
 //
 // Run: cargo run --example s26_raw_pointers

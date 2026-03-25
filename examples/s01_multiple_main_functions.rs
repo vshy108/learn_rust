@@ -1,8 +1,7 @@
 #![allow(dead_code, unused_imports, unused_parens)]
 // Section 1, Topic 3: Multiple main functions
 //
-// In Python, every .py file can be an entry point via `if __name__ == "__main__":`.
-// In Rust, each **binary crate** has exactly ONE `fn main()`.
+// Each **binary crate** has exactly ONE `fn main()`.
 //
 // However, a Cargo project can have multiple binaries:
 //   - `src/main.rs`          → the default binary (run with `cargo run`)

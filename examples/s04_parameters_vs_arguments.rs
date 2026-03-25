@@ -5,8 +5,8 @@
 //   - **Parameters** are the names in the function *definition* (formal).
 //   - **Arguments** are the values passed when *calling* the function (actual).
 //
-// This is the same distinction as in Python, but Rust enforces it more
-// strictly because every parameter must have a type annotation.
+// Rust enforces this strictly because every parameter must have
+// a type annotation.
 //
 // Run: cargo run --example s04_parameters_vs_arguments
 
@@ -21,7 +21,6 @@ fn add(a: i32, b: i32) -> i32 {
 /// Greet someone by name.
 ///
 /// `name: &str` is a parameter. The `&str` type annotation is mandatory.
-/// In Python you'd write `def greet(name):` — Rust requires the type.
 fn greet(name: &str) -> String {
     format!("Hello, {name}!")
 }
@@ -42,7 +41,7 @@ fn main() {
     println!("add(3, 7) = {sum}");
 
     // --- 2. Type annotations are mandatory ---
-    // Unlike Python, you can't omit parameter types in Rust.
+    // Rust requires explicit parameter types.
     // `fn add(a, b)` would be a compile error.
     let msg = greet("Rustacean");
     println!("{msg}");
@@ -68,7 +67,7 @@ fn main() {
     println!("add(1+2, 3*4) = {}", add(1 + 2, 3 * 4));
 
     // --- 6. Argument order matters ---
-    // Rust doesn't have keyword arguments like Python's `add(b=7, a=3)`.
+    // Rust doesn't have keyword arguments.
     // Arguments are always positional.
 }
 

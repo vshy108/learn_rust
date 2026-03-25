@@ -1,7 +1,7 @@
 // Demonstrates division operators and edge cases in Rust.
 //
 // Rust has different division behavior for integers vs floats:
-//   - Integer division truncates toward zero (like Python's `//` but NOT exactly)
+//   - Integer division truncates toward zero
 //   - Float division follows IEEE 754
 //
 // Run: cargo run --example s03_division
@@ -13,11 +13,6 @@ fn main() {
     println!("  -7 / 2  = {}", -7_i32 / 2); // -3 (truncates toward zero)
     println!("  7 / -2  = {}", 7_i32 / -2); // -3
 
-    // Gotcha: Python's `//` rounds toward negative infinity:
-    //   Python: -7 // 2 = -4
-    //   Rust:   -7 / 2  = -3
-    // This difference catches many Python developers!
-
     // --- 2. Integer remainder (%) ---
     // The sign of the result matches the DIVIDEND (left operand).
     println!();
@@ -26,10 +21,6 @@ fn main() {
     println!("  -7 % 2  = {}", -7_i32 % 2); // -1  (sign follows -7)
     println!("  7 % -2  = {}", 7_i32 % -2); // 1   (sign follows 7)
 
-    // Python's `%` sign follows the DIVISOR:
-    //   Python: -7 % 2 = 1
-    //   Rust:   -7 % 2 = -1
-
     // --- 3. Division by zero ---
     // Integer division by zero PANICS at runtime (no undefined behavior).
     // let _boom = 1 / 0;  // thread 'main' panicked at 'attempt to divide by zero'
@@ -37,9 +28,9 @@ fn main() {
     println!("Integer /0: panics at runtime (no UB like C)");
 
     // --- 4. Euclidean division and remainder ---
-    // For Python-like behavior, use `.div_euclid()` and `.rem_euclid()`:
+    // For floor division behavior, use `.div_euclid()` and `.rem_euclid()`:
     println!();
-    println!("Euclidean (Python-like):");
+    println!("Euclidean division:");
     println!("  (-7).div_euclid(2)  = {}", (-7_i32).div_euclid(2)); // -4
     println!("  (-7).rem_euclid(2)  = {}", (-7_i32).rem_euclid(2)); // 1
     // rem_euclid always returns a non-negative result.
@@ -70,7 +61,7 @@ mod tests {
     #[test]
     fn test_integer_division_truncates_toward_zero() {
         assert_eq!(7 / 2, 3);
-        assert_eq!(-7 / 2, -3); // NOT -4 like Python
+        assert_eq!(-7 / 2, -3);
     }
 
     #[test]
@@ -81,7 +72,7 @@ mod tests {
     }
 
     #[test]
-    fn test_euclidean_matches_python() {
+    fn test_euclidean_division() {
         assert_eq!((-7_i32).div_euclid(2), -4);
         assert_eq!((-7_i32).rem_euclid(2), 1);
     }

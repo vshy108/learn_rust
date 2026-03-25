@@ -90,7 +90,7 @@ fn main() {
 
     // --- 6. Gotcha: unreachable! is NOT checked at compile time ---
     // The compiler does NOT verify that `unreachable!()` is truly unreachable.
-    // It's a runtime assertion, similar to Python's `assert False, "msg"`.
+    // It's a runtime assertion that always panics.
     // If your logic has a bug and the arm IS reached, the program panics.
 }
 

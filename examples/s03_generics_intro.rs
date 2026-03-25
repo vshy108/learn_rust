@@ -1,8 +1,7 @@
 #![allow(dead_code, unused_imports, unused_parens)]
 // Introduces generics at a high level — just enough to read Rust code.
 //
-// In Python, functions work on any type by default (duck typing).
-// In Rust, functions are monomorphic by default. Generics let you write
+// Rust functions are monomorphic by default. Generics let you write
 // code that works across multiple types while keeping compile-time safety.
 //
 // This is a *preview*. Full generics coverage is in Section 11.

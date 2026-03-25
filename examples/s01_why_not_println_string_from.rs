@@ -1,7 +1,6 @@
 // Section 1, Topic 1: Why not println!(String::from("Hello, world!"))
 //
-// In Python, print() accepts any object and calls str() on it.
-// In Rust, println!() is a *macro* that expects its first argument to be a
+// println!() is a *macro* that expects its first argument to be a
 // **format string literal** — a &str known at compile time. It cannot be a
 // String (heap-allocated) or any runtime value because the compiler parses
 // the format placeholders at compile time.
@@ -13,7 +12,6 @@
 /// A greeting string built from `String::from`.
 fn build_greeting() -> String {
     // `String::from` creates a heap-allocated String from a &str literal.
-    // In Python this is like: greeting = str("Hello, world!")
     String::from("Hello, world!")
 }
 
@@ -28,7 +26,7 @@ fn literal_greeting() -> &'static str {
 
 fn main() {
     // CORRECT: pass a format string literal, then the String as an argument.
-    // The `{}` placeholder uses the Display trait (like Python's __str__).
+    // The `{}` placeholder uses the Display trait.
     let greeting = build_greeting();
     println!("{greeting}");
 
@@ -44,8 +42,8 @@ fn main() {
     //
     //   error: format argument must be a string literal
     //
-    // This is fundamentally different from Python's print(), which accepts
-    // any object at runtime. Rust's approach catches format string errors at
+    // This is fundamentally different from runtime-evaluated print functions.
+    // Rust's approach catches format string errors at
     // compile time — no runtime format-string bugs possible.
 
     // ALSO CORRECT: use a variable holding &str as a format argument.
@@ -70,7 +68,7 @@ mod tests {
     #[test]
     fn test_greeting_types_are_equal_in_content() {
         // String and &str can be compared directly in Rust because
-        // String implements PartialEq<str> (like Python's == on str objects).
+        // String implements PartialEq<str>.
         assert_eq!(build_greeting(), literal_greeting());
     }
 }

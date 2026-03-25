@@ -1,7 +1,7 @@
 // Demonstrates the fold method.
 //
-// `.fold(init, |acc, item| ...)` reduces an iterator to a single value.
-// Like Python's `functools.reduce` but with an explicit initial value.
+// `.fold(init, |acc, item| ...)` reduces an iterator to a single value,
+// with an explicit initial value.
 //
 // Run: cargo run --example s21_fold
 

@@ -2,7 +2,6 @@
 //
 // Rust lets you insert underscores anywhere in numeric literals for readability.
 // They're completely ignored by the compiler — purely cosmetic.
-// Python 3.6+ has the same feature (PEP 515).
 //
 // Run: cargo run --example s03_visual_separator
 

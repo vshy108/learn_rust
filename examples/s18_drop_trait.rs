@@ -1,9 +1,7 @@
 // Demonstrates implementing the Drop trait.
 //
 // `Drop` lets you run cleanup code when a value goes out of scope.
-// Similar to Python's `__del__` or a C++ destructor, but deterministic.
-//
-// The compiler calls `drop()` automatically — you rarely call it manually.
+// It's deterministic — the compiler calls `drop()` automatically.
 //
 // Run: cargo run --example s18_drop_trait
 

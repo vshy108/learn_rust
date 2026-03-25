@@ -6,9 +6,6 @@
 // 2. Large data you don't want to copy on the stack
 // 3. Owning a value that implements a specific trait (trait objects)
 //
-// **Python analogy:** In Python, everything is heap-allocated.
-// In Rust, `Box` is an explicit choice to heap-allocate.
-//
 // Run: cargo run --example s26_box
 
 fn main() {

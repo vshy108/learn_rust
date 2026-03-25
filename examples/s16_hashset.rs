@@ -1,7 +1,6 @@
 // Demonstrates HashSet — a collection of unique values.
 //
 // `HashSet<T>` is like a `HashMap<T, ()>` — keys only, no values.
-// Like Python's `set`.
 //
 // Run: cargo run --example s16_hashset
 

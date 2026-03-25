@@ -3,7 +3,7 @@
 // Arrays in Rust are fixed-size, stack-allocated collections of the same type.
 // Syntax: `[T; N]` — T is the element type, N is the compile-time length.
 //
-// Unlike Python lists, Rust arrays:
+// Rust arrays:
 //   - Have a fixed size known at compile time
 //   - Are stack-allocated (no heap overhead)
 //   - Are bounds-checked at runtime (panics on out-of-bounds access)

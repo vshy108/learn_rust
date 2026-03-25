@@ -1,6 +1,6 @@
 // Demonstrates recursion in Rust.
 //
-// Rust supports recursion just like Python, but with key differences:
+// Rust supports recursion with some key characteristics:
 //   - No tail-call optimization (TCO) guaranteed by the compiler.
 //   - Stack size is limited (~8 MB default on most platforms).
 //   - Deep recursion can cause stack overflow (no automatic extension).
@@ -95,7 +95,7 @@ fn main() {
     // Uncommenting the line below would crash:
     //   factorial(1_000_000);
     // Rust's default stack is ~8 MB. Deep recursion will overflow it.
-    // Unlike Python (which raises RecursionError), Rust aborts the process.
+    // Rust aborts the process on stack overflow.
 
     // --- 6. Gotcha: no guaranteed TCO ---
     // Some languages (Scheme, Haskell) guarantee tail-call optimization.

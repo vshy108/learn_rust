@@ -1,8 +1,8 @@
 // Demonstrates ranges and for-in loops in Rust.
 //
 // Rust has several range types in `std::ops`:
-//   `a..b`    — exclusive end (like Python's `range(a, b)`)
-//   `a..=b`   — inclusive end (like Python's `range(a, b+1)`)
+//   `a..b`    — exclusive end
+//   `a..=b`   — inclusive end
 //   `a..`     — from a to infinity
 //   `..b`     — from start to b (exclusive)
 //   `..=b`    — from start to b (inclusive)
@@ -76,14 +76,14 @@ fn main() {
     println!();
 
     // --- 9. Enumerate ---
-    // Like Python's `enumerate()`, gives (index, value) pairs.
+    // Gives (index, value) pairs.
     for (i, val) in v.iter().enumerate() {
         println!("  v[{i}] = {val}");
     }
 
     // --- Gotcha: ranges are lazy ---
     // `0..1_000_000` doesn't allocate a million numbers.
-    // It produces values one at a time (like Python's `range()`).
+    // It produces values one at a time.
     // This means they're memory-efficient for large ranges.
 
     // --- Gotcha: empty ranges ---

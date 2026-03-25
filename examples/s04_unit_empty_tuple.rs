@@ -1,10 +1,9 @@
 // Demonstrates the unit type `()` — Rust's empty tuple.
 //
-// In Python, functions that don't explicitly return a value return `None`.
-// In Rust, they return `()` (the unit type). It's a real type with
-// exactly one value: `()`.
+// In Rust, functions that don't explicitly return a value return
+// `()` (the unit type). It's a real type with exactly one value: `()`.
 //
-// `()` is both a type AND a value — like Python's `None` but type-safe.
+// `()` is both a type AND a value.
 //
 // Run: cargo run --example s04_unit_empty_tuple
 

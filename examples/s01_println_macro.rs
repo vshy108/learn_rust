@@ -1,7 +1,6 @@
 // Section 1, Topic 4: println! macro deep dive
 //
-// In Python, you use print() with f-strings: print(f"Hello, {name}!")
-// In Rust, println!() is a **macro** (the `!` suffix means macro, not function).
+// println!() is a **macro** (the `!` suffix means macro, not function).
 //
 // Why a macro instead of a function?
 //   - The compiler parses the format string at compile time.
@@ -57,11 +56,10 @@ fn format_float(value: f64) -> Vec<(&'static str, String)> {
 ///
 /// A formatted string using positional and named arguments.
 fn positional_and_named() -> String {
-    // Positional: {0} and {1} refer to argument indices (like Python's
-    // "{0} {1}".format(a, b)).
+    // Positional: {0} and {1} refer to argument indices.
     let positional = format!("{0} is {1} and {1} is {0}", "left", "right");
 
-    // Named: use variable names directly inside braces (like Python f-strings).
+    // Named: use variable names directly inside braces.
     let language = "Rust";
     let year = 2015;
     let named = format!("{language} was released in {year}");
@@ -89,7 +87,7 @@ fn main() {
     println!("{}", positional_and_named());
 
     // --- Debug formatting ---
-    // {:?} prints the Debug representation (like Python's repr()).
+    // {:?} prints the Debug representation.
     // {:#?} is "pretty-print Debug" — adds indentation for nested structures.
     println!("\n-- Debug formatting --");
     let numbers = vec![1, 2, 3];

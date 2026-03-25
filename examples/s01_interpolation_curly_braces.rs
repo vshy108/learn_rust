@@ -2,7 +2,7 @@
 //
 // Rust's formatting system (`println!`, `format!`, `write!`, etc.) uses
 // curly braces `{}` as placeholders. This is different from C's `printf`
-// (which uses `%d`, `%s`, etc.) and Python's f-strings (which use `{expr}`).
+// (which uses `%d`, `%s`, etc.).
 //
 // Run: cargo run --example s01_interpolation_curly_braces
 

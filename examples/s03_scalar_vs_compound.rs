@@ -81,7 +81,6 @@ fn main() {
     // --- Gotcha: arrays are NOT the same as vectors ---
     // Arrays: [T; N], fixed size, stack-allocated, known at compile time
     // Vectors: Vec<T>, growable, heap-allocated, known at runtime
-    // Python's `list` is most similar to Rust's `Vec<T>`.
 }
 
 #[cfg(test)]

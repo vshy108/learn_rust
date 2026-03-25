@@ -1,7 +1,7 @@
 // Demonstrates creating vectors in Rust.
 //
-// `Vec<T>` is a growable, heap-allocated array. Think of it as
-// Python's `list`, but every element must be the SAME type.
+// `Vec<T>` is a growable, heap-allocated array.
+// Every element must be the SAME type.
 //
 // Two main ways to create:
 // - `Vec::new()` — empty vector
@@ -24,7 +24,6 @@ fn main() {
     println!("zeros: {zeros:?}");
 
     // --- 4. Vec::with_capacity — preallocate ---
-    // Like Python's list but you hint at the size upfront.
     // This avoids reallocations as the vector grows.
     let mut v3 = Vec::with_capacity(10);
     println!("v3 len: {}, capacity: {}", v3.len(), v3.capacity());

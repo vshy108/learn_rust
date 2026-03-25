@@ -7,10 +7,6 @@
 // **Key constraint:** Cell works only with `Copy` types because
 // it gives/takes values by copy (`.get()` / `.set()`).
 //
-// **Python analogy:** In Python, everything is mutable. In Rust,
-// shared references (&T) are normally immutable. Cell lets you
-// opt out of that restriction for simple Copy types.
-//
 // **Gotcha:** Cell is NOT thread-safe (`!Sync`). Use `AtomicXxx` or
 // `Mutex` for shared mutation across threads.
 //

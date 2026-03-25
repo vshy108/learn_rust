@@ -1,7 +1,6 @@
 // Demonstrates calling methods from within other methods.
 //
-// Methods can call other methods on `self` — just like in Python
-// where you write `self.other_method()`.
+// Methods can call other methods on `self`.
 //
 // Run: cargo run --example s09_calling_methods
 

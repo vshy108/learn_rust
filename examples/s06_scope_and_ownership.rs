@@ -1,6 +1,5 @@
 // Demonstrates how Rust uses scope to determine ownership and automatic cleanup.
 //
-// In Python, garbage collection handles cleanup (nondeterministic).
 // In Rust, values are dropped deterministically when they go out of scope.
 // No GC needed — the compiler inserts `drop()` calls at scope boundaries.
 //

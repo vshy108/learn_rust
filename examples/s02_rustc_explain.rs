@@ -26,7 +26,7 @@ fn main() {
     // Uncomment to see:
     //   let y: i32 = "hello";  // error[E0308]: expected `i32`, found `&str`
     //
-    // Rust is statically typed — no implicit type coercion like Python.
+    // Rust is statically typed — no implicit type coercion.
     let y: i32 = 42;
     println!("E0308 fix: y = {y}");
 
@@ -34,7 +34,7 @@ fn main() {
     // Uncomment to see:
     //   println!("{z}");  // error[E0425]: cannot find value `z` in this scope
     //
-    // Unlike Python, Rust requires variables to be declared before use.
+    // Rust requires variables to be declared before use.
     let z = "declared first";
     println!("E0425 fix: z = {z}");
 
@@ -44,8 +44,8 @@ fn main() {
     //   let s2 = s1;          // s1 is moved to s2
     //   println!("{}", s1);   // error[E0382]: value used after move
     //
-    // In Python, assignment copies a reference. In Rust, heap-allocated
-    // types like String are *moved* — the original binding is invalidated.
+    // In Rust, heap-allocated types like String are *moved* — the original
+    // binding is invalidated.
     let s1 = String::from("hello");
     let _s2 = s1.clone(); // clone() to keep both valid
     println!("E0382 fix: s1 is cloned, not moved");

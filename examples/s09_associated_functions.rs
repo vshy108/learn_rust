@@ -1,10 +1,9 @@
 // Demonstrates associated functions (functions in `impl` that DON'T take `self`).
 //
-// Associated functions are like Python's `@staticmethod` or `@classmethod`.
 // They're called on the TYPE, not on an instance: `Type::function()`.
 //
 // The most common associated function is `new()` — Rust's convention
-// for constructors (there's no special constructor syntax like `__init__`).
+// for constructors (there's no special constructor syntax).
 //
 // Run: cargo run --example s09_associated_functions
 

@@ -1,7 +1,7 @@
 // Demonstrates the `match` keyword with enums.
 //
-// `match` is Rust's pattern matching construct — like Python's `match`
-// but enforced to be **exhaustive**: you must handle ALL variants.
+// `match` is Rust's pattern matching construct,
+// enforced to be **exhaustive**: you must handle ALL variants.
 //
 // If you miss a variant, the compiler gives an error.
 //

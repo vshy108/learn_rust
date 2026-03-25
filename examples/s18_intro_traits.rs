@@ -1,8 +1,7 @@
 // Introduces traits — Rust's version of interfaces/protocols.
 //
 // A **trait** defines shared behavior (method signatures) that
-// types can implement. Think of it like Python's abstract base class
-// or a Java/Go interface.
+// types can implement.
 //
 // Key idea: "What can this type DO?" rather than "What IS this type?"
 //
@@ -12,7 +11,6 @@ fn main() {
     println!("=== Intro to Traits ===");
     println!();
     println!("Traits define shared behavior:");
-    println!("  - Like Python's abstract base classes (ABC)");
     println!("  - Like Java/TypeScript interfaces");
     println!("  - Like Go interfaces (but explicit, not structural)");
     println!();

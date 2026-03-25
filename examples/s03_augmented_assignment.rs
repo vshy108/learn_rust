@@ -5,8 +5,8 @@
 //
 // Rust supports: +=, -=, *=, /=, %=, &=, |=, ^=, <<=, >>=
 //
-// Unlike Python, Rust does NOT have `x++` or `x--` (increment/decrement).
-// Unlike Python, the variable MUST be `mut`.
+// Rust does NOT have `x++` or `x--` (increment/decrement).
+// The variable MUST be `mut`.
 //
 // Run: cargo run --example s03_augmented_assignment
 
@@ -54,7 +54,7 @@ fn main() {
     // y += 1;  // error[E0384]: cannot assign twice to immutable variable
 
     // --- 6. No chained assignment ---
-    // Unlike Python's `a = b = c = 0`, Rust doesn't support chained assignment.
+    // Rust doesn't support chained assignment.
     // Each variable must be declared separately.
     let a = 0;
     let b = 0;
@@ -64,8 +64,6 @@ fn main() {
     // --- Gotcha: augmented assignment is NOT an expression ---
     // In Rust, `x += 1` returns `()`, not the new value.
     // You can't write `let y = (x += 1);` meaningfully.
-    // Python's augmented assignment also has no useful return value,
-    // so this gotcha isn't surprising.
 }
 
 #[cfg(test)]

@@ -1,6 +1,6 @@
 // Demonstrates Rust's control flow constructs: if/else, loop, while, for, match.
 //
-// Key difference from Python:
+// Key points:
 //   - `if`, `match`, `loop`, etc. are *expressions* in Rust — they return values.
 //   - No parentheses required around conditions (but braces `{}` are mandatory).
 //   - No "truthy/falsy" — conditions must be `bool`.
@@ -19,7 +19,7 @@ fn main() {
         println!("small");
     }
 
-    // `if` as an expression (like Python's ternary `a if cond else b`):
+    // `if` as an expression:
     let label = if x > 50 { "large" } else { "not large" };
     println!("x is {label}");
 
@@ -59,7 +59,7 @@ fn main() {
     println!();
 
     // --- 5. match (pattern matching) ---
-    // Like Python's `match/case` (3.10+), but exhaustive and more powerful.
+    // Rust's `match` is exhaustive and powerful.
     let day = 3;
     let name = match day {
         1 => "Monday",

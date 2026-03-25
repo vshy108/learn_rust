@@ -7,7 +7,7 @@
 //       Err(E),  // error with value of type E
 //   }
 //
-// Unlike exceptions in Python, errors in Rust are values you return.
+// Errors in Rust are values you return.
 // The compiler ensures you handle them.
 //
 // Run: cargo run --example s12_result_enum

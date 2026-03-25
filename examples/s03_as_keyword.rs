@@ -1,7 +1,7 @@
 // Demonstrates the `as` keyword for type casting in Rust.
 //
 // `as` performs explicit type conversions between primitive types.
-// Unlike Python's implicit coercion, Rust requires you to be explicit.
+// Rust requires explicit type conversion.
 //
 // `as` is a *truncating/wrapping* cast — it can silently lose data.
 // For safer conversions, prefer `From`/`Into` (infallible) or

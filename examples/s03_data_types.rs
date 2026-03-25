@@ -70,7 +70,7 @@ fn main() {
     println!("  usize: {} to {}", usize::MIN, usize::MAX);
 
     // --- Gotcha: no implicit type conversion ---
-    // Unlike Python/C, Rust NEVER implicitly converts between types.
+    // Rust NEVER implicitly converts between types.
     // `let x: i64 = 42i32;`  // error[E0308]: mismatched types
     // You must use explicit conversion: `42i32 as i64` or `.into()`
     let x: i64 = i64::from(42i32);

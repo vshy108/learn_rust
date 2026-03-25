@@ -4,8 +4,6 @@
 // A `bool` in Rust occupies 1 byte (8 bits), even though it only needs 1 bit.
 // This is for alignment and addressability — CPUs can't address individual bits.
 //
-// Python's `bool` is a subclass of `int` and takes 28 bytes!
-//
 // Run: cargo run --example s03_bool_size
 
 fn main() {
@@ -18,7 +16,7 @@ fn main() {
     println!("true = {t}, false = {f}");
 
     // --- 3. Bool arithmetic ---
-    // Unlike Python, Rust bools are NOT integers.
+    // Rust bools are NOT integers.
     // `true + true` would fail in Rust.
     // You must cast explicitly:
     println!("true as u8 = {}", true as u8); // 1
@@ -26,7 +24,7 @@ fn main() {
 
     // --- 4. Bool in conditions ---
     // Rust requires an actual `bool` for `if` conditions.
-    // No "truthy/falsy" like Python.
+    // Rust has no truthy/falsy concept.
     // `if 1 { ... }` won't compile — must be `if true { ... }`.
     let condition = 5 > 3;
     if condition {

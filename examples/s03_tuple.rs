@@ -4,10 +4,10 @@
 // A tuple is a fixed-size, ordered collection of values of potentially
 // different types. Tuples are one of Rust's two compound types.
 //
-// Similar to Python tuples, but:
-//   - Rust tuples are 0-indexed with `.0`, `.1` syntax (not `[0]`, `[1]`)
-//   - Rust tuples have a maximum useful size (traits implemented up to 12)
-//   - Rust tuples are stack-allocated and have a fixed compile-time type
+// Rust tuples:
+//   - Are 0-indexed with `.0`, `.1` syntax (not `[0]`, `[1]`)
+//   - Have a maximum useful size (traits implemented up to 12)
+//   - Are stack-allocated and have a fixed compile-time type
 //
 // Run: cargo run --example s03_tuple
 
@@ -64,7 +64,7 @@ fn main() {
     println!("nested.1.0 = {}", nested.1.0);
 
     // --- 9. Tuple comparison ---
-    // Tuples implement PartialOrd: compared element by element (like Python).
+    // Tuples implement PartialOrd: compared element by element.
     let a = (1, 2, 3);
     let b = (1, 2, 4);
     println!();

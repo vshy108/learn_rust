@@ -9,9 +9,6 @@
 // - `Arc<T>`: atomic reference-counted (multi-thread)
 // - `Cell<T>` / `RefCell<T>`: interior mutability
 //
-// **Python analogy:** All Python objects are heap-allocated and reference-counted.
-// In Rust, you choose your allocation strategy explicitly.
-//
 // Run: cargo run --example s26_smart_pointers
 
 fn main() {

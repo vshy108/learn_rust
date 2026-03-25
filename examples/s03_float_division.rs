@@ -1,6 +1,6 @@
 // Demonstrates float division behavior in Rust.
 //
-// Rust's f32/f64 follow IEEE 754 — the same standard Python uses.
+// Rust's f32/f64 follow IEEE 754.
 // Understanding float quirks is essential for numeric correctness.
 //
 // Run: cargo run --example s03_float_division
@@ -12,7 +12,7 @@ fn main() {
     // => 0.6666666666666666
 
     // --- 2. Float representation is approximate ---
-    // 0.1 + 0.2 != 0.3 in IEEE 754 (same gotcha as Python)
+    // 0.1 + 0.2 != 0.3 in IEEE 754
     let sum = 0.1_f64 + 0.2;
     println!("0.1 + 0.2 = {sum}");
     println!("0.1 + 0.2 == 0.3? {}", sum == 0.3); // false!

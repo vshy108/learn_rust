@@ -4,9 +4,6 @@
 // `thiserror` provides derive macros to easily create custom error types
 // that implement `std::error::Error`, `Display`, and `From`.
 //
-// **Python analogy:** Like creating custom exception classes that inherit
-// from Exception, but with compile-time checked error handling.
-//
 // Run: cargo run --example s26_custom_error_types
 
 use thiserror::Error;

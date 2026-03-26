@@ -19,6 +19,10 @@ path = "leetcode/lc_0001_two_sum.rs"
 name = "lc_0002_add_two_numbers"
 path = "leetcode/lc_0002_add_two_numbers.rs"
 
+[[example]]
+name = "lc_0003_longest_substring_without_repeating"
+path = "leetcode/lc_0003_longest_substring_without_repeating.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

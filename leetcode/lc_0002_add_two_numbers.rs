@@ -14,6 +14,11 @@
 // Test: cargo test --example lc_0002_add_two_numbers
 // Bench: cargo test --example lc_0002_add_two_numbers bench -- --nocapture
 //
+// --- Benchmark (100k iterations, 2026-03-26) ---
+//   My solution (iterative): 216.771us avg (21.7s total)
+//   AI solution (recursive): 245.583us avg (24.6s total)
+//   My solution is 1.13x faster
+//
 // --- Rust concepts used ---
 //
 // Linked list with Option<Box<T>>:
@@ -104,6 +109,7 @@ mod my_solution {
             // Loop while either list has nodes OR there's a carry to process.
             // e.g. [5] + [5]: both lists exhausted after 1 iteration, but
             // carry=1 means we need one more iteration to emit the [1] node.
+            // A: check if Option is Some
             while current_l1.is_some() || current_l2.is_some() || carry != 0 {
                 // Start sum with the previous carry (0 or 1).
                 // Declared fresh each iteration so it doesn't accumulate.
@@ -137,6 +143,7 @@ mod my_solution {
                 //       (safe — we just assigned Some(...) above)
                 // Now current points to the new tail node for the next
                 // iteration.
+                // A: obtain &mut Box<ListNode>
                 current = current.next.as_mut().unwrap();
             }
 

@@ -54,14 +54,17 @@ mod my_solution {
         pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
             // the key is the number (i32) and the value is its position (usize)
             // convert Vec to HashMap: value -> index
+            // A: convert vector to HashMap
             let nums_hash_map: HashMap<i32, usize> =
                 nums.iter().enumerate().map(|(i, &v)| (v, i)).collect();
             // store length for loop bound
+            // A: get vector length
             let len = nums.len();
             let mut index = 0;
             // guarantees exactly one solution then can skip last one
             // because must have pair before it
             while index <= len - 2 {
+                // A: access vector value by index
                 let difference = target - nums[index];
                 // `.get(&difference)` takes a reference because HashMap::get
                 // expects &K.
@@ -78,6 +81,7 @@ mod my_solution {
                 //
                 // `if let ... && condition` is an if-let chain (stabilized in
                 // Rust 2024).
+                // A: get value of HashMap via key, pass & get &
                 if let Some(&diff_index) = nums_hash_map.get(&difference)
                     && diff_index != index
                 {
@@ -113,6 +117,7 @@ mod ai_solution {
         pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
             // Build the map as we go — only elements before the current index
             // are in the map, so we never match an element with itself.
+            // A: better performance with with_capacity
             let mut seen: HashMap<i32, i32> = HashMap::with_capacity(nums.len());
 
             for (i, &num) in nums.iter().enumerate() {
@@ -125,9 +130,11 @@ mod ai_solution {
 
                 // Otherwise, record this number's index for future lookups.
                 // Using i32 for the index so no `as` cast is needed on return.
+                // A: insert entry to HashMap
                 seen.insert(num, i as i32);
             }
 
+            // A: mark code should not be reached
             unreachable!("problem guarantees exactly one solution")
         }
     }

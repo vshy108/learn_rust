@@ -79,6 +79,13 @@ fn list_to_vec(mut node: Option<Box<ListNode>>) -> Vec<i32> {
 }
 
 /// My solution module — implement your solution here.
+///
+/// Time: O(max(m, n)) — single pass through both lists simultaneously,
+///   where m and n are the lengths of l1 and l2. Each iteration does O(1)
+///   arithmetic and pointer operations.
+///
+/// Space: O(max(m, n)) — the result list has at most max(m, n) + 1 nodes
+///   (the +1 is for a possible carry at the end).
 mod my_solution {
     use super::ListNode;
 

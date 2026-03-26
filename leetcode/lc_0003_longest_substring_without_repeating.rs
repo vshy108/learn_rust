@@ -47,6 +47,13 @@
 //   Useful for tracking the running maximum window size.
 
 /// My solution module — implement your solution here.
+///
+/// Time: O(n) — single pass with sliding window. Each character is visited
+///   at most twice (once by `i`, once by `left` advancing). HashMap
+///   get/insert are O(1) amortized.
+///
+/// Space: O(k) — where k is the size of the character set. HashMap stores
+///   at most k entries (here k <= 128 for ASCII).
 mod my_solution {
     use std::collections::HashMap;
     pub struct Solution;

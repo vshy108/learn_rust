@@ -74,10 +74,7 @@ mod my_solution {
         ///
         /// Time:  O(log(min(m, n))) — binary search on the shorter array
         /// Space: O(1)             — only a handful of scalar variables
-        pub fn find_median_sorted_arrays(
-            nums1: Vec<i32>,
-            nums2: Vec<i32>,
-        ) -> f64 {
+        pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
             let nums1_len = nums1.len();
             let nums2_len = nums2.len();
             let larger_vec: Vec<i32>;
@@ -111,10 +108,26 @@ mod my_solution {
                 let j = (smaller_len as i32 + larger_len as i32 + 1) / 2 - i;
 
                 // A: f64::MIN is negative smallest value in the f64
-                let max_left_1  = if i == 0                  { f64::MIN } else { smaller_vec[(i - 1) as usize] as f64 };
-                let min_right_1 = if i == smaller_len as i32 { f64::MAX } else { smaller_vec[i as usize] as f64 };
-                let max_left_2  = if j == 0                  { f64::MIN } else { larger_vec[(j - 1) as usize] as f64 };
-                let min_right_2 = if j == larger_len as i32  { f64::MAX } else { larger_vec[j as usize] as f64 };
+                let max_left_1 = if i == 0 {
+                    f64::MIN
+                } else {
+                    smaller_vec[(i - 1) as usize] as f64
+                };
+                let min_right_1 = if i == smaller_len as i32 {
+                    f64::MAX
+                } else {
+                    smaller_vec[i as usize] as f64
+                };
+                let max_left_2 = if j == 0 {
+                    f64::MIN
+                } else {
+                    larger_vec[(j - 1) as usize] as f64
+                };
+                let min_right_2 = if j == larger_len as i32 {
+                    f64::MAX
+                } else {
+                    larger_vec[j as usize] as f64
+                };
 
                 if max_left_1 <= min_right_2 && max_left_2 <= min_right_1 {
                     // A: check sum is odd
@@ -174,10 +187,7 @@ mod ai_solution {
         ///
         /// Time:  O(log(min(m, n))) — binary search on the shorter array
         /// Space: O(1)             — only a handful of scalar variables
-        pub fn find_median_sorted_arrays(
-            nums1: Vec<i32>,
-            nums2: Vec<i32>,
-        ) -> f64 {
+        pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
             // Always binary-search on the shorter slice to keep the search
             // space as small as possible.
             // A: use tuple to make a always the smaller vector
@@ -213,9 +223,17 @@ mod ai_solution {
                 // (always <= any real element) and i32::MAX as +infinity
                 // (always >= any real element). This lets us skip the
                 // out-of-bounds edge checks while keeping the logic uniform.
-                let a_left  = if i == 0 { i32::MIN } else { a[(i - 1) as usize] };
+                let a_left = if i == 0 {
+                    i32::MIN
+                } else {
+                    a[(i - 1) as usize]
+                };
                 let a_right = if i == m { i32::MAX } else { a[i as usize] };
-                let b_left  = if j == 0 { i32::MIN } else { b[(j - 1) as usize] };
+                let b_left = if j == 0 {
+                    i32::MIN
+                } else {
+                    b[(j - 1) as usize]
+                };
                 let b_right = if j == n { i32::MAX } else { b[j as usize] };
 
                 if a_left <= b_right && b_left <= a_right {
@@ -226,7 +244,7 @@ mod ai_solution {
                         return a_left.max(b_left) as f64;
                     } else {
                         // Even total: median is the mean of the boundary pair.
-                        let max_left  = a_left.max(b_left) as f64;
+                        let max_left = a_left.max(b_left) as f64;
                         let min_right = a_right.min(b_right) as f64;
                         return (max_left + min_right) / 2.0;
                     }
@@ -256,24 +274,14 @@ fn main() {
 
     println!("--- My Solution ---");
     for (nums1, nums2, expected) in &test_cases {
-        let result = my_solution::Solution::find_median_sorted_arrays(
-            nums1.clone(),
-            nums2.clone(),
-        );
-        println!(
-            "  {nums1:?} + {nums2:?} -> {result} (expected {expected})"
-        );
+        let result = my_solution::Solution::find_median_sorted_arrays(nums1.clone(), nums2.clone());
+        println!("  {nums1:?} + {nums2:?} -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (nums1, nums2, expected) in &test_cases {
-        let result = ai_solution::Solution::find_median_sorted_arrays(
-            nums1.clone(),
-            nums2.clone(),
-        );
-        println!(
-            "  {nums1:?} + {nums2:?} -> {result} (expected {expected})"
-        );
+        let result = ai_solution::Solution::find_median_sorted_arrays(nums1.clone(), nums2.clone());
+        println!("  {nums1:?} + {nums2:?} -> {result} (expected {expected})");
     }
 }
 
@@ -289,10 +297,7 @@ mod tests {
                 fn test_odd_total() {
                     // merged = [1, 2, 3], median = 2.0
                     assert_eq!(
-                        Solution::find_median_sorted_arrays(
-                            vec![1, 3],
-                            vec![2],
-                        ),
+                        Solution::find_median_sorted_arrays(vec![1, 3], vec![2],),
                         2.0
                     );
                 }
@@ -301,10 +306,7 @@ mod tests {
                 fn test_even_total() {
                     // merged = [1, 2, 3, 4], median = (2 + 3) / 2 = 2.5
                     assert_eq!(
-                        Solution::find_median_sorted_arrays(
-                            vec![1, 2],
-                            vec![3, 4],
-                        ),
+                        Solution::find_median_sorted_arrays(vec![1, 2], vec![3, 4],),
                         2.5
                     );
                 }
@@ -312,47 +314,26 @@ mod tests {
                 #[test]
                 fn test_one_empty_left() {
                     // Only nums2 has elements
-                    assert_eq!(
-                        Solution::find_median_sorted_arrays(
-                            vec![],
-                            vec![1],
-                        ),
-                        1.0
-                    );
+                    assert_eq!(Solution::find_median_sorted_arrays(vec![], vec![1],), 1.0);
                 }
 
                 #[test]
                 fn test_one_empty_right() {
                     // Only nums1 has elements
-                    assert_eq!(
-                        Solution::find_median_sorted_arrays(
-                            vec![2],
-                            vec![],
-                        ),
-                        2.0
-                    );
+                    assert_eq!(Solution::find_median_sorted_arrays(vec![2], vec![],), 2.0);
                 }
 
                 #[test]
                 fn test_single_elements() {
                     // merged = [1, 2], median = 1.5
-                    assert_eq!(
-                        Solution::find_median_sorted_arrays(
-                            vec![1],
-                            vec![2],
-                        ),
-                        1.5
-                    );
+                    assert_eq!(Solution::find_median_sorted_arrays(vec![1], vec![2],), 1.5);
                 }
 
                 #[test]
                 fn test_different_lengths() {
                     // merged = [1, 2, 3, 4, 5, 6], median = (3 + 4) / 2 = 3.5
                     assert_eq!(
-                        Solution::find_median_sorted_arrays(
-                            vec![1, 3, 5],
-                            vec![2, 4, 6],
-                        ),
+                        Solution::find_median_sorted_arrays(vec![1, 3, 5], vec![2, 4, 6],),
                         3.5
                     );
                 }
@@ -361,10 +342,7 @@ mod tests {
                 fn test_no_overlap() {
                     // merged = [1, 2, 3, 4, 5, 6], median = 3.5
                     assert_eq!(
-                        Solution::find_median_sorted_arrays(
-                            vec![1, 2, 3],
-                            vec![4, 5, 6],
-                        ),
+                        Solution::find_median_sorted_arrays(vec![1, 2, 3], vec![4, 5, 6],),
                         3.5
                     );
                 }
@@ -373,10 +351,7 @@ mod tests {
                 fn test_duplicate_values() {
                     // merged = [1, 1, 1, 1], median = 1.0
                     assert_eq!(
-                        Solution::find_median_sorted_arrays(
-                            vec![1, 1],
-                            vec![1, 1],
-                        ),
+                        Solution::find_median_sorted_arrays(vec![1, 1], vec![1, 1],),
                         1.0
                     );
                 }
@@ -385,10 +360,7 @@ mod tests {
                 fn test_negative_numbers() {
                     // merged = [-3, -2, -1, 0], median = (-2 + -1) / 2 = -1.5
                     assert_eq!(
-                        Solution::find_median_sorted_arrays(
-                            vec![-3, -1],
-                            vec![-2, 0],
-                        ),
+                        Solution::find_median_sorted_arrays(vec![-3, -1], vec![-2, 0],),
                         -1.5
                     );
                 }
@@ -397,10 +369,7 @@ mod tests {
                 fn test_large_difference_in_size() {
                     // merged = [1, 2, 3, 4, 5], median = 3.0
                     assert_eq!(
-                        Solution::find_median_sorted_arrays(
-                            vec![1],
-                            vec![2, 3, 4, 5],
-                        ),
+                        Solution::find_median_sorted_arrays(vec![1], vec![2, 3, 4, 5],),
                         3.0
                     );
                 }
@@ -427,30 +396,26 @@ mod tests {
         let iterations = 100_000_u32;
         // Use a moderately sized pair of arrays to exercise the binary search
         // across a realistic input range.
-        let nums1: Vec<i32> = (0..500).step_by(2).collect();   // 250 even numbers
-        let nums2: Vec<i32> = (1..500).step_by(2).collect();   // 250 odd numbers
+        let nums1: Vec<i32> = (0..500).step_by(2).collect(); // 250 even numbers
+        let nums2: Vec<i32> = (1..500).step_by(2).collect(); // 250 odd numbers
 
         // --- Benchmark my_solution ---
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::find_median_sorted_arrays(
-                    std::hint::black_box(nums1.clone()),
-                    std::hint::black_box(nums2.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::find_median_sorted_arrays(
+                std::hint::black_box(nums1.clone()),
+                std::hint::black_box(nums2.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         // --- Benchmark ai_solution ---
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::find_median_sorted_arrays(
-                    std::hint::black_box(nums1.clone()),
-                    std::hint::black_box(nums2.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::find_median_sorted_arrays(
+                std::hint::black_box(nums1.clone()),
+                std::hint::black_box(nums2.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -467,12 +432,10 @@ mod tests {
         );
 
         if my_duration < ai_duration {
-            let ratio = ai_duration.as_nanos() as f64
-                / my_duration.as_nanos() as f64;
+            let ratio = ai_duration.as_nanos() as f64 / my_duration.as_nanos() as f64;
             println!("  -> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_duration.as_nanos() as f64
-                / ai_duration.as_nanos() as f64;
+            let ratio = my_duration.as_nanos() as f64 / ai_duration.as_nanos() as f64;
             println!("  -> AI solution is {ratio:.2}x faster");
         }
     }

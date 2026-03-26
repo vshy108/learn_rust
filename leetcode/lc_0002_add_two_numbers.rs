@@ -244,58 +244,55 @@ mod tests {
     /// Macro that generates the same set of tests for any Solution type.
     macro_rules! test_add_two_numbers {
         ($mod_name:ident, $solution:path) => {
-        mod $mod_name {
-            use $solution as Solution;
-            use crate::{list_to_vec, vec_to_list};
+            mod $mod_name {
+                use crate::{list_to_vec, vec_to_list};
+                use $solution as Solution;
 
-            #[test]
-            fn test_basic() {
-                // 342 + 465 = 807
-                let l1 = vec_to_list(&[2, 4, 3]);
-                let l2 = vec_to_list(&[5, 6, 4]);
-                let result = Solution::add_two_numbers(l1, l2);
-                assert_eq!(list_to_vec(result), vec![7, 0, 8]);
-            }
+                #[test]
+                fn test_basic() {
+                    // 342 + 465 = 807
+                    let l1 = vec_to_list(&[2, 4, 3]);
+                    let l2 = vec_to_list(&[5, 6, 4]);
+                    let result = Solution::add_two_numbers(l1, l2);
+                    assert_eq!(list_to_vec(result), vec![7, 0, 8]);
+                }
 
-            #[test]
-            fn test_zeros() {
-                // 0 + 0 = 0
-                let l1 = vec_to_list(&[0]);
-                let l2 = vec_to_list(&[0]);
-                let result = Solution::add_two_numbers(l1, l2);
-                assert_eq!(list_to_vec(result), vec![0]);
-            }
+                #[test]
+                fn test_zeros() {
+                    // 0 + 0 = 0
+                    let l1 = vec_to_list(&[0]);
+                    let l2 = vec_to_list(&[0]);
+                    let result = Solution::add_two_numbers(l1, l2);
+                    assert_eq!(list_to_vec(result), vec![0]);
+                }
 
-            #[test]
-            fn test_different_lengths() {
-                // 99 + 1 = 100
-                let l1 = vec_to_list(&[9, 9]);
-                let l2 = vec_to_list(&[1]);
-                let result = Solution::add_two_numbers(l1, l2);
-                assert_eq!(list_to_vec(result), vec![0, 0, 1]);
-            }
+                #[test]
+                fn test_different_lengths() {
+                    // 99 + 1 = 100
+                    let l1 = vec_to_list(&[9, 9]);
+                    let l2 = vec_to_list(&[1]);
+                    let result = Solution::add_two_numbers(l1, l2);
+                    assert_eq!(list_to_vec(result), vec![0, 0, 1]);
+                }
 
-            #[test]
-            fn test_carry_propagation() {
-                // 9999999 + 9999 = 10009998
-                let l1 = vec_to_list(&[9, 9, 9, 9, 9, 9, 9]);
-                let l2 = vec_to_list(&[9, 9, 9, 9]);
-                let result = Solution::add_two_numbers(l1, l2);
-                assert_eq!(
-                    list_to_vec(result),
-                    vec![8, 9, 9, 9, 0, 0, 0, 1]
-                );
-            }
+                #[test]
+                fn test_carry_propagation() {
+                    // 9999999 + 9999 = 10009998
+                    let l1 = vec_to_list(&[9, 9, 9, 9, 9, 9, 9]);
+                    let l2 = vec_to_list(&[9, 9, 9, 9]);
+                    let result = Solution::add_two_numbers(l1, l2);
+                    assert_eq!(list_to_vec(result), vec![8, 9, 9, 9, 0, 0, 0, 1]);
+                }
 
-            #[test]
-            fn test_single_digits() {
-                // 5 + 5 = 10
-                let l1 = vec_to_list(&[5]);
-                let l2 = vec_to_list(&[5]);
-                let result = Solution::add_two_numbers(l1, l2);
-                assert_eq!(list_to_vec(result), vec![0, 1]);
+                #[test]
+                fn test_single_digits() {
+                    // 5 + 5 = 10
+                    let l1 = vec_to_list(&[5]);
+                    let l2 = vec_to_list(&[5]);
+                    let result = Solution::add_two_numbers(l1, l2);
+                    assert_eq!(list_to_vec(result), vec![0, 1]);
+                }
             }
-        }
         };
     }
 
@@ -320,24 +317,20 @@ mod tests {
         // --- Benchmark my_solution ---
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::add_two_numbers(
-                    std::hint::black_box(crate::vec_to_list(&digits)),
-                    std::hint::black_box(crate::vec_to_list(&digits)),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::add_two_numbers(
+                std::hint::black_box(crate::vec_to_list(&digits)),
+                std::hint::black_box(crate::vec_to_list(&digits)),
+            ));
         }
         let my_duration = start.elapsed();
 
         // --- Benchmark ai_solution ---
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::add_two_numbers(
-                    std::hint::black_box(crate::vec_to_list(&digits)),
-                    std::hint::black_box(crate::vec_to_list(&digits)),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::add_two_numbers(
+                std::hint::black_box(crate::vec_to_list(&digits)),
+                std::hint::black_box(crate::vec_to_list(&digits)),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -355,12 +348,10 @@ mod tests {
 
         // Show which is faster and by how much.
         if my_duration < ai_duration {
-            let ratio = ai_duration.as_nanos() as f64
-                / my_duration.as_nanos() as f64;
+            let ratio = ai_duration.as_nanos() as f64 / my_duration.as_nanos() as f64;
             println!("  -> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_duration.as_nanos() as f64
-                / ai_duration.as_nanos() as f64;
+            let ratio = my_duration.as_nanos() as f64 / ai_duration.as_nanos() as f64;
             println!("  -> AI solution is {ratio:.2}x faster");
         }
     }

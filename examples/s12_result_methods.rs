@@ -43,7 +43,8 @@ fn main() {
     println!("and_then Err: {chained_err:?}");
 
     // --- 4. unwrap_or / unwrap_or_else ---
-    #[allow(clippy::unnecessary_literal_unwrap)] // intentional: demonstrating the method on known values
+    #[allow(clippy::unnecessary_literal_unwrap)]
+    // intentional: demonstrating the method on known values
     let ok: Result<i32, &str> = Ok(42);
     #[allow(clippy::unnecessary_literal_unwrap)]
     let err_val: Result<i32, &str> = Err("fail");

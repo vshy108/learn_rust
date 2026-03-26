@@ -161,53 +161,38 @@ mod tests {
     /// Usage: `test_two_sum!(test_module_name, path::to::Solution);`
     macro_rules! test_two_sum {
         ($mod_name:ident, $solution:path) => {
-        mod $mod_name {
-            use $solution as Solution;
+            mod $mod_name {
+                use $solution as Solution;
 
-            #[test]
-            fn test_basic() {
-                assert_eq!(
-                    Solution::two_sum(vec![2, 7, 11, 15], 9),
-                    vec![0, 1]
-                );
-            }
+                #[test]
+                fn test_basic() {
+                    assert_eq!(Solution::two_sum(vec![2, 7, 11, 15], 9), vec![0, 1]);
+                }
 
-            #[test]
-            fn test_middle_pair() {
-                assert_eq!(
-                    Solution::two_sum(vec![3, 2, 4], 6),
-                    vec![1, 2]
-                );
-            }
+                #[test]
+                fn test_middle_pair() {
+                    assert_eq!(Solution::two_sum(vec![3, 2, 4], 6), vec![1, 2]);
+                }
 
-            #[test]
-            fn test_same_element() {
-                assert_eq!(
-                    Solution::two_sum(vec![3, 3], 6),
-                    vec![0, 1]
-                );
-            }
+                #[test]
+                fn test_same_element() {
+                    assert_eq!(Solution::two_sum(vec![3, 3], 6), vec![0, 1]);
+                }
 
-            #[test]
-            fn test_negative_numbers() {
-                assert_eq!(
-                    Solution::two_sum(vec![-1, -2, -3, -4, -5], -8),
-                    vec![2, 4]
-                );
-            }
+                #[test]
+                fn test_negative_numbers() {
+                    assert_eq!(Solution::two_sum(vec![-1, -2, -3, -4, -5], -8), vec![2, 4]);
+                }
 
-            #[test]
-            fn test_large_input() {
-                // Answer is the last two elements — worst case for single-pass.
-                let mut nums: Vec<i32> = (0..1000).collect();
-                nums.push(5000);
-                nums.push(5001);
-                assert_eq!(
-                    Solution::two_sum(nums, 10001),
-                    vec![1000, 1001]
-                );
+                #[test]
+                fn test_large_input() {
+                    // Answer is the last two elements — worst case for single-pass.
+                    let mut nums: Vec<i32> = (0..1000).collect();
+                    nums.push(5000);
+                    nums.push(5001);
+                    assert_eq!(Solution::two_sum(nums, 10001), vec![1000, 1001]);
+                }
             }
-        }
         };
     }
 
@@ -238,24 +223,20 @@ mod tests {
         // --- Benchmark my_solution ---
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::two_sum(
-                    std::hint::black_box(nums.clone()),
-                    target,
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::two_sum(
+                std::hint::black_box(nums.clone()),
+                target,
+            ));
         }
         let my_duration = start.elapsed();
 
         // --- Benchmark ai_solution ---
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::two_sum(
-                    std::hint::black_box(nums.clone()),
-                    target,
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::two_sum(
+                std::hint::black_box(nums.clone()),
+                target,
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -273,12 +254,10 @@ mod tests {
 
         // Show which is faster and by how much.
         if my_duration < ai_duration {
-            let ratio = ai_duration.as_nanos() as f64
-                / my_duration.as_nanos() as f64;
+            let ratio = ai_duration.as_nanos() as f64 / my_duration.as_nanos() as f64;
             println!("  -> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_duration.as_nanos() as f64
-                / ai_duration.as_nanos() as f64;
+            let ratio = my_duration.as_nanos() as f64 / ai_duration.as_nanos() as f64;
             println!("  -> AI solution is {ratio:.2}x faster");
         }
     }

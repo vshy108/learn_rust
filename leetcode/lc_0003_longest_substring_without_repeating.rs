@@ -82,7 +82,9 @@ mod my_solution {
             // A: String to char iteration with index
             for (i, c) in s.char_indices() {
                 // i = position, c = character
-                if let Some(&previous_last_seen) = last_seen.get(&c) && previous_last_seen >= left {
+                if let Some(&previous_last_seen) = last_seen.get(&c)
+                    && previous_last_seen >= left
+                {
                     left = previous_last_seen + 1;
                 }
 
@@ -172,31 +174,18 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases = [
-        ("abcabcbb", 3),
-        ("bbbbb", 1),
-        ("pwwkew", 3),
-        ("", 0),
-    ];
+    let test_cases = [("abcabcbb", 3), ("bbbbb", 1), ("pwwkew", 3), ("", 0)];
 
     println!("--- My Solution ---");
     for (input, expected) in &test_cases {
-        let result = my_solution::Solution::length_of_longest_substring(
-            input.to_string(),
-        );
-        println!(
-            "  \"{input}\" -> {result} (expected {expected})"
-        );
+        let result = my_solution::Solution::length_of_longest_substring(input.to_string());
+        println!("  \"{input}\" -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (input, expected) in &test_cases {
-        let result = ai_solution::Solution::length_of_longest_substring(
-            input.to_string(),
-        );
-        println!(
-            "  \"{input}\" -> {result} (expected {expected})"
-        );
+        let result = ai_solution::Solution::length_of_longest_substring(input.to_string());
+        println!("  \"{input}\" -> {result} (expected {expected})");
     }
 }
 
@@ -212,9 +201,7 @@ mod tests {
                 fn test_basic() {
                     // "abc" is the longest substring without repeating
                     assert_eq!(
-                        Solution::length_of_longest_substring(
-                            "abcabcbb".to_string()
-                        ),
+                        Solution::length_of_longest_substring("abcabcbb".to_string()),
                         3
                     );
                 }
@@ -223,9 +210,7 @@ mod tests {
                 fn test_all_same() {
                     // Every character is 'b', so longest unique is just "b"
                     assert_eq!(
-                        Solution::length_of_longest_substring(
-                            "bbbbb".to_string()
-                        ),
+                        Solution::length_of_longest_substring("bbbbb".to_string()),
                         1
                     );
                 }
@@ -234,40 +219,26 @@ mod tests {
                 fn test_repeat_in_middle() {
                     // "wke" is the longest (not "pwke" — must be contiguous)
                     assert_eq!(
-                        Solution::length_of_longest_substring(
-                            "pwwkew".to_string()
-                        ),
+                        Solution::length_of_longest_substring("pwwkew".to_string()),
                         3
                     );
                 }
 
                 #[test]
                 fn test_empty_string() {
-                    assert_eq!(
-                        Solution::length_of_longest_substring(
-                            "".to_string()
-                        ),
-                        0
-                    );
+                    assert_eq!(Solution::length_of_longest_substring("".to_string()), 0);
                 }
 
                 #[test]
                 fn test_single_char() {
-                    assert_eq!(
-                        Solution::length_of_longest_substring(
-                            "a".to_string()
-                        ),
-                        1
-                    );
+                    assert_eq!(Solution::length_of_longest_substring("a".to_string()), 1);
                 }
 
                 #[test]
                 fn test_all_unique() {
                     // Entire string is the answer
                     assert_eq!(
-                        Solution::length_of_longest_substring(
-                            "abcdef".to_string()
-                        ),
+                        Solution::length_of_longest_substring("abcdef".to_string()),
                         6
                     );
                 }
@@ -275,21 +246,14 @@ mod tests {
                 #[test]
                 fn test_with_spaces_and_symbols() {
                     // "b a" has length 3 (space counts as a character)
-                    assert_eq!(
-                        Solution::length_of_longest_substring(
-                            "ab a".to_string()
-                        ),
-                        3
-                    );
+                    assert_eq!(Solution::length_of_longest_substring("ab a".to_string()), 3);
                 }
 
                 #[test]
                 fn test_repeat_at_end() {
                     // "abcd" then 'a' repeats — longest is "abcd" = 4
                     assert_eq!(
-                        Solution::length_of_longest_substring(
-                            "abcda".to_string()
-                        ),
+                        Solution::length_of_longest_substring("abcda".to_string()),
                         4
                     );
                 }
@@ -324,22 +288,18 @@ mod tests {
         // --- Benchmark my_solution ---
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::length_of_longest_substring(
-                    std::hint::black_box(input.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::length_of_longest_substring(
+                std::hint::black_box(input.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         // --- Benchmark ai_solution ---
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::length_of_longest_substring(
-                    std::hint::black_box(input.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::length_of_longest_substring(
+                std::hint::black_box(input.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -356,12 +316,10 @@ mod tests {
         );
 
         if my_duration < ai_duration {
-            let ratio = ai_duration.as_nanos() as f64
-                / my_duration.as_nanos() as f64;
+            let ratio = ai_duration.as_nanos() as f64 / my_duration.as_nanos() as f64;
             println!("  -> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_duration.as_nanos() as f64
-                / ai_duration.as_nanos() as f64;
+            let ratio = my_duration.as_nanos() as f64 / ai_duration.as_nanos() as f64;
             println!("  -> AI solution is {ratio:.2}x faster");
         }
     }

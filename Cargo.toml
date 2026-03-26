@@ -31,6 +31,10 @@ path = "leetcode/lc_0004_median_of_two_sorted_arrays.rs"
 name = "lc_0005_longest_palindromic_substring"
 path = "leetcode/lc_0005_longest_palindromic_substring.rs"
 
+[[example]]
+name = "lc_0006_zigzag_conversion"
+path = "leetcode/lc_0006_zigzag_conversion.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

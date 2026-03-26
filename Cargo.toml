@@ -27,6 +27,10 @@ path = "leetcode/lc_0003_longest_substring_without_repeating.rs"
 name = "lc_0004_median_of_two_sorted_arrays"
 path = "leetcode/lc_0004_median_of_two_sorted_arrays.rs"
 
+[[example]]
+name = "lc_0005_longest_palindromic_substring"
+path = "leetcode/lc_0005_longest_palindromic_substring.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

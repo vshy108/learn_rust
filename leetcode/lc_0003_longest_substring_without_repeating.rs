@@ -1,4 +1,4 @@
-// LeetCode 3: Longest Substring Without Repeating Characters
+// LeetCode 3: Longest Substring Without Repeating Characters [Medium]
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/
 //
 // Given a string `s`, find the length of the longest substring without
@@ -141,8 +141,10 @@ mod ai_solution {
             // Faster than `chars()` which must decode variable-width
             // UTF-8 (1-4 bytes per char). For ASCII input, each char
             // is exactly 1 byte, so byte index == char index and the
-            // byte value (0..127) can index directly into the array.
+            // byte value (0..=127) can index directly into the array.
             // Would NOT work for multi-byte Unicode (e.g. emoji).
+            // A: use the byte to represent ASCII because 1 char 1 byte
+            // from 0 to 127
             for (i, &b) in s.as_bytes().iter().enumerate() {
                 // Cast u8 byte to usize for array indexing (Rust requires
                 // usize for indexes). Each ASCII char has a numeric code:

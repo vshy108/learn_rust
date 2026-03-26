@@ -1,4 +1,4 @@
-// LeetCode 1: Two Sum
+// LeetCode 1: Two Sum [Easy]
 // https://leetcode.com/problems/two-sum/
 //
 // Given an array of integers `nums` and an integer `target`, return indices

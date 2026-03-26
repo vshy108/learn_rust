@@ -35,6 +35,10 @@ path = "leetcode/lc_0005_longest_palindromic_substring.rs"
 name = "lc_0006_zigzag_conversion"
 path = "leetcode/lc_0006_zigzag_conversion.rs"
 
+[[example]]
+name = "lc_0007_reverse_integer"
+path = "leetcode/lc_0007_reverse_integer.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

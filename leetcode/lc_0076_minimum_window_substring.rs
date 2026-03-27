@@ -23,13 +23,53 @@
 // Run:  cargo run --example lc_0076_minimum_window_substring
 // Test: cargo test --example lc_0076_minimum_window_substring
 // Bench: cargo test --example lc_0076_minimum_window_substring bench -- --nocapture
+//
+// --- Benchmark (100,000 iterations, 2026-03-27) ---
+//   My solution:  3.166s total (avg 31.664us)
+//   AI solution:  146.2ms total (avg 1.462us)
+//   -> AI solution is 21.65x faster
+//   Reason: Fixed [i32; 128] arrays replace HashMap — eliminates hashing,
+//           bucket lookup, and heap allocation; direct array indexing is
+//           cache-friendly and branch-predictor-friendly.
+//
+// --- Rust concepts used ---
+//   - HashMap entry API: or_insert(0) for default-or-mutate pattern
+//   - as_bytes() to work with &[u8] instead of chars (avoids UTF-8 decoding)
+//   - if let Some(&val) = map.get(&key) for combined existence check + binding
+//   - std::str::from_utf8() to convert &[u8] back to &str
+//   - Fixed-size array [i32; 128] as O(1) lookup table replacing HashMap
+//   - Sliding window two-pointer pattern with formed/required tracking
+//
+// --- Reference: faster single-counter approach (LeetCode top submission) ---
+//   Uses ONE array + ONE total counter instead of two arrays + formed/unique:
+//
+//   let mut total = t.len() as i32;
+//   let mut counts: [i32; 128] = [0; 128];
+//   for &b in t.as_bytes() { counts[b as usize] += 1; }
+//
+//   // Expand: if counts[r] > 0 { total -= 1; } counts[r] -= 1;
+//   // Contract: counts[l] += 1; if counts[l] > 0 { total += 1; }
+//   // Window valid when: total == 0
+//
+//   Why faster:
+//   - Single array merges need + window (counts starts at t's freq, goes
+//     negative as chars enter window). Halves memory reads per iteration.
+//   - Compare-to-zero (`counts[r] > 0`) is cheaper than equality check
+//     (`window[rb] == need[rb]`) — branch predictor handles zero-tests faster.
+//   - One integer `total` (remaining needed chars) replaces `formed`/`unique`
+//     pair — fewer comparisons in inner loop.
+//   - Tradeoff: original used `chars().collect::<Vec<char>>()` (heap alloc)
+//     and `.iter().collect()` for result. Our as_bytes() is zero-copy but
+//     per-iteration savings from single-counter outweigh this overhead.
 
-/// My solution module.
+/// My solution module — HashMap-based sliding window.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(m + n)  — each pointer advances at most m times, HashMap ops amortized O(1)
+/// Space: O(k)      — k = number of distinct chars in t (two HashMaps)
 mod my_solution {
     pub struct Solution;
+
+    use std::collections::HashMap;
 
     impl Solution {
         /// Find the minimum window substring of `s` containing all chars of `t`.
@@ -43,15 +83,93 @@ mod my_solution {
         ///
         /// The minimum window substring, or "" if no valid window exists
         pub fn min_window(s: String, t: String) -> String {
-            todo!()
+            let t = t.as_bytes();
+            let s = s.as_bytes();
+            let mut need: HashMap<u8, i32> = HashMap::new();
+            // Clippy: originally `for (_, &char) in t.iter().enumerate()` —
+            // unused_enumerate lint flags enumerate() when the index is discarded `_`.
+            for &char in t.iter() {
+                // Ruby: need[char] += 1 — Hash.new(0) auto-defaults missing keys to 0.
+                // Rust: HashMap has no IndexMut — can't do need[&char] += 1.
+                // Use entry API: or_insert(0) inserts 0 if key is missing,
+                // returns &mut i32 either way, then * dereferences to increment.
+                // A: Hashmap cannot give default value 0, need use entry
+                *need.entry(char).or_insert(0) += 1;
+            }
+
+            let required = need.len();
+            let mut window: HashMap<u8, i32> = HashMap::new();
+            let mut formed = 0;
+            let mut left = 0;
+            let mut right = 0;
+            let mut min_len = usize::MAX;
+            let mut min_left = 0;
+
+            while right < s.len() {
+                let char = s[right];
+                *window.entry(char).or_insert(0) += 1;
+
+                // Ruby: need.key?(char) — checks if key exists in hash.
+                // Rust: HashMap has contains_key(&key), but here we
+                // only need the value, so need.get(&char) returns Option<&i32>.
+                // Ruby: window[char] == need[char] — direct hash indexing.
+                // Rust: HashMap[] panics on missing key. Use get() which
+                // returns Option, then unwrap_or(&0) for a safe default.
+                if let Some(&required_count) = need.get(&char) {
+                    if window[&char] == required_count {
+                        formed += 1;
+                    }
+                }
+
+                while left <= right && formed == required {
+                    let current_len = right - left + 1;
+                    if current_len < min_len {
+                        min_len = current_len;
+                        min_left = left;
+                    }
+
+                    let left_char = s[left];
+                    *window.entry(left_char).or_insert(0) -= 1;
+
+                    if let Some(&required_count) = need.get(&left_char) {
+                        if window[&left_char] < required_count {
+                            formed -= 1;
+                        }
+                    }
+
+                    left += 1;
+                }
+
+                right += 1
+            }
+
+            if min_len == usize::MAX {
+                return String::new();
+            };
+
+            // Ruby: s[min_left, min_len] — substring from index, length
+            // Rust: s is &[u8] (from as_bytes()), so s[range] returns &[u8], not &str.
+            // &[u8] doesn't implement Display/ToString. Use std::str::from_utf8()
+            // to convert the byte slice back to &str (safe since input is ASCII).
+            // .unwrap() is safe here because the original String was valid UTF-8.
+            // &[u8] cannot to_string()
+            // Clippy: originally `min_len as usize` — identity_conversion lint
+            // flags casting usize to usize (min_len was changed from i32 to usize).
+            std::str::from_utf8(&s[min_left..min_left + min_len])
+                .unwrap()
+                .to_string()
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — array-based sliding window.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses `[i32; 128]` fixed arrays instead of HashMap for O(1) direct
+/// indexing with no hashing overhead. Same algorithmic approach but
+/// faster constant factor due to cache-friendly contiguous memory.
+///
+/// Time:  O(m + n)  — each pointer advances at most m times
+/// Space: O(1)      — two fixed 128-element arrays (ASCII range)
 mod ai_solution {
     pub struct Solution;
 
@@ -67,7 +185,60 @@ mod ai_solution {
         ///
         /// The minimum window substring, or "" if no valid window exists
         pub fn min_window(s: String, t: String) -> String {
-            todo!()
+            let s = s.as_bytes();
+            let t = t.as_bytes();
+
+            // Fixed-size arrays — 128 covers all ASCII chars.
+            // Direct index lookup: no hashing, no bucket collisions.
+            let mut need = [0i32; 128];
+            let mut window = [0i32; 128];
+            let mut unique = 0u32; // distinct chars in t
+
+            for &b in t {
+                if need[b as usize] == 0 {
+                    unique += 1;
+                }
+                need[b as usize] += 1;
+            }
+
+            let mut formed = 0u32;
+            let mut left = 0;
+            let mut min_len = usize::MAX;
+            let mut min_left = 0;
+
+            for right in 0..s.len() {
+                let rb = s[right] as usize;
+                window[rb] += 1;
+
+                // Only count chars that appear in t
+                if need[rb] > 0 && window[rb] == need[rb] {
+                    formed += 1;
+                }
+
+                // Contract window from the left while all chars are satisfied
+                while formed == unique {
+                    let current_len = right - left + 1;
+                    if current_len < min_len {
+                        min_len = current_len;
+                        min_left = left;
+                    }
+
+                    let lb = s[left] as usize;
+                    window[lb] -= 1;
+                    if need[lb] > 0 && window[lb] < need[lb] {
+                        formed -= 1;
+                    }
+                    left += 1;
+                }
+            }
+
+            if min_len == usize::MAX {
+                String::new()
+            } else {
+                std::str::from_utf8(&s[min_left..min_left + min_len])
+                    .unwrap()
+                    .to_string()
+            }
         }
     }
 }

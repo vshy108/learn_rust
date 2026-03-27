@@ -20,6 +20,33 @@
 // Test: cargo test --example lc_0003_longest_substring_without_repeating
 // Bench: cargo test --example lc_0003_longest_substring_without_repeating bench -- --nocapture
 //
+// --- Reference: faster HashMap approach (LeetCode top submission) ---
+//   Uses HashMap<u8, usize> with with_capacity + as_bytes():
+//
+//   let mut seen: HashMap<u8, usize> = HashMap::with_capacity(s.len());
+//   let bytes = s.as_bytes();
+//   for right in 0..bytes.len() {
+//       if let Some(&prev_idx) = seen.get(&character) {
+//           left = left.max(prev_idx + 1);  // skip stale entries via .max()
+//       }
+//       seen.insert(character, right);
+//       max_len = max_len.max(right - left + 1);
+//   }
+//
+//   Why faster than my_solution (but still slower than AI array solution):
+//   - HashMap<u8> vs HashMap<char>: u8 is 1 byte, char is 4 bytes.
+//     Smaller keys = faster hashing and comparison per lookup/insert.
+//   - with_capacity(s.len()): pre-allocates HashMap to avoid rehashing
+//     during growth. My solution uses default capacity (0), causing
+//     multiple reallocations as the map grows.
+//   - as_bytes() vs char_indices(): byte iteration skips UTF-8 decoding
+//     overhead. char_indices() must validate variable-width codepoints.
+//   - left.max(prev_idx + 1) vs `if prev >= left { left = prev + 1 }`:
+//     functionally equivalent — .max() handles stale entries implicitly
+//     without a separate >= left guard. May optimize to branchless cmov.
+//   - Still ~38x slower than AI's [usize; 128] array — HashMap hashing
+//     overhead dominates regardless of key size or pre-allocation.
+//
 // --- Benchmark (1k iterations, 2026-03-26) ---
 //   My solution (HashMap):  4.002ms avg (4.0s total)
 //   AI solution (array):    104.925us avg (105ms total)

@@ -26,6 +26,25 @@
 // Run:  cargo run --example lc_0011_container_with_most_water
 // Test: cargo test --example lc_0011_container_with_most_water
 // Bench: cargo test --example lc_0011_container_with_most_water bench -- --nocapture
+//
+// --- Reference: faster cached-locals approach (LeetCode top submission) ---
+//   Caches height[start] and height[end] into locals `s_h`, `e_h`:
+//
+//   let s_h = height[start];
+//   let e_h = height[end];
+//   let area = (end - start) as i32 * s_h.min(e_h);
+//
+//   Why faster than skip optimization (AI solution):
+//   - Skip optimization adds inner while-loops with extra branches per
+//     iteration. On small/medium inputs the skip rarely fires, so the
+//     branch overhead costs more than it saves.
+//   - Simple loop body = tighter machine code, better CPU pipelining,
+//     and more predictable branch patterns.
+//   - Caching height[left]/height[right] into locals avoids 2 redundant
+//     bounds-checked array accesses per iteration (4 lookups -> 2).
+//     LLVM may optimize this away, but explicit caching guarantees it.
+//   - Takeaway: for two-pointer problems with small constant-factor
+//     differences, a minimal loop body often beats clever skip tricks.
 
 /// My solution module — classic two-pointer approach.
 ///

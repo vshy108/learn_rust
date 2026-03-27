@@ -18,11 +18,16 @@
 // Run:  cargo run --example lc_0012_integer_to_roman
 // Test: cargo test --example lc_0012_integer_to_roman
 // Bench: cargo test --example lc_0012_integer_to_roman bench -- --nocapture
+//
+// Benchmark (100_000 iterations, 2026-03-27):
+//   My solution: 215.3625ms  (avg 2.153µs)
+//   AI solution: 83.230625ms (avg 832ns)
+//   -> AI solution is 2.59x faster
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(1) — num is bounded [1, 3999]; the greedy loop iterates over at most 13 fixed symbols
+/// Space: O(1) — `const` slice in read-only memory; result String is at most 15 chars
 mod my_solution {
     pub struct Solution;
 
@@ -37,15 +42,33 @@ mod my_solution {
         ///
         /// Roman numeral representation as a String
         pub fn int_to_roman(num: i32) -> String {
-            todo!()
+            // A sorted slice of (value, symbol) pairs is used instead of a HashMap for two reasons:
+            // 1. Order matters: the algorithm must greedily subtract from largest to smallest,
+            //    and HashMap gives no guaranteed iteration order.
+            // 2. No allocation: a `const` slice lives in the binary's read-only data segment,
+            //    whereas a HashMap would require a heap allocation on every call.
+            const ROMAN_NUMERALS: &[(i32, &str)] = &[
+                (1000, "M"), (900, "CM"), (500, "D"), (400, "CD"), (100, "C"),
+                (90, "XC"), (50, "L"), (40, "XL"), (10, "X"), (9, "IX"),
+                (5, "V"), (4, "IV"), (1, "I"),
+            ];
+            let mut num = num;
+            let mut result: String = "".to_string();
+            for (value, numeral) in ROMAN_NUMERALS {
+                while num >= *value {
+                    result += numeral;
+                    num -= *value;
+                }
+            }
+            result
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(1) — constant: num is bounded [1, 3999]; four index lookups regardless of input
+/// Space: O(1) — four `const` lookup tables live in the binary's read-only segment; no heap allocation
 mod ai_solution {
     pub struct Solution;
 
@@ -60,7 +83,26 @@ mod ai_solution {
         ///
         /// Roman numeral representation as a String
         pub fn int_to_roman(num: i32) -> String {
-            todo!()
+            // Pre-enumerate every possible Roman string for each decimal place.
+            // Because num is bounded [1, 3999], thousands can only be 0..=3
+            // and every other place 0..=9 — making this a true O(1) lookup.
+            const THOUSANDS: [&str; 4] = ["", "M", "MM", "MMM"];
+            const HUNDREDS: [&str; 10] =
+                ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"];
+            const TENS: [&str; 10] =
+                ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"];
+            const ONES: [&str; 10] =
+                ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
+
+            let n = num as usize;
+            // Concatenate the four place-value strings directly — no loop needed.
+            format!(
+                "{}{}{}{}",
+                THOUSANDS[n / 1000],
+                HUNDREDS[(n % 1000) / 100],
+                TENS[(n % 100) / 10],
+                ONES[n % 10],
+            )
         }
     }
 }

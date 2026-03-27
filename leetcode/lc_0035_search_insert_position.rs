@@ -21,11 +21,27 @@
 // Run:  cargo run --example lc_0035_search_insert_position
 // Test: cargo test --example lc_0035_search_insert_position
 // Bench: cargo test --example lc_0035_search_insert_position bench -- --nocapture
+//
+// --- Benchmark (100_000 iterations, 2026-03-27) ---
+//   My solution: 106.50ms (avg 1.064us)
+//   AI solution: 117.84ms (avg 1.178us)
+//   -> My solution is 1.11x faster
+//   Reason: Both use the same algorithm; partition_point adds closure indirection
+//           and generic monomorphization overhead in debug builds. Near-identical
+//           in optimized (release) builds.
+//
+// --- Rust concepts used ---
+//   - Exclusive upper bound binary search: right = len, left < right, right = mid
+//   - usize underflow avoidance: no mid - 1 subtraction needed
+//   - mid + 1 overflow safety: mid <= right - 1, so mid + 1 <= right <= len
+//   - slice::partition_point(): stdlib lower-bound binary search
+//   - Closure predicate: |&x| x < target with pattern-binding reference
+//   - as i32 cast from usize return
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(log n) -- binary search halves the range each iteration
+/// Space: O(1) -- only two index variables
 mod my_solution {
     pub struct Solution;
 
@@ -41,15 +57,42 @@ mod my_solution {
         ///
         /// The index of `target`, or the insertion position
         pub fn search_insert(nums: Vec<i32>, target: i32) -> i32 {
-            todo!()
+            let mut left: usize = 0;
+            // Exclusive upper bound: right = len (not len - 1) avoids the usize
+            // underflow that happens with `right = mid - 1` when mid is 0.
+            // Loop uses `left < right` (not <=) and converges when they meet.
+            let mut right: usize = nums.len();
+
+            while left < right {
+                let mid = left + (right - left) / 2;
+
+                if nums[mid] < target {
+                    // mid + 1 won't overflow: mid = left + (right - left) / 2,
+                    // so mid <= right - 1, meaning mid + 1 <= right <= nums.len().
+                    left = mid + 1;
+                } else {
+                    // Set right = mid (not mid - 1) — no subtraction, no underflow.
+                    // This is the "lower bound" binary search pattern idiomatic in Rust.
+                    right = mid;
+                }
+            }
+
+            // When left == right, it's either the index where target was found,
+            // or the insertion point where target would go.
+            left as i32
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses `slice::partition_point()` -- a stdlib method that performs the
+/// exact same exclusive-upper-bound binary search internally. It returns
+/// the first index where the predicate returns false, which for a sorted
+/// slice and `|&x| x < target` gives the insertion point.
+///
+/// Time:  O(log n) -- binary search inside partition_point
+/// Space: O(1) -- no extra allocation
 mod ai_solution {
     pub struct Solution;
 
@@ -65,7 +108,11 @@ mod ai_solution {
         ///
         /// The index of `target`, or the insertion position
         pub fn search_insert(nums: Vec<i32>, target: i32) -> i32 {
-            todo!()
+            // partition_point returns the first index where the predicate is false.
+            // For sorted data, `|&x| x < target` finds the lower bound -- exactly
+            // the insertion point. This is the same algorithm as my_solution but
+            // using a single stdlib call.
+            nums.partition_point(|&x| x < target) as i32
         }
     }
 }

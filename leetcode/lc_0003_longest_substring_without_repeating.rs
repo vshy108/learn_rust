@@ -91,7 +91,9 @@ mod my_solution {
                 last_seen.insert(c, i);
                 // A: get max value between 2 integers, float cannot std::cmp::max
                 // max_len = max_len.max(i - left + 1);
-                max_len = std::cmp::max(max_len, (i - left + 1) as usize);
+                // Clippy: removed unnecessary `as usize` cast —
+                // `i` and `left` are already usize, so the result is too.
+                max_len = std::cmp::max(max_len, i - left + 1);
             }
 
             max_len as i32

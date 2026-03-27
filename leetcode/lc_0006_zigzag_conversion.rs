@@ -92,7 +92,9 @@ mod my_solution {
             let mut curr_row = 0usize;
             let mut going_down = false;
 
-            for ch in s.chars().into_iter() {
+            // Clippy: `.chars().into_iter()` is redundant — `.chars()`
+            // already returns an iterator. No need for `.into_iter()`.
+            for ch in s.chars() {
                 // `.push(ch)` appends a single char to the String.
                 // Also: `.push_str(s)` appends a `&str`.
                 rows[curr_row].push(ch);

@@ -207,13 +207,14 @@ mod ai_solution {
             let mut sum = carry;
 
             // Destructure each list: extract val, pass .next to recursion.
-            // `map_or` returns the default (None) if the Option is None,
-            // or applies the closure if Some.
-            let next_l1 = l1.map_or(None, |node| {
+            // Clippy: `.map_or(None, |x| ...)` is just `.and_then(|x| ...)`.
+            // `.and_then()` returns None if the Option is None,
+            // or applies the closure (which itself returns Option) if Some.
+            let next_l1 = l1.and_then(|node| {
                 sum += node.val;
                 node.next
             });
-            let next_l2 = l2.map_or(None, |node| {
+            let next_l2 = l2.and_then(|node| {
                 sum += node.val;
                 node.next
             });

@@ -135,7 +135,11 @@ mod ai_solution {
             // same byte at that position. `get(i)` returns None if the string is too short,
             // which correctly terminates the prefix at shorter strings.
             let prefix_len = (0..first.len())
-                .take_while(|&i| strs[1..].iter().all(|s| s.as_bytes().get(i) == Some(&first[i])))
+                .take_while(|&i| {
+                    strs[1..]
+                        .iter()
+                        .all(|s| s.as_bytes().get(i) == Some(&first[i]))
+                })
                 .count();
 
             // Slice `strs[0]` to the matched length and allocate the result once.

@@ -18,6 +18,28 @@
 // Run:  cargo run --example lc_0021_merge_two_sorted_lists
 // Test: cargo test --example lc_0021_merge_two_sorted_lists
 // Bench: cargo test --example lc_0021_merge_two_sorted_lists bench -- --nocapture
+//
+// Benchmark (100_000 iterations, 2026-03-27):
+//   My solution (recursive):  85.28ms (avg 852ns)
+//   AI solution (iterative):  94.42ms (avg 944ns)
+//   -> My solution is 1.11x faster
+//   Reason: For short lists (5 nodes each), recursion overhead is minimal and the compiler
+//   inlines well; the iterative solution pays for extra .take()/.as_mut().unwrap() per node.
+//
+// --- Rust concepts used ---
+//
+// match on (Option, Option) tuple:
+//   Destructures both lists simultaneously. (None, l2) catches (None, None) too,
+//   because `l2` binds to any value. Arms are checked top-to-bottom.
+//
+// Recursive ownership transfer:
+//   `Some(mut l1)` moves the Box out of the Option. After attaching the recursive
+//   result to l1.next, we return Some(l1) — ownership flows back up the call stack.
+//
+// Dummy head / mutable borrow chain:
+//   The iterative AI solution uses a dummy ListNode. `current = &mut dummy` walks
+//   the list via mutable references without moving ownership of the head pointer.
+//   `current.next.as_mut().unwrap()` re-borrows the next node mutably.
 
 /// Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]
@@ -57,8 +79,8 @@ fn list_to_vec(mut head: Option<Box<ListNode>>) -> Vec<i32> {
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(m + n) — each recursive call processes one node; at most m + n calls
+/// Space: O(m + n) — recursion stack depth equals total number of nodes
 mod my_solution {
     use super::ListNode;
 
@@ -79,15 +101,30 @@ mod my_solution {
             list1: Option<Box<ListNode>>,
             list2: Option<Box<ListNode>>,
         ) -> Option<Box<ListNode>> {
-            todo!()
+            // Rust matches arms top-to-bottom. (None, l2) binds l2 to *any* value,
+            // so (None, None) is already handled here — l2 is None, returns None.
+            // An explicit (None, None) arm would compile but is redundant.
+            match (list1, list2) {
+                (None, l2) => l2,
+                (l1, None) => l1,
+                (Some(mut l1), Some(mut l2)) => {
+                    if l1.val <= l2.val {
+                        l1.next = Solution::merge_two_lists(l1.next, Some(l2));
+                        Some(l1)
+                    } else {
+                        l2.next = Solution::merge_two_lists(Some(l1), l2.next);
+                        Some(l2)
+                    }
+                }
+            }
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(m + n) — single pass through both lists
+/// Space: O(1) — iterative; only a dummy node and a mutable pointer
 mod ai_solution {
     use super::ListNode;
 
@@ -105,10 +142,45 @@ mod ai_solution {
         ///
         /// Head of the merged sorted list
         pub fn merge_two_lists(
-            list1: Option<Box<ListNode>>,
-            list2: Option<Box<ListNode>>,
+            mut list1: Option<Box<ListNode>>,
+            mut list2: Option<Box<ListNode>>,
         ) -> Option<Box<ListNode>> {
-            todo!()
+            // Iterative approach using a dummy head node.
+            // Avoids recursion stack overhead — O(1) extra space.
+            let mut dummy = ListNode::new(0);
+            let mut current = &mut dummy;
+
+            // Walk both lists, always appending the smaller node.
+            // `.as_ref()` borrows the inner Box<ListNode> as &Box<ListNode> without moving it
+            // out of the Option. This lets us peek at l1.val and l2.val to compare, while
+            // list1 and list2 still own their nodes for the `.take()` call below.
+            while let (Some(l1), Some(l2)) = (list1.as_ref(), list2.as_ref()) {
+                if l1.val <= l2.val {
+                    // `.take()` moves the value out of list1 and replaces it with None.
+                    // We can't just assign `current.next = list1` because that would move
+                    // the entire Option, leaving list1 unusable. `.take()` transfers
+                    // ownership of the Box to current.next while resetting list1 to None.
+                    current.next = list1.take();
+                    // `.as_mut().unwrap()` borrows the just-appended node mutably:
+                    // - `.as_mut()` converts Option<Box<ListNode>> -> Option<&mut Box<ListNode>>
+                    //   (borrows without moving, since current.next must stay owned by the list)
+                    // - `.unwrap()` is safe because we just assigned Some(..) to current.next
+                    // This advances `current` to the tail of the merged list so far.
+                    current = current.next.as_mut().unwrap();
+                    // `.take()` on current.next detaches the rest of the original list1
+                    // and reassigns it back to list1 for the next iteration.
+                    list1 = current.next.take();
+                } else {
+                    current.next = list2.take();
+                    current = current.next.as_mut().unwrap();
+                    list2 = current.next.take();
+                }
+            }
+
+            // Append whichever list has remaining nodes.
+            current.next = if list1.is_some() { list1 } else { list2 };
+
+            dummy.next
         }
     }
 }

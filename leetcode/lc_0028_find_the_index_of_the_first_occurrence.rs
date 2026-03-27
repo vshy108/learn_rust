@@ -15,11 +15,25 @@
 // Run:  cargo run --example lc_0028_find_the_index_of_the_first_occurrence
 // Test: cargo test --example lc_0028_find_the_index_of_the_first_occurrence
 // Bench: cargo test --example lc_0028_find_the_index_of_the_first_occurrence bench -- --nocapture
+//
+// --- Benchmark (100_000 iterations, 2026-03-27) ---
+//   My solution: 142.31ms (avg 1.423us)
+//   AI solution: 99.94ms  (avg 999ns)
+//   -> AI solution is 1.42x faster
+//   Reason: str::find uses the stdlib two-way search algorithm (O(n) worst-case),
+//           while the manual slice loop is O((n-m)*m) with per-position m-byte compares.
+//
+// --- Rust concepts used ---
+//   - &str slicing: &haystack[i..i + m] produces an unsized str, needs & for &str
+//   - usize underflow guard: n - m panics when m > n (unsigned arithmetic)
+//   - str::find() returns Option<usize>, converted with map_or(-1, |i| i as i32)
+//   - PartialEq<String> for str: &str == String comparison works automatically
+//   - Option::map_or: transforms Some/None into a single return value
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O((n - m) * m) -- sliding window compares m chars at each of n - m + 1 positions
+/// Space: O(1) -- no extra allocation beyond input ownership
 mod my_solution {
     pub struct Solution;
 
@@ -35,15 +49,44 @@ mod my_solution {
         ///
         /// Index of the first occurrence of `needle`, or -1 if not found
         pub fn str_str(haystack: String, needle: String) -> i32 {
-            todo!()
+            if needle.is_empty() {
+                return 0;
+            };
+
+            let n = haystack.len();
+            let m = needle.len();
+
+            // Guard against usize underflow: n - m panics when m > n because
+            // usize is unsigned (no negative values). Ruby integers are signed
+            // so `0..(n - m)` just produces an empty range there, but in Rust
+            // debug mode it panics, and in release mode it wraps to usize::MAX.
+            if m > n {
+                return -1;
+            }
+
+            for i in 0..=(n - m) {
+                // Ruby: haystack[i, m] — substring from index i, length m
+                // Rust: &haystack[i..i + m] — slice with start..end range (end exclusive)
+                // & needed because haystack[..] yields unsized str; &str == String works
+                // via PartialEq<String> for str
+                if &haystack[i..i + m] == needle {
+                    return i as i32;
+                }
+            }
+
+            -1
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses `str::find()` -- the stdlib substring search that delegates to
+/// an optimized two-way algorithm (O(n) worst-case, O(1) extra space).
+/// No manual loop or slicing needed.
+///
+/// Time:  O(n) -- stdlib two-way string search algorithm
+/// Space: O(1) -- no extra allocation
 mod ai_solution {
     pub struct Solution;
 
@@ -59,7 +102,9 @@ mod ai_solution {
         ///
         /// Index of the first occurrence of `needle`, or -1 if not found
         pub fn str_str(haystack: String, needle: String) -> i32 {
-            todo!()
+            // str::find returns Option<usize> -- the byte offset of the first match.
+            // map_or converts Some(index) to index as i32, None to -1.
+            haystack.find(&needle).map_or(-1, |i| i as i32)
         }
     }
 }

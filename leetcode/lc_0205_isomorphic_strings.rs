@@ -79,15 +79,13 @@ fn main() {
 
     println!("--- My Solution ---");
     for (s, t, expected) in &test_cases {
-        let result =
-            my_solution::Solution::is_isomorphic(s.to_string(), t.to_string());
+        let result = my_solution::Solution::is_isomorphic(s.to_string(), t.to_string());
         println!("  \"{s}\", \"{t}\" -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (s, t, expected) in &test_cases {
-        let result =
-            ai_solution::Solution::is_isomorphic(s.to_string(), t.to_string());
+        let result = ai_solution::Solution::is_isomorphic(s.to_string(), t.to_string());
         println!("  \"{s}\", \"{t}\" -> {result} (expected {expected})");
     }
 }
@@ -125,10 +123,7 @@ mod tests {
 
                 #[test]
                 fn test_single_char() {
-                    assert!(Solution::is_isomorphic(
-                        "a".to_string(),
-                        "b".to_string()
-                    ));
+                    assert!(Solution::is_isomorphic("a".to_string(), "b".to_string()));
                 }
 
                 #[test]

@@ -66,10 +66,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(&str, &str)> = vec![
-        ("IceCreAm", "AceCreIm"),
-        ("leetcode", "leotcede"),
-    ];
+    let test_cases: Vec<(&str, &str)> = vec![("IceCreAm", "AceCreIm"), ("leetcode", "leotcede")];
 
     println!("--- My Solution ---");
     for (s, expected) in &test_cases {
@@ -93,58 +90,37 @@ mod tests {
 
                 #[test]
                 fn test_mixed_case_vowels() {
-                    assert_eq!(
-                        Solution::reverse_vowels("IceCreAm".to_string()),
-                        "AceCreIm"
-                    );
+                    assert_eq!(Solution::reverse_vowels("IceCreAm".to_string()), "AceCreIm");
                 }
 
                 #[test]
                 fn test_lowercase() {
-                    assert_eq!(
-                        Solution::reverse_vowels("leetcode".to_string()),
-                        "leotcede"
-                    );
+                    assert_eq!(Solution::reverse_vowels("leetcode".to_string()), "leotcede");
                 }
 
                 #[test]
                 fn test_no_vowels() {
-                    assert_eq!(
-                        Solution::reverse_vowels("bcdfg".to_string()),
-                        "bcdfg"
-                    );
+                    assert_eq!(Solution::reverse_vowels("bcdfg".to_string()), "bcdfg");
                 }
 
                 #[test]
                 fn test_all_vowels() {
-                    assert_eq!(
-                        Solution::reverse_vowels("aeiou".to_string()),
-                        "uoiea"
-                    );
+                    assert_eq!(Solution::reverse_vowels("aeiou".to_string()), "uoiea");
                 }
 
                 #[test]
                 fn test_single_char() {
-                    assert_eq!(
-                        Solution::reverse_vowels("a".to_string()),
-                        "a"
-                    );
+                    assert_eq!(Solution::reverse_vowels("a".to_string()), "a");
                 }
 
                 #[test]
                 fn test_uppercase_vowels() {
-                    assert_eq!(
-                        Solution::reverse_vowels("AEIOU".to_string()),
-                        "UOIEA"
-                    );
+                    assert_eq!(Solution::reverse_vowels("AEIOU".to_string()), "UOIEA");
                 }
 
                 #[test]
                 fn test_single_vowel() {
-                    assert_eq!(
-                        Solution::reverse_vowels("hello".to_string()),
-                        "holle"
-                    );
+                    assert_eq!(Solution::reverse_vowels("hello".to_string()), "holle");
                 }
             }
         };

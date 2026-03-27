@@ -22,6 +22,8 @@
 //   My solution (Manacher's, Vec<char>):       498.57ms avg (4.985us/iter)
 //   AI solution (expand-around-center, bytes):  56.18ms avg (561ns/iter)
 //   AI solution is 8.87x faster
+//   Reason: Expand-around-center on raw bytes avoids the Vec<char> heap allocation and UTF-8 decoding
+//   Manacher's requires; byte-slice access has better cache locality and zero allocation per call.
 //
 // --- Rust concepts used ---
 //

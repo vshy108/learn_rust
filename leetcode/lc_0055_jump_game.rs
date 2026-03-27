@@ -68,10 +68,8 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(Vec<i32>, bool)> = vec![
-        (vec![2, 3, 1, 1, 4], true),
-        (vec![3, 2, 1, 0, 4], false),
-    ];
+    let test_cases: Vec<(Vec<i32>, bool)> =
+        vec![(vec![2, 3, 1, 1, 4], true), (vec![3, 2, 1, 0, 4], false)];
 
     println!("--- My Solution ---");
     for (nums, expected) in &test_cases {

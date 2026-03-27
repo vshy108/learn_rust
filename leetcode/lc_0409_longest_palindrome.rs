@@ -65,13 +65,8 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(&str, i32)> = vec![
-        ("abccccdd", 7),
-        ("a", 1),
-        ("bb", 2),
-        ("Aa", 1),
-        ("ccc", 3),
-    ];
+    let test_cases: Vec<(&str, i32)> =
+        vec![("abccccdd", 7), ("a", 1), ("bb", 2), ("Aa", 1), ("ccc", 3)];
 
     println!("--- My Solution ---");
     for (s, expected) in &test_cases {
@@ -95,10 +90,7 @@ mod tests {
 
                 #[test]
                 fn test_example_1() {
-                    assert_eq!(
-                        Solution::longest_palindrome("abccccdd".to_string()),
-                        7
-                    );
+                    assert_eq!(Solution::longest_palindrome("abccccdd".to_string()), 7);
                 }
 
                 #[test]
@@ -123,18 +115,12 @@ mod tests {
 
                 #[test]
                 fn test_all_unique() {
-                    assert_eq!(
-                        Solution::longest_palindrome("abcdef".to_string()),
-                        1
-                    );
+                    assert_eq!(Solution::longest_palindrome("abcdef".to_string()), 1);
                 }
 
                 #[test]
                 fn test_full_palindrome() {
-                    assert_eq!(
-                        Solution::longest_palindrome("aabbcc".to_string()),
-                        6
-                    );
+                    assert_eq!(Solution::longest_palindrome("aabbcc".to_string()), 6);
                 }
             }
         };

@@ -104,10 +104,7 @@ mod tests {
 
                 #[test]
                 fn test_example_1() {
-                    assert_eq!(
-                        Solution::pivot_index(vec![1, 7, 3, 6, 5, 6]),
-                        3
-                    );
+                    assert_eq!(Solution::pivot_index(vec![1, 7, 3, 6, 5, 6]), 3);
                 }
 
                 #[test]
@@ -134,18 +131,12 @@ mod tests {
 
                 #[test]
                 fn test_negative_numbers() {
-                    assert_eq!(
-                        Solution::pivot_index(vec![-1, -1, -1, -1, -1, 0]),
-                        2
-                    );
+                    assert_eq!(Solution::pivot_index(vec![-1, -1, -1, -1, -1, 0]), 2);
                 }
 
                 #[test]
                 fn test_all_zeros() {
-                    assert_eq!(
-                        Solution::pivot_index(vec![0, 0, 0, 0]),
-                        0
-                    );
+                    assert_eq!(Solution::pivot_index(vec![0, 0, 0, 0]), 0);
                 }
             }
         };

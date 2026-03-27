@@ -29,6 +29,8 @@
 //   My solution (2D bottom-up DP):       984.8ms avg (9.848us/iter)
 //   AI solution (1D space-optimized DP): 555.9ms avg (5.558us/iter)
 //   AI solution is 1.77x faster
+//   Reason: The 1D DP row (~20 bools) fits entirely in L1 cache; the 2D table (up to 21×21 bools)
+//   spills to L2. One Vec allocation instead of Vec<Vec<_>> also reduces allocation overhead.
 //
 // --- Rust concepts used ---
 //

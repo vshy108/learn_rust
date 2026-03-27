@@ -24,6 +24,8 @@
 //   My solution (HashMap):  4.002ms avg (4.0s total)
 //   AI solution (array):    104.925us avg (105ms total)
 //   AI solution is 38.14x faster
+//   Reason: A fixed-size [usize; 128] array replaces HashMap — array lookup is direct index arithmetic
+//   with zero hashing overhead and perfect cache locality; HashMap probing is ~38× slower for a 128-key set.
 //
 // --- Rust concepts used ---
 //

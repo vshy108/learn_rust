@@ -34,6 +34,8 @@
 //   My solution (index-based byte scanning):           87.5ms avg (875ns/iter)
 //   AI solution (iterator + trim + peekable + fold):   283.1ms avg (2.831us/iter)
 //   My solution is 3.23x faster
+//   Reason: Direct byte-index scanning is a tight pointer-advance loop; the iterator adaptor chain
+//   (trim → peekable → fold) adds indirection and state that the compiler cannot fully optimise away.
 //
 // --- Rust concepts used ---
 //

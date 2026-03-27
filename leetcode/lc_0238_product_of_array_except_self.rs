@@ -118,10 +118,7 @@ mod tests {
 
                 #[test]
                 fn test_two_elements() {
-                    assert_eq!(
-                        Solution::product_except_self(vec![3, 5]),
-                        vec![5, 3]
-                    );
+                    assert_eq!(Solution::product_except_self(vec![3, 5]), vec![5, 3]);
                 }
 
                 #[test]
@@ -142,18 +139,12 @@ mod tests {
 
                 #[test]
                 fn test_two_zeros() {
-                    assert_eq!(
-                        Solution::product_except_self(vec![0, 0, 3]),
-                        vec![0, 0, 0]
-                    );
+                    assert_eq!(Solution::product_except_self(vec![0, 0, 3]), vec![0, 0, 0]);
                 }
 
                 #[test]
                 fn test_single_zero() {
-                    assert_eq!(
-                        Solution::product_except_self(vec![2, 0, 4]),
-                        vec![0, 8, 0]
-                    );
+                    assert_eq!(Solution::product_except_self(vec![2, 0, 4]), vec![0, 8, 0]);
                 }
             }
         };
@@ -167,11 +158,8 @@ mod tests {
         use std::time::Instant;
 
         let iterations = 100_000_u32;
-        let inputs: Vec<Vec<i32>> = vec![
-            vec![1, 2, 3, 4],
-            vec![-1, 1, 0, -3, 3],
-            (1..=20).collect(),
-        ];
+        let inputs: Vec<Vec<i32>> =
+            vec![vec![1, 2, 3, 4], vec![-1, 1, 0, -3, 3], (1..=20).collect()];
 
         let start = Instant::now();
         for _ in 0..iterations {

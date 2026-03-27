@@ -123,18 +123,12 @@ mod tests {
 
                 #[test]
                 fn test_single_one() {
-                    assert_eq!(
-                        Solution::largest_overlap(vec![vec![1]], vec![vec![1]]),
-                        1
-                    );
+                    assert_eq!(Solution::largest_overlap(vec![vec![1]], vec![vec![1]]), 1);
                 }
 
                 #[test]
                 fn test_single_zero() {
-                    assert_eq!(
-                        Solution::largest_overlap(vec![vec![0]], vec![vec![0]]),
-                        0
-                    );
+                    assert_eq!(Solution::largest_overlap(vec![vec![0]], vec![vec![0]]), 0);
                 }
 
                 #[test]

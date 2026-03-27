@@ -104,8 +104,7 @@ fn main() {
 
     println!("--- My Solution ---");
     for &(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2, expected) in &test_cases {
-        let result =
-            my_solution::Solution::compute_area(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2);
+        let result = my_solution::Solution::compute_area(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2);
         println!(
             "  ({ax1},{ay1},{ax2},{ay2}),({bx1},{by1},{bx2},{by2}) -> {result} (expected {expected})"
         );
@@ -113,8 +112,7 @@ fn main() {
 
     println!("--- AI Solution ---");
     for &(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2, expected) in &test_cases {
-        let result =
-            ai_solution::Solution::compute_area(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2);
+        let result = ai_solution::Solution::compute_area(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2);
         println!(
             "  ({ax1},{ay1},{ax2},{ay2}),({bx1},{by1},{bx2},{by2}) -> {result} (expected {expected})"
         );
@@ -130,61 +128,40 @@ mod tests {
 
                 #[test]
                 fn test_overlapping_rectangles() {
-                    assert_eq!(
-                        Solution::compute_area(-3, -3, 3, 3, -2, -2, 2, 2),
-                        24
-                    );
+                    assert_eq!(Solution::compute_area(-3, -3, 3, 3, -2, -2, 2, 2), 24);
                 }
 
                 #[test]
                 fn test_no_overlap() {
-                    assert_eq!(
-                        Solution::compute_area(-2, -2, 2, 2, 3, 3, 4, 4),
-                        17
-                    );
+                    assert_eq!(Solution::compute_area(-2, -2, 2, 2, 3, 3, 4, 4), 17);
                 }
 
                 #[test]
                 fn test_one_inside_other() {
                     // B is fully inside A
-                    assert_eq!(
-                        Solution::compute_area(-5, -5, 5, 5, -1, -1, 1, 1),
-                        100
-                    );
+                    assert_eq!(Solution::compute_area(-5, -5, 5, 5, -1, -1, 1, 1), 100);
                 }
 
                 #[test]
                 fn test_identical_rectangles() {
-                    assert_eq!(
-                        Solution::compute_area(0, 0, 2, 2, 0, 0, 2, 2),
-                        4
-                    );
+                    assert_eq!(Solution::compute_area(0, 0, 2, 2, 0, 0, 2, 2), 4);
                 }
 
                 #[test]
                 fn test_touching_edge() {
                     // Rectangles share an edge but no area overlap
-                    assert_eq!(
-                        Solution::compute_area(0, 0, 2, 2, 2, 0, 4, 2),
-                        8
-                    );
+                    assert_eq!(Solution::compute_area(0, 0, 2, 2, 2, 0, 4, 2), 8);
                 }
 
                 #[test]
                 fn test_partial_overlap_horizontal() {
-                    assert_eq!(
-                        Solution::compute_area(0, 0, 4, 4, 2, 0, 6, 4),
-                        24
-                    );
+                    assert_eq!(Solution::compute_area(0, 0, 4, 4, 2, 0, 6, 4), 24);
                 }
 
                 #[test]
                 fn test_zero_area_rectangle() {
                     // Degenerate rectangle (line)
-                    assert_eq!(
-                        Solution::compute_area(0, 0, 0, 0, 1, 1, 3, 3),
-                        4
-                    );
+                    assert_eq!(Solution::compute_area(0, 0, 0, 0, 1, 1, 3, 3), 4);
                 }
             }
         };

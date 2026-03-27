@@ -20,11 +20,18 @@
 // Run:  cargo run --example lc_0013_roman_to_integer
 // Test: cargo test --example lc_0013_roman_to_integer
 // Bench: cargo test --example lc_0013_roman_to_integer bench -- --nocapture
+//
+// Benchmark (100_000 iterations, 2026-03-27):
+//   My solution: 1.706000542s (avg 17.06µs)
+//   AI solution: 79.084958ms  (avg 790ns)
+//   -> AI solution is 21.57x faster
+//   Reason: HashMap::from([...]) heap-allocates on every call — my solution pays that cost 100k times;
+//   the match-based AI solution compiles to a zero-allocation jump table (one branch per character).
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) — single pass over the string (n <= 15, so effectively O(1))
+/// Space: O(1) — HashMap holds exactly 7 fixed entries; result is a single integer
 mod my_solution {
     pub struct Solution;
 
@@ -39,15 +46,53 @@ mod my_solution {
         ///
         /// The integer value
         pub fn roman_to_int(s: String) -> i32 {
-            todo!()
+            // HashMap::from([...]) builds the map from an array of (key, value) tuples inline.
+            // Gotcha: HashMap has no guaranteed iteration order, but that's fine here
+            // because we look up one character at a time rather than iterating the map.
+            // A: use HashMap::from([(), ()]) to provide initialization value
+            // A: can't define a HashMap as a const in Rust
+            // A: HashMap requires heap allocation and its constructor is not const fn.
+            let roman_map: std::collections::HashMap<char, i32> =
+                std::collections::HashMap::from([
+                    ('I', 1),
+                    ('V', 5),
+                    ('X', 10),
+                    ('L', 50),
+                    ('C', 100),
+                    ('D', 500),
+                    ('M', 1000),
+                ]);
+
+            let mut total = 0;
+            let mut prev_value = 0;
+
+            for char in s.chars() {
+                // `&char` is required because HashMap's index operator is defined as Index<&K>,
+                // so it always takes a reference to the key. Passing `char` directly (without &)
+                // would not match the trait bound and would fail to compile.
+                // For Copy types like char the cost is zero; the same API also lets you index a
+                // HashMap<String, _> with a &str without giving up ownership of the key.
+                // A: pass key need with &
+                let value = roman_map[&char];
+
+                if prev_value < value {
+                    total += value - 2 * prev_value;
+                } else {
+                    total += value;
+                }
+
+                prev_value = value;
+            }
+
+            total
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) — single pass over the string (n <= 15, so effectively O(1))
+/// Space: O(1) — no allocations; `match` replaces the HashMap with zero heap cost
 mod ai_solution {
     pub struct Solution;
 
@@ -62,17 +107,44 @@ mod ai_solution {
         ///
         /// The integer value
         pub fn roman_to_int(s: String) -> i32 {
-            todo!()
+            // `match` replaces HashMap: the compiler turns it into a jump table,
+            // so lookup is O(1) with zero heap allocation per call.
+            let char_value = |c: char| -> i32 {
+                match c {
+                    'I' => 1,
+                    'V' => 5,
+                    'X' => 10,
+                    'L' => 50,
+                    'C' => 100,
+                    'D' => 500,
+                    'M' => 1000,
+                    // The constraint guarantees only valid characters, so this is unreachable.
+                    _ => unreachable!("invalid Roman numeral character: {c}"),
+                }
+            };
+
+            let mut total = 0;
+            let mut prev_value = 0;
+
+            for ch in s.chars() {
+                let value = char_value(ch);
+
+                if prev_value < value {
+                    total += value - 2 * prev_value;
+                } else {
+                    total += value;
+                }
+
+                prev_value = value;
+            }
+
+            total
         }
     }
 }
 
 fn main() {
-    let test_cases: Vec<(&str, i32)> = vec![
-        ("III", 3),
-        ("LVIII", 58),
-        ("MCMXCIV", 1994),
-    ];
+    let test_cases: Vec<(&str, i32)> = vec![("III", 3), ("LVIII", 58), ("MCMXCIV", 1994)];
 
     println!("--- My Solution ---");
     for (s, expected) in &test_cases {

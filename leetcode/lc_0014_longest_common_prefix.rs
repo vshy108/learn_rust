@@ -113,10 +113,7 @@ mod tests {
 
                 #[test]
                 fn test_single_string() {
-                    assert_eq!(
-                        Solution::longest_common_prefix(to_vec(&["alone"])),
-                        "alone"
-                    );
+                    assert_eq!(Solution::longest_common_prefix(to_vec(&["alone"])), "alone");
                 }
 
                 #[test]
@@ -129,10 +126,7 @@ mod tests {
 
                 #[test]
                 fn test_empty_string_in_array() {
-                    assert_eq!(
-                        Solution::longest_common_prefix(to_vec(&["", "abc"])),
-                        ""
-                    );
+                    assert_eq!(Solution::longest_common_prefix(to_vec(&["", "abc"])), "");
                 }
 
                 #[test]

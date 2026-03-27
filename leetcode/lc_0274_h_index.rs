@@ -70,10 +70,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(Vec<i32>, i32)> = vec![
-        (vec![3, 0, 6, 1, 5], 3),
-        (vec![1, 3, 1], 1),
-    ];
+    let test_cases: Vec<(Vec<i32>, i32)> = vec![(vec![3, 0, 6, 1, 5], 3), (vec![1, 3, 1], 1)];
 
     println!("--- My Solution ---");
     for (citations, expected) in &test_cases {
@@ -151,9 +148,9 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for citations in &inputs {
-                std::hint::black_box(crate::my_solution::Solution::h_index(
-                    std::hint::black_box(citations.clone()),
-                ));
+                std::hint::black_box(crate::my_solution::Solution::h_index(std::hint::black_box(
+                    citations.clone(),
+                )));
             }
         }
         let my_duration = start.elapsed();
@@ -161,9 +158,9 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for citations in &inputs {
-                std::hint::black_box(crate::ai_solution::Solution::h_index(
-                    std::hint::black_box(citations.clone()),
-                ));
+                std::hint::black_box(crate::ai_solution::Solution::h_index(std::hint::black_box(
+                    citations.clone(),
+                )));
             }
         }
         let ai_duration = start.elapsed();

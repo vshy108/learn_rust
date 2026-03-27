@@ -93,10 +93,7 @@ mod tests {
 
                 #[test]
                 fn test_example_1() {
-                    assert_eq!(
-                        Solution::trap(vec![0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]),
-                        6
-                    );
+                    assert_eq!(Solution::trap(vec![0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]), 6);
                 }
 
                 #[test]
@@ -150,9 +147,9 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for height in &inputs {
-                std::hint::black_box(crate::my_solution::Solution::trap(
-                    std::hint::black_box(height.clone()),
-                ));
+                std::hint::black_box(crate::my_solution::Solution::trap(std::hint::black_box(
+                    height.clone(),
+                )));
             }
         }
         let my_duration = start.elapsed();
@@ -160,9 +157,9 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for height in &inputs {
-                std::hint::black_box(crate::ai_solution::Solution::trap(
-                    std::hint::black_box(height.clone()),
-                ));
+                std::hint::black_box(crate::ai_solution::Solution::trap(std::hint::black_box(
+                    height.clone(),
+                )));
             }
         }
         let ai_duration = start.elapsed();

@@ -27,6 +27,8 @@
 //   My solution (binary search, f64 sentinels): 22.060ms avg (220ns/iter)
 //   AI solution (binary search, i32 sentinels): 20.636ms avg (206ns/iter)
 //   AI solution is 1.07x faster
+//   Reason: Both use identical binary-search logic; the small gap comes from i32 comparisons being
+//   marginally cheaper than f64 (the critical comparison path stays in the integer execution unit).
 //
 // --- Rust concepts used ---
 //

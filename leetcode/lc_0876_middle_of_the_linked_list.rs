@@ -132,8 +132,8 @@ mod tests {
     macro_rules! test_middle_node {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use $solution as Solution;
                 use super::{build_list, list_to_vec};
+                use $solution as Solution;
 
                 #[test]
                 fn test_odd_length() {
@@ -174,10 +174,7 @@ mod tests {
                 #[test]
                 fn test_seven_nodes() {
                     let head = build_list(&[1, 2, 3, 4, 5, 6, 7]);
-                    assert_eq!(
-                        list_to_vec(Solution::middle_node(head)),
-                        vec![4, 5, 6, 7]
-                    );
+                    assert_eq!(list_to_vec(Solution::middle_node(head)), vec![4, 5, 6, 7]);
                 }
             }
         };

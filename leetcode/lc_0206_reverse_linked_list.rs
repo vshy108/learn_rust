@@ -151,55 +151,37 @@ mod tests {
                 #[test]
                 fn test_two_elements() {
                     let head = build_list(&[1, 2]);
-                    assert_eq!(
-                        list_to_vec(Solution::reverse_list(head)),
-                        vec![2, 1]
-                    );
+                    assert_eq!(list_to_vec(Solution::reverse_list(head)), vec![2, 1]);
                 }
 
                 #[test]
                 fn test_empty_list() {
                     let head = build_list(&[]);
-                    assert_eq!(
-                        list_to_vec(Solution::reverse_list(head)),
-                        Vec::<i32>::new()
-                    );
+                    assert_eq!(list_to_vec(Solution::reverse_list(head)), Vec::<i32>::new());
                 }
 
                 #[test]
                 fn test_single_element() {
                     let head = build_list(&[42]);
-                    assert_eq!(
-                        list_to_vec(Solution::reverse_list(head)),
-                        vec![42]
-                    );
+                    assert_eq!(list_to_vec(Solution::reverse_list(head)), vec![42]);
                 }
 
                 #[test]
                 fn test_negative_values() {
                     let head = build_list(&[-1, -2, -3]);
-                    assert_eq!(
-                        list_to_vec(Solution::reverse_list(head)),
-                        vec![-3, -2, -1]
-                    );
+                    assert_eq!(list_to_vec(Solution::reverse_list(head)), vec![-3, -2, -1]);
                 }
 
                 #[test]
                 fn test_duplicate_values() {
                     let head = build_list(&[1, 1, 2, 2]);
-                    assert_eq!(
-                        list_to_vec(Solution::reverse_list(head)),
-                        vec![2, 2, 1, 1]
-                    );
+                    assert_eq!(list_to_vec(Solution::reverse_list(head)), vec![2, 2, 1, 1]);
                 }
 
                 #[test]
                 fn test_three_elements() {
                     let head = build_list(&[1, 2, 3]);
-                    assert_eq!(
-                        list_to_vec(Solution::reverse_list(head)),
-                        vec![3, 2, 1]
-                    );
+                    assert_eq!(list_to_vec(Solution::reverse_list(head)), vec![3, 2, 1]);
                 }
             }
         };

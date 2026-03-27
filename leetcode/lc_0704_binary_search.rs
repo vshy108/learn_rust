@@ -97,18 +97,12 @@ mod tests {
 
                 #[test]
                 fn test_example_1() {
-                    assert_eq!(
-                        Solution::search(vec![-1, 0, 3, 5, 9, 12], 9),
-                        4
-                    );
+                    assert_eq!(Solution::search(vec![-1, 0, 3, 5, 9, 12], 9), 4);
                 }
 
                 #[test]
                 fn test_example_2() {
-                    assert_eq!(
-                        Solution::search(vec![-1, 0, 3, 5, 9, 12], 2),
-                        -1
-                    );
+                    assert_eq!(Solution::search(vec![-1, 0, 3, 5, 9, 12], 2), -1);
                 }
 
                 #[test]
@@ -123,26 +117,17 @@ mod tests {
 
                 #[test]
                 fn test_first_element() {
-                    assert_eq!(
-                        Solution::search(vec![1, 2, 3, 4, 5], 1),
-                        0
-                    );
+                    assert_eq!(Solution::search(vec![1, 2, 3, 4, 5], 1), 0);
                 }
 
                 #[test]
                 fn test_last_element() {
-                    assert_eq!(
-                        Solution::search(vec![1, 2, 3, 4, 5], 5),
-                        4
-                    );
+                    assert_eq!(Solution::search(vec![1, 2, 3, 4, 5], 5), 4);
                 }
 
                 #[test]
                 fn test_negative_numbers() {
-                    assert_eq!(
-                        Solution::search(vec![-10, -5, -3, 0, 2], -5),
-                        1
-                    );
+                    assert_eq!(Solution::search(vec![-10, -5, -3, 0, 2], -5), 1);
                 }
             }
         };

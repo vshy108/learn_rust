@@ -24,6 +24,8 @@
 //   My solution (reverse half):          17.92ms avg (179ns/iter)
 //   AI solution (two-pointer on digits): 23.01ms avg (230ns/iter)
 //   My solution is 1.28x faster
+//   Reason: Reversing only the lower half halts as soon as reversed_half >= remaining, doing roughly
+//   half as many divisions as the two-pointer approach which extracts every digit from both ends.
 //
 // --- Rust concepts used ---
 //

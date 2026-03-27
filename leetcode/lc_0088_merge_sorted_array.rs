@@ -80,7 +80,13 @@ mod ai_solution {
 
 fn main() {
     let test_cases: Vec<(Vec<i32>, i32, Vec<i32>, i32, Vec<i32>)> = vec![
-        (vec![1, 2, 3, 0, 0, 0], 3, vec![2, 5, 6], 3, vec![1, 2, 2, 3, 5, 6]),
+        (
+            vec![1, 2, 3, 0, 0, 0],
+            3,
+            vec![2, 5, 6],
+            3,
+            vec![1, 2, 2, 3, 5, 6],
+        ),
         (vec![1], 1, vec![], 0, vec![1]),
         (vec![0], 0, vec![1], 1, vec![1]),
     ];
@@ -109,13 +115,7 @@ mod tests {
             mod $mod_name {
                 use $solution as Solution;
 
-                fn run(
-                    mut nums1: Vec<i32>,
-                    m: i32,
-                    mut nums2: Vec<i32>,
-                    n: i32,
-                    expected: &[i32],
-                ) {
+                fn run(mut nums1: Vec<i32>, m: i32, mut nums2: Vec<i32>, n: i32, expected: &[i32]) {
                     Solution::merge(&mut nums1, m, &mut nums2, n);
                     assert_eq!(nums1, expected);
                 }
@@ -176,13 +176,7 @@ mod tests {
 
                 #[test]
                 fn test_duplicates() {
-                    run(
-                        vec![1, 2, 2, 0, 0],
-                        3,
-                        vec![2, 3],
-                        2,
-                        &[1, 2, 2, 2, 3],
-                    );
+                    run(vec![1, 2, 2, 0, 0], 3, vec![2, 3], 2, &[1, 2, 2, 2, 3]);
                 }
             }
         };

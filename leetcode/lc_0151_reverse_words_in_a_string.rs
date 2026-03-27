@@ -123,34 +123,22 @@ mod tests {
 
                 #[test]
                 fn test_single_word() {
-                    assert_eq!(
-                        Solution::reverse_words("hello".to_string()),
-                        "hello"
-                    );
+                    assert_eq!(Solution::reverse_words("hello".to_string()), "hello");
                 }
 
                 #[test]
                 fn test_single_word_with_spaces() {
-                    assert_eq!(
-                        Solution::reverse_words("  hello  ".to_string()),
-                        "hello"
-                    );
+                    assert_eq!(Solution::reverse_words("  hello  ".to_string()), "hello");
                 }
 
                 #[test]
                 fn test_two_words() {
-                    assert_eq!(
-                        Solution::reverse_words("ab cd".to_string()),
-                        "cd ab"
-                    );
+                    assert_eq!(Solution::reverse_words("ab cd".to_string()), "cd ab");
                 }
 
                 #[test]
                 fn test_single_char_words() {
-                    assert_eq!(
-                        Solution::reverse_words("a b c".to_string()),
-                        "c b a"
-                    );
+                    assert_eq!(Solution::reverse_words("a b c".to_string()), "c b a");
                 }
             }
         };

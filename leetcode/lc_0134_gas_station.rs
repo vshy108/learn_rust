@@ -102,10 +102,7 @@ mod tests {
                 #[test]
                 fn test_basic_circuit() {
                     assert_eq!(
-                        Solution::can_complete_circuit(
-                            vec![1, 2, 3, 4, 5],
-                            vec![3, 4, 5, 1, 2]
-                        ),
+                        Solution::can_complete_circuit(vec![1, 2, 3, 4, 5], vec![3, 4, 5, 1, 2]),
                         3
                     );
                 }
@@ -120,27 +117,18 @@ mod tests {
 
                 #[test]
                 fn test_single_station() {
-                    assert_eq!(
-                        Solution::can_complete_circuit(vec![5], vec![4]),
-                        0
-                    );
+                    assert_eq!(Solution::can_complete_circuit(vec![5], vec![4]), 0);
                 }
 
                 #[test]
                 fn test_single_station_no_solution() {
-                    assert_eq!(
-                        Solution::can_complete_circuit(vec![1], vec![2]),
-                        -1
-                    );
+                    assert_eq!(Solution::can_complete_circuit(vec![1], vec![2]), -1);
                 }
 
                 #[test]
                 fn test_start_at_zero() {
                     assert_eq!(
-                        Solution::can_complete_circuit(
-                            vec![5, 1, 2, 3, 4],
-                            vec![4, 4, 1, 5, 1]
-                        ),
+                        Solution::can_complete_circuit(vec![5, 1, 2, 3, 4], vec![4, 4, 1, 5, 1]),
                         4
                     );
                 }
@@ -155,10 +143,7 @@ mod tests {
 
                 #[test]
                 fn test_two_stations() {
-                    assert_eq!(
-                        Solution::can_complete_circuit(vec![1, 2], vec![2, 1]),
-                        1
-                    );
+                    assert_eq!(Solution::can_complete_circuit(vec![1, 2], vec![2, 1]), 1);
                 }
             }
         };

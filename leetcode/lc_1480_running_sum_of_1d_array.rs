@@ -94,10 +94,7 @@ mod tests {
 
                 #[test]
                 fn test_example_1() {
-                    assert_eq!(
-                        Solution::running_sum(vec![1, 2, 3, 4]),
-                        vec![1, 3, 6, 10]
-                    );
+                    assert_eq!(Solution::running_sum(vec![1, 2, 3, 4]), vec![1, 3, 6, 10]);
                 }
 
                 #[test]
@@ -123,26 +120,17 @@ mod tests {
 
                 #[test]
                 fn test_negatives() {
-                    assert_eq!(
-                        Solution::running_sum(vec![-1, -2, -3]),
-                        vec![-1, -3, -6]
-                    );
+                    assert_eq!(Solution::running_sum(vec![-1, -2, -3]), vec![-1, -3, -6]);
                 }
 
                 #[test]
                 fn test_mixed() {
-                    assert_eq!(
-                        Solution::running_sum(vec![1, -1, 1, -1]),
-                        vec![1, 0, 1, 0]
-                    );
+                    assert_eq!(Solution::running_sum(vec![1, -1, 1, -1]), vec![1, 0, 1, 0]);
                 }
 
                 #[test]
                 fn test_zeros() {
-                    assert_eq!(
-                        Solution::running_sum(vec![0, 0, 0]),
-                        vec![0, 0, 0]
-                    );
+                    assert_eq!(Solution::running_sum(vec![0, 0, 0]), vec![0, 0, 0]);
                 }
             }
         };
@@ -156,11 +144,8 @@ mod tests {
         use std::time::Instant;
 
         let iterations = 100_000_u32;
-        let inputs: Vec<Vec<i32>> = vec![
-            vec![1, 2, 3, 4],
-            vec![1, 1, 1, 1, 1],
-            vec![3, 1, 2, 10, 1],
-        ];
+        let inputs: Vec<Vec<i32>> =
+            vec![vec![1, 2, 3, 4], vec![1, 1, 1, 1, 1], vec![3, 1, 2, 10, 1]];
 
         let start = Instant::now();
         for _ in 0..iterations {

@@ -74,10 +74,8 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(&str, &str, bool)> = vec![
-        ("abc", "ahbgdc", true),
-        ("axc", "ahbgdc", false),
-    ];
+    let test_cases: Vec<(&str, &str, bool)> =
+        vec![("abc", "ahbgdc", true), ("axc", "ahbgdc", false)];
 
     println!("--- My Solution ---");
     for (s, t, expected) in &test_cases {
@@ -125,10 +123,7 @@ mod tests {
 
                 #[test]
                 fn test_empty_both() {
-                    assert!(Solution::is_subsequence(
-                        "".to_string(),
-                        "".to_string()
-                    ));
+                    assert!(Solution::is_subsequence("".to_string(), "".to_string()));
                 }
 
                 #[test]
@@ -149,10 +144,7 @@ mod tests {
 
                 #[test]
                 fn test_single_char_present() {
-                    assert!(Solution::is_subsequence(
-                        "b".to_string(),
-                        "abc".to_string()
-                    ));
+                    assert!(Solution::is_subsequence("b".to_string(), "abc".to_string()));
                 }
             }
         };

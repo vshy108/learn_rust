@@ -107,11 +107,7 @@ mod tests {
                 #[test]
                 fn test_example_2() {
                     assert_eq!(
-                        Solution::maximum_wealth(vec![
-                            vec![1, 5],
-                            vec![7, 3],
-                            vec![3, 5],
-                        ]),
+                        Solution::maximum_wealth(vec![vec![1, 5], vec![7, 3], vec![3, 5],]),
                         10
                     );
                 }
@@ -119,37 +115,26 @@ mod tests {
                 #[test]
                 fn test_example_3() {
                     assert_eq!(
-                        Solution::maximum_wealth(vec![
-                            vec![2, 8, 7],
-                            vec![7, 1, 3],
-                            vec![1, 9, 5],
-                        ]),
+                        Solution::maximum_wealth(
+                            vec![vec![2, 8, 7], vec![7, 1, 3], vec![1, 9, 5],]
+                        ),
                         17
                     );
                 }
 
                 #[test]
                 fn test_single_customer() {
-                    assert_eq!(
-                        Solution::maximum_wealth(vec![vec![5, 10, 15]]),
-                        30
-                    );
+                    assert_eq!(Solution::maximum_wealth(vec![vec![5, 10, 15]]), 30);
                 }
 
                 #[test]
                 fn test_single_bank() {
-                    assert_eq!(
-                        Solution::maximum_wealth(vec![vec![3], vec![7], vec![1]]),
-                        7
-                    );
+                    assert_eq!(Solution::maximum_wealth(vec![vec![3], vec![7], vec![1]]), 7);
                 }
 
                 #[test]
                 fn test_equal_wealth() {
-                    assert_eq!(
-                        Solution::maximum_wealth(vec![vec![1, 2], vec![2, 1]]),
-                        3
-                    );
+                    assert_eq!(Solution::maximum_wealth(vec![vec![1, 2], vec![2, 1]]), 3);
                 }
 
                 #[test]

@@ -93,58 +93,37 @@ mod tests {
 
                 #[test]
                 fn test_example_1() {
-                    assert_eq!(
-                        Solution::remove_duplicates("abbaca".to_string()),
-                        "ca"
-                    );
+                    assert_eq!(Solution::remove_duplicates("abbaca".to_string()), "ca");
                 }
 
                 #[test]
                 fn test_example_2() {
-                    assert_eq!(
-                        Solution::remove_duplicates("azxxzy".to_string()),
-                        "ay"
-                    );
+                    assert_eq!(Solution::remove_duplicates("azxxzy".to_string()), "ay");
                 }
 
                 #[test]
                 fn test_no_duplicates() {
-                    assert_eq!(
-                        Solution::remove_duplicates("abc".to_string()),
-                        "abc"
-                    );
+                    assert_eq!(Solution::remove_duplicates("abc".to_string()), "abc");
                 }
 
                 #[test]
                 fn test_all_same() {
-                    assert_eq!(
-                        Solution::remove_duplicates("aa".to_string()),
-                        ""
-                    );
+                    assert_eq!(Solution::remove_duplicates("aa".to_string()), "");
                 }
 
                 #[test]
                 fn test_single_char() {
-                    assert_eq!(
-                        Solution::remove_duplicates("a".to_string()),
-                        "a"
-                    );
+                    assert_eq!(Solution::remove_duplicates("a".to_string()), "a");
                 }
 
                 #[test]
                 fn test_cascading_removal() {
-                    assert_eq!(
-                        Solution::remove_duplicates("aababaab".to_string()),
-                        "ba"
-                    );
+                    assert_eq!(Solution::remove_duplicates("aababaab".to_string()), "ba");
                 }
 
                 #[test]
                 fn test_entire_string_removed() {
-                    assert_eq!(
-                        Solution::remove_duplicates("abba".to_string()),
-                        ""
-                    );
+                    assert_eq!(Solution::remove_duplicates("abba".to_string()), "");
                 }
             }
         };

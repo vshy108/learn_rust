@@ -102,10 +102,7 @@ mod ai_solution {
 fn build_example_tree_1() -> Option<Box<Node>> {
     let node5 = Node::new(5);
     let node6 = Node::new(6);
-    let node3 = Node::with_children(
-        3,
-        vec![Some(Box::new(node5)), Some(Box::new(node6))],
-    );
+    let node3 = Node::with_children(3, vec![Some(Box::new(node5)), Some(Box::new(node6))]);
     let node2 = Node::new(2);
     let node4 = Node::new(4);
     let root = Node::with_children(
@@ -142,8 +139,8 @@ mod tests {
     macro_rules! test_preorder {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use $solution as Solution;
                 use super::super::*;
+                use $solution as Solution;
 
                 #[test]
                 fn test_example_1() {
@@ -170,10 +167,7 @@ mod tests {
                     let node3 = Node::new(3);
                     let node2 = Node::with_children(2, vec![Some(Box::new(node3))]);
                     let root = Node::with_children(1, vec![Some(Box::new(node2))]);
-                    assert_eq!(
-                        Solution::preorder(Some(Box::new(root))),
-                        vec![1, 2, 3]
-                    );
+                    assert_eq!(Solution::preorder(Some(Box::new(root))), vec![1, 2, 3]);
                 }
 
                 #[test]
@@ -208,8 +202,7 @@ mod tests {
                     //   |
                     //   40
                     let node40 = Node::new(40);
-                    let node20 =
-                        Node::with_children(20, vec![Some(Box::new(node40))]);
+                    let node20 = Node::with_children(20, vec![Some(Box::new(node40))]);
                     let node30 = Node::new(30);
                     let root = Node::with_children(
                         10,

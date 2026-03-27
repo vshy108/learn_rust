@@ -94,18 +94,12 @@ mod tests {
 
                 #[test]
                 fn test_n2() {
-                    assert_eq!(
-                        Solution::permute(2),
-                        vec![vec![1, 2], vec![2, 1]],
-                    );
+                    assert_eq!(Solution::permute(2), vec![vec![1, 2], vec![2, 1]],);
                 }
 
                 #[test]
                 fn test_n3() {
-                    assert_eq!(
-                        Solution::permute(3),
-                        vec![vec![1, 2, 3], vec![3, 2, 1]],
-                    );
+                    assert_eq!(Solution::permute(3), vec![vec![1, 2, 3], vec![3, 2, 1]],);
                 }
 
                 #[test]
@@ -160,9 +154,9 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for &n in &inputs {
-                std::hint::black_box(crate::my_solution::Solution::permute(
-                    std::hint::black_box(n),
-                ));
+                std::hint::black_box(crate::my_solution::Solution::permute(std::hint::black_box(
+                    n,
+                )));
             }
         }
         let my_duration = start.elapsed();
@@ -170,9 +164,9 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for &n in &inputs {
-                std::hint::black_box(crate::ai_solution::Solution::permute(
-                    std::hint::black_box(n),
-                ));
+                std::hint::black_box(crate::ai_solution::Solution::permute(std::hint::black_box(
+                    n,
+                )));
             }
         }
         let ai_duration = start.elapsed();

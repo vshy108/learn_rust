@@ -65,23 +65,23 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(&str, &str, i32)> = vec![
-        ("sadbutsad", "sad", 0),
-        ("leetcode", "leeto", -1),
-    ];
+    let test_cases: Vec<(&str, &str, i32)> =
+        vec![("sadbutsad", "sad", 0), ("leetcode", "leeto", -1)];
 
     println!("--- My Solution ---");
     for (haystack, needle, expected) in &test_cases {
-        let result =
-            my_solution::Solution::str_str(haystack.to_string(), needle.to_string());
-        println!("  haystack=\"{haystack}\", needle=\"{needle}\" -> {result} (expected {expected})");
+        let result = my_solution::Solution::str_str(haystack.to_string(), needle.to_string());
+        println!(
+            "  haystack=\"{haystack}\", needle=\"{needle}\" -> {result} (expected {expected})"
+        );
     }
 
     println!("--- AI Solution ---");
     for (haystack, needle, expected) in &test_cases {
-        let result =
-            ai_solution::Solution::str_str(haystack.to_string(), needle.to_string());
-        println!("  haystack=\"{haystack}\", needle=\"{needle}\" -> {result} (expected {expected})");
+        let result = ai_solution::Solution::str_str(haystack.to_string(), needle.to_string());
+        println!(
+            "  haystack=\"{haystack}\", needle=\"{needle}\" -> {result} (expected {expected})"
+        );
     }
 }
 
@@ -110,34 +110,22 @@ mod tests {
 
                 #[test]
                 fn test_found_in_middle() {
-                    assert_eq!(
-                        Solution::str_str("hello".to_string(), "ll".to_string()),
-                        2
-                    );
+                    assert_eq!(Solution::str_str("hello".to_string(), "ll".to_string()), 2);
                 }
 
                 #[test]
                 fn test_exact_match() {
-                    assert_eq!(
-                        Solution::str_str("abc".to_string(), "abc".to_string()),
-                        0
-                    );
+                    assert_eq!(Solution::str_str("abc".to_string(), "abc".to_string()), 0);
                 }
 
                 #[test]
                 fn test_single_char_found() {
-                    assert_eq!(
-                        Solution::str_str("a".to_string(), "a".to_string()),
-                        0
-                    );
+                    assert_eq!(Solution::str_str("a".to_string(), "a".to_string()), 0);
                 }
 
                 #[test]
                 fn test_needle_longer_than_haystack() {
-                    assert_eq!(
-                        Solution::str_str("ab".to_string(), "abc".to_string()),
-                        -1
-                    );
+                    assert_eq!(Solution::str_str("ab".to_string(), "abc".to_string()), -1);
                 }
 
                 #[test]

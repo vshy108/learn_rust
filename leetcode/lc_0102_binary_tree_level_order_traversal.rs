@@ -177,15 +177,8 @@ mod tests {
 
                 #[test]
                 fn test_basic_tree() {
-                    let root = build_tree(&[
-                        Some(3),
-                        Some(9),
-                        Some(20),
-                        None,
-                        None,
-                        Some(15),
-                        Some(7),
-                    ]);
+                    let root =
+                        build_tree(&[Some(3), Some(9), Some(20), None, None, Some(15), Some(7)]);
                     assert_eq!(
                         Solution::level_order(root),
                         vec![vec![3], vec![9, 20], vec![15, 7]]
@@ -208,19 +201,13 @@ mod tests {
                 #[test]
                 fn test_left_skewed() {
                     let root = build_tree(&[Some(1), Some(2), None, Some(3)]);
-                    assert_eq!(
-                        Solution::level_order(root),
-                        vec![vec![1], vec![2], vec![3]]
-                    );
+                    assert_eq!(Solution::level_order(root), vec![vec![1], vec![2], vec![3]]);
                 }
 
                 #[test]
                 fn test_right_skewed() {
                     let root = build_tree(&[Some(1), None, Some(2), None, Some(3)]);
-                    assert_eq!(
-                        Solution::level_order(root),
-                        vec![vec![1], vec![2], vec![3]]
-                    );
+                    assert_eq!(Solution::level_order(root), vec![vec![1], vec![2], vec![3]]);
                 }
 
                 #[test]
@@ -243,10 +230,7 @@ mod tests {
                 #[test]
                 fn test_negative_values() {
                     let root = build_tree(&[Some(-10), Some(9), Some(20)]);
-                    assert_eq!(
-                        Solution::level_order(root),
-                        vec![vec![-10], vec![9, 20]]
-                    );
+                    assert_eq!(Solution::level_order(root), vec![vec![-10], vec![9, 20]]);
                 }
             }
         };
@@ -260,15 +244,7 @@ mod tests {
         use std::time::Instant;
 
         let iterations = 100_000_u32;
-        let tree_vals = vec![
-            Some(3),
-            Some(9),
-            Some(20),
-            None,
-            None,
-            Some(15),
-            Some(7),
-        ];
+        let tree_vals = vec![Some(3), Some(9), Some(20), None, None, Some(15), Some(7)];
 
         let start = Instant::now();
         for _ in 0..iterations {

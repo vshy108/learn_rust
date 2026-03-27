@@ -95,18 +95,13 @@ mod tests {
 
                 #[test]
                 fn test_two_words() {
-                    assert_eq!(
-                        Solution::length_of_last_word("Hello World".to_string()),
-                        5
-                    );
+                    assert_eq!(Solution::length_of_last_word("Hello World".to_string()), 5);
                 }
 
                 #[test]
                 fn test_trailing_spaces() {
                     assert_eq!(
-                        Solution::length_of_last_word(
-                            "   fly me   to   the moon  ".to_string()
-                        ),
+                        Solution::length_of_last_word("   fly me   to   the moon  ".to_string()),
                         4
                     );
                 }
@@ -114,43 +109,29 @@ mod tests {
                 #[test]
                 fn test_no_trailing_spaces() {
                     assert_eq!(
-                        Solution::length_of_last_word(
-                            "luffy is still joyboy".to_string()
-                        ),
+                        Solution::length_of_last_word("luffy is still joyboy".to_string()),
                         6
                     );
                 }
 
                 #[test]
                 fn test_single_word() {
-                    assert_eq!(
-                        Solution::length_of_last_word("hello".to_string()),
-                        5
-                    );
+                    assert_eq!(Solution::length_of_last_word("hello".to_string()), 5);
                 }
 
                 #[test]
                 fn test_single_char() {
-                    assert_eq!(
-                        Solution::length_of_last_word("a".to_string()),
-                        1
-                    );
+                    assert_eq!(Solution::length_of_last_word("a".to_string()), 1);
                 }
 
                 #[test]
                 fn test_leading_spaces_single_word() {
-                    assert_eq!(
-                        Solution::length_of_last_word("   word".to_string()),
-                        4
-                    );
+                    assert_eq!(Solution::length_of_last_word("   word".to_string()), 4);
                 }
 
                 #[test]
                 fn test_single_char_with_spaces() {
-                    assert_eq!(
-                        Solution::length_of_last_word("  a  ".to_string()),
-                        1
-                    );
+                    assert_eq!(Solution::length_of_last_word("  a  ".to_string()), 1);
                 }
             }
         };

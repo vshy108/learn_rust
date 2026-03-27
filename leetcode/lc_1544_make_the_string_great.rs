@@ -80,11 +80,8 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(&str, &str)> = vec![
-        ("leEeetcode", "leetcode"),
-        ("abBAcC", ""),
-        ("s", "s"),
-    ];
+    let test_cases: Vec<(&str, &str)> =
+        vec![("leEeetcode", "leetcode"), ("abBAcC", ""), ("s", "s")];
 
     println!("--- My Solution ---");
     for (s, expected) in &test_cases {
@@ -108,10 +105,7 @@ mod tests {
 
                 #[test]
                 fn test_example_1() {
-                    assert_eq!(
-                        Solution::make_good("leEeetcode".to_string()),
-                        "leetcode"
-                    );
+                    assert_eq!(Solution::make_good("leEeetcode".to_string()), "leetcode");
                 }
 
                 #[test]

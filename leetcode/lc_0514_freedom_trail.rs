@@ -80,22 +80,17 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(&str, &str, i32)> = vec![
-        ("godding", "gd", 4),
-        ("godding", "godding", 13),
-    ];
+    let test_cases: Vec<(&str, &str, i32)> = vec![("godding", "gd", 4), ("godding", "godding", 13)];
 
     println!("--- My Solution ---");
     for (ring, key, expected) in &test_cases {
-        let result =
-            my_solution::Solution::find_rotate_steps(ring.to_string(), key.to_string());
+        let result = my_solution::Solution::find_rotate_steps(ring.to_string(), key.to_string());
         println!("  ring=\"{ring}\", key=\"{key}\" -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (ring, key, expected) in &test_cases {
-        let result =
-            ai_solution::Solution::find_rotate_steps(ring.to_string(), key.to_string());
+        let result = ai_solution::Solution::find_rotate_steps(ring.to_string(), key.to_string());
         println!("  ring=\"{ring}\", key=\"{key}\" -> {result} (expected {expected})");
     }
 }
@@ -110,10 +105,7 @@ mod tests {
                 #[test]
                 fn test_example_1() {
                     assert_eq!(
-                        Solution::find_rotate_steps(
-                            "godding".to_string(),
-                            "gd".to_string()
-                        ),
+                        Solution::find_rotate_steps("godding".to_string(), "gd".to_string()),
                         4
                     );
                 }
@@ -121,10 +113,7 @@ mod tests {
                 #[test]
                 fn test_example_2() {
                     assert_eq!(
-                        Solution::find_rotate_steps(
-                            "godding".to_string(),
-                            "godding".to_string()
-                        ),
+                        Solution::find_rotate_steps("godding".to_string(), "godding".to_string()),
                         13
                     );
                 }
@@ -132,10 +121,7 @@ mod tests {
                 #[test]
                 fn test_single_char_ring() {
                     assert_eq!(
-                        Solution::find_rotate_steps(
-                            "a".to_string(),
-                            "a".to_string()
-                        ),
+                        Solution::find_rotate_steps("a".to_string(), "a".to_string()),
                         1
                     );
                 }
@@ -143,10 +129,7 @@ mod tests {
                 #[test]
                 fn test_repeated_char_ring() {
                     assert_eq!(
-                        Solution::find_rotate_steps(
-                            "aaa".to_string(),
-                            "a".to_string()
-                        ),
+                        Solution::find_rotate_steps("aaa".to_string(), "a".to_string()),
                         1
                     );
                 }
@@ -154,10 +137,7 @@ mod tests {
                 #[test]
                 fn test_two_char_ring() {
                     assert_eq!(
-                        Solution::find_rotate_steps(
-                            "ab".to_string(),
-                            "b".to_string()
-                        ),
+                        Solution::find_rotate_steps("ab".to_string(), "b".to_string()),
                         2
                     );
                 }
@@ -165,10 +145,7 @@ mod tests {
                 #[test]
                 fn test_key_same_as_first() {
                     assert_eq!(
-                        Solution::find_rotate_steps(
-                            "abcde".to_string(),
-                            "a".to_string()
-                        ),
+                        Solution::find_rotate_steps("abcde".to_string(), "a".to_string()),
                         1
                     );
                 }
@@ -176,10 +153,7 @@ mod tests {
                 #[test]
                 fn test_multiple_occurrences() {
                     assert_eq!(
-                        Solution::find_rotate_steps(
-                            "edcba".to_string(),
-                            "abcde".to_string()
-                        ),
+                        Solution::find_rotate_steps("edcba".to_string(), "abcde".to_string()),
                         10
                     );
                 }
@@ -195,11 +169,8 @@ mod tests {
         use std::time::Instant;
 
         let iterations = 100_000_u32;
-        let inputs: Vec<(&str, &str)> = vec![
-            ("godding", "gd"),
-            ("godding", "godding"),
-            ("abcde", "a"),
-        ];
+        let inputs: Vec<(&str, &str)> =
+            vec![("godding", "gd"), ("godding", "godding"), ("abcde", "a")];
 
         let start = Instant::now();
         for _ in 0..iterations {

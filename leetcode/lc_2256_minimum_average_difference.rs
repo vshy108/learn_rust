@@ -73,10 +73,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(Vec<i32>, i32)> = vec![
-        (vec![2, 5, 3, 9, 5, 3], 3),
-        (vec![0], 0),
-    ];
+    let test_cases: Vec<(Vec<i32>, i32)> = vec![(vec![2, 5, 3, 9, 5, 3], 3), (vec![0], 0)];
 
     println!("--- My Solution ---");
     for (nums, expected) in &test_cases {
@@ -108,34 +105,22 @@ mod tests {
 
                 #[test]
                 fn test_single_element() {
-                    assert_eq!(
-                        Solution::minimum_average_difference(vec![0]),
-                        0
-                    );
+                    assert_eq!(Solution::minimum_average_difference(vec![0]), 0);
                 }
 
                 #[test]
                 fn test_two_elements() {
-                    assert_eq!(
-                        Solution::minimum_average_difference(vec![1, 1]),
-                        0
-                    );
+                    assert_eq!(Solution::minimum_average_difference(vec![1, 1]), 0);
                 }
 
                 #[test]
                 fn test_all_same() {
-                    assert_eq!(
-                        Solution::minimum_average_difference(vec![5, 5, 5, 5]),
-                        0
-                    );
+                    assert_eq!(Solution::minimum_average_difference(vec![5, 5, 5, 5]), 0);
                 }
 
                 #[test]
                 fn test_increasing() {
-                    assert_eq!(
-                        Solution::minimum_average_difference(vec![1, 2, 3, 4, 5]),
-                        2
-                    );
+                    assert_eq!(Solution::minimum_average_difference(vec![1, 2, 3, 4, 5]), 2);
                 }
 
                 #[test]
@@ -148,10 +133,7 @@ mod tests {
 
                 #[test]
                 fn test_all_zeros() {
-                    assert_eq!(
-                        Solution::minimum_average_difference(vec![0, 0, 0]),
-                        0
-                    );
+                    assert_eq!(Solution::minimum_average_difference(vec![0, 0, 0]), 0);
                 }
             }
         };
@@ -165,20 +147,14 @@ mod tests {
         use std::time::Instant;
 
         let iterations = 100_000_u32;
-        let inputs: Vec<Vec<i32>> = vec![
-            vec![2, 5, 3, 9, 5, 3],
-            vec![0],
-            vec![1, 2, 3, 4, 5],
-        ];
+        let inputs: Vec<Vec<i32>> = vec![vec![2, 5, 3, 9, 5, 3], vec![0], vec![1, 2, 3, 4, 5]];
 
         let start = Instant::now();
         for _ in 0..iterations {
             for nums in &inputs {
-                std::hint::black_box(
-                    crate::my_solution::Solution::minimum_average_difference(
-                        std::hint::black_box(nums.clone()),
-                    ),
-                );
+                std::hint::black_box(crate::my_solution::Solution::minimum_average_difference(
+                    std::hint::black_box(nums.clone()),
+                ));
             }
         }
         let my_duration = start.elapsed();
@@ -186,11 +162,9 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for nums in &inputs {
-                std::hint::black_box(
-                    crate::ai_solution::Solution::minimum_average_difference(
-                        std::hint::black_box(nums.clone()),
-                    ),
-                );
+                std::hint::black_box(crate::ai_solution::Solution::minimum_average_difference(
+                    std::hint::black_box(nums.clone()),
+                ));
             }
         }
         let ai_duration = start.elapsed();

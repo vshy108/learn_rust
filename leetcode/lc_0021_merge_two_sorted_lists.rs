@@ -156,20 +156,14 @@ mod tests {
                 #[test]
                 fn test_one_empty() {
                     let l2 = build_list(&[0]);
-                    assert_eq!(
-                        list_to_vec(Solution::merge_two_lists(None, l2)),
-                        vec![0]
-                    );
+                    assert_eq!(list_to_vec(Solution::merge_two_lists(None, l2)), vec![0]);
                 }
 
                 #[test]
                 fn test_single_elements() {
                     let l1 = build_list(&[2]);
                     let l2 = build_list(&[1]);
-                    assert_eq!(
-                        list_to_vec(Solution::merge_two_lists(l1, l2)),
-                        vec![1, 2]
-                    );
+                    assert_eq!(list_to_vec(Solution::merge_two_lists(l1, l2)), vec![1, 2]);
                 }
 
                 #[test]

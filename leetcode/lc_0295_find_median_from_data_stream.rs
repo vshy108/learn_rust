@@ -101,7 +101,10 @@ fn main() {
         let mut mf = my_solution::MedianFinder::new();
         mf.add_num(1);
         mf.add_num(2);
-        println!("  add(1), add(2), median -> {} (expected 1.5)", mf.find_median());
+        println!(
+            "  add(1), add(2), median -> {} (expected 1.5)",
+            mf.find_median()
+        );
         mf.add_num(3);
         println!("  add(3), median -> {} (expected 2.0)", mf.find_median());
     }
@@ -111,7 +114,10 @@ fn main() {
         let mut mf = ai_solution::MedianFinder::new();
         mf.add_num(1);
         mf.add_num(2);
-        println!("  add(1), add(2), median -> {} (expected 1.5)", mf.find_median());
+        println!(
+            "  add(1), add(2), median -> {} (expected 1.5)",
+            mf.find_median()
+        );
         mf.add_num(3);
         println!("  add(3), median -> {} (expected 2.0)", mf.find_median());
     }

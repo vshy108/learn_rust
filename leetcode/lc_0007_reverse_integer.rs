@@ -24,6 +24,8 @@
 //   My solution (abs + sign + manual check):           17.79ms avg (177ns/iter)
 //   AI solution (sign-preserving + checked arith):     41.05ms avg (410ns/iter)
 //   My solution is 2.31x faster
+//   Reason: checked_mul/checked_add each emit an overflow-check instruction + branch per digit;
+//   plain manual arithmetic lets the compiler reduce the hot loop to branchless operations.
 //
 // --- Rust concepts used ---
 //

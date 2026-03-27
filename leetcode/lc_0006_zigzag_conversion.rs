@@ -35,6 +35,8 @@
 //   My solution (row-bucket simulation):       2.606s avg (26.057us/iter)
 //   AI solution (direct index calculation):    890.698ms avg (8.906us/iter)
 //   AI solution is 2.93x faster
+//   Reason: Direct index calculation writes straight into a pre-allocated result buffer using arithmetic;
+//   the simulation pays String::push() cost per character across multiple Vec<String> row buckets.
 //
 // --- Rust concepts used ---
 //

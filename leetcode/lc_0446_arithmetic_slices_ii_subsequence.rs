@@ -72,10 +72,8 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(Vec<i32>, i32)> = vec![
-        (vec![2, 4, 6, 8, 10], 7),
-        (vec![7, 7, 7, 7, 7], 16),
-    ];
+    let test_cases: Vec<(Vec<i32>, i32)> =
+        vec![(vec![2, 4, 6, 8, 10], 7), (vec![7, 7, 7, 7, 7], 16)];
 
     println!("--- My Solution ---");
     for (nums, expected) in &test_cases {
@@ -115,42 +113,27 @@ mod tests {
 
                 #[test]
                 fn test_no_arithmetic() {
-                    assert_eq!(
-                        Solution::number_of_arithmetic_slices(vec![1, 2, 4]),
-                        0
-                    );
+                    assert_eq!(Solution::number_of_arithmetic_slices(vec![1, 2, 4]), 0);
                 }
 
                 #[test]
                 fn test_single_element() {
-                    assert_eq!(
-                        Solution::number_of_arithmetic_slices(vec![1]),
-                        0
-                    );
+                    assert_eq!(Solution::number_of_arithmetic_slices(vec![1]), 0);
                 }
 
                 #[test]
                 fn test_two_elements() {
-                    assert_eq!(
-                        Solution::number_of_arithmetic_slices(vec![1, 2]),
-                        0
-                    );
+                    assert_eq!(Solution::number_of_arithmetic_slices(vec![1, 2]), 0);
                 }
 
                 #[test]
                 fn test_three_elements_arithmetic() {
-                    assert_eq!(
-                        Solution::number_of_arithmetic_slices(vec![1, 2, 3]),
-                        1
-                    );
+                    assert_eq!(Solution::number_of_arithmetic_slices(vec![1, 2, 3]), 1);
                 }
 
                 #[test]
                 fn test_negative_diff() {
-                    assert_eq!(
-                        Solution::number_of_arithmetic_slices(vec![5, 3, 1, -1]),
-                        3
-                    );
+                    assert_eq!(Solution::number_of_arithmetic_slices(vec![5, 3, 1, -1]), 3);
                 }
             }
         };
@@ -164,20 +147,14 @@ mod tests {
         use std::time::Instant;
 
         let iterations = 10_000_u32;
-        let inputs: Vec<Vec<i32>> = vec![
-            vec![2, 4, 6, 8, 10],
-            vec![7, 7, 7, 7, 7],
-            vec![1, 2, 3],
-        ];
+        let inputs: Vec<Vec<i32>> = vec![vec![2, 4, 6, 8, 10], vec![7, 7, 7, 7, 7], vec![1, 2, 3]];
 
         let start = Instant::now();
         for _ in 0..iterations {
             for nums in &inputs {
-                std::hint::black_box(
-                    crate::my_solution::Solution::number_of_arithmetic_slices(
-                        std::hint::black_box(nums.clone()),
-                    ),
-                );
+                std::hint::black_box(crate::my_solution::Solution::number_of_arithmetic_slices(
+                    std::hint::black_box(nums.clone()),
+                ));
             }
         }
         let my_duration = start.elapsed();
@@ -185,11 +162,9 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for nums in &inputs {
-                std::hint::black_box(
-                    crate::ai_solution::Solution::number_of_arithmetic_slices(
-                        std::hint::black_box(nums.clone()),
-                    ),
-                );
+                std::hint::black_box(crate::ai_solution::Solution::number_of_arithmetic_slices(
+                    std::hint::black_box(nums.clone()),
+                ));
             }
         }
         let ai_duration = start.elapsed();

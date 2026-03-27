@@ -12,6 +12,8 @@
 //   My solution: 2.929us avg (293ms total)
 //   AI solution: 1.904us avg (190ms total)
 //   AI is 1.54x faster
+//   Reason: AI does a single pass — it inserts and looks up each number in one loop;
+//   my solution builds the entire HashMap first, then iterates again (two passes → more cache misses).
 //
 
 /// My solution module — write your own implementation here.

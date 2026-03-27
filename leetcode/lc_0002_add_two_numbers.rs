@@ -18,6 +18,8 @@
 //   My solution (iterative): 216.771us avg (21.7s total)
 //   AI solution (recursive): 245.583us avg (24.6s total)
 //   My solution is 1.13x faster
+//   Reason: Iteration avoids the function-call overhead and stack-frame allocation
+//   that recursion incurs for each linked-list node.
 //
 // --- Rust concepts used ---
 //

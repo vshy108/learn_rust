@@ -130,10 +130,8 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(Vec<i32>, i32)> = vec![
-        (vec![1, 8, 6, 2, 5, 4, 8, 3, 7], 49),
-        (vec![1, 1], 1),
-    ];
+    let test_cases: Vec<(Vec<i32>, i32)> =
+        vec![(vec![1, 8, 6, 2, 5, 4, 8, 3, 7], 49), (vec![1, 1], 1)];
 
     println!("--- My Solution ---");
     for (height, expected) in &test_cases {
@@ -157,10 +155,7 @@ mod tests {
 
                 #[test]
                 fn test_example_1() {
-                    assert_eq!(
-                        Solution::max_area(vec![1, 8, 6, 2, 5, 4, 8, 3, 7]),
-                        49
-                    );
+                    assert_eq!(Solution::max_area(vec![1, 8, 6, 2, 5, 4, 8, 3, 7]), 49);
                 }
 
                 #[test]

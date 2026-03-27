@@ -84,19 +84,15 @@ fn main() {
 
     println!("--- My Solution ---");
     for (w1, w2, expected) in &test_cases {
-        let result = my_solution::Solution::array_strings_are_equal(
-            to_string_vec(w1),
-            to_string_vec(w2),
-        );
+        let result =
+            my_solution::Solution::array_strings_are_equal(to_string_vec(w1), to_string_vec(w2));
         println!("  {w1:?}, {w2:?} -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (w1, w2, expected) in &test_cases {
-        let result = ai_solution::Solution::array_strings_are_equal(
-            to_string_vec(w1),
-            to_string_vec(w2),
-        );
+        let result =
+            ai_solution::Solution::array_strings_are_equal(to_string_vec(w1), to_string_vec(w2));
         println!("  {w1:?}, {w2:?} -> {result} (expected {expected})");
     }
 }
@@ -108,8 +104,8 @@ mod tests {
     macro_rules! test_array_strings_are_equal {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use $solution as Solution;
                 use super::to_string_vec;
+                use $solution as Solution;
 
                 #[test]
                 fn test_example_1() {
@@ -187,12 +183,10 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for (w1, w2) in &inputs {
-                std::hint::black_box(
-                    crate::my_solution::Solution::array_strings_are_equal(
-                        std::hint::black_box(to_string_vec(w1)),
-                        std::hint::black_box(to_string_vec(w2)),
-                    ),
-                );
+                std::hint::black_box(crate::my_solution::Solution::array_strings_are_equal(
+                    std::hint::black_box(to_string_vec(w1)),
+                    std::hint::black_box(to_string_vec(w2)),
+                ));
             }
         }
         let my_duration = start.elapsed();
@@ -200,12 +194,10 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for (w1, w2) in &inputs {
-                std::hint::black_box(
-                    crate::ai_solution::Solution::array_strings_are_equal(
-                        std::hint::black_box(to_string_vec(w1)),
-                        std::hint::black_box(to_string_vec(w2)),
-                    ),
-                );
+                std::hint::black_box(crate::ai_solution::Solution::array_strings_are_equal(
+                    std::hint::black_box(to_string_vec(w1)),
+                    std::hint::black_box(to_string_vec(w2)),
+                ));
             }
         }
         let ai_duration = start.elapsed();

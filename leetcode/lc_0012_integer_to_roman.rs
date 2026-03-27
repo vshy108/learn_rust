@@ -23,6 +23,8 @@
 //   My solution: 215.3625ms  (avg 2.153µs)
 //   AI solution: 83.230625ms (avg 832ns)
 //   -> AI solution is 2.59x faster
+//   Reason: Four direct array-index lookups (one per decimal place) beat the greedy loop's 13 iterations;
+//   no branching, just four table lookups and a single format!() concatenation.
 
 /// My solution module.
 ///
@@ -48,9 +50,19 @@ mod my_solution {
             // 2. No allocation: a `const` slice lives in the binary's read-only data segment,
             //    whereas a HashMap would require a heap allocation on every call.
             const ROMAN_NUMERALS: &[(i32, &str)] = &[
-                (1000, "M"), (900, "CM"), (500, "D"), (400, "CD"), (100, "C"),
-                (90, "XC"), (50, "L"), (40, "XL"), (10, "X"), (9, "IX"),
-                (5, "V"), (4, "IV"), (1, "I"),
+                (1000, "M"),
+                (900, "CM"),
+                (500, "D"),
+                (400, "CD"),
+                (100, "C"),
+                (90, "XC"),
+                (50, "L"),
+                (40, "XL"),
+                (10, "X"),
+                (9, "IX"),
+                (5, "V"),
+                (4, "IV"),
+                (1, "I"),
             ];
             let mut num = num;
             let mut result: String = "".to_string();
@@ -89,10 +101,8 @@ mod ai_solution {
             const THOUSANDS: [&str; 4] = ["", "M", "MM", "MMM"];
             const HUNDREDS: [&str; 10] =
                 ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"];
-            const TENS: [&str; 10] =
-                ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"];
-            const ONES: [&str; 10] =
-                ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
+            const TENS: [&str; 10] = ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"];
+            const ONES: [&str; 10] = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
 
             let n = num as usize;
             // Concatenate the four place-value strings directly — no loop needed.
@@ -108,11 +118,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let test_cases: Vec<(i32, &str)> = vec![
-        (3749, "MMMDCCXLIX"),
-        (58, "LVIII"),
-        (1994, "MCMXCIV"),
-    ];
+    let test_cases: Vec<(i32, &str)> = vec![(3749, "MMMDCCXLIX"), (58, "LVIII"), (1994, "MCMXCIV")];
 
     println!("--- My Solution ---");
     for (num, expected) in &test_cases {

@@ -81,15 +81,13 @@ fn main() {
 
     println!("--- My Solution ---");
     for (s, t, expected) in &test_cases {
-        let result =
-            my_solution::Solution::min_window(s.to_string(), t.to_string());
+        let result = my_solution::Solution::min_window(s.to_string(), t.to_string());
         println!("  s=\"{s}\", t=\"{t}\" -> \"{result}\" (expected \"{expected}\")");
     }
 
     println!("--- AI Solution ---");
     for (s, t, expected) in &test_cases {
-        let result =
-            ai_solution::Solution::min_window(s.to_string(), t.to_string());
+        let result = ai_solution::Solution::min_window(s.to_string(), t.to_string());
         println!("  s=\"{s}\", t=\"{t}\" -> \"{result}\" (expected \"{expected}\")");
     }
 }
@@ -104,28 +102,19 @@ mod tests {
                 #[test]
                 fn test_example_1() {
                     assert_eq!(
-                        Solution::min_window(
-                            "ADOBECODEBANC".to_string(),
-                            "ABC".to_string()
-                        ),
+                        Solution::min_window("ADOBECODEBANC".to_string(), "ABC".to_string()),
                         "BANC"
                     );
                 }
 
                 #[test]
                 fn test_exact_match() {
-                    assert_eq!(
-                        Solution::min_window("a".to_string(), "a".to_string()),
-                        "a"
-                    );
+                    assert_eq!(Solution::min_window("a".to_string(), "a".to_string()), "a");
                 }
 
                 #[test]
                 fn test_no_valid_window() {
-                    assert_eq!(
-                        Solution::min_window("a".to_string(), "aa".to_string()),
-                        ""
-                    );
+                    assert_eq!(Solution::min_window("a".to_string(), "aa".to_string()), "");
                 }
 
                 #[test]
@@ -147,23 +136,14 @@ mod tests {
                 #[test]
                 fn test_window_at_end() {
                     assert_eq!(
-                        Solution::min_window(
-                            "bba".to_string(),
-                            "ab".to_string()
-                        ),
+                        Solution::min_window("bba".to_string(), "ab".to_string()),
                         "ba"
                     );
                 }
 
                 #[test]
                 fn test_no_overlap() {
-                    assert_eq!(
-                        Solution::min_window(
-                            "xyz".to_string(),
-                            "a".to_string()
-                        ),
-                        ""
-                    );
+                    assert_eq!(Solution::min_window("xyz".to_string(), "a".to_string()), "");
                 }
             }
         };

@@ -173,14 +173,7 @@ mod tests {
 
                 #[test]
                 fn test_full_tree_6_nodes() {
-                    let root = build_tree(&[
-                        Some(1),
-                        Some(2),
-                        Some(3),
-                        Some(4),
-                        Some(5),
-                        Some(6),
-                    ]);
+                    let root = build_tree(&[Some(1), Some(2), Some(3), Some(4), Some(5), Some(6)]);
                     assert_eq!(Solution::count_nodes(root), 6);
                 }
 

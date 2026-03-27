@@ -83,23 +83,17 @@ fn main() {
         vec!['S', 'F', 'C', 'S'],
         vec!['A', 'D', 'E', 'E'],
     ];
-    let test_cases: Vec<(&str, bool)> = vec![
-        ("ABCCED", true),
-        ("SEE", true),
-        ("ABCB", false),
-    ];
+    let test_cases: Vec<(&str, bool)> = vec![("ABCCED", true), ("SEE", true), ("ABCB", false)];
 
     println!("--- My Solution ---");
     for (word, expected) in &test_cases {
-        let result =
-            my_solution::Solution::exist(board.clone(), word.to_string());
+        let result = my_solution::Solution::exist(board.clone(), word.to_string());
         println!("  word=\"{word}\" -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (word, expected) in &test_cases {
-        let result =
-            ai_solution::Solution::exist(board.clone(), word.to_string());
+        let result = ai_solution::Solution::exist(board.clone(), word.to_string());
         println!("  word=\"{word}\" -> {result} (expected {expected})");
     }
 }
@@ -121,50 +115,32 @@ mod tests {
 
                 #[test]
                 fn test_abcced() {
-                    assert!(Solution::exist(
-                        default_board(),
-                        "ABCCED".to_string()
-                    ));
+                    assert!(Solution::exist(default_board(), "ABCCED".to_string()));
                 }
 
                 #[test]
                 fn test_see() {
-                    assert!(Solution::exist(
-                        default_board(),
-                        "SEE".to_string()
-                    ));
+                    assert!(Solution::exist(default_board(), "SEE".to_string()));
                 }
 
                 #[test]
                 fn test_abcb_no_reuse() {
-                    assert!(!Solution::exist(
-                        default_board(),
-                        "ABCB".to_string()
-                    ));
+                    assert!(!Solution::exist(default_board(), "ABCB".to_string()));
                 }
 
                 #[test]
                 fn test_single_char_found() {
-                    assert!(Solution::exist(
-                        vec![vec!['A']],
-                        "A".to_string()
-                    ));
+                    assert!(Solution::exist(vec![vec!['A']], "A".to_string()));
                 }
 
                 #[test]
                 fn test_single_char_not_found() {
-                    assert!(!Solution::exist(
-                        vec![vec!['A']],
-                        "B".to_string()
-                    ));
+                    assert!(!Solution::exist(vec![vec!['A']], "B".to_string()));
                 }
 
                 #[test]
                 fn test_word_longer_than_board() {
-                    assert!(!Solution::exist(
-                        vec![vec!['A']],
-                        "AB".to_string()
-                    ));
+                    assert!(!Solution::exist(vec![vec!['A']], "AB".to_string()));
                 }
 
                 #[test]

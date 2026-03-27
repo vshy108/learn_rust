@@ -89,13 +89,7 @@ fn main() {
                 vec![3, 3],
                 vec![4, 2],
             ],
-            vec![
-                vec![1, 1],
-                vec![2, 0],
-                vec![2, 4],
-                vec![3, 3],
-                vec![4, 2],
-            ],
+            vec![vec![1, 1], vec![2, 0], vec![2, 4], vec![3, 3], vec![4, 2]],
         ),
         (
             vec![vec![1, 2], vec![2, 2], vec![4, 2]],
@@ -123,8 +117,8 @@ mod tests {
     macro_rules! test_outer_trees {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use $solution as Solution;
                 use super::super::sorted_points;
+                use $solution as Solution;
 
                 #[test]
                 fn test_example_1() {
@@ -136,13 +130,7 @@ mod tests {
                         vec![3, 3],
                         vec![4, 2],
                     ];
-                    let expected = vec![
-                        vec![1, 1],
-                        vec![2, 0],
-                        vec![2, 4],
-                        vec![3, 3],
-                        vec![4, 2],
-                    ];
+                    let expected = vec![vec![1, 1], vec![2, 0], vec![2, 4], vec![3, 3], vec![4, 2]];
                     assert_eq!(
                         sorted_points(Solution::outer_trees(trees)),
                         sorted_points(expected)
@@ -179,31 +167,16 @@ mod tests {
 
                 #[test]
                 fn test_square() {
-                    let trees = vec![
-                        vec![0, 0],
-                        vec![0, 1],
-                        vec![1, 0],
-                        vec![1, 1],
-                    ];
+                    let trees = vec![vec![0, 0], vec![0, 1], vec![1, 0], vec![1, 1]];
                     assert_eq!(
                         sorted_points(Solution::outer_trees(trees)),
-                        sorted_points(vec![
-                            vec![0, 0],
-                            vec![0, 1],
-                            vec![1, 0],
-                            vec![1, 1],
-                        ])
+                        sorted_points(vec![vec![0, 0], vec![0, 1], vec![1, 0], vec![1, 1],])
                     );
                 }
 
                 #[test]
                 fn test_triangle_with_interior() {
-                    let trees = vec![
-                        vec![0, 0],
-                        vec![4, 0],
-                        vec![2, 4],
-                        vec![2, 1],
-                    ];
+                    let trees = vec![vec![0, 0], vec![4, 0], vec![2, 4], vec![2, 1]];
                     let expected = vec![vec![0, 0], vec![4, 0], vec![2, 4]];
                     assert_eq!(
                         sorted_points(Solution::outer_trees(trees)),

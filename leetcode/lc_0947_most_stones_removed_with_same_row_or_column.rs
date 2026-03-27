@@ -85,13 +85,7 @@ fn main() {
             5,
         ),
         (
-            vec![
-                vec![0, 0],
-                vec![0, 2],
-                vec![1, 1],
-                vec![2, 0],
-                vec![2, 2],
-            ],
+            vec![vec![0, 0], vec![0, 2], vec![1, 1], vec![2, 0], vec![2, 2]],
             3,
         ),
         (vec![vec![0, 0]], 0),
@@ -153,26 +147,17 @@ mod tests {
 
                 #[test]
                 fn test_two_stones_same_row() {
-                    assert_eq!(
-                        Solution::remove_stones(vec![vec![0, 0], vec![0, 1]]),
-                        1
-                    );
+                    assert_eq!(Solution::remove_stones(vec![vec![0, 0], vec![0, 1]]), 1);
                 }
 
                 #[test]
                 fn test_two_stones_same_col() {
-                    assert_eq!(
-                        Solution::remove_stones(vec![vec![0, 0], vec![1, 0]]),
-                        1
-                    );
+                    assert_eq!(Solution::remove_stones(vec![vec![0, 0], vec![1, 0]]), 1);
                 }
 
                 #[test]
                 fn test_two_stones_no_shared() {
-                    assert_eq!(
-                        Solution::remove_stones(vec![vec![0, 0], vec![1, 1]]),
-                        0
-                    );
+                    assert_eq!(Solution::remove_stones(vec![vec![0, 0], vec![1, 1]]), 0);
                 }
 
                 #[test]
@@ -208,13 +193,7 @@ mod tests {
                 vec![2, 1],
                 vec![2, 2],
             ],
-            vec![
-                vec![0, 0],
-                vec![0, 2],
-                vec![1, 1],
-                vec![2, 0],
-                vec![2, 2],
-            ],
+            vec![vec![0, 0], vec![0, 2], vec![1, 1], vec![2, 0], vec![2, 2]],
             vec![vec![0, 0]],
         ];
 

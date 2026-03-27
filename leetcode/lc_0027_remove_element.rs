@@ -25,11 +25,26 @@
 // Run:  cargo run --example lc_0027_remove_element
 // Test: cargo test --example lc_0027_remove_element
 // Bench: cargo test --example lc_0027_remove_element bench -- --nocapture
+//
+// --- Benchmark (100_000 iterations, 2026-03-27) ---
+//   My solution: 54.54ms (avg 545ns)
+//   AI solution: 42.97ms (avg 429ns)
+//   -> AI solution is 1.27x faster
+//   Reason: Vec::retain uses unsafe ptr::copy internally for bulk memory moves,
+//           avoiding per-element index bounds checks that the manual loop incurs.
+//
+// --- Rust concepts used ---
+//   - Two-pointer read/write index pattern for in-place mutation
+//   - for range (0..len) vs for-in iterator: borrow-after-move gotcha
+//   - Copy trait: index-based assignment works because i32 is Copy
+//   - Vec::retain(): stdlib predicate-based in-place removal
+//   - &mut Vec<i32> borrowing: one mutable borrow with multiple index accesses
+//   - as i32 cast from usize to i32 return type
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) — single pass over all elements
+/// Space: O(1) — in-place with two index variables
 mod my_solution {
     pub struct Solution;
 
@@ -46,15 +61,37 @@ mod my_solution {
         /// The number of elements remaining (k). The first k elements
         /// of `nums` will contain only values != val.
         pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
-            todo!()
+            let mut write_index = 0;
+
+            // Cannot use `for num in nums` here — that calls `.into_iter()` which moves
+            // the &mut Vec reference, making `nums[write_index]` a borrow-after-move error.
+            // Index-based loop avoids this: we only access `nums` through indices, and
+            // Rust allows multiple index accesses on the same &mut Vec in one scope.
+            for read_index in 0..nums.len() {
+                if nums[read_index] != val {
+                    // Index-based read + write on the same &mut Vec works because Rust sees
+                    // one mutable borrow with two index accesses — not two separate borrows.
+                    // Gotcha: this only compiles because i32 is Copy — the value at read_index
+                    // is copied into write_index. For non-Copy types like String, you'd get a
+                    // "cannot move out of indexed content" error and need .clone() or .swap().
+                    nums[write_index] = nums[read_index];
+                    write_index += 1;
+                }
+            }
+
+            write_index as i32
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses `Vec::retain()` — a stdlib method that removes elements in-place
+/// based on a predicate. Internally it performs the same read/write pointer
+/// walk but is implemented with `unsafe` `ptr::copy` for speed.
+///
+/// Time:  O(n) — single pass inside retain
+/// Space: O(1) — in-place removal, no extra allocation
 mod ai_solution {
     pub struct Solution;
 
@@ -71,7 +108,10 @@ mod ai_solution {
         /// The number of elements remaining (k). The first k elements
         /// of `nums` will contain only values != val.
         pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
-            todo!()
+            // Vec::retain keeps only elements where the closure returns true.
+            // Internally uses unsafe ptr::copy for optimal memory moves.
+            nums.retain(|&x| x != val);
+            nums.len() as i32
         }
     }
 }

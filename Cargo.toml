@@ -39,6 +39,10 @@ path = "leetcode/lc_0006_zigzag_conversion.rs"
 name = "lc_0007_reverse_integer"
 path = "leetcode/lc_0007_reverse_integer.rs"
 
+[[example]]
+name = "lc_0008_string_to_integer_atoi"
+path = "leetcode/lc_0008_string_to_integer_atoi.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

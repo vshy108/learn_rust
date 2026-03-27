@@ -19,11 +19,27 @@
 // Run:  cargo run --example lc_0058_length_of_last_word
 // Test: cargo test --example lc_0058_length_of_last_word
 // Bench: cargo test --example lc_0058_length_of_last_word bench -- --nocapture
+//
+// --- Benchmark (100_000 iterations, 2026-03-27) ---
+//   My solution: 39.43ms  (avg 394ns)
+//   AI solution: 121.84ms (avg 1.218us)
+//   -> My solution is 3.09x faster
+//   Reason: Byte-level backward scan with as_bytes() avoids UTF-8 validation
+//           overhead. trim_end + rsplit_once operate on str (UTF-8 aware) and
+//           involve pattern matching machinery that's slower for simple ASCII.
+//
+// --- Rust concepts used ---
+//   - as_bytes(): convert String to &[u8] for direct byte indexing
+//   - b' ' byte literal: compare u8 values, not char
+//   - usize underflow avoidance: i > 0 with bytes[i - 1] instead of index >= 0
+//   - str::trim_end(): returns &str slice (no allocation, borrows from original)
+//   - str::rsplit_once(' '): split at last occurrence, returns Option<(&str, &str)>
+//   - match on Option: destructure Some((_, last_word)) vs None
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) -- at most one full backward pass over the string
+/// Space: O(1) -- only two usize variables, operates on borrowed bytes
 mod my_solution {
     pub struct Solution;
 
@@ -38,15 +54,43 @@ mod my_solution {
         ///
         /// The length of the last word
         pub fn length_of_last_word(s: String) -> i32 {
-            todo!()
+            // Ruby: s[index] indexes directly into a string.
+            // Rust: String can't be indexed by usize -- it's UTF-8 and a byte
+            // index might split a multi-byte character. Use as_bytes() to get
+            // a &[u8] slice (safe here since the problem guarantees ASCII only).
+            let bytes = s.as_bytes();
+
+            // Ruby: index = s.length - 1, then index >= 0 check.
+            // Rust: usize can't go negative, so use i > 0 and access bytes[i - 1]
+            // to avoid underflow when the pointer reaches the start of the string.
+            let mut i = bytes.len();
+
+            // Skip trailing spaces -- compare with b' ' (byte literal) not ' ' (char)
+            // because bytes[i] is u8, not char.
+            while i > 0 && bytes[i - 1] == b' ' {
+                i -= 1;
+            }
+
+            let end = i;
+
+            // Count last word characters
+            while i > 0 && bytes[i - 1] != b' ' {
+                i -= 1;
+            }
+
+            (end - i) as i32
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses `str::trim_end()` to strip trailing spaces, then `rsplit_once(' ')`
+/// to split at the last space. If there's no space, the entire trimmed
+/// string is the last word.
+///
+/// Time:  O(n) -- trim_end scans trailing spaces, rsplit_once scans backward
+/// Space: O(1) -- trim_end returns a &str slice (no allocation)
 mod ai_solution {
     pub struct Solution;
 
@@ -61,7 +105,14 @@ mod ai_solution {
         ///
         /// The length of the last word
         pub fn length_of_last_word(s: String) -> i32 {
-            todo!()
+            // trim_end() returns &str (a slice into s), no allocation.
+            // rsplit_once(' ') splits at the last space, returning
+            // Some((before, after)) or None if no space exists.
+            let trimmed = s.trim_end();
+            match trimmed.rsplit_once(' ') {
+                Some((_, last_word)) => last_word.len() as i32,
+                None => trimmed.len() as i32,
+            }
         }
     }
 }

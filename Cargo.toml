@@ -43,6 +43,10 @@ path = "leetcode/lc_0007_reverse_integer.rs"
 name = "lc_0008_string_to_integer_atoi"
 path = "leetcode/lc_0008_string_to_integer_atoi.rs"
 
+[[example]]
+name = "lc_0009_palindrome_number"
+path = "leetcode/lc_0009_palindrome_number.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

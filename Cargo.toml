@@ -51,6 +51,254 @@ path = "leetcode/lc_0009_palindrome_number.rs"
 name = "lc_0010_regular_expression_matching"
 path = "leetcode/lc_0010_regular_expression_matching.rs"
 
+[[example]]
+name = "lc_0011_container_with_most_water"
+path = "leetcode/lc_0011_container_with_most_water.rs"
+
+[[example]]
+name = "lc_0012_integer_to_roman"
+path = "leetcode/lc_0012_integer_to_roman.rs"
+
+[[example]]
+name = "lc_0013_roman_to_integer"
+path = "leetcode/lc_0013_roman_to_integer.rs"
+
+[[example]]
+name = "lc_0014_longest_common_prefix"
+path = "leetcode/lc_0014_longest_common_prefix.rs"
+
+[[example]]
+name = "lc_0021_merge_two_sorted_lists"
+path = "leetcode/lc_0021_merge_two_sorted_lists.rs"
+
+[[example]]
+name = "lc_0026_remove_duplicates_from_sorted_array"
+path = "leetcode/lc_0026_remove_duplicates_from_sorted_array.rs"
+
+[[example]]
+name = "lc_0027_remove_element"
+path = "leetcode/lc_0027_remove_element.rs"
+
+[[example]]
+name = "lc_0028_find_the_index_of_the_first_occurrence"
+path = "leetcode/lc_0028_find_the_index_of_the_first_occurrence.rs"
+
+[[example]]
+name = "lc_0035_search_insert_position"
+path = "leetcode/lc_0035_search_insert_position.rs"
+
+[[example]]
+name = "lc_0042_trapping_rain_water"
+path = "leetcode/lc_0042_trapping_rain_water.rs"
+
+[[example]]
+name = "lc_0045_jump_game_ii"
+path = "leetcode/lc_0045_jump_game_ii.rs"
+
+[[example]]
+name = "lc_0055_jump_game"
+path = "leetcode/lc_0055_jump_game.rs"
+
+[[example]]
+name = "lc_0058_length_of_last_word"
+path = "leetcode/lc_0058_length_of_last_word.rs"
+
+[[example]]
+name = "lc_0076_minimum_window_substring"
+path = "leetcode/lc_0076_minimum_window_substring.rs"
+
+[[example]]
+name = "lc_0079_word_search"
+path = "leetcode/lc_0079_word_search.rs"
+
+[[example]]
+name = "lc_0080_remove_duplicates_from_sorted_array_ii"
+path = "leetcode/lc_0080_remove_duplicates_from_sorted_array_ii.rs"
+
+[[example]]
+name = "lc_0088_merge_sorted_array"
+path = "leetcode/lc_0088_merge_sorted_array.rs"
+
+[[example]]
+name = "lc_0102_binary_tree_level_order_traversal"
+path = "leetcode/lc_0102_binary_tree_level_order_traversal.rs"
+
+[[example]]
+name = "lc_0121_best_time_to_buy_and_sell_stock"
+path = "leetcode/lc_0121_best_time_to_buy_and_sell_stock.rs"
+
+[[example]]
+name = "lc_0122_best_time_to_buy_and_sell_stock_ii"
+path = "leetcode/lc_0122_best_time_to_buy_and_sell_stock_ii.rs"
+
+[[example]]
+name = "lc_0134_gas_station"
+path = "leetcode/lc_0134_gas_station.rs"
+
+[[example]]
+name = "lc_0135_candy"
+path = "leetcode/lc_0135_candy.rs"
+
+[[example]]
+name = "lc_0142_linked_list_cycle_ii"
+path = "leetcode/lc_0142_linked_list_cycle_ii.rs"
+
+[[example]]
+name = "lc_0151_reverse_words_in_a_string"
+path = "leetcode/lc_0151_reverse_words_in_a_string.rs"
+
+[[example]]
+name = "lc_0169_majority_element"
+path = "leetcode/lc_0169_majority_element.rs"
+
+[[example]]
+name = "lc_0189_rotate_array"
+path = "leetcode/lc_0189_rotate_array.rs"
+
+[[example]]
+name = "lc_0205_isomorphic_strings"
+path = "leetcode/lc_0205_isomorphic_strings.rs"
+
+[[example]]
+name = "lc_0206_reverse_linked_list"
+path = "leetcode/lc_0206_reverse_linked_list.rs"
+
+[[example]]
+name = "lc_0219_contains_duplicate_ii"
+path = "leetcode/lc_0219_contains_duplicate_ii.rs"
+
+[[example]]
+name = "lc_0222_count_complete_tree_nodes"
+path = "leetcode/lc_0222_count_complete_tree_nodes.rs"
+
+[[example]]
+name = "lc_0223_rectangle_area"
+path = "leetcode/lc_0223_rectangle_area.rs"
+
+[[example]]
+name = "lc_0238_product_of_array_except_self"
+path = "leetcode/lc_0238_product_of_array_except_self.rs"
+
+[[example]]
+name = "lc_0263_ugly_number"
+path = "leetcode/lc_0263_ugly_number.rs"
+
+[[example]]
+name = "lc_0274_h_index"
+path = "leetcode/lc_0274_h_index.rs"
+
+[[example]]
+name = "lc_0278_first_bad_version"
+path = "leetcode/lc_0278_first_bad_version.rs"
+
+[[example]]
+name = "lc_0279_perfect_squares"
+path = "leetcode/lc_0279_perfect_squares.rs"
+
+[[example]]
+name = "lc_0295_find_median_from_data_stream"
+path = "leetcode/lc_0295_find_median_from_data_stream.rs"
+
+[[example]]
+name = "lc_0345_reverse_vowels_of_a_string"
+path = "leetcode/lc_0345_reverse_vowels_of_a_string.rs"
+
+[[example]]
+name = "lc_0374_guess_number_higher_or_lower"
+path = "leetcode/lc_0374_guess_number_higher_or_lower.rs"
+
+[[example]]
+name = "lc_0380_insert_delete_getrandom_o1"
+path = "leetcode/lc_0380_insert_delete_getrandom_o1.rs"
+
+[[example]]
+name = "lc_0392_is_subsequence"
+path = "leetcode/lc_0392_is_subsequence.rs"
+
+[[example]]
+name = "lc_0409_longest_palindrome"
+path = "leetcode/lc_0409_longest_palindrome.rs"
+
+[[example]]
+name = "lc_0412_fizz_buzz"
+path = "leetcode/lc_0412_fizz_buzz.rs"
+
+[[example]]
+name = "lc_0446_arithmetic_slices_ii_subsequence"
+path = "leetcode/lc_0446_arithmetic_slices_ii_subsequence.rs"
+
+[[example]]
+name = "lc_0514_freedom_trail"
+path = "leetcode/lc_0514_freedom_trail.rs"
+
+[[example]]
+name = "lc_0523_continuous_subarray_sum"
+path = "leetcode/lc_0523_continuous_subarray_sum.rs"
+
+[[example]]
+name = "lc_0587_erect_the_fence"
+path = "leetcode/lc_0587_erect_the_fence.rs"
+
+[[example]]
+name = "lc_0589_n_ary_tree_preorder_traversal"
+path = "leetcode/lc_0589_n_ary_tree_preorder_traversal.rs"
+
+[[example]]
+name = "lc_0704_binary_search"
+path = "leetcode/lc_0704_binary_search.rs"
+
+[[example]]
+name = "lc_0724_find_pivot_index"
+path = "leetcode/lc_0724_find_pivot_index.rs"
+
+[[example]]
+name = "lc_0835_image_overlap"
+path = "leetcode/lc_0835_image_overlap.rs"
+
+[[example]]
+name = "lc_0876_middle_of_the_linked_list"
+path = "leetcode/lc_0876_middle_of_the_linked_list.rs"
+
+[[example]]
+name = "lc_0947_most_stones_removed_with_same_row_or_column"
+path = "leetcode/lc_0947_most_stones_removed_with_same_row_or_column.rs"
+
+[[example]]
+name = "lc_1047_remove_all_adjacent_duplicates_in_string"
+path = "leetcode/lc_1047_remove_all_adjacent_duplicates_in_string.rs"
+
+[[example]]
+name = "lc_1323_maximum_69_number"
+path = "leetcode/lc_1323_maximum_69_number.rs"
+
+[[example]]
+name = "lc_1342_number_of_steps_to_reduce_to_zero"
+path = "leetcode/lc_1342_number_of_steps_to_reduce_to_zero.rs"
+
+[[example]]
+name = "lc_1480_running_sum_of_1d_array"
+path = "leetcode/lc_1480_running_sum_of_1d_array.rs"
+
+[[example]]
+name = "lc_1544_make_the_string_great"
+path = "leetcode/lc_1544_make_the_string_great.rs"
+
+[[example]]
+name = "lc_1662_check_if_two_string_arrays_are_equivalent"
+path = "leetcode/lc_1662_check_if_two_string_arrays_are_equivalent.rs"
+
+[[example]]
+name = "lc_1672_richest_customer_wealth"
+path = "leetcode/lc_1672_richest_customer_wealth.rs"
+
+[[example]]
+name = "lc_2256_minimum_average_difference"
+path = "leetcode/lc_2256_minimum_average_difference.rs"
+
+[[example]]
+name = "lc_3437_permutations_iii"
+path = "leetcode/lc_3437_permutations_iii.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

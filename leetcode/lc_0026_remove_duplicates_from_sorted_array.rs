@@ -67,7 +67,9 @@ mod my_solution {
         /// The number of unique elements (k). The first k elements
         /// of `nums` will contain the unique values in order.
         pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
-            if nums.is_empty() { return 0 };
+            if nums.is_empty() {
+                return 0;
+            };
 
             let mut write_index = 1;
 

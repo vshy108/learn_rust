@@ -18,11 +18,26 @@
 // Run:  cargo run --example lc_0055_jump_game
 // Test: cargo test --example lc_0055_jump_game
 // Bench: cargo test --example lc_0055_jump_game bench -- --nocapture
+//
+// --- Benchmark (100_000 iterations, 2026-03-27) ---
+//   My solution: 81.74ms (avg 817ns)
+//   AI solution: 51.88ms (avg 518ns)
+//   -> AI solution is 1.58x faster
+//   Reason: Backward greedy does fewer comparisons on average -- it skips
+//           positions that can't reach the current goal, while forward greedy
+//           always computes max() at every index even after reaching the end.
+//
+// --- Rust concepts used ---
+//   - Forward greedy: track max reachable index, early return on unreachable
+//   - Backward greedy: collapse goal from end to start
+//   - as usize cast: i32 -> usize for index arithmetic (safe when non-negative)
+//   - (0..n).rev(): reverse range iterator for right-to-left scan
+//   - usize::max(): Ord trait method for updating max reachable
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) -- single forward pass tracking max reachable index
+/// Space: O(1) -- only two scalar variables
 mod my_solution {
     pub struct Solution;
 
@@ -38,15 +53,33 @@ mod my_solution {
         ///
         /// `true` if the last index is reachable, `false` otherwise
         pub fn can_jump(nums: Vec<i32>) -> bool {
-            todo!()
+            let mut max_reach = 0;
+            let n = nums.len();
+
+            for i in 0..n {
+                if i > max_reach {
+                    return false;
+                };
+
+                // nums[i] is i32 (LeetCode signature), i is usize — Rust won't
+                // auto-cast between integer types. `as usize` is safe here because
+                // the constraint guarantees 0 <= nums[i] (no negative truncation).
+                max_reach = max_reach.max(i + nums[i] as usize);
+            }
+
+            true
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Backward greedy: start `goal` at the last index and scan right-to-left.
+/// If position `i` can reach `goal` (i.e. `i + nums[i] >= goal`), move
+/// `goal` back to `i`. If `goal` reaches 0, the start can reach the end.
+///
+/// Time:  O(n) -- single backward pass
+/// Space: O(1) -- one scalar variable
 mod ai_solution {
     pub struct Solution;
 
@@ -62,7 +95,19 @@ mod ai_solution {
         ///
         /// `true` if the last index is reachable, `false` otherwise
         pub fn can_jump(nums: Vec<i32>) -> bool {
-            todo!()
+            // Start goal at the last index; work backwards.
+            let mut goal = nums.len() - 1;
+
+            // (0..goal) scanned in reverse: if position i can jump to goal,
+            // then goal becomes i (we only need to reach i now).
+            for i in (0..nums.len() - 1).rev() {
+                if i + nums[i] as usize >= goal {
+                    goal = i;
+                }
+            }
+
+            // If goal collapsed to 0, the start can reach the end.
+            goal == 0
         }
     }
 }

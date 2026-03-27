@@ -25,11 +25,27 @@
 // Run:  cargo run --example lc_0045_jump_game_ii
 // Test: cargo test --example lc_0045_jump_game_ii
 // Bench: cargo test --example lc_0045_jump_game_ii bench -- --nocapture
+//
+// --- Benchmark (100_000 iterations, 2026-03-27) ---
+//   My solution: 54.32ms (avg 543ns)
+//   AI solution: 48.14ms (avg 481ns)
+//   -> AI solution is 1.13x faster
+//   Reason: AI solution uses usize natively (no i32 casts per iteration),
+//           early-exits when the jump window covers the end, and enumerate()
+//           avoids repeated index-to-usize conversions.
+//
+// --- Rust concepts used ---
+//   - Greedy BFS: track current jump window end + farthest reachable
+//   - i32 vs usize arithmetic: my_solution casts len to i32, ai_solution stays usize
+//   - enumerate() + iter(): idiomatic indexed iteration without manual casting
+//   - .take(n - 1): limit iterator length instead of range with cast
+//   - Early break from loop when goal is reached
+//   - as usize cast: converting i32 jump values to usize for index arithmetic
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) -- single pass through the array
+/// Space: O(1) -- only three scalar variables
 mod my_solution {
     pub struct Solution;
 
@@ -45,15 +61,38 @@ mod my_solution {
         ///
         /// The minimum number of jumps to reach the last index
         pub fn jump(nums: Vec<i32>) -> i32 {
-            todo!()
+            let n = nums.len() as i32;
+            if n <= 1 {
+                return 0;
+            };
+
+            let mut jumps = 0;
+            let mut current_end = 0;
+            let mut farthest = 0;
+
+            for i in 0..n - 1 {
+                farthest = farthest.max(i + nums[i as usize]);
+
+                if i == current_end {
+                    jumps += 1;
+                    current_end = farthest;
+                }
+            }
+
+            jumps
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Same greedy BFS approach but uses idiomatic `usize` throughout,
+/// avoiding `i32` casts. Uses `enumerate()` + `iter()` instead of
+/// index-based access, and early-returns when `current_end` reaches
+/// or passes the last index.
+///
+/// Time:  O(n) -- single pass through the array
+/// Space: O(1) -- only three scalar variables
 mod ai_solution {
     pub struct Solution;
 
@@ -69,7 +108,34 @@ mod ai_solution {
         ///
         /// The minimum number of jumps to reach the last index
         pub fn jump(nums: Vec<i32>) -> i32 {
-            todo!()
+            let n = nums.len();
+            if n <= 1 {
+                return 0;
+            }
+
+            let mut jumps = 0;
+            let mut current_end: usize = 0;
+            let mut farthest: usize = 0;
+
+            // Iterate with enumerate; stop before the last index (n - 1)
+            // because we only need to *reach* it, not jump from it.
+            for (i, &val) in nums.iter().enumerate().take(n - 1) {
+                // val is i32 from LeetCode signature; cast to usize for arithmetic.
+                farthest = farthest.max(i + val as usize);
+
+                if i == current_end {
+                    jumps += 1;
+                    current_end = farthest;
+
+                    // Early exit: if current jump window already covers the end,
+                    // no need to continue scanning.
+                    if current_end >= n - 1 {
+                        break;
+                    }
+                }
+            }
+
+            jumps
         }
     }
 }

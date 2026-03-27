@@ -26,11 +26,32 @@
 // Run:  cargo run --example lc_0026_remove_duplicates_from_sorted_array
 // Test: cargo test --example lc_0026_remove_duplicates_from_sorted_array
 // Bench: cargo test --example lc_0026_remove_duplicates_from_sorted_array bench -- --nocapture
+//
+// Benchmark (100_000 iterations, 2026-03-27):
+//   My solution (two-pointer): 64.61ms (avg 646ns)
+//   AI solution (Vec::dedup):  47.35ms (avg 473ns)
+//   -> AI solution is 1.36x faster
+//   Reason: Vec::dedup is implemented in optimized unsafe Rust in the standard library,
+//   using ptr::copy for bulk moves instead of element-by-element assignment.
+//
+// --- Rust concepts used ---
+//
+// Two-pointer / read-write pattern:
+//   `read_index` scans forward; `write_index` tracks where to place the next unique value.
+//   Both are usize indices into &mut Vec<i32>. Common for in-place array manipulation.
+//
+// `as i32` cast:
+//   `write_index` is usize (Rust array indices must be usize).
+//   The function returns i32 to match LeetCode signature, so `write_index as i32`.
+//
+// Vec::dedup():
+//   Built-in method that removes consecutive duplicate elements in-place.
+//   Only works on sorted or pre-grouped data (just like this problem requires).
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) — single pass with two pointers
+/// Space: O(1) — in-place, only two index variables
 mod my_solution {
     pub struct Solution;
 
@@ -46,15 +67,26 @@ mod my_solution {
         /// The number of unique elements (k). The first k elements
         /// of `nums` will contain the unique values in order.
         pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
-            todo!()
+            if nums.is_empty() { return 0 };
+
+            let mut write_index = 1;
+
+            for read_index in 1..nums.len() {
+                if nums[read_index] != nums[read_index - 1] {
+                    nums[write_index] = nums[read_index];
+                    write_index += 1;
+                }
+            }
+
+            write_index as i32
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) — Vec::dedup scans the entire array once
+/// Space: O(1) — in-place deduplication, no extra allocation
 mod ai_solution {
     pub struct Solution;
 
@@ -70,7 +102,13 @@ mod ai_solution {
         /// The number of unique elements (k). The first k elements
         /// of `nums` will contain the unique values in order.
         pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
-            todo!()
+            // `dedup()` removes consecutive equal elements in-place.
+            // Since `nums` is already sorted, all duplicates are consecutive,
+            // making this a single-call O(n) solution.
+            // Internally, dedup uses the same two-pointer pattern as my_solution,
+            // but is implemented in optimized unsafe Rust in the standard library.
+            nums.dedup();
+            nums.len() as i32
         }
     }
 }

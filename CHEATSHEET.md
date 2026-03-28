@@ -652,6 +652,8 @@ cargo update                 # update dependencies
 ```
 usize subtraction underflow — usize is unsigned; `0_usize - 1` panics
 in debug or wraps in release. Use i32/i64 when indices can go negative.
+For binary search: use exclusive upper bound pattern (hi starts at len,
+mid = lo + (hi - lo) / 2, set hi = mid instead of mid - 1).
 
 Integer overflow — wraps in release, panics in debug.
 Use .checked_add(), .saturating_add(), .wrapping_add() explicitly.
@@ -669,4 +671,225 @@ the if block, not the surrounding scope.
 
 Lifetime of temporaries — &some_fn() creates a reference to a temporary
 that is dropped at the end of the statement; you must bind it first.
+
+HashMap no IndexMut — can't do map[key] += 1 like Ruby Hash.new(0).
+Must use entry API: *map.entry(key).or_insert(0) += 1.
+
+&[u8] no Display/ToString — s.as_bytes()[range] returns &[u8] which
+can't call .to_string(). Use std::str::from_utf8(&bytes).unwrap().
+
+i32::MIN.abs() panics — i32::MIN = -2_147_483_648 but i32::MAX =
+2_147_483_647. Guard with `if x == i32::MIN` before calling .abs().
+Ruby integers are unbounded so this never arises.
+
+Remainder preserves sign — Rust: -123 % 10 == -3 (not 7). This means
+you can process negative numbers directly without abs().
+```
+
+## Byte-Level String Processing
+
+```rust
+// as_bytes() returns &[u8] — raw bytes, O(1) indexing (unlike chars())
+let s = String::from("hello");
+let bytes: &[u8] = s.as_bytes();
+let first: u8 = bytes[0];          // b'h' = 104
+
+// Byte literals — u8 values for ASCII characters
+let space: u8 = b' ';              // 32
+let a: u8 = b'a';                  // 97
+let z: u8 = b'z';                  // 122
+
+// Iterate bytes (faster than chars for ASCII-only input)
+for &b in s.as_bytes() { }         // b is u8
+for (i, &b) in s.as_bytes().iter().enumerate() { }
+
+// Convert &[u8] slice back to &str
+let bytes: &[u8] = &s.as_bytes()[1..4];
+let substr: &str = std::str::from_utf8(bytes).unwrap();  // "ell"
+// .unwrap() is safe when bytes came from a valid String
+
+// When to use as_bytes() vs chars():
+//   as_bytes() — ASCII input, need O(1) indexing, byte == char
+//   chars()    — Unicode input, multi-byte chars, need char semantics
+
+// Fixed-size array as lookup table (replaces HashMap for ASCII)
+let mut freq = [0i32; 128];        // 128 ASCII slots
+freq[b'a' as usize] += 1;          // direct index, no hashing
+// ~20-40x faster than HashMap for small key sets (cache-friendly)
+```
+
+## HashMap Advanced Patterns
+
+```rust
+use std::collections::HashMap;
+
+// Entry API — insert-if-missing + mutate in one step
+// Ruby: hash[key] += 1 with Hash.new(0)
+// Rust: HashMap has no default value — must use entry API
+let mut counts: HashMap<u8, i32> = HashMap::new();
+*counts.entry(b'a').or_insert(0) += 1;
+//  ^-- dereference the &mut i32 returned by or_insert
+
+// or_insert_with for lazy default (closure called only if missing)
+map.entry(key).or_insert_with(Vec::new).push(value);
+
+// if let Some(&val) — check existence + bind value in one step
+if let Some(&count) = map.get(&key) {
+    // `count` is i32 (copied via &), not &i32
+    // Combines contains_key + indexing into one lookup
+}
+
+// Pre-allocate to avoid rehashing
+let mut map: HashMap<u8, usize> = HashMap::with_capacity(128);
+
+// Key type affects speed: HashMap<u8> > HashMap<char> > HashMap<String>
+// u8 = 1-byte hash, char = 4-byte hash, String = heap + variable-length hash
+```
+
+## Useful Vec Methods
+
+```rust
+let mut v = vec![1, 2, 2, 3, 3, 3, 4];
+
+// retain — keep only elements matching predicate (in-place)
+v.retain(|&x| x != 3);             // v = [1, 2, 2, 4]
+
+// dedup — remove consecutive duplicates (must be sorted first)
+v.sort();
+v.dedup();                          // v = [1, 2, 4]
+
+// with_capacity — pre-allocate to avoid reallocations
+let mut v: Vec<i32> = Vec::with_capacity(100);
+
+// windows / chunks
+let v = vec![1, 2, 3, 4, 5];
+v.windows(3)                        // [1,2,3], [2,3,4], [3,4,5]
+v.chunks(2)                         // [1,2], [3,4], [5]
+```
+
+## Useful str Methods
+
+```rust
+let s = "  Hello, World!  ";
+
+// Trimming
+s.trim()                            // "Hello, World!"
+s.trim_start()                      // "Hello, World!  "
+s.trim_end()                        // "  Hello, World!"
+
+// Searching
+s.find("World")                     // Some(9) — first byte index
+s.rfind("o")                        // Some(12) — last byte index
+"hello".contains("ell")             // true
+
+// Splitting
+"a.b.c".split('.').collect::<Vec<_>>()         // ["a", "b", "c"]
+"a.b.c".splitn(2, '.').collect::<Vec<_>>()     // ["a", "b.c"]
+"hello world".rsplit_once(' ')                  // Some(("hello", "world"))
+// rsplit_once returns Option<(&str, &str)> — None if separator not found
+
+// Slicing (byte-based, panics on non-char boundary)
+let hello: &str = &"hello world"[0..5];        // "hello"
+
+// partition_point — binary search for insert position
+let v = vec![1, 3, 5, 7, 9];
+let pos = v.partition_point(|&x| x < 6);       // 3 (index where 6 would go)
+// Equivalent to C++ lower_bound. Returns index of first element >= target.
+```
+
+## Checked & Saturating Arithmetic
+
+```rust
+// checked_* — returns Option<T>, None on overflow
+let a: Option<i32> = 100i32.checked_mul(10);        // Some(1000)
+let b: Option<i32> = i32::MAX.checked_add(1);       // None
+
+// Chain with and_then for multi-step overflow detection
+let result = x.checked_mul(10).and_then(|r| r.checked_add(digit));
+match result {
+    Some(val) => val,
+    None => return 0,       // overflow occurred
+}
+
+// saturating_* — clamps at MIN/MAX instead of overflow
+i32::MAX.saturating_add(1)          // i32::MAX (does not wrap)
+0i32.saturating_sub(1)              // 0 (for unsigned-like behavior)
+
+// wrapping_* — explicitly wraps (like C behavior)
+255u8.wrapping_add(1)               // 0
+
+// Sentinel values
+let sentinel = usize::MAX;          // often used as "not found" / "infinity"
+let sentinel = i32::MAX;
+let sentinel = i32::MIN;
+```
+
+## Benchmarking Pattern
+
+```rust
+// std::hint::black_box prevents the compiler from optimizing away
+// the function call, ensuring we measure real execution time.
+use std::hint::black_box;
+use std::time::Instant;
+
+let iterations = 100_000_u32;
+let start = Instant::now();
+for _ in 0..iterations {
+    black_box(my_function(black_box(input.clone())));
+}
+let duration = start.elapsed();
+println!("avg {:?}", duration / iterations);
+```
+
+## LeetCode Algorithm Patterns
+
+```rust
+// --- Two-pointer convergence (Container With Most Water, Trapping Rain Water) ---
+let mut left = 0;
+let mut right = len - 1;
+while left < right {
+    // process...
+    if condition { left += 1; } else { right -= 1; }
+}
+
+// --- Sliding window (Longest Substring, Minimum Window Substring) ---
+let mut left = 0;
+for right in 0..n {
+    // expand: add s[right] to window
+    while window_invalid {
+        // contract: remove s[left] from window
+        left += 1;
+    }
+    // update best
+}
+
+// --- Binary search with usize (no underflow) ---
+// Problem: `mid - 1` underflows when mid == 0 (usize is unsigned)
+// Solution: exclusive upper bound — hi starts at len, never subtract from mid
+let mut lo = 0;
+let mut hi = nums.len();               // exclusive upper bound
+while lo < hi {
+    let mid = lo + (hi - lo) / 2;      // avoids overflow too
+    if nums[mid] < target {
+        lo = mid + 1;
+    } else {
+        hi = mid;                       // NOT mid - 1 (no underflow risk)
+    }
+}
+// lo == insert position
+
+// --- Greedy forward scan (Jump Game) ---
+let mut max_reach = 0;
+for (i, &jump) in nums.iter().enumerate() {
+    if i > max_reach { return false; }  // can't reach this index
+    max_reach = max_reach.max(i + jump as usize);
+}
+
+// --- HashMap single-counter trick (Minimum Window Substring) ---
+// Merge need + window into ONE array; track remaining chars with ONE integer
+let mut counts = [0i32; 128];
+let mut total = t.len() as i32;
+// Expand: if counts[r] > 0 { total -= 1; } counts[r] -= 1;
+// Contract: counts[l] += 1; if counts[l] > 0 { total += 1; }
+// Valid when: total == 0
 ```

@@ -216,8 +216,13 @@ mod ai_solution {
 
             // Reverse word if last char is rarer — same pruning as my_solution
             let first_cnt = flat.iter().filter(|&&b| b == word[0]).count();
+            // .last() returns Option<&u8> — use .expect() to unwrap since
+            // constraint guarantees word.length >= 1 (never None)
             let last_cnt = flat
                 .iter()
+                // .last() returns Option<&u8> (reference), so * dereferences
+                // to compare u8 == u8. .expect() unwraps the Option since
+                // constraint guarantees word.length >= 1 (never None)
                 .filter(|&&b| b == *word.last().expect("non-empty word"))
                 .count();
             let word: Vec<u8> = if last_cnt < first_cnt {

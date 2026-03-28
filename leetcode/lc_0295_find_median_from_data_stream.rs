@@ -30,12 +30,15 @@
 mod my_solution {
     /// Tracks a running stream of integers and efficiently returns the median.
     pub struct MedianFinder {
-        // TODO: choose internal data structure
+        // max_heap for lower half
+        // min_heap for upper half
     }
 
     impl MedianFinder {
         /// Initialize the MedianFinder.
         pub fn new() -> Self {
+            // @max_heap = MaxHeap.new
+            // @min_heap = MinHeap.new
             todo!()
         }
 
@@ -45,6 +48,11 @@ mod my_solution {
         ///
         /// * `num` - The integer to add
         pub fn add_num(&mut self, num: i32) {
+            // @max_heap.push(num)
+            // @min_heap.push(@max_heap.pop)
+            // if @min_heap.size > @max_heap.size
+            //   @max_heap.push(@min_heap.pop)
+            // end
             todo!()
         }
 
@@ -54,6 +62,11 @@ mod my_solution {
         ///
         /// The median as f64. If even count, return mean of the two middle values.
         pub fn find_median(&self) -> f64 {
+            // if @max_heap.size == @min_heap.size
+            //   (@max_heap.max + @min_heap.min) / 2.0
+            // else
+            //   @max_heap.max
+            // end
             todo!()
         }
     }

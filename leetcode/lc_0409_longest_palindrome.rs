@@ -36,6 +36,15 @@ mod my_solution {
         ///
         /// Length of the longest palindrome that can be built
         pub fn longest_palindrome(s: String) -> i32 {
+            // count = Hash.new(0)
+            // s.each_char { |c| count[c] += 1 }
+            // length = 0; odd_found = false
+            // count.each_value do |freq|
+            //   length += freq / 2 * 2
+            //   odd_found = true if freq.odd?
+            // end
+            // length += 1 if odd_found
+            // length
             todo!()
         }
     }

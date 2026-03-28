@@ -38,6 +38,15 @@ mod my_solution {
         ///
         /// Vector of strings following FizzBuzz rules
         pub fn fizz_buzz(n: i32) -> Vec<String> {
+            // result = []
+            // (1..n).each do |i|
+            //   if i % 3 == 0 && i % 5 == 0: "FizzBuzz"
+            //   elsif i % 3 == 0: "Fizz"
+            //   elsif i % 5 == 0: "Buzz"
+            //   else: i.to_s
+            //   end
+            // end
+            // result
             todo!()
         }
     }

@@ -36,12 +36,15 @@
 mod my_solution {
     /// A set that supports insert, remove, and get_random in O(1) average time.
     pub struct RandomizedSet {
-        // TODO: choose internal data structures
+        // @nums = []          array for O(1) random access
+        // @val_to_index = {}  hash for O(1) lookup
     }
 
     impl RandomizedSet {
         /// Initialize an empty RandomizedSet.
         pub fn new() -> Self {
+            // @nums = []
+            // @val_to_index = {}
             todo!()
         }
 
@@ -51,6 +54,10 @@ mod my_solution {
         ///
         /// `true` if the item was inserted, `false` if already present
         pub fn insert(&mut self, val: i32) -> bool {
+            // return false if @val_to_index.key?(val)
+            // @val_to_index[val] = @nums.size
+            // @nums << val
+            // true
             todo!()
         }
 
@@ -60,6 +67,14 @@ mod my_solution {
         ///
         /// `true` if the item was removed, `false` if not found
         pub fn remove(&mut self, val: i32) -> bool {
+            // return false unless @val_to_index.key?(val)
+            // index = @val_to_index[val]
+            // last_val = @nums[-1]
+            // @nums[index] = last_val
+            // @val_to_index[last_val] = index
+            // @nums.pop
+            // @val_to_index.delete(val)
+            // true
             todo!()
         }
 
@@ -71,6 +86,7 @@ mod my_solution {
         ///
         /// A random element from the current set
         pub fn get_random(&self) -> i32 {
+            // @nums.sample
             todo!()
         }
     }

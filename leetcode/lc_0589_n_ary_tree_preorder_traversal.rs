@@ -63,6 +63,15 @@ mod my_solution {
         ///
         /// Preorder traversal of node values
         pub fn preorder(root: Option<Box<Node>>) -> Vec<i32> {
+            // return [] if root.nil?
+            // result = []
+            // dfs = lambda do |node|
+            //   return if node.nil?
+            //   result << node.val
+            //   node.children.each { |c| dfs.call(c) }
+            // end
+            // dfs.call(root)
+            // result
             todo!()
         }
     }

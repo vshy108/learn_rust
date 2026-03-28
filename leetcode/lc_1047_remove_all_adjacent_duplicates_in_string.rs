@@ -40,6 +40,15 @@ mod my_solution {
         ///
         /// The final string after all duplicate removals
         pub fn remove_duplicates(s: String) -> String {
+            // stack = []
+            // s.each_char do |c|
+            //   if !stack.empty? && stack[-1] == c
+            //     stack.pop
+            //   else
+            //     stack << c
+            //   end
+            // end
+            // stack.join
             todo!()
         }
     }

@@ -50,6 +50,22 @@ mod my_solution {
         ///
         /// Maximum number of overlapping 1s after any translation
         pub fn largest_overlap(img1: Vec<Vec<i32>>, img2: Vec<Vec<i32>>) -> i32 {
+            // n = A.size; max_overlap = 0
+            // (-n+1...n).each do |dx|
+            //   (-n+1...n).each do |dy|
+            //     overlap = 0
+            //     (0...n).each do |i|
+            //       (0...n).each do |j|
+            //         ni = i + dx; nj = j + dy
+            //         if ni >= 0 && ni < n && nj >= 0 && nj < n
+            //           overlap += 1 if A[i][j] == 1 && B[ni][nj] == 1
+            //         end
+            //       end
+            //     end
+            //     max_overlap = [max_overlap, overlap].max
+            //   end
+            // end
+            // max_overlap
             todo!()
         }
     }

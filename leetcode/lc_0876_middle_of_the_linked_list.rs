@@ -74,6 +74,12 @@ mod my_solution {
         ///
         /// The middle node (second middle if two exist)
         pub fn middle_node(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+            // slow = head; fast = head
+            // while fast && fast.next
+            //   slow = slow.next
+            //   fast = fast.next.next
+            // end
+            // slow
             todo!()
         }
     }

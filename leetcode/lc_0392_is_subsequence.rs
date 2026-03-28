@@ -44,6 +44,14 @@ mod my_solution {
         ///
         /// `true` if `s` is a subsequence of `t`, `false` otherwise
         pub fn is_subsequence(s: String, t: String) -> bool {
+            // return true if s.empty?
+            // i = 0; j = 0
+            // while j < t.length
+            //   i += 1 if s[i] == t[j]
+            //   return true if i == s.length
+            //   j += 1
+            // end
+            // false
             todo!()
         }
     }

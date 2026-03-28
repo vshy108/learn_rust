@@ -47,6 +47,15 @@ mod my_solution {
         ///
         /// Leftmost pivot index, or -1
         pub fn pivot_index(nums: Vec<i32>) -> i32 {
+            // total_sum = nums.sum
+            // left_sum = 0
+            // nums.each_with_index do |num, i|
+            //   if left_sum == total_sum - left_sum - num
+            //     return i
+            //   end
+            //   left_sum += num
+            // end
+            // -1
             todo!()
         }
     }

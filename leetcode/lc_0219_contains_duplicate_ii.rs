@@ -39,6 +39,13 @@ mod my_solution {
         ///
         /// `true` if a nearby duplicate exists, `false` otherwise
         pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {
+            // seen = Set.new
+            // nums.each_with_index do |num, i|
+            //   return true if seen.include?(num)
+            //   seen.add(num)
+            //   seen.delete(nums[i - k]) if i >= k
+            // end
+            // false
             todo!()
         }
     }

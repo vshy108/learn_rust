@@ -43,6 +43,14 @@ mod my_solution {
         ///
         /// Maximum number of removable stones
         pub fn remove_stones(stones: Vec<Vec<i32>>) -> i32 {
+            // parent = {}
+            // find(x): path compression → parent[x] ||= x
+            // union(x, y): parent[find(x)] = find(y)
+            // stones.each do |x, y|
+            //   union(x, ~y)  # ~y distinguishes row vs column
+            // end
+            // components = stones.map { |x, y| find(x) }.uniq.size
+            // stones.size - components
             todo!()
         }
     }

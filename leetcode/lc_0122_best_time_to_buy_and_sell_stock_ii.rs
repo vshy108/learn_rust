@@ -38,6 +38,13 @@ mod my_solution {
         ///
         /// Maximum profit achievable with multiple transactions
         pub fn max_profit(prices: Vec<i32>) -> i32 {
+            // profit = 0
+            // (1...prices.length).each do |i|
+            //   if prices[i] > prices[i - 1]
+            //     profit += prices[i] - prices[i - 1]
+            //   end
+            // end
+            // profit
             todo!()
         }
     }

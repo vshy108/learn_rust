@@ -37,6 +37,10 @@ mod my_solution {
         ///
         /// Array where each element is the prefix sum up to that index
         pub fn running_sum(nums: Vec<i32>) -> Vec<i32> {
+            // (1...nums.length).each do |i|
+            //   nums[i] += nums[i-1]
+            // end
+            // nums
             todo!()
         }
     }

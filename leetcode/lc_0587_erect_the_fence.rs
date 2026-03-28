@@ -44,6 +44,24 @@ mod my_solution {
         ///
         /// Coordinates of trees on the fence perimeter
         pub fn outer_trees(trees: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+            // return points if n <= 3
+            // cross(o, a, b) = (a[0]-o[0])*(b[1]-o[1]) - (a[1]-o[1])*(b[0]-o[0])
+            // leftmost = points.min_by x
+            // hull = []; point_on_hull = leftmost
+            // loop do
+            //   hull << point_on_hull
+            //   next_point = points[0]
+            //   points.each do |p|
+            //     cp = cross(point_on_hull, next_point, p)
+            //     if next_point == point_on_hull || cp < 0 ||
+            //        (cp == 0 && dist(point_on_hull, p) > dist(point_on_hull, next_point))
+            //       next_point = p
+            //     end
+            //   end
+            //   point_on_hull = next_point
+            //   break if point_on_hull == leftmost
+            // end
+            // hull
             todo!()
         }
     }

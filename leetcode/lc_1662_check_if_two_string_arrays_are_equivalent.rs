@@ -41,6 +41,9 @@ mod my_solution {
         ///
         /// true if concatenated arrays are equal
         pub fn array_strings_are_equal(word1: Vec<String>, word2: Vec<String>) -> bool {
+            // str1 = word1.join
+            // str2 = word2.join
+            // str1 == str2
             todo!()
         }
     }

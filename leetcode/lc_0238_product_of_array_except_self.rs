@@ -45,6 +45,19 @@ mod my_solution {
         ///
         /// Vec where `result[i]` = product of all nums except `nums[i]`
         pub fn product_except_self(nums: Vec<i32>) -> Vec<i32> {
+            // n = nums.length
+            // result = Array.new(n, 1)
+            // prefix = 1
+            // (0...n).each do |i|
+            //   result[i] = prefix
+            //   prefix *= nums[i]
+            // end
+            // suffix = 1
+            // (n-1).downto(0) do |i|
+            //   result[i] *= suffix
+            //   suffix *= nums[i]
+            // end
+            // result
             todo!()
         }
     }

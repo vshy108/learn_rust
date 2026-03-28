@@ -68,6 +68,17 @@ mod my_solution {
         /// The first bad version number
         #[allow(unused_variables)]
         pub fn first_bad_version(n: i32) -> i32 {
+            // left = 1
+            // right = n
+            // while left < right
+            //   mid = left + (right - left) / 2
+            //   if is_bad_version(mid)
+            //     right = mid
+            //   else
+            //     left = mid + 1
+            //   end
+            // end
+            // left
             todo!()
         }
     }

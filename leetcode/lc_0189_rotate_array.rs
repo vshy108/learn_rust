@@ -35,6 +35,16 @@ mod my_solution {
         /// * `nums` - Mutable reference to the array to rotate
         /// * `k` - Number of steps to rotate right
         pub fn rotate(nums: &mut Vec<i32>, k: i32) {
+            // n = nums.length
+            // k %= n
+            // helper reverse(arr, start_idx, end_idx):
+            //   while start_idx < end_idx
+            //     swap arr[start_idx], arr[end_idx]
+            //     start_idx += 1; end_idx -= 1
+            //   end
+            // reverse(nums, 0, n - 1)
+            // reverse(nums, 0, k - 1)
+            // reverse(nums, k, n - 1)
             todo!()
         }
     }

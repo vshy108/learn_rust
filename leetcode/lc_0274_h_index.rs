@@ -41,6 +41,13 @@ mod my_solution {
         ///
         /// The h-index value
         pub fn h_index(citations: Vec<i32>) -> i32 {
+            // n = citations.length
+            // citations.sort!.reverse!
+            // h = 0
+            // citations.each_with_index do |c, i|
+            //   h = i + 1 if c >= i + 1
+            // end
+            // h
             todo!()
         }
     }

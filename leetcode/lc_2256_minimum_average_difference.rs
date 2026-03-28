@@ -44,6 +44,20 @@ mod my_solution {
         ///
         /// Index with the smallest average difference (smallest index on tie)
         pub fn minimum_average_difference(nums: Vec<i32>) -> i32 {
+            // n = nums.length
+            // total_sum = nums.sum
+            // min_diff = nil; result_index = 0; left_sum = 0
+            // (0...n).each do |i|
+            //   left_sum += nums[i]
+            //   total_sum -= nums[i]
+            //   left_avg = left_sum / (i + 1)
+            //   right_avg = i == n - 1 ? 0 : total_sum / (n - i - 1)
+            //   diff = (left_avg - right_avg).abs
+            //   if min_diff.nil? || diff < min_diff
+            //     min_diff = diff; result_index = i
+            //   end
+            // end
+            // result_index
             todo!()
         }
     }

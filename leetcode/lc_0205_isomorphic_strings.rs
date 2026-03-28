@@ -41,6 +41,23 @@ mod my_solution {
         ///
         /// `true` if s and t are isomorphic, `false` otherwise
         pub fn is_isomorphic(s: String, t: String) -> bool {
+            // return false if s.length != t.length
+            // map_st = {}
+            // map_ts = {}
+            // s.each_char.with_index do |char_s, i|
+            //   char_t = t[i]
+            //   if map_st.key?(char_s)
+            //     return false if map_st[char_s] != char_t
+            //   else
+            //     map_st[char_s] = char_t
+            //   end
+            //   if map_ts.key?(char_t)
+            //     return false if map_ts[char_t] != char_s
+            //   else
+            //     map_ts[char_t] = char_s
+            //   end
+            // end
+            // true
             todo!()
         }
     }

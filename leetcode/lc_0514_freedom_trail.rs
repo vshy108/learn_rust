@@ -50,6 +50,21 @@ mod my_solution {
         ///
         /// Minimum number of steps (rotations + button presses)
         pub fn find_rotate_steps(ring: String, key: String) -> i32 {
+            // n = ring.size
+            // memo = {}  # [ring_idx, key_idx] -> min steps
+            // positions = { char -> [indices] }
+            // dp(ring_idx, key_idx):
+            //   return 0 if key_idx == key.size
+            //   return memo if cached
+            //   target = key[key_idx]
+            //   min_steps = INF
+            //   positions[target].each do |pos|
+            //     diff = (pos - ring_idx).abs
+            //     step = [diff, n - diff].min + 1
+            //     min_steps = [min_steps, step + dp(pos, key_idx + 1)].min
+            //   end
+            //   memo[[ring_idx, key_idx]] = min_steps
+            // dp(0, 0)
             todo!()
         }
     }

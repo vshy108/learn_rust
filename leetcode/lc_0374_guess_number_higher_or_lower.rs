@@ -72,6 +72,16 @@ mod my_solution {
         /// The picked number
         #[allow(unused_variables)]
         pub fn guess_number(n: i32) -> i32 {
+            // left = 1; right = n
+            // while left <= right
+            //   mid = left + (right - left) / 2
+            //   result = guess(mid)
+            //   if result == 0: return mid
+            //   elsif result < 0: right = mid - 1
+            //   else: left = mid + 1
+            //   end
+            // end
+            // -1
             todo!()
         }
     }

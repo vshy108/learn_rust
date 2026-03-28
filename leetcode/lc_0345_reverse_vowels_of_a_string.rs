@@ -37,6 +37,16 @@ mod my_solution {
         ///
         /// A new string with vowels reversed in position
         pub fn reverse_vowels(s: String) -> String {
+            // vowels = Set.new(['a','e','i','o','u','A','E','I','O','U'])
+            // chars = s.chars
+            // left = 0; right = chars.length - 1
+            // while left < right
+            //   left += 1 while left < right && !vowels.include?(chars[left])
+            //   right -= 1 while left < right && !vowels.include?(chars[right])
+            //   swap chars[left], chars[right] if left < right
+            //   left += 1; right -= 1
+            // end
+            // chars.join
             todo!()
         }
     }

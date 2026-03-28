@@ -44,6 +44,18 @@ mod my_solution {
         ///
         /// Starting station index, or -1 if no solution exists
         pub fn can_complete_circuit(gas: Vec<i32>, cost: Vec<i32>) -> i32 {
+            // total_tank = 0
+            // curr_tank = 0
+            // start_station = 0
+            // gas.each_with_index do |g, i|
+            //   curr_tank += g - cost[i]
+            //   total_tank += g - cost[i]
+            //   if curr_tank < 0
+            //     start_station = i + 1
+            //     curr_tank = 0
+            //   end
+            // end
+            // total_tank >= 0 ? start_station : -1
             todo!()
         }
     }

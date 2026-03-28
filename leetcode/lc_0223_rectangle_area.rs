@@ -55,6 +55,12 @@ mod my_solution {
             bx2: i32,
             by2: i32,
         ) -> i32 {
+            // area_a = (ax2 - ax1) * (ay2 - ay1)
+            // area_b = (bx2 - bx1) * (by2 - by1)
+            // overlap_width = [0, [ax2, bx2].min - [ax1, bx1].max].max
+            // overlap_height = [0, [ay2, by2].min - [ay1, by1].max].max
+            // overlap_area = overlap_width * overlap_height
+            // area_a + area_b - overlap_area
             todo!()
         }
     }

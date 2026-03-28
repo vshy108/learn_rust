@@ -47,6 +47,18 @@ mod my_solution {
         ///
         /// `true` if such a subarray exists
         pub fn check_subarray_sum(nums: Vec<i32>, k: i32) -> bool {
+            // mod_map = { 0 => -1 }
+            // sum = 0
+            // nums.each_with_index do |num, i|
+            //   sum += num
+            //   mod = k != 0 ? sum % k : sum
+            //   if mod_map.key?(mod)
+            //     return true if i - mod_map[mod] >= 2
+            //   else
+            //     mod_map[mod] = i
+            //   end
+            // end
+            // false
             todo!()
         }
     }

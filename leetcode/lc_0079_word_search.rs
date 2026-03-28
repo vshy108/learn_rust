@@ -48,6 +48,50 @@ mod my_solution {
         ///
         /// `true` if the word can be formed by adjacent cells, `false` otherwise
         pub fn exist(board: Vec<Vec<char>>, word: String) -> bool {
+            // rows = board.length
+            // cols = board[0].length
+            //
+            // board_count = Hash.new(0)
+            // board.each do |row|
+            //   row.each { |ch| board_count[ch] += 1 }
+            // end
+            //
+            // word.each_char do |ch|
+            //   return false if board_count[ch] == 0
+            //   board_count[ch] -= 1
+            // end
+            //
+            // first_count = board.flatten.count(word[0])
+            // last_count  = board.flatten.count(word[-1])
+            // word = word.reverse if last_count < first_count
+            //
+            // visited = Array.new(rows) { Array.new(cols, false) }
+            //
+            // dfs = lambda do |r, c, idx|
+            //   return true if idx == word.length
+            //   return false if r < 0 || c < 0 || r >= rows || c >= cols
+            //   return false if visited[r][c]
+            //   return false if board[r][c] != word[idx]
+            //
+            //   visited[r][c] = true
+            //
+            //   found =
+            //     dfs.call(r + 1, c, idx + 1) ||
+            //     dfs.call(r - 1, c, idx + 1) ||
+            //     dfs.call(r, c + 1, idx + 1) ||
+            //     dfs.call(r, c - 1, idx + 1)
+            //
+            //   visited[r][c] = false
+            //   found
+            // end
+            //
+            // (0...rows).each do |r|
+            //   (0...cols).each do |c|
+            //     return true if dfs.call(r, c, 0)
+            //   end
+            // end
+            //
+            // false
             todo!()
         }
     }

@@ -43,6 +43,18 @@ mod my_solution {
         ///
         /// Count of all arithmetic subsequences
         pub fn number_of_arithmetic_slices(nums: Vec<i32>) -> i32 {
+            // n = nums.length; return 0 if n < 3
+            // dp = Array.new(n) { Hash.new(0) }
+            // total = 0
+            // (0...n).each do |i|
+            //   (0...i).each do |j|
+            //     diff = nums[i] - nums[j]
+            //     count_at_j = dp[j][diff]
+            //     dp[i][diff] += count_at_j + 1
+            //     total += count_at_j
+            //   end
+            // end
+            // total
             todo!()
         }
     }

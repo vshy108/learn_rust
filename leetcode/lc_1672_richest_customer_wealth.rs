@@ -41,6 +41,12 @@ mod my_solution {
         ///
         /// Maximum total wealth across all customers
         pub fn maximum_wealth(accounts: Vec<Vec<i32>>) -> i32 {
+            // max_wealth = 0
+            // accounts.each do |customer|
+            //   wealth = customer.sum
+            //   max_wealth = [max_wealth, wealth].max
+            // end
+            // max_wealth
             todo!()
         }
     }

@@ -38,6 +38,21 @@ mod my_solution {
         ///
         /// All valid permutations where no two adjacent elements share parity
         pub fn permute(n: i32) -> Vec<Vec<i32>> {
+            // chars = s.chars.sort
+            // result = []; used = Array.new(n, false); current = []
+            // dfs = lambda do
+            //   if current.length == chars.length
+            //     result << current.join; return
+            //   end
+            //   (0...chars.length).each do |i|
+            //     next if used[i]
+            //     used[i] = true; current << chars[i]
+            //     dfs.call
+            //     current.pop; used[i] = false
+            //   end
+            // end
+            // dfs.call
+            // result
             todo!()
         }
     }

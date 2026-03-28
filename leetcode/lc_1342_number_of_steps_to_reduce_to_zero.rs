@@ -36,6 +36,14 @@ mod my_solution {
         ///
         /// Number of steps to reach zero
         pub fn number_of_steps(num: i32) -> i32 {
+            // steps = 0
+            // while num > 0
+            //   if num.even?: num /= 2
+            //   else: num -= 1
+            //   end
+            //   steps += 1
+            // end
+            // steps
             todo!()
         }
     }

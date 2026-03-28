@@ -44,6 +44,18 @@ mod my_solution {
         /// The number of elements remaining (k). The first k elements
         /// of `nums` will be the result.
         pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
+            // return 0 if nums.empty?
+            //
+            // write_index = 0
+            //
+            // nums.each do |num|
+            //   if write_index < 2 || num > nums[write_index - 2]
+            //     nums[write_index] = num
+            //     write_index += 1
+            //   end
+            // end
+            //
+            // write_index
             todo!()
         }
     }

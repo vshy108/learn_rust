@@ -106,6 +106,15 @@ mod my_solution {
         ///
         /// The total number of nodes
         pub fn count_nodes(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+            // return 0 if root.nil?
+            // left_height = 0; node = root
+            // while node: left_height += 1; node = node.left
+            // right_height = 0; node = root
+            // while node: right_height += 1; node = node.right
+            // if left_height == right_height
+            //   return 2**left_height - 1
+            // end
+            // 1 + count_nodes(root.left) + count_nodes(root.right)
             todo!()
         }
     }

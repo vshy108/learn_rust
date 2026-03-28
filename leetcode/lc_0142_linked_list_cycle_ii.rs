@@ -61,6 +61,24 @@ mod my_solution {
         ///
         /// Index of the cycle start, or -1 if no cycle
         pub fn detect_cycle(values: &[i32], pos: i32) -> i32 {
+            // return nil if head.nil? || head.next.nil?
+            // Phase 1: detect cycle
+            //   slow = head
+            //   fast = head
+            //   while fast && fast.next
+            //     slow = slow.next
+            //     fast = fast.next.next
+            //     break if slow == fast
+            //   end
+            //   return nil if fast.nil? || fast.next.nil?
+            // Phase 2: find cycle entry
+            //   pointer1 = head
+            //   pointer2 = slow
+            //   while pointer1 != pointer2
+            //     pointer1 = pointer1.next
+            //     pointer2 = pointer2.next
+            //   end
+            //   pointer1
             todo!()
         }
     }

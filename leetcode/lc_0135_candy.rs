@@ -41,6 +41,22 @@ mod my_solution {
         ///
         /// Minimum total number of candies
         pub fn candy(ratings: Vec<i32>) -> i32 {
+            // n = ratings.length
+            // return 0 if n == 0
+            // candies = Array.new(n, 1)
+            // left-to-right pass:
+            //   (1...n).each do |i|
+            //     if ratings[i] > ratings[i - 1]
+            //       candies[i] = candies[i - 1] + 1
+            //     end
+            //   end
+            // right-to-left pass:
+            //   (n - 2).downto(0) do |i|
+            //     if ratings[i] > ratings[i + 1]
+            //       candies[i] = [candies[i], candies[i + 1] + 1].max
+            //     end
+            //   end
+            // candies.sum
             todo!()
         }
     }

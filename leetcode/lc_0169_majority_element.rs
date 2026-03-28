@@ -38,6 +38,15 @@ mod my_solution {
         ///
         /// The majority element
         pub fn majority_element(nums: Vec<i32>) -> i32 {
+            // count = 0
+            // candidate = nil
+            // nums.each do |num|
+            //   if count == 0
+            //     candidate = num
+            //   end
+            //   count += (num == candidate ? 1 : -1)
+            // end
+            // candidate
             todo!()
         }
     }

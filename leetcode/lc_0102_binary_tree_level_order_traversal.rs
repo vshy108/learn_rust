@@ -106,6 +106,21 @@ mod my_solution {
         ///
         /// A Vec of Vecs, each inner Vec containing values at that level
         pub fn level_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
+            // return [] if root.nil?
+            // result = []
+            // queue = [root]
+            // until queue.empty?
+            //   level_size = queue.length
+            //   current_level = []
+            //   level_size.times do
+            //     node = queue.shift
+            //     current_level << node.val
+            //     queue << node.left if node.left
+            //     queue << node.right if node.right
+            //   end
+            //   result << current_level
+            // end
+            // result
             todo!()
         }
     }

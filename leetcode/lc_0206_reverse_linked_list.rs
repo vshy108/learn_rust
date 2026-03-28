@@ -76,6 +76,15 @@ mod my_solution {
         ///
         /// Head of the reversed list
         pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+            // prev = nil
+            // current = head
+            // while current
+            //   next_node = current.next
+            //   current.next = prev
+            //   prev = current
+            //   current = next_node
+            // end
+            // prev
             todo!()
         }
     }

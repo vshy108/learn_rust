@@ -37,6 +37,14 @@ mod my_solution {
         ///
         /// The maximum number achievable with at most one digit change
         pub fn maximum69_number(num: i32) -> i32 {
+            // digits = num.to_s.chars
+            // digits.each_with_index do |d, i|
+            //   if d == '6'
+            //     digits[i] = '9'
+            //     break
+            //   end
+            // end
+            // digits.join.to_i
             todo!()
         }
     }

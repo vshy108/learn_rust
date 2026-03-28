@@ -51,6 +51,15 @@ mod my_solution {
         ///
         /// The "good" string after all bad pairs are removed
         pub fn make_good(s: String) -> String {
+            // stack = []
+            // s.each_char do |c|
+            //   if !stack.empty? && (stack[-1].ord ^ c.ord) == 32
+            //     stack.pop
+            //   else
+            //     stack << c
+            //   end
+            // end
+            // stack.join
             todo!()
         }
     }

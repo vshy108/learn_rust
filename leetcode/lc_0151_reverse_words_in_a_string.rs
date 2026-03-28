@@ -42,6 +42,9 @@ mod my_solution {
         ///
         /// Words in reverse order, separated by single spaces
         pub fn reverse_words(s: String) -> String {
+            // words = s.split
+            // reversed_words = words.reverse
+            // reversed_words.join(" ")
             todo!()
         }
     }

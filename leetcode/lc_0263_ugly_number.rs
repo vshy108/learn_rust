@@ -36,6 +36,13 @@ mod my_solution {
         ///
         /// `true` if `n` is ugly, `false` otherwise
         pub fn is_ugly(n: i32) -> bool {
+            // return false if n <= 0
+            // [2, 3, 5].each do |prime|
+            //   while n % prime == 0
+            //     n /= prime
+            //   end
+            // end
+            // n == 1
             todo!()
         }
     }

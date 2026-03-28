@@ -37,6 +37,17 @@ mod my_solution {
         ///
         /// Minimum count of perfect squares summing to `n`
         pub fn num_squares(n: i32) -> i32 {
+            // dp = Array.new(n + 1, Float::INFINITY)
+            // dp[0] = 0
+            // squares = []; i = 1
+            // while i*i <= n: squares << i*i; i += 1
+            // (1..n).each do |i|
+            //   squares.each do |sq|
+            //     break if sq > i
+            //     dp[i] = [dp[i], dp[i - sq] + 1].min
+            //   end
+            // end
+            // dp[n]
             todo!()
         }
     }

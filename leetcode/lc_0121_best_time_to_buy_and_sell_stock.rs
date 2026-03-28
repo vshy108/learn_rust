@@ -37,6 +37,15 @@ mod my_solution {
         ///
         /// Maximum profit achievable, or 0 if no profit possible
         pub fn max_profit(prices: Vec<i32>) -> i32 {
+            // return 0 if prices.length < 2
+            // min_price = prices[0]
+            // max_profit = 0
+            // prices[1..].each do |price|
+            //   potential_profit = price - min_price
+            //   max_profit = [max_profit, potential_profit].max
+            //   min_price = [min_price, price].min
+            // end
+            // max_profit
             todo!()
         }
     }

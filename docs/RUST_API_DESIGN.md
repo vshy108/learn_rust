@@ -105,7 +105,7 @@ fn v2_routes() -> Router<AppState> {
 ```
 
 **Versioning strategies:**
-- **Path versioning** (`/v1/`, `/v2/`) — most visible, easy to route, CyberOwl-appropriate
+- **Path versioning** (`/v1/`, `/v2/`) — most visible, easy to route, recommended for most APIs
 - **Header versioning** (`Accept: application/vnd.api+json; version=2`) — cleaner URLs but hidden
 - **Query param** (`?version=2`) — simple but pollutes caching
 

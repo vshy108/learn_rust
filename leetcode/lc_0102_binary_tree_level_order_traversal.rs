@@ -13,6 +13,20 @@
 //   - The number of nodes in the tree is in [0, 2000]
 //   - -1000 <= Node.val <= 1000
 //
+// Benchmark (100k iterations):
+//   My solution:  131.3ms (avg 1.313us) -- VecDeque BFS
+//   AI solution:  153.6ms (avg 1.536us) -- Vec-swap BFS
+//   -> My solution is 1.17x faster
+//
+// Rust Concepts:
+//   - Rc<RefCell<TreeNode>> for shared mutable tree nodes
+//   - VecDeque for O(1) pop_front (Ruby Array#shift equivalent)
+//   - .borrow() to access RefCell contents (shared reference)
+//   - if let Some(x) = ... for Option pattern matching (Ruby nil check)
+//   - .clone() on Rc increments reference count (cheap pointer copy)
+//   - Vec-swap BFS: process whole level as Vec, swap current/next
+//   - Vec::with_capacity() to pre-allocate known sizes
+//
 // Run:  cargo run --example lc_0102_binary_tree_level_order_traversal
 // Test: cargo test --example lc_0102_binary_tree_level_order_traversal
 // Bench: cargo test --example lc_0102_binary_tree_level_order_traversal bench -- --nocapture
@@ -85,10 +99,11 @@ fn build_tree(vals: &[Option<i32>]) -> Option<Rc<RefCell<TreeNode>>> {
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) -- visits each node exactly once
+/// Space: O(n) -- VecDeque stores up to n nodes; result holds all n values
 mod my_solution {
     use std::cell::RefCell;
+    use std::collections::VecDeque;
     use std::rc::Rc;
 
     use super::TreeNode;
@@ -106,30 +121,61 @@ mod my_solution {
         ///
         /// A Vec of Vecs, each inner Vec containing values at that level
         pub fn level_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
-            // return [] if root.nil?
-            // result = []
-            // queue = [root]
-            // until queue.empty?
-            //   level_size = queue.length
-            //   current_level = []
-            //   level_size.times do
-            //     node = queue.shift
-            //     current_level << node.val
-            //     queue << node.left if node.left
-            //     queue << node.right if node.right
-            //   end
-            //   result << current_level
-            // end
-            // result
-            todo!()
+            // Ruby: return [] if root.nil?
+            // Rust: Option wraps nullable values — None = nil, Some(_) = present.
+            // Early return with empty vec if root is None.
+            let root = match root {
+                Some(node) => node,
+                None => return vec![],
+            };
+            // vec![] creates an empty Vec — type is inferred from the annotation.
+            // Ruby's [] is untyped; Rust needs to know T at compile time.
+            let mut result: Vec<Vec<i32>> = vec![];
+            // Ruby: queue = [root]
+            // Rust: VecDeque gives O(1) pop_front; Vec's remove(0) is O(n).
+            let mut queue: VecDeque<Rc<RefCell<TreeNode>>> = VecDeque::new();
+            queue.push_back(root);
+            while !queue.is_empty() {
+                let level_size = queue.len();
+                let mut current_level: Vec<i32> = vec![];
+                for _ in 0..level_size {
+                    // Ruby: node = queue.shift
+                    // Rust: pop_front returns Option — .expect() is safe since
+                    // we only loop level_size times (guaranteed non-empty).
+                    let node = queue.pop_front().expect("queue non-empty");
+                    // Ruby: node.val / node.left / node.right accessed directly.
+                    // Rust: Rc<RefCell<T>> requires .borrow() to get a shared ref.
+                    let node_ref = node.borrow();
+                    // Ruby: current_level << node.val
+                    current_level.push(node_ref.val);
+                    // Ruby: queue << node.left if node.left
+                    // Rust: if let Some(x) = ... matches the Some variant (non-nil).
+                    // .clone() increments the Rc reference count (cheap pointer copy).
+                    if let Some(left) = node_ref.left.clone() {
+                        queue.push_back(left);
+                    }
+                    // Ruby: queue << node.right if node.right
+                    if let Some(right) = node_ref.right.clone() {
+                        queue.push_back(right);
+                    }
+                }
+                result.push(current_level);
+            }
+
+            result
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses a Vec-swap BFS instead of VecDeque. Since we process entire
+/// levels at once, we drain the current-level Vec and collect children
+/// into a next-level Vec, then swap. This avoids VecDeque's ring-buffer
+/// overhead and is more cache-friendly for level-by-level traversal.
+///
+/// Time:  O(n) — visits each node exactly once
+/// Space: O(w) — w = max width of the tree (widest level stored in Vec)
 mod ai_solution {
     use std::cell::RefCell;
     use std::rc::Rc;
@@ -149,11 +195,41 @@ mod ai_solution {
         ///
         /// A Vec of Vecs, each inner Vec containing values at that level
         pub fn level_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
-            todo!()
+            let root = match root {
+                Some(node) => node,
+                None => return vec![],
+            };
+
+            let mut result = Vec::new();
+            // Current level nodes — start with just the root.
+            let mut current = vec![root];
+
+            while !current.is_empty() {
+                let mut vals = Vec::with_capacity(current.len());
+                // Pre-allocate next level: binary tree can have at most 2x children.
+                let mut next = Vec::with_capacity(current.len() * 2);
+
+                for node in &current {
+                    let node_ref = node.borrow();
+                    vals.push(node_ref.val);
+                    if let Some(ref left) = node_ref.left {
+                        next.push(Rc::clone(left));
+                    }
+                    if let Some(ref right) = node_ref.right {
+                        next.push(Rc::clone(right));
+                    }
+                }
+
+                result.push(vals);
+                current = next;
+            }
+
+            result
         }
     }
 }
 
+#[allow(clippy::type_complexity)]
 fn main() {
     let test_cases: Vec<(Vec<Option<i32>>, Vec<Vec<i32>>)> = vec![
         (

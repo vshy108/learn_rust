@@ -17,6 +17,9 @@
 //   My solution:  131.3ms (avg 1.313us) -- VecDeque BFS
 //   AI solution:  153.6ms (avg 1.536us) -- Vec-swap BFS
 //   -> My solution is 1.17x faster
+//      Vec-swap allocates a new Vec per level; VecDeque reuses one buffer.
+//      For small trees (7 nodes, 3 levels), per-level allocation cost
+//      outweighs any cache benefit.
 //
 // Rust Concepts:
 //   - Rc<RefCell<TreeNode>> for shared mutable tree nodes

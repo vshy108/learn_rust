@@ -427,6 +427,16 @@ map.contains_key("a");
 map.remove("a");
 map.entry("b".to_string()).or_insert(0);  // insert if missing
 
+// VecDeque<T> — double-ended queue, O(1) push/pop at both ends
+use std::collections::VecDeque;
+let mut q: VecDeque<i32> = VecDeque::new();
+q.push_back(1);             // [1]
+q.push_back(2);             // [1, 2]
+q.pop_front();              // Some(1), q = [2]
+q.push_front(0);            // [0, 2]
+// Ruby: Array#shift is O(n); VecDeque::pop_front is O(1)
+// Use VecDeque for BFS queues, sliding windows, or any FIFO pattern
+
 // HashSet<T>
 use std::collections::HashSet;
 let mut set: HashSet<i32> = HashSet::new();
@@ -491,6 +501,25 @@ use std::sync::Mutex;
 let m = Mutex::new(5);
 let mut guard = m.lock().unwrap();
 *guard += 1;
+
+// Rc<RefCell<T>> combo — shared ownership + interior mutability
+// Common for tree nodes where multiple pointers share a mutable node
+use std::rc::Rc;
+use std::cell::RefCell;
+
+struct TreeNode {
+    val: i32,
+    left: Option<Rc<RefCell<TreeNode>>>,   // nullable child
+    right: Option<Rc<RefCell<TreeNode>>>,
+}
+
+let node = Rc::new(RefCell::new(TreeNode { val: 1, left: None, right: None }));
+let shared = Rc::clone(&node);            // cheap ref count bump
+let val = node.borrow().val;              // shared read via .borrow()
+node.borrow_mut().val = 2;                // exclusive write via .borrow_mut()
+// .borrow() panics at runtime if already mutably borrowed (RefCell rule)
+// Ruby objects are always GC'd + mutable; Rust needs Rc for sharing
+// + RefCell for mutation through shared references.
 
 // Cow<'a, T> — clone-on-write, avoids allocation when only reading
 use std::borrow::Cow;
@@ -884,6 +913,27 @@ for (i, &jump) in nums.iter().enumerate() {
     if i > max_reach { return false; }  // can't reach this index
     max_reach = max_reach.max(i + jump as usize);
 }
+
+// --- BFS level-order traversal (Binary Tree Level Order) ---
+use std::collections::VecDeque;
+let mut queue = VecDeque::new();
+queue.push_back(root);                  // seed with root node
+while !queue.is_empty() {
+    let level_size = queue.len();       // snapshot current level count
+    for _ in 0..level_size {
+        let node = queue.pop_front().expect("non-empty");
+        let node_ref = node.borrow();   // RefCell → shared ref
+        // process node_ref.val
+        if let Some(left) = node_ref.left.clone() {
+            queue.push_back(left);      // .clone() on Rc = cheap ref bump
+        }
+        if let Some(right) = node_ref.right.clone() {
+            queue.push_back(right);
+        }
+    }
+}
+// Alt: Vec-swap BFS — process whole level as Vec, swap current/next
+// (avoids VecDeque overhead but allocates a new Vec per level)
 
 // --- HashMap single-counter trick (Minimum Window Substring) ---
 // Merge need + window into ONE array; track remaining chars with ONE integer

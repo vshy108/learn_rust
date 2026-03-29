@@ -33,11 +33,27 @@
 // Run:  cargo run --example lc_0088_merge_sorted_array
 // Test: cargo test --example lc_0088_merge_sorted_array
 // Bench: cargo test --example lc_0088_merge_sorted_array bench -- --nocapture
+//
+// --- Benchmark (100,000 iterations, 2026-03-29) ---
+//   My solution:  75.21ms total (avg 752ns)
+//   AI solution:  80.81ms total (avg 808ns)
+//   -> My solution is 1.07x faster
+//   Reason: nearly identical algorithms; my_solution's manual while loop
+//     has marginally less overhead than copy_from_slice on tiny arrays.
+//     On larger inputs copy_from_slice's memcpy would win.
+//
+// --- Rust concepts used ---
+//   - usize indexing: Rust Vecs require usize, not i32 (Ruby has no such restriction)
+//   - > 0 guard pattern: avoids usize underflow (0usize - 1 panics, unlike Ruby's -1)
+//   - &mut Vec<i32>: mutable reference for in-place modification (no return needed)
+//   - as usize: i32 to usize cast for index compatibility
+//   - copy_from_slice: bulk memcpy for remaining elements (AI solution)
+//   - Tuple destructuring: `let (mut i, mut j, mut k) = (...)` for compact init
 
-/// My solution module.
+/// My solution module — reverse two-pointer merge.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(m + n) — single reverse pass through both arrays
+/// Space: O(1) — in-place, no extra allocations
 mod my_solution {
     pub struct Solution;
 
@@ -51,35 +67,43 @@ mod my_solution {
         /// * `nums2` - Second sorted array with n elements
         /// * `n` - Number of elements in nums2
         pub fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {
-            // i = m - 1
-            // j = n - 1
-            // k = m + n - 1
-            //
-            // while i >= 0 && j >= 0
-            //   if nums1[i] > nums2[j]
-            //     nums1[k] = nums1[i]
-            //     i -= 1
-            //   else
-            //     nums1[k] = nums2[j]
-            //     j -= 1
-            //   end
-            //   k -= 1
-            // end
-            //
-            // while j >= 0
-            //   nums1[k] = nums2[j]
-            //   j -= 1
-            //   k -= 1
-            // end
-            todo!()
+            // Use usize for indexing — Rust Vecs can only be indexed by usize, not i32.
+            // Use > 0 and decrement before indexing so usize never goes negative (would panic).
+            let mut i = m as usize;
+            let mut j = n as usize;
+            let mut k = (m + n) as usize;
+
+            while i > 0 && j > 0 {
+                if nums1[i - 1] > nums2[j - 1] {
+                    k -= 1;
+                    i -= 1;
+                    nums1[k] = nums1[i];
+                } else {
+                    k -= 1;
+                    j -= 1;
+                    nums1[k] = nums2[j];
+                }
+            }
+
+            // Copy remaining nums2 elements — no need to copy nums1 leftovers
+            // since they're already in place
+            while j > 0 {
+                k -= 1;
+                j -= 1;
+                nums1[k] = nums2[j];
+            }
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — slice `copy_within` + `copy_from_slice`.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses `copy_from_slice` to bulk-copy remaining nums2 elements
+/// instead of a manual while loop. Same algorithmic approach but
+/// leverages Rust's optimized memcpy for the tail copy.
+///
+/// Time:  O(m + n) — single reverse pass through both arrays
+/// Space: O(1) — in-place, no extra allocations
 mod ai_solution {
     pub struct Solution;
 
@@ -93,12 +117,31 @@ mod ai_solution {
         /// * `nums2` - Second sorted array with n elements
         /// * `n` - Number of elements in nums2
         pub fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {
-            todo!()
+            let (mut i, mut j, mut k) = (m as usize, n as usize, (m + n) as usize);
+
+            while i > 0 && j > 0 {
+                if nums1[i - 1] > nums2[j - 1] {
+                    i -= 1;
+                    k -= 1;
+                    nums1[k] = nums1[i];
+                } else {
+                    j -= 1;
+                    k -= 1;
+                    nums1[k] = nums2[j];
+                }
+            }
+
+            // Bulk-copy remaining nums2 elements via copy_from_slice —
+            // uses optimized memcpy instead of element-by-element loop
+            if j > 0 {
+                nums1[..j].copy_from_slice(&nums2[..j]);
+            }
         }
     }
 }
 
 fn main() {
+    #[allow(clippy::type_complexity)]
     let test_cases: Vec<(Vec<i32>, i32, Vec<i32>, i32, Vec<i32>)> = vec![
         (
             vec![1, 2, 3, 0, 0, 0],

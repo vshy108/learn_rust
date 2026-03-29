@@ -88,6 +88,26 @@ s.trim()
 s.split(',').collect::<Vec<&str>>()
 s.chars()        // iterator over Unicode chars
 s.bytes()        // iterator over raw bytes (u8)
+s.pop()          // Option<char> — remove last char (LC 0014)
+s.char_indices() // (byte_offset, char) pairs — use over .chars().enumerate()
+                 // when byte position matters for slicing (LC 0003)
+
+// String can't be indexed: s[i] won't compile (multi-byte UTF-8)
+// Collect to Vec<char> for O(1) random access (LC 0005)
+let chars: Vec<char> = s.chars().collect();
+let third = chars[2];
+
+// into_bytes() vs as_bytes()
+let borrowed: &[u8] = s.as_bytes();      // borrows, s still valid
+let owned: Vec<u8> = s.into_bytes();      // consumes s, zero-copy (LC 0079)
+
+// vec![String::new(); n] vs vec![""; n] (LC 0006)
+let rows: Vec<String> = vec![String::new(); n]; // n owned, growable Strings
+let slices: Vec<&str> = vec![""; n];             // n borrowed — can't push!()
+
+// String += &str (AddAssign trait) (LC 0012)
+let mut result = String::new();
+result += "hello";    // same as result.push_str("hello")
 ```
 
 ## Ownership Rules
@@ -275,6 +295,14 @@ let val = some.unwrap_or(0);
 let val = some.unwrap_or_default();
 let mapped = some.map(|x| x * 2);
 
+// Additional Option methods
+opt.take()                       // move value out, leave None in place (LC 0002)
+opt.as_deref()                   // &Option<Box<T>> → Option<&T> without consuming
+opt.map_or(default, |v| f(v))    // transform Some or return default value
+opt.is_some()                    // bool check without destructure
+opt.is_none()
+map.get(&k).copied().unwrap_or(0) // safe lookup chain: Option<&V> → Option<V> → V
+
 // Result<T, E> — error handling
 let ok: Result<i32, &str> = Ok(5);
 let err: Result<i32, &str> = Err("oops");
@@ -427,6 +455,16 @@ map.contains_key("a");
 map.remove("a");
 map.entry("b".to_string()).or_insert(0);  // insert if missing
 
+// HashMap::from([...]) — inline initialization (LC 0013)
+let map: HashMap<char, i32> = HashMap::from([
+    ('I', 1), ('V', 5), ('X', 10), ('L', 50),
+]);
+// Gotcha: heap-allocates on every call — prefer match or const for hot paths
+
+// map[&key] — Index trait requires reference (LC 0013)
+let value = roman_map[&ch];  // must pass &K, not K
+// Prefer .get(&k) for Option-based safe lookup
+
 // VecDeque<T> — double-ended queue, O(1) push/pop at both ends
 use std::collections::VecDeque;
 let mut q: VecDeque<i32> = VecDeque::new();
@@ -459,7 +497,9 @@ v.iter().skip(2)
 v.iter().zip(other.iter())
 v.iter().enumerate()        // (index, &value)
 v.iter().flat_map(|x| vec![x, x])
+v.iter().flatten()          // nested iterators: Vec<Vec<T>> → iter of &T (LC 0079)
 v.iter().chain(other.iter())
+std::iter::once(val).chain(iter) // prepend a single value to an iterator (LC 0005)
 
 // Consumers (eager — trigger evaluation)
 v.iter().sum::<i32>()
@@ -480,6 +520,23 @@ v.iter().fold(0, |acc, &x| acc + x)
 ```rust
 // Box<T> — heap allocation
 let b = Box::new(5);
+
+// Option<Box<T>> linked list — Rust's idiomatic singly-linked list
+type Link = Option<Box<ListNode>>;
+let next = node.next.take();     // move out, leave None behind
+let borrowed = boxed_opt.as_deref(); // &Option<Box<T>> → Option<&T>
+// Dummy head pattern for iterative list building (LC 0021)
+let mut dummy = ListNode::new(0);
+let mut current = &mut dummy;
+// ... current.next = Some(Box::new(...)); current = current.next.as_mut().unwrap();
+// return dummy.next
+// match on tuple of Options
+match (list1, list2) {
+    (None, None)       => None,
+    (Some(n), None)    => Some(n),
+    (None, Some(n))    => Some(n),
+    (Some(l), Some(r)) => { /* merge logic */ }
+}
 
 // Rc<T> — reference-counted, single thread
 use std::rc::Rc;
@@ -713,6 +770,21 @@ Ruby integers are unbounded so this never arises.
 
 Remainder preserves sign — Rust: -123 % 10 == -3 (not 7). This means
 you can process negative numbers directly without abs().
+
+Moving out of Vec by index is forbidden (LC 0014) —
+let strs: Vec<String> = vec![...]; let first = strs[0]; // ERROR
+Fix: clone (.clone()) or borrow (&strs[0]).
+
+Borrow conflict: iterating + mutating same Vec (LC 0080) —
+for &num in &nums { nums[write] = num; } // ERROR: immut + mut borrow
+Fix: use index-based loop: for i in 0..nums.len() { nums[write] = nums[i]; }
+
+No ||= operator for bools (LC 0010) — use |= instead:
+dp[i][j] |= some_bool;  // bitwise OR assign works as logical OR for bool
+
+#[allow(clippy::...)] — suppress specific clippy warnings (LC 0079, 0088) —
+#[allow(clippy::too_many_arguments)]  for functions with > 7 params
+#[allow(clippy::type_complexity)]     for long nested type annotations
 ```
 
 ## Byte-Level String Processing
@@ -942,4 +1014,49 @@ let mut total = t.len() as i32;
 // Expand: if counts[r] > 0 { total -= 1; } counts[r] -= 1;
 // Contract: counts[l] += 1; if counts[l] > 0 { total += 1; }
 // Valid when: total == 0
+
+// --- 2D Vec initialization (DP tables, grids) (LC 0010, 0079) ---
+let mut dp = vec![vec![false; n + 1]; m + 1]; // (m+1) x (n+1) grid of false
+let mut grid = vec![vec![0i32; cols]; rows];   // rows x cols grid of 0
+// Ruby: Array.new(m+1) { Array.new(n+1, false) }
+
+// --- Nested fn for recursive DFS (LC 0079) ---
+// Closures can't recurse while mutably borrowing captured state
+// Solution: use a nested fn, pass all state as explicit parameters
+fn dfs(board: &[Vec<char>], visited: &mut [Vec<bool>],
+       r: usize, c: usize) -> bool {
+    // ... recursive calls to dfs() work here
+    true
+}
+
+// --- isize for grid bounds checking (LC 0079) ---
+// isize allows r-1 to go negative without usize underflow panic
+fn dfs(r: isize, c: isize, rows: isize, cols: isize) -> bool {
+    if r < 0 || c < 0 || r >= rows || c >= cols { return false; }
+    let (ru, cu) = (r as usize, c as usize); // safe after bounds check
+    // ...
+    true
+}
+
+// --- const array/slice as zero-allocation lookup table (LC 0012) ---
+const ROMAN: &[(i32, &str)] = &[(1000, "M"), (900, "CM"), (500, "D")];
+// Lives in binary's read-only segment — zero heap allocation
+const ONES: [&str; 10] = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
+// Direct index: ONES[n % 10] — faster than HashMap for static maps
+
+// --- u64 bitmask as visited set for small grids (LC 0079) ---
+let mut visited: u64 = 0;
+let bit = 1u64 << (r * cols + c);       // up to 64 cells (e.g., 6x6 = 36)
+visited |= bit;                          // mark visited
+visited ^= bit;                          // backtrack (unmark)
+// Single XOR vs Vec element assignment — faster, no heap allocation
+
+// --- Flat indexing for 2D grids (LC 0079) ---
+// r * cols + c avoids Vec<Vec<>> double indirection
+let flat: Vec<u8> = board.iter().flatten().copied().collect();
+let cell = flat[r * cols + c];
+
+// --- copy_from_slice — bulk memory copy between slices (LC 0088) ---
+nums1[start..end].copy_from_slice(&nums2[..remaining]);
+// Equivalent to memcpy — faster than element-by-element loop
 ```

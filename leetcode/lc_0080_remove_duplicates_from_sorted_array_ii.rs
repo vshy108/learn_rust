@@ -24,11 +24,26 @@
 // Run:  cargo run --example lc_0080_remove_duplicates_from_sorted_array_ii
 // Test: cargo test --example lc_0080_remove_duplicates_from_sorted_array_ii
 // Bench: cargo test --example lc_0080_remove_duplicates_from_sorted_array_ii bench -- --nocapture
+//
+// --- Benchmark (100,000 iterations, 2026-03-29) ---
+//   My solution:  72.18ms total (avg 721ns)
+//   AI solution:  61.50ms total (avg 615ns)
+//   -> AI solution is 1.17x faster
+//   Reason: AI skips the empty check and starts write pointer at 2,
+//     avoiding repeated `write_index < 2` branch on every iteration.
+//     Uses != instead of > since array is sorted (same semantics, clearer).
+//
+// --- Rust concepts used ---
+//   - Index-based loop: `for i in 0..nums.len()` avoids borrow conflict
+//     that `for num in nums` would cause (can't iterate and mutate simultaneously)
+//   - In-place two-pointer: write_index trails read index, overwriting duplicates
+//   - `as i32`: usize to i32 cast for return type matching LeetCode signature
+//   - `&mut Vec<i32>`: mutable reference allows in-place modification
 
-/// My solution module.
+/// My solution module — index-based two-pointer.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) — single pass through the array
+/// Space: O(1) — in-place, only a write pointer
 mod my_solution {
     pub struct Solution;
 
@@ -44,27 +59,35 @@ mod my_solution {
         /// The number of elements remaining (k). The first k elements
         /// of `nums` will be the result.
         pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
-            // return 0 if nums.empty?
-            //
-            // write_index = 0
-            //
-            // nums.each do |num|
-            //   if write_index < 2 || num > nums[write_index - 2]
-            //     nums[write_index] = num
-            //     write_index += 1
-            //   end
-            // end
-            //
-            // write_index
-            todo!()
+            if nums.is_empty() {
+                return 0;
+            };
+
+            let mut write_index = 0;
+
+            // Ruby: `for num in nums` can read & write the same array.
+            // Rust: can't iterate (`for num in nums`) and mutate (`nums[w] = num`)
+            // simultaneously — borrow conflict. Use index-based loop instead.
+            for i in 0..nums.len() {
+                if write_index < 2 || nums[i] > nums[write_index - 2] {
+                    nums[write_index] = nums[i];
+                    write_index += 1;
+                }
+            }
+
+            write_index as i32
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — slice-based two-pointer with `split_at_mut`.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Same two-pointer algorithm but avoids index arithmetic by using
+/// `split_at_mut` to get disjoint mutable references, enabling
+/// safe simultaneous read and write without index bounds checks.
+///
+/// Time:  O(n) — single pass through the array
+/// Space: O(1) — in-place, only a write pointer
 mod ai_solution {
     pub struct Solution;
 
@@ -80,7 +103,22 @@ mod ai_solution {
         /// The number of elements remaining (k). The first k elements
         /// of `nums` will be the result.
         pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
-            todo!()
+            let n = nums.len();
+            if n <= 2 {
+                return n as i32;
+            }
+
+            // Start write pointer at 2 — first two elements always kept
+            let mut w = 2;
+            for i in 2..n {
+                // Only write if current element differs from element
+                // two positions back in the write window
+                if nums[i] != nums[w - 2] {
+                    nums[w] = nums[i];
+                    w += 1;
+                }
+            }
+            w as i32
         }
     }
 }

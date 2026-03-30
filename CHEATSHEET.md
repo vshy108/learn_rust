@@ -41,6 +41,41 @@ let c: char = 'Z';
 let emoji: char = '😀';
 ```
 
+## Numeric Methods
+
+```rust
+// Bounds
+i32::MAX                         // 2_147_483_647
+i32::MIN                         // -2_147_483_648
+usize::MAX                       // platform-dependent (2^64-1 on 64-bit)
+
+// Parsing & conversion
+"42".parse::<i32>()              // Result<i32, ParseIntError>
+i32::from_str_radix("1A", 16)   // Result<i32, _> — hex/binary/octal
+42_i32.to_string()               // "42"
+42 as f64                        // type cast (as keyword)
+
+// Integer math
+5_i32.pow(3)                     // 125
+(-5_i32).abs()                   // 5
+5_i32.min(3)                     // 3
+5_i32.max(3)                     // 5
+5_i32.clamp(0, 3)               // 3 — clamp between min and max
+
+// Float math
+2.0_f64.sqrt()                   // 1.414...
+2.0_f64.powi(3)                  // 8.0 (integer exponent — faster)
+2.0_f64.powf(0.5)               // same as sqrt (float exponent)
+3.7_f64.floor()                  // 3.0
+3.2_f64.ceil()                   // 4.0
+3.5_f64.round()                  // 4.0
+(-2.5_f64).abs()                 // 2.5
+f64::INFINITY                    // positive infinity
+f64::NAN                         // not a number
+f64::NAN == f64::NAN             // false! NaN != NaN
+val.is_nan()                     // true check for NaN
+```
+
 ## Compound Types
 
 ```rust
@@ -89,6 +124,15 @@ s.split(',').collect::<Vec<&str>>()
 s.chars()        // iterator over Unicode chars
 s.bytes()        // iterator over raw bytes (u8)
 s.pop()          // Option<char> — remove last char (LC 0014)
+s.clear()        // empty the string
+s.repeat(3)     // "abcabcabc"
+s.replace("old", "new")   // replace all occurrences
+s.replacen("old", "new", 1) // replace first N
+s.find("sub")    // Option<usize> — first byte index
+s.rfind("sub")   // Option<usize> — last byte index
+s.split_whitespace()     // iterator of words
+s.lines()                // iterator of lines
+["a", "b"].join(", ")    // "a, b"
 s.char_indices() // (byte_offset, char) pairs — use over .chars().enumerate()
                  // when byte position matters for slicing (LC 0003)
 
@@ -295,12 +339,25 @@ let val = some.unwrap_or(0);
 let val = some.unwrap_or_default();
 let mapped = some.map(|x| x * 2);
 
+// Chaining map + unwrap_or_default — transform Option then default if None
+let name: Option<String> = Some("hello".to_string());
+let upper = name.map(|n| n.to_uppercase()).unwrap_or_default();
+// Some("hello") → .map() → Some("HELLO") → .unwrap_or_default() → "HELLO" (String)
+// None          → .map() → None           → .unwrap_or_default() → ""      (String::default())
+
 // Additional Option methods
 opt.take()                       // move value out, leave None in place (LC 0002)
 opt.as_deref()                   // &Option<Box<T>> → Option<&T> without consuming
 opt.map_or(default, |v| f(v))    // transform Some or return default value
 opt.is_some()                    // bool check without destructure
 opt.is_none()
+opt.filter(|v| *v > 5)          // Some(v) if predicate true, else None
+opt.or(other_opt)                // first Some wins
+opt.or_else(|| compute_opt())   // lazy fallback
+opt.zip(other_opt)               // (Some(a), Some(b)) → Some((a,b))
+opt.flatten()                    // Option<Option<T>> → Option<T>
+opt.inspect(|v| println!("{v}")) // peek without consuming (1.76+)
+opt.replace(new_val)             // puts new, returns old Option
 map.get(&k).copied().unwrap_or(0) // safe lookup chain: Option<&V> → Option<V> → V
 
 // Result<T, E> — error handling
@@ -392,6 +449,40 @@ where
 // Iterator         — .next()
 ```
 
+## Type Conversions: From / Into / TryInto / as
+
+```rust
+// From/Into — infallible, lossless conversions only
+// Implement From, you get Into for free
+let s: String = String::from("hello");  // explicit target type
+let s: String = "hello".into();          // infers target from context
+
+// .into() fails if compiler can't infer target type:
+// let s = "hello".into();  // ERROR: type annotations needed
+
+// Lossless numeric conversions (smaller → larger always works)
+let big: i64 = 42_i32.into();       // i32 → i64
+let wide: u32 = 42_u16.into();      // u16 → u32
+
+// These DON'T compile — potentially lossy:
+// let x: i32 = 42_usize.into();    // usize could be 64-bit
+// let x: i32 = 42_u32.into();      // u32::MAX > i32::MAX
+
+// TryFrom / TryInto — fallible, returns Result
+use std::convert::TryInto;
+let x: i32 = some_usize.try_into().expect("value too large");
+let x: i32 = some_usize.try_into().unwrap_or(i32::MAX);  // saturate
+
+// as — raw cast, silent truncation (use with caution)
+let x = some_usize as i32;          // wraps if value > i32::MAX
+let idx = some_i32 as usize;        // wraps if negative
+
+// Summary:
+// From / .into()     → lossless, infallible (compiler guarantees fit)
+// TryFrom / .try_into() → potentially lossy, returns Result
+// as                  → silent truncation, use when you're certain it fits
+```
+
 ## Generics
 
 ```rust
@@ -437,11 +528,27 @@ let s: &'static str = "I live forever";
 // Vec<T> — growable array
 let mut v: Vec<i32> = Vec::new();
 let mut v = vec![1, 2, 3];
+Vec::with_capacity(100);        // pre-allocate to avoid reallocations
+vec![0; 10];                    // 10 zeros
 v.push(4);
 v.pop();                    // Option<i32>
 v.len();
+v.is_empty();
 v[0];                       // panics if OOB
-v.get(0);                   // Option<&i32>
+v.get(0);                   // Option<&i32> — bounds-checked
+v.first();                  // Option<&i32> — first element
+v.last();                   // Option<&i32> — last element
+v.contains(&3);             // bool
+v.insert(1, val);           // O(n) — shifts elements right
+v.remove(1);                // O(n) — shifts left, returns removed
+v.swap_remove(1);           // O(1) — swaps with last, returns removed
+v.extend([4, 5, 6]);       // append from iterator
+v.sort();                   // stable sort
+v.sort_unstable();          // faster, not stable
+v.sort_by(|a, b| b.cmp(a));     // custom comparator (descending)
+v.sort_by_key(|x| x.abs());     // sort by derived key
+v.reverse();
+v.binary_search(&val);      // Result<usize, usize> — must be sorted
 v.iter()                    // &T iterator
 v.iter_mut()                // &mut T iterator
 v.into_iter()               // T iterator (consumes)
@@ -478,9 +585,18 @@ q.push_front(0);            // [0, 2]
 // HashSet<T>
 use std::collections::HashSet;
 let mut set: HashSet<i32> = HashSet::new();
-set.insert(1);
+set.insert(1);              // bool — true if new, false if existed
 set.contains(&1);
-set.remove(&1);
+set.remove(&1);             // bool — true if was present
+set.len();
+set.is_empty();
+
+// Set operations
+a.intersection(&b)           // elements in both
+a.union(&b)                  // elements in either
+a.difference(&b)             // in a but not b
+a.symmetric_difference(&b)  // in one but not both
+a.is_subset(&b)             // true if all of a is in b
 ```
 
 ## Iterators
@@ -512,7 +628,18 @@ v.iter().all(|&x| x > 0)
 v.iter().find(|&&x| x > 3) // Option<&i32>
 v.iter().position(|&x| x == 3) // Option<usize>
 v.iter().collect::<Vec<_>>()
+v.iter().collect::<String>()         // chars/&str → String
+v.iter().collect::<HashMap<_, _>>()  // pairs → HashMap
 v.iter().fold(0, |acc, &x| acc + x)
+v.iter().reduce(|a, b| a.max(b))    // like fold but no initial value, returns Option
+v.iter().cloned()                    // &T → T (requires Clone)
+v.iter().copied()                    // &T → T (requires Copy, cheaper)
+v.iter().rev()                       // reverse (DoubleEndedIterator)
+v.iter().step_by(2)                  // every Nth element
+v.iter().peekable()                  // .peek() next without consuming
+v.iter().inspect(|x| println!("{x}")) // debug tap — peek without consuming
+iter.unzip::<Vec<_>, Vec<_>>()       // split pairs into two Vecs
+iter.partition::<Vec<_>, _>(|x| x > &3) // split by predicate into two Vecs
 ```
 
 ## Smart Pointers
@@ -577,6 +704,16 @@ node.borrow_mut().val = 2;                // exclusive write via .borrow_mut()
 // .borrow() panics at runtime if already mutably borrowed (RefCell rule)
 // Ruby objects are always GC'd + mutable; Rust needs Rc for sharing
 // + RefCell for mutation through shared references.
+
+// Arc<Mutex<T>> combo — shared ownership + mutation across threads
+// Arc for shared ownership, Mutex for interior mutability (thread-safe)
+use std::sync::{Arc, Mutex};
+let counter = Arc::new(Mutex::new(0));
+let thread_counter = Arc::clone(&counter);
+std::thread::spawn(move || {
+    *thread_counter.lock().unwrap() += 1;
+});
+// Use Arc<RwLock<T>> instead when reads far outnumber writes
 
 // Cow<'a, T> — clone-on-write, avoids allocation when only reading
 use std::borrow::Cow;
@@ -696,6 +833,29 @@ struct Kilograms(f64);
 
 // Type alias — just a rename, no new type
 type Result<T> = std::result::Result<T, AppError>;
+```
+
+## std Utility Functions
+
+```rust
+// std::mem — move and swap values
+std::mem::swap(&mut a, &mut b);       // swap two values in place
+std::mem::replace(&mut a, new_val);   // replace a, returns old value
+std::mem::take(&mut a);               // replace with Default, returns old
+
+// std::cmp
+std::cmp::min(a, b);                  // works on Ord types
+std::cmp::max(a, b);
+std::cmp::Reverse(val)                // wrapper for reverse sorting:
+//   v.sort_by_key(|x| std::cmp::Reverse(x.score));
+
+// BinaryHeap — max-heap by default
+use std::collections::BinaryHeap;
+use std::cmp::Reverse;
+let mut min_heap = BinaryHeap::new();
+min_heap.push(Reverse(5));             // wrap in Reverse for min-heap
+min_heap.push(Reverse(2));
+min_heap.pop();                        // Some(Reverse(2)) — smallest first
 ```
 
 ## Useful Macros

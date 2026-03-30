@@ -133,12 +133,99 @@ fn first_even(nums: &[i32]) -> Option<i32> {
 }
 ```
 
+### `?` on `Result` vs `Option` — different behavior
+
+| Expression | On success | On failure | Return type must be |
+|---|---|---|---|
+| `result?` | Unwraps `Ok(v)` → `v` | Returns `Err(e.into())` | `Result<_, E>` where `E: From<OrigErr>` |
+| `option?` | Unwraps `Some(v)` → `v` | Returns `None` | `Option<_>` |
+
+### Gotcha: you CANNOT mix them
+
+```rust
+// DOES NOT COMPILE — ? on Option inside a Result-returning fn
+fn bad() -> Result<i32, MyError> {
+    let val = some_option()?;  // ERROR: Option is not Result
+    Ok(val)
+}
+```
+
+### Converting between Option and Result for `?`
+
+```rust
+// Option → Result: use .ok_or() or .ok_or_else()
+fn good() -> Result<i32, MyError> {
+    let val = some_option().ok_or(MyError::Missing)?;
+    Ok(val)
+}
+
+// With anyhow: .context() works on Option too
+use anyhow::Context;
+fn good2() -> anyhow::Result<i32> {
+    let val = some_option().context("value was missing")?;
+    Ok(val)
+}
+
+// Result → Option: use .ok()
+fn returns_option() -> Option<i32> {
+    let val = might_fail().ok()?;  // Err → None, Ok(v) → Some(v) → unwrap
+    Some(val)
+}
+```
+
+### How `?` actually desugars — the `Try` trait (unstable)
+
+```rust
+// val? roughly desugars to:
+match Try::branch(val) {
+    ControlFlow::Continue(v) => v,          // unwrap and continue
+    ControlFlow::Break(residual) => {
+        return Try::from_residual(residual); // early return
+    }
+}
+// Both Result and Option implement Try, but with incompatible residual
+// types — which is why you can't mix them without conversion.
+```
+
 ---
 
 ## Q4: What is `thiserror` and when do you use it?
 
 **Answer:**
-`thiserror` is a derive macro for creating custom error types. Use it for **library/domain errors** where callers need to match on specific error variants.
+`thiserror` is an **external crate** (`dtolnay/thiserror` on crates.io) — NOT built into std. It's a derive macro that auto-generates `Display` and `std::error::Error` trait impls for custom error types. Use it for **library/domain errors** where callers need to match on specific error variants.
+
+```toml
+# Cargo.toml
+[dependencies]
+thiserror = "2"
+```
+
+**What's actually built-in:** `Result`, `Option`, `?` operator, and the `std::error::Error` trait. Both `thiserror` and `anyhow` are external crates that reduce boilerplate around that built-in trait.
+
+Without `thiserror`, you'd write this manually:
+```rust
+// '_ is the anonymous lifetime — tells the compiler "infer it, I don't need to name it"
+// Formatter borrows data internally so it has a lifetime param, but we never
+// reference that lifetime elsewhere, so '_ suffices.
+// Equivalent to: fn fmt<'a>(&self, f: &mut Formatter<'a>) -> fmt::Result
+impl std::fmt::Display for AppError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            AppError::NotFound => write!(f, "Resource not found"),
+            AppError::Validation(msg) => write!(f, "Validation failed: {msg}"),
+            // ... every variant
+        }
+    }
+}
+impl std::error::Error for AppError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            AppError::Database(e) => Some(e),
+            _ => None,
+        }
+    }
+}
+```
 
 ```rust
 use thiserror::Error;
@@ -220,6 +307,35 @@ fn load_config() -> Result<Config> {   // anyhow::Result
 ```
 
 **Practical rule:** Use `thiserror` for your `AppError` enum. Use `anyhow` inside application functions where you just want to add context and propagate.
+
+### `anyhow::Error` under the hood
+
+`anyhow::Error` is roughly `Box<dyn std::error::Error + Send + Sync + 'static>` with ergonomic extras:
+
+```rust
+// anyhow::Result<T> is just an alias for Result<T, anyhow::Error>
+
+// Ad-hoc errors (no custom type needed)
+use anyhow::{anyhow, bail};
+if x < 0 { return Err(anyhow!("must be non-negative, got {x}")); }
+if x < 0 { bail!("must be non-negative, got {x}"); }  // shorthand for above
+
+// Downcast back to original error type
+if let Some(io_err) = err.downcast_ref::<std::io::Error>() {
+    tracing::error!("IO error: {io_err}");
+}
+```
+
+### Gotchas
+
+| Gotcha | Detail |
+|---|---|
+| **Type erasure** | Once wrapped, lose compile-time error type info. Callers must `downcast` to inspect — fragile. |
+| **`{:?}` vs `{}`** | `{:?}` (Debug) prints full error chain; `{}` (Display) prints only outermost message. |
+| **No `PartialEq`** | Cannot compare `anyhow::Error` with `==`. Test by downcasting or checking message. |
+| **`Send + Sync`** | `anyhow::Error` is `Send + Sync`, works across threads/async. |
+| **Backtrace** | Captures backtraces automatically with `RUST_BACKTRACE=1`. |
+| **`?` in `main`** | `fn main() -> anyhow::Result<()>` prints full error chain on failure via `Debug`. |
 
 ---
 
@@ -419,7 +535,29 @@ async fn get_vessel(
 // Setup in main.rs:
 tracing_subscriber::fmt()
     .with_env_filter("info,sqlx=warn")  // default info, sqlx only warnings
+    //                ^^^^  ^^^^^^^^^
+    //                |     override: sqlx crate only logs warn+ (suppresses query noise)
+    //                default: all crates log info, warn, error
     .json()                              // structured JSON for production
+    .init();
+
+// Filter syntax: "default_level,crate=level,crate=level"
+// Levels (least → most verbose): error > warn > info > debug > trace
+// Setting a level means "this level and above"
+
+// Common filter patterns:
+//   Development: "debug,sqlx=info,tower_http=debug"  — verbose
+//   Production:  "info,sqlx=warn,tower_http=warn"    — quiet
+
+// Best practice: allow runtime override via RUST_LOG env var
+// RUST_LOG="debug,sqlx=trace" cargo run
+use tracing_subscriber::EnvFilter;
+tracing_subscriber::fmt()
+    .with_env_filter(
+        EnvFilter::try_from_default_env()           // use RUST_LOG if set
+            .unwrap_or_else(|_| EnvFilter::new("info,sqlx=warn"))  // fallback
+    )
+    .json()
     .init();
 ```
 

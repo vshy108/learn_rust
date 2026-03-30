@@ -41,6 +41,9 @@ async fn main() -> anyhow::Result<()> {
 | actix-web | Mature, fast benchmarks | Actor model complexity, macros-heavy |
 | rocket | Ergonomic, Rails-like | Slower adoption of async, less flexible |
 
+**What is the tower ecosystem?**
+Tower is a Rust library that defines a `Service` trait — a function that takes a request and returns a future of a response. The "tower ecosystem" is the collection of crates built on this shared trait: **tower** (core combinators: retry, rate-limit, load-balance), **tower-http** (HTTP middleware: tracing, compression, CORS, timeouts), **hyper** (HTTP implementation), **axum** (web framework), and **tonic** (gRPC). Because they all share the same `Service` trait, middleware is interchangeable across frameworks — like Ruby's Rack middleware, but with compile-time type safety.
+
 ---
 
 ## Q2: How do axum extractors work and why are they useful?
@@ -70,6 +73,8 @@ struct CreateVessel {
 async fn create_vessel(Json(payload): Json<CreateVessel>) -> ... { ... }
 
 // State — shares application state (DB pool, config) across handlers
+// Clone is required by axum — it clones state for each concurrent handler.
+// PgPool is internally Arc<Pool>, so clone is cheap (ref count bump, not deep copy).
 #[derive(Clone)]
 struct AppState { db: PgPool }
 async fn list_vessels(State(state): State<AppState>) -> ... {
@@ -262,6 +267,21 @@ async fn get_vessel(Path(id): Path<VesselId>) -> Result<Json<Vessel>, AppError> 
     let vessel = find_vessel(id).await?;
     Ok(Json(vessel))
 }
+
+// How ? works — the error propagation flow:
+//   find_vessel(id).await returns Result<Vessel, AppError>
+//     → Ok(vessel):  ? unwraps the value, execution continues
+//     → Err(e):      ? returns early with Err(AppError), which axum
+//                     converts to an HTTP response via IntoResponse (see Q9)
+//
+// Inside find_vessel, errors originate from two places:
+async fn find_vessel(id: VesselId, db: &PgPool) -> Result<Vessel, AppError> {
+    sqlx::query_as!(Vessel, "SELECT * FROM vessels WHERE id = $1", id.0)
+        .fetch_optional(db).await?   // DB error → AppError via From<sqlx::Error>
+        .ok_or(AppError::NotFound)   // None (no row) → AppError::NotFound (404)
+}
+// Without ?, you'd write: match find_vessel(id).await { Ok(v) => v, Err(e) => return Err(e) }
+// Ruby/Node silently returns nil/undefined on missing data — Rust forces you to handle it.
 ```
 
 **Compared to dynamically-typed languages:** In Node.js/Python, a misspelled field name, wrong ID type, or missing null check only crashes at runtime. In Rust, the compiler catches all of these before the code ever runs.
@@ -357,5 +377,75 @@ pub async fn create(db: &PgPool, input: CreateVessel) -> Result<Vessel, AppError
         return Err(AppError::Conflict("IMO number already registered".into()));
     }
     insert_vessel(db, input).await
+    // ^ No ? here — this is the last expression, and its type (Result<Vessel, AppError>)
+    // already matches the function's return type. Rust returns it directly.
+    // With ?: Ok(insert_vessel(db, input).await?) — unwraps then re-wraps, redundant.
+    // Skipping ? on the tail expression is idiomatic Rust.
 }
 ```
+
+---
+
+## Q9: How do you manually control HTTP status codes in axum?
+
+**Answer:**
+Anything that implements the `IntoResponse` trait can be a handler return type. axum's automatic 422 is just the default — you can override it completely.
+
+```rust
+use axum::{http::StatusCode, response::{IntoResponse, Response}, Json};
+
+// 1. Tuple — (StatusCode, body)
+async fn create_vessel(...) -> (StatusCode, Json<Vessel>) {
+    (StatusCode::CREATED, Json(vessel))       // 201
+}
+
+// 2. Just a StatusCode (no body)
+async fn delete_vessel(...) -> StatusCode {
+    StatusCode::NO_CONTENT                    // 204
+}
+
+// 3. Result with inline error status
+async fn get_vessel(...) -> Result<Json<Vessel>, (StatusCode, String)> {
+    Err((StatusCode::NOT_FOUND, "vessel not found".into()))  // 404
+}
+
+// 4. Full control via Response builder
+async fn custom(...) -> Response {
+    Response::builder()
+        .status(StatusCode::ACCEPTED)         // 202
+        .header("X-Custom", "value")
+        .body(Body::from("accepted"))
+        .unwrap()
+}
+
+// 5. Centralized — AppError implementing IntoResponse (recommended)
+impl IntoResponse for AppError {
+    fn into_response(self) -> Response {
+        let status = match &self {
+            AppError::NotFound       => StatusCode::NOT_FOUND,             // 404
+            AppError::Unauthorized   => StatusCode::UNAUTHORIZED,          // 401
+            AppError::Validation(_)  => StatusCode::UNPROCESSABLE_ENTITY,  // 422
+            AppError::Conflict(_)    => StatusCode::CONFLICT,              // 409
+            _                        => StatusCode::INTERNAL_SERVER_ERROR, // 500
+        };
+        (status, self.to_string()).into_response()
+    }
+}
+```
+
+**Common HTTP status codes in CRUD APIs:**
+
+| Code | Constant | When to use |
+|---|---|---|
+| 200 | `OK` | Successful GET, PUT |
+| 201 | `CREATED` | Successful POST (resource created) |
+| 204 | `NO_CONTENT` | Successful DELETE (no response body) |
+| 400 | `BAD_REQUEST` | Malformed syntax (invalid JSON) |
+| 401 | `UNAUTHORIZED` | Missing or invalid auth token |
+| 403 | `FORBIDDEN` | Authenticated but not permitted |
+| 404 | `NOT_FOUND` | Resource doesn't exist |
+| 409 | `CONFLICT` | Duplicate resource (e.g., unique constraint) |
+| 422 | `UNPROCESSABLE_ENTITY` | Valid JSON but semantically wrong values |
+| 500 | `INTERNAL_SERVER_ERROR` | Unexpected server failure |
+
+**Best practice:** Use approach #5 — define one `AppError` enum with `IntoResponse`. All handlers return `Result<T, AppError>`, and status codes are centralized in one place.

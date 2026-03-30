@@ -152,11 +152,11 @@ fn vessel_routes() -> Router<AppState> {
 ```
 
 **Key patterns to highlight in interview:**
-- `RETURNING` clause avoids a second SELECT
-- `fetch_optional` + `.ok_or(NotFound)` for clean 404s
-- `COALESCE` for partial updates without overwriting unset fields
-- `StatusCode::CREATED` (201) for POST, `NO_CONTENT` (204) for DELETE
-- All handlers return `Result<T, AppError>` — centralized error handling
+- `RETURNING` clause avoids a second SELECT — Postgres returns the new row (with auto-generated `id`, `created_at`) in the same query. Without it, you'd need `INSERT` then `SELECT WHERE id = last_insert_id` — two DB round trips instead of one.
+- `fetch_optional` + `.ok_or(NotFound)` for clean 404s — `fetch_optional` returns `Option<Vessel>` (`Some` if found, `None` if no row). `.ok_or(AppError::NotFound)` converts `None` to a 404 in one line. The alternative (`fetch_one`) throws an ugly sqlx error if the row is missing — bad for the client.
+- `COALESCE` for partial updates without overwriting unset fields — `COALESCE($2, name)` means "use the new value if provided, otherwise keep the existing column value." When the client omits a field, Rust deserializes it as `None`, sqlx sends `NULL` to Postgres, and `COALESCE(NULL, name)` preserves the old value. Without it, omitted fields would be overwritten with `NULL`.
+- `StatusCode::CREATED` (201) for POST, `NO_CONTENT` (204) for DELETE — REST convention: 201 = "I made something new, here it is in the body"; 204 = "Done, nothing to send back." Using 200 for everything works but is less informative to the client.
+- All handlers return `Result<T, AppError>` — centralized error handling. The `IntoResponse` impl on `AppError` maps each variant to an HTTP status (NotFound → 404, Unauthorized → 401, etc.) in one place. Adding a new error type = add one enum variant + one match arm, not touching every handler.
 
 ---
 
@@ -428,6 +428,14 @@ async fn create_vessel(Json(payload): Json<CreateVessel>) -> ... {
 // 2. Database pool is safely shared — PgPool uses Arc internally
 // The compiler enforces that PgPool is Clone + Send + Sync, meaning
 // it's safe to share across async tasks without locks.
+//
+// How the pool works:
+//   App startup: PgPool::connect() creates N pre-opened DB connections (e.g., 10)
+//   Each query:  sqlx borrows an idle connection from the pool (not a new TCP conn)
+//   Query done:  connection auto-returned to pool (Rust's Drop trait)
+//   Pool full:   new queries wait until a connection frees up
+//   Without a pool, every query opens a new TCP connection (~5-50ms handshake each)
+//   Ruby equivalent: ActiveRecord::Base.connection_pool
 #[derive(Clone)]       // Clone is cheap — just increments Arc refcount
 struct AppState {
     db: PgPool,        // internally Arc<Pool> — shared, not copied

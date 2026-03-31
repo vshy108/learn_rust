@@ -736,6 +736,18 @@ fn apply_once<F: FnOnce() -> String>(f: F) -> String { f() }
 fn make_adder(n: i32) -> impl Fn(i32) -> i32 {
     move |x| x + n
 }
+
+// When `move` is required:
+// - Closures sent to other threads (spawn, spawn_blocking, tokio::spawn)
+// - The closure must OWN the data, not borrow it, because the thread
+//   might outlive the scope where the data was created
+let name = String::from("hello");
+std::thread::spawn(move || {
+    // `move` transfers ownership of `name` into the closure
+    // Without `move` → compile error: name borrowed but thread may outlive it
+    println!("{name}");
+});
+// println!("{name}");  // COMPILE ERROR: name was moved
 ```
 
 ## Concurrency
@@ -872,6 +884,43 @@ panic!("message")           // unrecoverable error
 todo!()                     // marks unfinished code (panics if reached)
 unreachable!()              // marks code that should never run
 dbg!(expr)                  // prints file/line + value, returns value
+```
+
+## Testing
+
+```rust
+// Unit tests — in the same file, inside #[cfg(test)] module
+#[cfg(test)]              // only compiled when running cargo test
+mod tests {
+    use super::*;         // import everything from parent module
+
+    #[test]
+    fn test_basic() {
+        assert_eq!(add(2, 3), 5);
+    }
+
+    // #[should_panic] — test that code panics
+    // `expected` is a SUBSTRING match against the panic message (case-sensitive)
+    // Always include `expected` — bare #[should_panic] passes on ANY panic
+    #[test]
+    #[should_panic(expected = "empty name")]
+    fn test_empty_name_panics() {
+        Vessel::new("");  // panic!("empty name is not allowed") → passes
+    }
+
+    // Async tests with tokio
+    #[tokio::test]
+    async fn test_async_fetch() {
+        let result = fetch_data().await;
+        assert!(result.is_ok());
+    }
+}
+
+// Run tests:
+// cargo test                   — all tests
+// cargo test my_fn             — tests matching "my_fn"
+// cargo test -- --nocapture    — show println! output
+// cargo test --example foo     — tests in examples/foo.rs
 ```
 
 ## Cargo Commands

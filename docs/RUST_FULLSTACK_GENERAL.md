@@ -131,7 +131,99 @@ async fn compute_handler() {
 }
 ```
 
-**Interview answer:** "Rust's async is cooperative — tasks must yield control via `.await`. CPU-heavy work should use `spawn_blocking` to avoid starving the reactor. This is different from Go's goroutines which are preemptively scheduled."
+**How the runtime works:**
+```
+tokio runtime (e.g., 4 OS threads)
+┌───────────────────────────────────────────────┐
+│ Thread 1: [Task A] [Task C] [Task A resumed]  │  ← tasks interleave
+│ Thread 2: [Task B] [Task D] [Task B resumed]  │
+│ Thread 3: [Task E] [Task F] ...               │
+│ Thread 4: [Task G] [Task H] ...               │
+└───────────────────────────────────────────────┘
+
+When Task A hits .await on sleep/IO:
+  Task A paused → Thread 1 picks up Task C → ...
+  When I/O completes → Task A resumes where it left off
+
+When Task B calls std::thread::sleep (NO .await):
+  Thread 2 is FROZEN → Tasks D, etc. can't run on Thread 2
+  → throughput drops, other requests queue up
+```
+
+**Blocking vs non-blocking operations:**
+
+| Operation | Blocking? | Use in async |
+|---|---|---|
+| `tokio::time::sleep().await` | No — yields | Async delays |
+| `tokio::fs::read().await` | No — yields | Async file I/O |
+| `sqlx::query().await` | No — yields | Async DB queries |
+| `reqwest::get().await` | No — yields | Async HTTP |
+| `std::thread::sleep()` | **Yes** | Never in async |
+| `std::fs::read()` | **Yes** | Never in async |
+| Heavy CPU computation | **Yes** | Wrap in `spawn_blocking` |
+
+**Why `spawn_blocking` for CPU work — "starving the reactor":**
+
+The async runtime has a **fixed** number of worker threads (default = CPU cores). If a task does CPU-heavy work with no `.await` points, that thread can't run any other tasks:
+
+```rust
+// BAD — blocks an async worker thread for 500ms
+async fn bad_handler() {
+    let result = compute_fibonacci(45);  // no .await → no yield → thread stuck
+}
+// If all 4 worker threads hit this, 996 other requests are queued.
+
+// GOOD — offload to a separate, expandable blocking thread pool
+async fn good_handler() {
+    let result = tokio::task::spawn_blocking(|| {
+        compute_fibonacci(45)             // runs on blocking thread pool
+    }).await.expect("task panicked");
+    //      ^^^^^^ .await yields — async worker is free for other requests
+}
+```
+
+**Rule of thumb:** if it has no `.await` and takes >1ms, wrap in `spawn_blocking`.
+
+**How to measure:** use `std::time::Instant` to check if an operation is slow:
+```rust
+let start = std::time::Instant::now();
+let result = suspicious_function();
+let elapsed = start.elapsed();
+if elapsed > std::time::Duration::from_millis(1) {
+    tracing::warn!("slow operation: {elapsed:?} — consider spawn_blocking");
+}
+```
+
+**Common operation times for reference:**
+
+| Operation | Typical time | Needs `spawn_blocking`? |
+|---|---|---|
+| HashMap lookup | ~20-80ns | No |
+| JSON parse (small) | ~1-10us | No |
+| Regex match | ~1-100us | No |
+| JSON parse (large) | ~1-5ms | Borderline |
+| Bcrypt hash | ~50-200ms | Yes |
+| Image resize | ~100ms-5s | Yes |
+| gzip compress 1MB | ~10-50ms | Yes |
+
+```rust
+// Real-world: bcrypt password hashing (~100ms CPU)
+async fn register(password: String) -> Result<User, AppError> {
+    // `move` transfers ownership of `password` into the closure.
+    // Required because spawn_blocking sends the closure to another thread —
+    // a borrow (&password) could dangle if the async task finishes first.
+    // After `move`, `password` is no longer usable in this scope.
+    let hash = tokio::task::spawn_blocking(move || {
+        bcrypt::hash(&password, 12)
+    }).await??;
+    // ^^  two ? operators:
+    //  outer ? — unwraps JoinError (did the blocking task panic?)
+    //  inner ? — unwraps BcryptError (did hashing fail?)
+    save_user(hash).await
+}
+```
+
+**Interview answer:** "Rust's async is cooperative — tasks must yield control via `.await`. Every `.await` point is where a task can be suspended and other tasks can run. CPU-heavy work should use `spawn_blocking` to avoid starving the reactor. This is different from Go's goroutines which are preemptively scheduled."
 
 ---
 
@@ -216,6 +308,29 @@ let json_string = serde_json::to_string(&vessel)?;
 - Zero-cost abstractions — code generated at compile time, no runtime reflection
 - Works with JSON, TOML, YAML, MessagePack, etc. — same derive, different serializer
 - Type-safe — invalid JSON structure → compile-time error (with `serde_json::from_str`)
+
+**Serialization format comparison:**
+
+| Format | Human-readable | Typed | Size | Speed | Use case |
+|---|---|---|---|---|---|
+| **JSON** | Yes | Partial (no int vs float) | Medium | Fast | APIs, web, config |
+| **TOML** | Yes (config-friendly) | Yes (int, float, datetime) | Medium | Fast | Rust config (`Cargo.toml`) |
+| **YAML** | Yes (but tricky) | Partial (implicit coercion) | Medium | Slow | K8s, CI/CD |
+| **MessagePack** | No (binary) | Yes | Small | Fastest | IPC, caching |
+| **Bincode** | No (binary) | Yes | Smallest | Fastest | Rust-to-Rust only |
+
+```rust
+// Same derive, just swap the serializer:
+let json = serde_json::to_string(&config)?;
+let toml = toml::to_string(&config)?;
+let yaml = serde_yaml::to_string(&config)?;
+let msgpack = rmp_serde::to_vec(&config)?;    // ~40% smaller than JSON
+let bincode = bincode::serialize(&config)?;    // smallest, no field names
+```
+
+**YAML gotcha:** implicit type coercion — `no` becomes `false`, `on` becomes `true`, `3.10` becomes `3.1`. Always quote strings in YAML.
+
+**Decision guide:** API responses → JSON. Rust config → TOML. K8s/CI → YAML. Performance-critical IPC → MessagePack. Rust-to-Rust caching → Bincode.
 
 ---
 
@@ -431,13 +546,21 @@ mod tests {
     fn test_empty_name_panics() {
         Vessel::new("", "IMO1234567");
     }
+    // #[should_panic] details:
+    // - `expected` is a SUBSTRING match against the panic message (not exact)
+    //    panic!("empty name not allowed") matches expected = "empty name"
+    // - Match is CASE-SENSITIVE: expected = "Empty" would FAIL
+    // - Always include `expected` — bare #[should_panic] passes on ANY panic,
+    //   which masks unrelated panics and gives false confidence
 
     // Async tests with tokio
     #[tokio::test]
     async fn test_fetch_vessel() {
+        // Arrange — setup_test_db() creates a test DB and seeds fixture data
+        // (e.g., INSERT INTO vessels (id, name) VALUES (1, 'Test Ship'))
         let pool = setup_test_db().await;
         let vessel = get_vessel(&pool, 1).await.unwrap();
-        assert_eq!(vessel.name, "Test Ship");
+        assert_eq!(vessel.name, "Test Ship");  // matches the seeded fixture
     }
 }
 

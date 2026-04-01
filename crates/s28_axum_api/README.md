@@ -171,12 +171,16 @@ configure interceptors (auth, logging, retry) in one place.
 
 ### 5. Example: minimal App.tsx (React 19)
 
-Uses `useOptimistic`, `useActionState`, `useFormStatus`, form `action`,
-and Axios for HTTP calls.
+Uses `useOptimistic`, `useActionState`, `useTransition`, form `action`,
+and Axios for HTTP calls. Follows the correct React 19 patterns:
+
+- `useActionState` returns **3 values**: `[state, submitAction, isPending]`
+- Form `action` takes a **wrapper function** that calls `addOptimistic()` first, then `submitAction(formData)`
+- `isPending` from `useActionState` disables the button directly (no `useFormStatus` child needed here)
+- Discriminated union action for `useOptimistic` reducer handles both toggle and delete
 
 ```tsx
-import { useState, useOptimistic, useTransition, useActionState } from "react";
-import { useFormStatus } from "react-dom";
+import { useState, useOptimistic, useTransition, useActionState, useEffect } from "react";
 import axios from "axios";
 
 interface Todo {
@@ -205,7 +209,7 @@ async function apiCreateTodo(title: string): Promise<Todo> {
 
 async function apiPatchTodo(
   id: number,
-  body: { completed?: boolean }
+  body: { completed?: boolean },
 ): Promise<Todo> {
   const { data } = await api.patch<Todo>(`/todos/${id}`, body);
   return data;
@@ -215,75 +219,97 @@ async function apiDeleteTodo(id: number): Promise<void> {
   await api.delete(`/todos/${id}`);
 }
 
-// --- Components ---
+// --- Types ---
 
-// useFormStatus reads the pending state of the parent <form>.
-// Must be rendered as a child of <form>, not in the same component
-// that defines the form action.
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button type="submit" disabled={pending}>
-      {pending ? "Adding..." : "Add"}
-    </button>
-  );
-}
+// Discriminated union keeps state machine transitions explicit.
+// The `status` field narrows which `message` interpretation applies.
+type SubmissionState =
+  | { readonly status: "idle"; readonly message: string }
+  | { readonly status: "success"; readonly message: string }
+  | { readonly status: "error"; readonly message: string };
 
-// useActionState manages form action + state in one hook.
-// Returns [state, formAction, isPending]:
-//   state      = return value of the async action (error message or null)
-//   formAction = pass to <form action={...}> (replaces onSubmit)
-//   isPending  = true while the action is running
-function CreateForm({ onCreated }: { onCreated: (t: Todo) => void }) {
-  const [error, formAction] = useActionState(
-    async (_prev: string | null, formData: FormData) => {
-      const title = formData.get("title") as string;
-      if (!title.trim()) return "Title is required";
-      try {
-        const todo = await apiCreateTodo(title);
-        onCreated(todo);
-        return null;
-      } catch (e) {
-        return (e as Error).message;
-      }
-    },
-    null
-  );
-  return (
-    <form action={formAction}>
-      <input name="title" placeholder="What needs to be done?" />
-      <SubmitButton />
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </form>
-  );
-}
+const initialSubmission: SubmissionState = {
+  status: "idle",
+  message: "Add a todo to see optimistic UI.",
+};
+
+// Discriminated union action for useOptimistic reducer.
+// One reducer handles both toggle and delete — exhaustive switch ensures
+// new action types cannot slip through unhandled.
+type OptimisticAction =
+  | { type: "add"; title: string }
+  | { type: "toggle"; todo: Todo }
+  | { type: "delete"; id: number };
+
+// --- App ---
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [loaded, setLoaded] = useState(false);
 
-  // Initial load (still useEffect for simplicity —
-  // see handler doc comments for use() + Suspense approach)
-  if (!loaded) {
-    fetchTodos().then((t) => {
-      setTodos(t);
-      setLoaded(true);
-    });
-  }
+  useEffect(() => {
+    fetchTodos().then(setTodos);
+  }, []);
 
-  // useOptimistic gives an "optimistic" copy of todos that updates
-  // instantly, then auto-resets when the real `todos` state changes.
+  // useOptimistic(realState, reducer) — optimistic layer auto-resets
+  // when real `todos` state changes.
   const [optimisticTodos, addOptimistic] = useOptimistic(
     todos,
-    (state: Todo[], action: { type: "toggle"; todo: Todo } | { type: "delete"; id: number }) => {
-      if (action.type === "toggle") {
-        return state.map((t) =>
-          t.id === action.todo.id ? { ...t, completed: !t.completed } : t
-        );
+    (state: Todo[], action: OptimisticAction) => {
+      switch (action.type) {
+        case "add":
+          return [{ id: 0, title: action.title, completed: false }, ...state];
+        case "toggle":
+          return state.map((t) =>
+            t.id === action.todo.id ? { ...t, completed: !t.completed } : t,
+          );
+        case "delete":
+          return state.filter((t) => t.id !== action.id);
       }
-      return state.filter((t) => t.id !== action.id);
-    }
+    },
   );
+
+  // useActionState returns [state, submitAction, isPending]:
+  //   state        = latest return value of the async action
+  //   submitAction = call with FormData to trigger the action
+  //   isPending    = true while the action is running
+  const [submissionState, submitAction, isPending] = useActionState(
+    async (
+      _prev: SubmissionState,
+      formData: FormData,
+    ): Promise<SubmissionState> => {
+      try {
+        // Re-parse FormData here (don't trust the optimistic path).
+        // This function is the authoritative save path.
+        const title = formData.get("title") as string;
+        if (!title.trim()) {
+          return { status: "error", message: "Title is required." };
+        }
+        const todo = await apiCreateTodo(title);
+        setTodos((prev) => [todo, ...prev]);
+        return {
+          status: "success",
+          message: `Created "${todo.title}" (id: ${todo.id}).`,
+        };
+      } catch (e) {
+        return {
+          status: "error",
+          message: e instanceof Error ? e.message : "Unknown error",
+        };
+      }
+    },
+    initialSubmission,
+  );
+
+  // Wrapper handler: optimistic update first, then delegate to submitAction.
+  // The form `action` prop calls this, NOT `submitAction` directly.
+  function handleCreateAction(formData: FormData) {
+    const title = formData.get("title") as string;
+    if (title?.trim()) {
+      addOptimistic({ type: "add", title: title.trim() });
+    }
+    // submitAction owns the real lifecycle (pending flag, state updates).
+    submitAction(formData);
+  }
 
   const [, startTransition] = useTransition();
 
@@ -294,7 +320,7 @@ function App() {
         completed: !todo.completed,
       });
       setTodos((prev) =>
-        prev.map((t) => (t.id === updated.id ? updated : t))
+        prev.map((t) => (t.id === updated.id ? updated : t)),
       );
     });
   };
@@ -310,9 +336,17 @@ function App() {
   return (
     <div>
       <h1>Todos</h1>
-      <CreateForm
-        onCreated={(todo) => setTodos((prev) => [...prev, todo])}
-      />
+
+      {/* action={handleCreateAction} — NOT action={submitAction} */}
+      <form action={handleCreateAction}>
+        <input name="title" placeholder="What needs to be done?" />
+        {/* isPending from useActionState — no useFormStatus child needed */}
+        <button type="submit" disabled={isPending}>
+          {isPending ? "Adding..." : "Add"}
+        </button>
+      </form>
+      <p>{submissionState.message}</p>
+
       <ul>
         {optimisticTodos.map((t) => (
           <li key={t.id}>
@@ -320,6 +354,7 @@ function App() {
               {t.completed ? "[x]" : "[ ]"}
             </button>
             {t.title}
+            {t.id === 0 ? " (saving...)" : ""}
             <button onClick={() => handleDelete(t.id)}>Delete</button>
           </li>
         ))}
@@ -335,10 +370,26 @@ export default App;
 
 | Hook | Where | Purpose |
 |---|---|---|
-| `useActionState` | CreateForm | Async form action + error state in one hook |
-| `useFormStatus` | SubmitButton | Shows "Adding..." while form is pending |
-| `useOptimistic` | App | Instant toggle/delete before server responds |
-| `useTransition` | App | Wraps async work so UI stays responsive |
+| `useActionState` | App (create form) | Returns `[state, submitAction, isPending]` — owns async form lifecycle |
+| `useOptimistic` | App | Instant add/toggle/delete via discriminated union reducer |
+| `useTransition` | App (toggle/delete) | Wraps async work so UI stays responsive |
+
+### When to use `useFormStatus`
+
+`useFormStatus` reads the pending state of the **parent** `<form>`. It's only
+needed when the submit button lives in a **separate child component** that
+cannot access `isPending` from `useActionState`. In this example the button
+is in the same component, so `isPending` is used directly.
+
+```tsx
+// Only needed when SubmitButton is a separate component:
+import { useFormStatus } from "react-dom";
+
+function SubmitButton() {
+  const { pending } = useFormStatus(); // reads parent <form>'s state
+  return <button disabled={pending}>{pending ? "Adding..." : "Add"}</button>;
+}
+```
 
 ## Architecture Notes
 

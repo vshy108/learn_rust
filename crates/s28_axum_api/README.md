@@ -145,7 +145,7 @@ as a doc comment. To try them against the running API:
 ```bash
 npm create vite@latest todo-frontend -- --template react-ts
 cd todo-frontend
-npm install
+npm install axios
 ```
 
 ### 2. Start the dev server
@@ -163,16 +163,21 @@ on `localhost:5173` can call `localhost:3000` without a proxy.
 ### 4. Copy the API functions
 
 See the doc comments on each handler in `src/main.rs` for ready-to-use
-TypeScript `fetch()` functions (e.g., `fetchTodos`, `createTodo`,
+TypeScript Axios functions (e.g., `fetchTodos`, `createTodo`,
 `updateTodo`, `patchTodo`, `deleteTodo`).
+
+All examples use a shared `axios.create({ baseURL })` instance —
+configure interceptors (auth, logging, retry) in one place.
 
 ### 5. Example: minimal App.tsx (React 19)
 
-Uses `useOptimistic`, `useActionState`, `useFormStatus`, and form `action`.
+Uses `useOptimistic`, `useActionState`, `useFormStatus`, form `action`,
+and Axios for HTTP calls.
 
 ```tsx
 import { useState, useOptimistic, useTransition, useActionState } from "react";
 import { useFormStatus } from "react-dom";
+import axios from "axios";
 
 interface Todo {
   id: number;
@@ -180,39 +185,34 @@ interface Todo {
   completed: boolean;
 }
 
-const API = "http://localhost:3000";
+// Shared axios instance — baseURL configured once.
+// Add interceptors here for auth headers, error logging, retry, etc.
+const api = axios.create({ baseURL: "http://localhost:3000" });
 
 // --- API functions ---
+// Axios auto-parses JSON (res.data), auto-throws on non-2xx,
+// and auto-sets Content-Type for object bodies.
 
 async function fetchTodos(): Promise<Todo[]> {
-  const res = await fetch(`${API}/todos`);
-  return res.json();
+  const { data } = await api.get<Todo[]>("/todos");
+  return data;
 }
 
 async function apiCreateTodo(title: string): Promise<Todo> {
-  const res = await fetch(`${API}/todos`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title }),
-  });
-  if (!res.ok) throw new Error("Failed to create todo");
-  return res.json();
+  const { data } = await api.post<Todo>("/todos", { title });
+  return data;
 }
 
 async function apiPatchTodo(
   id: number,
-  data: { completed?: boolean }
+  body: { completed?: boolean }
 ): Promise<Todo> {
-  const res = await fetch(`${API}/todos/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  return res.json();
+  const { data } = await api.patch<Todo>(`/todos/${id}`, body);
+  return data;
 }
 
 async function apiDeleteTodo(id: number): Promise<void> {
-  await fetch(`${API}/todos/${id}`, { method: "DELETE" });
+  await api.delete(`/todos/${id}`);
 }
 
 // --- Components ---

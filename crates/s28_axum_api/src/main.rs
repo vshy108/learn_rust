@@ -214,9 +214,19 @@ impl IntoResponse for AppError {
 /// Returns all todos, optionally filtered by `?completed=true` or
 /// `?completed=false`.
 ///
-/// # React 19 + TypeScript
+/// # React 19 + TypeScript (Axios)
+///
+/// Axios advantages over fetch:
+/// - Auto JSON parse (no `.json()` call needed — `res.data` is already typed)
+/// - Auto error throw on non-2xx (no manual `res.ok` check)
+/// - Request/response interceptors for auth tokens, logging, retry
+/// - Built-in request cancellation via `AbortController` or `CancelToken`
+/// - Consistent API across Node.js and browsers
 ///
 /// ```tsx
+/// // api.ts — npm install axios
+/// import axios from "axios";
+///
 /// // types.ts
 /// interface Todo {
 ///   id: number;
@@ -224,16 +234,18 @@ impl IntoResponse for AppError {
 ///   completed: boolean;
 /// }
 ///
+/// // Shared axios instance — configure baseURL once, all calls inherit it.
+/// // Also a single place to add interceptors (auth headers, error logging).
+/// const api = axios.create({ baseURL: "http://localhost:3000" });
+///
 /// // api.ts — fetch all todos (optional filter)
 /// async function fetchTodos(completed?: boolean): Promise<Todo[]> {
-///   const params = new URLSearchParams();
-///   if (completed !== undefined) {
-///     params.set("completed", String(completed));
-///   }
-///   const url = `http://localhost:3000/todos?${params}`;
-///   const res = await fetch(url);
-///   if (!res.ok) throw new Error(`GET /todos failed: ${res.status}`);
-///   return res.json();
+///   // axios auto-serializes `params` into ?completed=true query string.
+///   // Response is already parsed — `res.data` is Todo[], not a Response.
+///   const { data } = await api.get<Todo[]>("/todos", {
+///     params: completed !== undefined ? { completed } : {},
+///   });
+///   return data;
 /// }
 ///
 /// // TodoList.tsx — React 19 `use()` hook replaces useEffect+useState
@@ -291,15 +303,15 @@ pub async fn list_todos(
 ///
 /// Returns a single todo by id, or 404 if not found.
 ///
-/// # React 19 + TypeScript
+/// # React 19 + TypeScript (Axios)
 ///
 /// ```tsx
 /// // api.ts — fetch single todo
 /// async function fetchTodo(id: number): Promise<Todo> {
-///   const res = await fetch(`http://localhost:3000/todos/${id}`);
-///   if (res.status === 404) throw new Error("Todo not found");
-///   if (!res.ok) throw new Error(`GET /todos/${id} failed: ${res.status}`);
-///   return res.json();
+///   // Axios throws AxiosError on 404 automatically — no manual status check.
+///   // The catch block receives error.response.status and error.response.data.
+///   const { data } = await api.get<Todo>(`/todos/${id}`);
+///   return data;
 /// }
 ///
 /// // TodoDetail.tsx — React 19 `use()` with Suspense + ErrorBoundary
@@ -319,7 +331,7 @@ pub async fn list_todos(
 /// function TodoDetail({ id }: { id: number }) {
 ///   const [todoPromise] = useState(() => fetchTodo(id));
 ///   return (
-///     // ErrorBoundary catches the thrown error if fetch rejects (e.g. 404)
+///     // ErrorBoundary catches the AxiosError thrown on 404
 ///     <ErrorBoundary fallback={<p>Todo not found</p>}>
 ///       <Suspense fallback={<p>Loading...</p>}>
 ///         <TodoContent todoPromise={todoPromise} />
@@ -355,13 +367,10 @@ pub async fn get_todo(
 ///
 /// // api.ts — create a new todo
 /// async function createTodo(title: string): Promise<Todo> {
-///   const res = await fetch("http://localhost:3000/todos", {
-///     method: "POST",
-///     headers: { "Content-Type": "application/json" },
-///     body: JSON.stringify({ title }),
-///   });
-///   if (!res.ok) throw new Error(`POST /todos failed: ${res.status}`);
-///   return res.json(); // 201 Created — returns the new todo with id
+///   // Axios auto-sets Content-Type to application/json for object bodies.
+///   // No need for headers or JSON.stringify — just pass the object.
+///   const { data } = await api.post<Todo>("/todos", { title });
+///   return data; // 201 Created — axios treats 2xx as success
 /// }
 ///
 /// // SubmitButton.tsx — useFormStatus tracks the parent <form>'s pending state.
@@ -390,7 +399,8 @@ pub async fn get_todo(
 ///         onCreated(todo);
 ///         return null; // success — clear error
 ///       } catch (e) {
-///         return (e as Error).message;
+///         // Axios wraps errors in AxiosError — access message from response
+///         return e instanceof Error ? e.message : "Unknown error";
 ///       }
 ///     },
 ///     null // initial state (no error)
@@ -445,16 +455,11 @@ pub async fn create_todo(
 /// // api.ts — full update (replace entire todo)
 /// async function updateTodo(
 ///   id: number,
-///   data: { title: string; completed: boolean }
+///   body: { title: string; completed: boolean }
 /// ): Promise<Todo> {
-///   const res = await fetch(`http://localhost:3000/todos/${id}`, {
-///     method: "PUT",
-///     headers: { "Content-Type": "application/json" },
-///     body: JSON.stringify(data),
-///   });
-///   if (res.status === 404) throw new Error("Todo not found");
-///   if (!res.ok) throw new Error(`PUT /todos/${id} failed: ${res.status}`);
-///   return res.json();
+///   // axios.put sends JSON body automatically, throws on 404.
+///   const { data } = await api.put<Todo>(`/todos/${id}`, body);
+///   return data;
 /// }
 ///
 /// function SaveButton() {
@@ -474,7 +479,7 @@ pub async fn create_todo(
 ///         onSaved(updated);
 ///         return null;
 ///       } catch (e) {
-///         return (e as Error).message;
+///         return e instanceof Error ? e.message : "Unknown error";
 ///       }
 ///     },
 ///     null
@@ -529,16 +534,11 @@ pub async fn update_todo(
 /// // api.ts — partial update (only send changed fields)
 /// async function patchTodo(
 ///   id: number,
-///   data: { title?: string; completed?: boolean }
+///   body: { title?: string; completed?: boolean }
 /// ): Promise<Todo> {
-///   const res = await fetch(`http://localhost:3000/todos/${id}`, {
-///     method: "PATCH",
-///     headers: { "Content-Type": "application/json" },
-///     body: JSON.stringify(data),
-///   });
-///   if (res.status === 404) throw new Error("Todo not found");
-///   if (!res.ok) throw new Error(`PATCH /todos/${id} failed: ${res.status}`);
-///   return res.json();
+///   // axios.patch sends only the fields you provide — perfect for PATCH.
+///   const { data } = await api.patch<Todo>(`/todos/${id}`, body);
+///   return data;
 /// }
 ///
 /// // TodoList.tsx — useOptimistic for instant checkbox toggle
@@ -624,12 +624,9 @@ pub async fn patch_todo(
 ///
 /// // api.ts — delete a todo
 /// async function deleteTodo(id: number): Promise<void> {
-///   const res = await fetch(`http://localhost:3000/todos/${id}`, {
-///     method: "DELETE",
-///   });
-///   if (res.status === 404) throw new Error("Todo not found");
-///   if (!res.ok) throw new Error(`DELETE /todos/${id} failed: ${res.status}`);
-///   // 204 No Content — no response body to parse
+///   // Axios handles 204 No Content fine — no response body to parse.
+///   // Throws AxiosError on 404, caught by the startTransition error boundary.
+///   await api.delete(`/todos/${id}`);
 /// }
 ///
 /// // TodoList.tsx — useOptimistic for instant delete

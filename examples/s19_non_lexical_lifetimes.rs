@@ -6,6 +6,9 @@
 // This is a huge ergonomic improvement — it lets you borrow, use,
 // then mutate, all in the same scope.
 //
+// **Gotcha:** NLL only helps with compile-time borrows (`&T` / `&mut T`).
+// Runtime-checked borrows (e.g. `RefCell`) still require explicit `drop()`.
+//
 // Run: cargo run --example s19_non_lexical_lifetimes
 
 fn main() {
@@ -45,6 +48,18 @@ fn main() {
     // Borrow from get() is done, we can mutate:
     map.insert("key2", 2);
     println!("map = {map:?}");
+
+    // --- 5. NLL limitation: RefCell (runtime-checked borrows) ---
+    // NLL is a compile-time analysis. RefCell borrows are tracked at
+    // runtime, so the compiler can't end them early for you.
+    // You MUST explicitly drop() the Ref/RefMut guard.
+    use std::cell::RefCell;
+    let data = RefCell::new(vec![1, 2, 3]);
+    let borrow1 = data.borrow(); // returns Ref<Vec<i32>>
+    println!("borrow1 = {borrow1:?}");
+    drop(borrow1); // must drop manually -- NLL cannot help here
+    data.borrow_mut().push(4); // now safe; would panic without drop above
+    println!("after push = {:?}", data.borrow());
 }
 
 #[cfg(test)]
@@ -66,4 +81,28 @@ mod tests {
         assert_eq!(len, 2);
         assert_eq!(s, "hi!");
     }
+
+    // --- NLL limitation tests ---
+
+    #[test]
+    fn test_refcell_needs_explicit_drop() {
+        use std::cell::RefCell;
+        let data = RefCell::new(vec![1, 2, 3]);
+        let borrow = data.borrow();
+        assert_eq!(*borrow, vec![1, 2, 3]);
+        drop(borrow); // without this, borrow_mut() below panics
+        data.borrow_mut().push(4);
+        assert_eq!(*data.borrow(), vec![1, 2, 3, 4]);
+    }
+
+    #[test]
+    #[should_panic(expected = "already borrowed")]
+    fn test_refcell_panics_without_drop() {
+        use std::cell::RefCell;
+        let data = RefCell::new(42);
+        let _shared = data.borrow(); // Ref guard still alive
+        // NLL cannot shorten runtime borrows -- this panics!
+        let _exclusive = data.borrow_mut();
+    }
+
 }

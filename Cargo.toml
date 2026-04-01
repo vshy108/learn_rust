@@ -305,7 +305,7 @@ pretty_assertions = "1"
 rstest = "0.26"
 
 [workspace]
-members = [".", "crates/s14_project_structure", "crates/s21_wordle"]
+members = [".", "crates/s14_project_structure", "crates/s21_wordle", "crates/s28_axum_api"]
 
 # Allow clippy lints that conflict with the educational purpose of example files.
 # These examples intentionally demonstrate patterns like vec![], while let on iterators,

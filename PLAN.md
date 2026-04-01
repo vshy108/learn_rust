@@ -467,3 +467,7 @@ cargo fmt --all --check
 
 - [x] 338. `s27_cell` — The Cell type and interior mutability
 - [x] 339. `s27_refcell` — The RefCell type
+
+## Section 28: Web APIs with Axum
+
+- [x] 340. `s28_axum_api` — Full CRUD REST API (in-memory store, CORS, React+TS examples)

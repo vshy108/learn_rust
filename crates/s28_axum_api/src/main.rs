@@ -22,6 +22,7 @@ use serde::{Deserialize, Serialize};
 use tokio::net::TcpListener;
 use tokio::sync::RwLock;
 use tower_http::cors::{Any, CorsLayer};
+use tracing::info;
 
 // ---------------------------------------------------------------------------
 // Models
@@ -109,7 +110,7 @@ pub struct TodoFilter {
 /// | `tokio::sync::RwLock` | Async-aware — yields to the runtime while waiting instead of blocking the OS thread. **Required** when holding the lock across `.await` points. `std::sync::RwLock` would block the entire tokio worker thread. | Yes — `todos` field |
 /// | `AtomicU64` for counters | Lock-free increment via `fetch_add`. Avoids acquiring a write lock just to bump a number. ~10x faster than `RwLock<u64>` under contention. | Yes — `next_id` field |
 /// | `Arc` wrapping | `Clone` on `AppState` cheaply increments reference counts instead of copying data. axum clones state into every handler invocation. | Yes — both fields |
-/// | `Vec::with_capacity(n)` | Pre-allocates when size is known, avoiding reallocations. Use in list handlers if you know the count. | No — HashMap size unknown |
+/// | `Vec::with_capacity(n)` | Pre-allocates when size is known, avoiding reallocations. Use in list handlers when you hold the lock and know the count. | Yes — `list_todos` |
 /// | `parking_lot::RwLock` | Faster than `std::sync::RwLock` (no poisoning overhead), but still blocking. Use only for short critical sections that never cross `.await`. | No — we cross `.await` |
 /// | `DashMap` | Concurrent HashMap with shard-level locking. Better than `RwLock<HashMap>` under high write concurrency. Trade-off: harder to iterate atomically. | No — overkill for demo |
 /// | `Cow<'_, str>` | Avoids cloning strings when ownership is conditional. Useful in larger apps where some paths return borrowed data. | No — all paths clone |
@@ -196,9 +197,11 @@ pub enum AppError {
 /// Adding a new error = add one variant + one match arm.
 impl IntoResponse for AppError {
     fn into_response(self) -> axum::response::Response {
-        let (status, message) = match &self {
-            AppError::NotFound(msg) => (StatusCode::NOT_FOUND, msg.clone()),
-            AppError::BadRequest(msg) => (StatusCode::BAD_REQUEST, msg.clone()),
+        // Match on `self` (owned) to move the String directly,
+        // avoiding the unnecessary `.clone()` that `match &self` requires.
+        let (status, message) = match self {
+            AppError::NotFound(msg) => (StatusCode::NOT_FOUND, msg),
+            AppError::BadRequest(msg) => (StatusCode::BAD_REQUEST, msg),
         };
         let body = serde_json::json!({ "error": message });
         (status, Json(body)).into_response()
@@ -286,14 +289,18 @@ pub async fn list_todos(
     let todos = state.todos.read().await;
     // Collect into a Vec, applying the optional filter.
     // .values() iterates over the HashMap values (Todo items).
-    let mut result: Vec<Todo> = todos
-        .values()
-        .filter(|t| match filter.completed {
-            Some(c) => t.completed == c,
-            None => true,
-        })
-        .cloned()
-        .collect();
+    // Pre-allocate with_capacity — we hold the read lock so todos.len() is
+    // the upper bound. Avoids reallocations during collect.
+    let mut result: Vec<Todo> = Vec::with_capacity(todos.len());
+    result.extend(
+        todos
+            .values()
+            // is_none_or (stable since Rust 1.82): returns true when the Option
+            // is None, or when the predicate returns true for the Some value.
+            // Replaces the verbose match { Some(c) => ..., None => true }.
+            .filter(|t| filter.completed.is_none_or(|c| t.completed == c))
+            .cloned(),
+    );
     // Sort by id for consistent ordering (HashMap has no order).
     result.sort_by_key(|t| t.id);
     Json(result)
@@ -808,11 +815,16 @@ pub fn create_router(state: AppState) -> Router {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Initialize the tracing subscriber so `info!`, `error!`, etc. produce output.
+    // In production, replace with a more advanced setup (e.g. tracing-subscriber
+    // with JSON formatting, OpenTelemetry layers, etc.).
+    tracing_subscriber::fmt::init();
+
     let state = AppState::new();
     let app = create_router(state);
 
     let addr = "0.0.0.0:3000";
-    println!("Listening on http://{addr}");
+    info!("Listening on http://{addr}");
     let listener = TcpListener::bind(addr).await?;
     axum::serve(listener, app).await?;
 

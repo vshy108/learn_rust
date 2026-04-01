@@ -31,6 +31,12 @@ fn collect_args() -> Vec<String> {
 /// The number of user-provided arguments.
 fn count_user_args(args: &[String]) -> usize {
     // Skip the first element (program path), count the rest.
+    // `saturating_sub` clamps at 0 instead of panicking on underflow.
+    // For unsigned types (like usize), it only saturates at the lower bound (0),
+    // since subtraction on unsigned types can never exceed MAX.
+    // For signed types (i8, i32, etc.), it saturates at BOTH bounds:
+    //   i8::MIN.saturating_sub(1) == i8::MIN  (clamps at lower bound)
+    //   i8::MAX.saturating_sub(-1) == i8::MAX  (clamps at upper bound)
     args.len().saturating_sub(1)
 }
 

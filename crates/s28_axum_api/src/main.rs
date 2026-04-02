@@ -23,6 +23,9 @@ use tokio::net::TcpListener;
 use tokio::sync::RwLock;
 use tower_http::cors::{Any, CorsLayer};
 use tracing::info;
+use utoipa::OpenApi;
+use utoipa::ToSchema;
+use utoipa_swagger_ui::SwaggerUi;
 
 // ---------------------------------------------------------------------------
 // Models
@@ -49,7 +52,7 @@ use tracing::info;
 /// * `Hash` — would be needed if Todo were a HashMap key, but we use `u64` as key
 /// * `Default` — no sensible default (what would the default title be?)
 /// * `Copy` — impossible: `String` is heap-allocated and doesn't implement `Copy`
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, ToSchema)]
 pub struct Todo {
     pub id: u64,
     pub title: String,
@@ -62,7 +65,7 @@ pub struct Todo {
 ///
 /// Only `Debug` + `Deserialize` — these are input-only types (parsed from
 /// JSON, never sent back or compared), so no need for Clone/Serialize/PartialEq.
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, ToSchema)]
 pub struct CreateTodo {
     pub title: String,
     #[serde(default)]
@@ -72,7 +75,7 @@ pub struct CreateTodo {
 /// Request body for full update (PUT /todos/:id).
 ///
 /// All fields are required — replaces the entire todo.
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, ToSchema)]
 pub struct UpdateTodo {
     pub title: String,
     pub completed: bool,
@@ -81,7 +84,7 @@ pub struct UpdateTodo {
 /// Request body for partial update (PATCH /todos/:id).
 ///
 /// All fields are optional — only provided fields are updated.
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, ToSchema)]
 pub struct PatchTodo {
     pub title: Option<String>,
     pub completed: Option<bool>,
@@ -282,6 +285,17 @@ impl IntoResponse for AppError {
 ///   );
 /// }
 /// ```
+#[utoipa::path(
+    get,
+    path = "/todos",
+    params(
+        ("completed" = Option<bool>, Query, description = "Filter by completion status")
+    ),
+    responses(
+        (status = 200, description = "List of todos", body = Vec<Todo>)
+    ),
+    tag = "Todos"
+)]
 pub async fn list_todos(
     State(state): State<AppState>,
     Query(filter): Query<TodoFilter>,
@@ -347,6 +361,18 @@ pub async fn list_todos(
 ///   );
 /// }
 /// ```
+#[utoipa::path(
+    get,
+    path = "/todos/{id}",
+    params(
+        ("id" = u64, Path, description = "Todo ID")
+    ),
+    responses(
+        (status = 200, description = "Todo found", body = Todo),
+        (status = 404, description = "Todo not found")
+    ),
+    tag = "Todos"
+)]
 pub async fn get_todo(
     State(state): State<AppState>,
     Path(id): Path<u64>,
@@ -479,6 +505,16 @@ pub async fn get_todo(
 ///   );
 /// }
 /// ```
+#[utoipa::path(
+    post,
+    path = "/todos",
+    request_body = CreateTodo,
+    responses(
+        (status = 201, description = "Todo created", body = Todo),
+        (status = 400, description = "Invalid request (empty title)")
+    ),
+    tag = "Todos"
+)]
 pub async fn create_todo(
     State(state): State<AppState>,
     Json(payload): Json<CreateTodo>,
@@ -580,6 +616,19 @@ pub async fn create_todo(
 ///   );
 /// }
 /// ```
+#[utoipa::path(
+    put,
+    path = "/todos/{id}",
+    params(
+        ("id" = u64, Path, description = "Todo ID")
+    ),
+    request_body = UpdateTodo,
+    responses(
+        (status = 200, description = "Todo fully replaced", body = Todo),
+        (status = 404, description = "Todo not found")
+    ),
+    tag = "Todos"
+)]
 pub async fn update_todo(
     State(state): State<AppState>,
     Path(id): Path<u64>,
@@ -675,6 +724,19 @@ pub async fn update_todo(
 ///   );
 /// }
 /// ```
+#[utoipa::path(
+    patch,
+    path = "/todos/{id}",
+    params(
+        ("id" = u64, Path, description = "Todo ID")
+    ),
+    request_body = PatchTodo,
+    responses(
+        (status = 200, description = "Todo partially updated", body = Todo),
+        (status = 404, description = "Todo not found")
+    ),
+    tag = "Todos"
+)]
 pub async fn patch_todo(
     State(state): State<AppState>,
     Path(id): Path<u64>,
@@ -763,6 +825,18 @@ pub async fn patch_todo(
 ///   );
 /// }
 /// ```
+#[utoipa::path(
+    delete,
+    path = "/todos/{id}",
+    params(
+        ("id" = u64, Path, description = "Todo ID")
+    ),
+    responses(
+        (status = 204, description = "Todo deleted"),
+        (status = 404, description = "Todo not found")
+    ),
+    tag = "Todos"
+)]
 pub async fn delete_todo(
     State(state): State<AppState>,
     Path(id): Path<u64>,
@@ -780,11 +854,33 @@ pub async fn delete_todo(
 // Router
 // ---------------------------------------------------------------------------
 
-/// Builds the axum router with all todo routes and CORS middleware.
+/// OpenAPI documentation definition.
+///
+/// Lists all handler functions under `paths` and all request/response
+/// types under `schemas`. utoipa generates the full OpenAPI 3.1 spec
+/// at compile time from these annotations.
+#[derive(OpenApi)]
+#[openapi(
+    paths(list_todos, get_todo, create_todo, update_todo, patch_todo, delete_todo),
+    components(schemas(Todo, CreateTodo, UpdateTodo, PatchTodo)),
+    tags(
+        (name = "Todos", description = "Todo CRUD operations")
+    ),
+    info(
+        title = "Todo API",
+        version = "0.1.0",
+        description = "In-memory Todo CRUD API built with axum"
+    )
+)]
+struct ApiDoc;
+
+/// Builds the axum router with all todo routes, CORS middleware, and Swagger UI.
 ///
 /// CORS (Cross-Origin Resource Sharing) is required so a React dev server
 /// running on `http://localhost:5173` can call our API on `http://localhost:3000`.
 /// Without it, the browser blocks cross-origin requests.
+///
+/// Swagger UI is served at `/swagger-ui` — browse and test endpoints interactively.
 pub fn create_router(state: AppState) -> Router {
     // CorsLayer::permissive() allows all origins, methods, and headers.
     // In production, restrict to specific origins:
@@ -805,6 +901,8 @@ pub fn create_router(state: AppState) -> Router {
                 .patch(patch_todo)
                 .delete(delete_todo),
         )
+        // Swagger UI — interactive API docs at /swagger-ui
+        .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", ApiDoc::openapi()))
         .layer(cors)
         .with_state(state)
 }
@@ -825,6 +923,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let addr = "0.0.0.0:3000";
     info!("Listening on http://{addr}");
+    info!("Swagger UI: http://{addr}/swagger-ui");
     let listener = TcpListener::bind(addr).await?;
     axum::serve(listener, app).await?;
 

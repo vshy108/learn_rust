@@ -470,4 +470,4 @@ cargo fmt --all --check
 
 ## Section 28: Web APIs with Axum
 
-- [x] 340. `s28_axum_api` — Full CRUD REST API (in-memory store, CORS, React+TS examples)
+- [x] 340. `s28_axum_api` — Full CRUD REST API (in-memory store, CORS)

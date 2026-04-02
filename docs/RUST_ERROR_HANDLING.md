@@ -4,7 +4,7 @@
 
 **Answer:**
 
-| Aspect | Rust | TypeScript/Python/Ruby |
+| Aspect | Rust | Other Languages |
 |---|---|---|
 | Mechanism | `Result<T, E>` return type + `?` operator | `try/catch` + thrown exceptions |
 | Forgettable? | **No** — must handle `Result` or code won't compile | **Yes** — can forget `try/catch` |
@@ -23,12 +23,6 @@ let content = std::fs::read_to_string("config.toml")?;
 std::fs::read_to_string("config.toml");  // warning: unused Result
 ```
 
-```typescript
-// TypeScript: nothing stops you from forgetting try/catch
-const data = JSON.parse(userInput);  // throws at runtime if invalid
-// No compiler warning — the error surfaces in production
-```
-
 **Key insight for interview:** "In Rust, errors are values, not control flow. The type system makes error handling mandatory at compile time, not a runtime afterthought."
 
 ---
@@ -39,7 +33,7 @@ const data = JSON.parse(userInput);  // throws at runtime if invalid
 
 ```rust
 // Option<T> — represents a value that might not exist
-// Equivalent to T | null in TypeScript, but compiler-enforced
+// Represents a value that might not exist — compiler-enforced
 enum Option<T> {
     Some(T),    // value exists
     None,       // no value

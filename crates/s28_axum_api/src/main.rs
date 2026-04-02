@@ -3,9 +3,6 @@
 // Demonstrates: extractors (Path, Query, Json, State), centralized error
 // handling, CORS middleware, and all standard HTTP methods.
 //
-// Each handler includes a React+TypeScript example showing how to call
-// the endpoint from a frontend application.
-//
 // Run: cargo run -p s28_axum_api
 // Test: cargo test -p s28_axum_api
 
@@ -219,72 +216,6 @@ impl IntoResponse for AppError {
 ///
 /// Returns all todos, optionally filtered by `?completed=true` or
 /// `?completed=false`.
-///
-/// # React 19 + TypeScript (Axios)
-///
-/// Axios advantages over fetch:
-/// - Auto JSON parse (no `.json()` call needed — `res.data` is already typed)
-/// - Auto error throw on non-2xx (no manual `res.ok` check)
-/// - Request/response interceptors for auth tokens, logging, retry
-/// - Built-in request cancellation via `AbortController` or `CancelToken`
-/// - Consistent API across Node.js and browsers
-///
-/// ```tsx
-/// // api.ts — npm install axios
-/// import axios from "axios";
-///
-/// // types.ts
-/// interface Todo {
-///   id: number;
-///   title: string;
-///   completed: boolean;
-/// }
-///
-/// // Shared axios instance — configure baseURL once, all calls inherit it.
-/// // Also a single place to add interceptors (auth headers, error logging).
-/// const api = axios.create({ baseURL: "http://localhost:3000" });
-///
-/// // api.ts — fetch all todos (optional filter)
-/// async function fetchTodos(completed?: boolean): Promise<Todo[]> {
-///   // axios auto-serializes `params` into ?completed=true query string.
-///   // Response is already parsed — `res.data` is Todo[], not a Response.
-///   const { data } = await api.get<Todo[]>("/todos", {
-///     params: completed !== undefined ? { completed } : {},
-///   });
-///   return data;
-/// }
-///
-/// // TodoList.tsx — React 19 `use()` hook replaces useEffect+useState
-/// // `use()` reads a Promise directly — React suspends until it resolves.
-/// // Wrap the component in <Suspense> to show a fallback while loading.
-/// import { use, Suspense } from "react";
-///
-/// function TodoItems({ todosPromise }: { todosPromise: Promise<Todo[]> }) {
-///   // use() unwraps the promise — component suspends until data arrives.
-///   // Unlike useEffect, this runs during render (no extra re-render cycle).
-///   const todos = use(todosPromise);
-///   return (
-///     <ul>
-///       {todos.map(t => (
-///         <li key={t.id}>
-///           {t.completed ? "[x]" : "[ ]"} {t.title}
-///         </li>
-///       ))}
-///     </ul>
-///   );
-/// }
-///
-/// // Parent — creates the promise and provides <Suspense> boundary.
-/// function TodoList() {
-///   // Promise is created once; React caches it during render.
-///   const [todosPromise] = useState(() => fetchTodos());
-///   return (
-///     <Suspense fallback={<p>Loading todos...</p>}>
-///       <TodoItems todosPromise={todosPromise} />
-///     </Suspense>
-///   );
-/// }
-/// ```
 #[utoipa::path(
     get,
     path = "/todos",
@@ -323,44 +254,6 @@ pub async fn list_todos(
 /// GET ONE — GET /todos/:id
 ///
 /// Returns a single todo by id, or 404 if not found.
-///
-/// # React 19 + TypeScript (Axios)
-///
-/// ```tsx
-/// // api.ts — fetch single todo
-/// async function fetchTodo(id: number): Promise<Todo> {
-///   // Axios throws AxiosError on 404 automatically — no manual status check.
-///   // The catch block receives error.response.status and error.response.data.
-///   const { data } = await api.get<Todo>(`/todos/${id}`);
-///   return data;
-/// }
-///
-/// // TodoDetail.tsx — React 19 `use()` with Suspense + ErrorBoundary
-/// // `use()` can also be called conditionally (unlike other hooks).
-/// import { use, Suspense } from "react";
-///
-/// function TodoContent({ todoPromise }: { todoPromise: Promise<Todo> }) {
-///   const todo = use(todoPromise); // suspends until resolved
-///   return (
-///     <div>
-///       <h2>{todo.title}</h2>
-///       <p>Status: {todo.completed ? "Done" : "Pending"}</p>
-///     </div>
-///   );
-/// }
-///
-/// function TodoDetail({ id }: { id: number }) {
-///   const [todoPromise] = useState(() => fetchTodo(id));
-///   return (
-///     // ErrorBoundary catches the AxiosError thrown on 404
-///     <ErrorBoundary fallback={<p>Todo not found</p>}>
-///       <Suspense fallback={<p>Loading...</p>}>
-///         <TodoContent todoPromise={todoPromise} />
-///       </Suspense>
-///     </ErrorBoundary>
-///   );
-/// }
-/// ```
 #[utoipa::path(
     get,
     path = "/todos/{id}",
@@ -392,119 +285,6 @@ pub async fn get_todo(
 /// CREATE — POST /todos
 ///
 /// Creates a new todo. Returns 201 Created with the created todo.
-///
-/// # React 19 + TypeScript
-///
-/// Pattern: `useActionState` + `useOptimistic` coordinated via a wrapper handler.
-///
-/// Key insight from the React 19 form model:
-/// - `useActionState` returns **3 values**: `[state, submitAction, isPending]`
-/// - The form `action` prop takes a **wrapper function**, NOT `submitAction` directly
-/// - The wrapper calls `addOptimistic()` first for instant UI, then `submitAction(formData)`
-/// - `submitAction` owns the async lifecycle — it re-validates FormData independently
-///   because it's the source of truth (optimistic path might change or throw)
-/// - `isPending` from `useActionState` disables the button directly — no need for a
-///   `useFormStatus` child component (that's only needed when the button is in a
-///   **separate** child component that can't access `isPending`)
-///
-/// ```tsx
-/// import { useState, useActionState, useOptimistic } from "react";
-///
-/// // api.ts — create a new todo
-/// async function createTodo(title: string): Promise<Todo> {
-///   const { data } = await api.post<Todo>("/todos", { title });
-///   return data;
-/// }
-///
-/// // Discriminated union keeps state machine transitions explicit.
-/// // The `status` field narrows which `message` interpretation applies.
-/// type SubmissionState =
-///   | { readonly status: "idle"; readonly message: string }
-///   | { readonly status: "success"; readonly message: string }
-///   | { readonly status: "error"; readonly message: string };
-///
-/// const initialState: SubmissionState = {
-///   status: "idle",
-///   message: "Add a todo to see optimistic UI.",
-/// };
-///
-/// function CreateTodo() {
-///   const [todos, setTodos] = useState<Todo[]>([]);
-///
-///   // useOptimistic gives an instant preview. The reducer receives the
-///   // current state + the optimistic action, returns the new optimistic state.
-///   // When real `todos` state updates, the optimistic layer auto-resets.
-///   const [optimisticTodos, addOptimistic] = useOptimistic(
-///     todos,
-///     (current: Todo[], draft: { title: string }) => [
-///       { id: 0, title: draft.title, completed: false }, // placeholder
-///       ...current,
-///     ],
-///   );
-///
-///   // useActionState returns [state, submitAction, isPending]:
-///   //   state        = latest return value of the async action
-///   //   submitAction = call with FormData to trigger the action
-///   //   isPending    = true while the action is running
-///   const [submissionState, submitAction, isPending] = useActionState(
-///     async (
-///       _prev: SubmissionState,
-///       formData: FormData,
-///     ): Promise<SubmissionState> => {
-///       try {
-///         // Re-parse FormData here (don't trust the optimistic path)
-///         // because this function is the authoritative save path.
-///         const title = formData.get("title") as string;
-///         if (!title.trim()) {
-///           return { status: "error", message: "Title is required." };
-///         }
-///         const todo = await createTodo(title);
-///         setTodos((prev) => [todo, ...prev]);
-///         return {
-///           status: "success",
-///           message: `Created "${todo.title}" (id: ${todo.id}).`,
-///         };
-///       } catch (e) {
-///         return {
-///           status: "error",
-///           message: e instanceof Error ? e.message : "Unknown error",
-///         };
-///       }
-///     },
-///     initialState,
-///   );
-///
-///   // Wrapper handler: optimistic update first, then delegate to submitAction.
-///   // The form `action` prop calls this, NOT `submitAction` directly.
-///   function handleAction(formData: FormData) {
-///     const title = formData.get("title") as string;
-///     if (title?.trim()) {
-///       addOptimistic({ title: title.trim() });
-///     }
-///     // submitAction owns the real lifecycle (pending flag, state updates).
-///     submitAction(formData);
-///   }
-///
-///   return (
-///     <>
-///       {/* action={handleAction} — NOT action={submitAction} */}
-///       <form action={handleAction}>
-///         <input name="title" placeholder="What needs to be done?" />
-///         {/* isPending comes from useActionState — no useFormStatus needed */}
-///         <button type="submit" disabled={isPending}>
-///           {isPending ? "Adding..." : "Add"}
-///         </button>
-///       </form>
-///       <p>{submissionState.message}</p>
-///       <ul>
-///         {optimisticTodos.map((t) => (
-///           <li key={t.id}>{t.title}{t.id === 0 ? " (saving...)" : ""}</li>
-///         ))}
-///       </ul>
-///     </>
-///   );
-/// }
-/// ```
 #[utoipa::path(
     post,
     path = "/todos",
@@ -543,79 +323,6 @@ pub async fn create_todo(
 ///
 /// Replaces all fields of an existing todo. Returns 404 if not found.
 /// All fields in the request body are required.
-///
-/// # React 19 + TypeScript
-///
-/// Same `useActionState` 3-value pattern as create. Here `isPending` disables
-/// the save button directly — a separate `useFormStatus` child is only needed
-/// when the button lives in a **different** component from the form.
-///
-/// ```tsx
-/// import { useActionState } from "react";
-///
-/// // api.ts — full update (replace entire todo)
-/// async function updateTodo(
-///   id: number,
-///   body: { title: string; completed: boolean },
-/// ): Promise<Todo> {
-///   const { data } = await api.put<Todo>(`/todos/${id}`, body);
-///   return data;
-/// }
-///
-/// type EditState =
-///   | { readonly status: "idle"; readonly message: string }
-///   | { readonly status: "success"; readonly message: string }
-///   | { readonly status: "error"; readonly message: string };
-///
-/// // EditTodo.tsx — useActionState returns [state, submitAction, isPending]
-/// function EditTodo({
-///   todo,
-///   onSaved,
-/// }: {
-///   todo: Todo;
-///   onSaved: (t: Todo) => void;
-/// }) {
-///   const [editState, submitAction, isPending] = useActionState(
-///     async (_prev: EditState, formData: FormData): Promise<EditState> => {
-///       try {
-///         const updated = await updateTodo(todo.id, {
-///           title: formData.get("title") as string,
-///           completed: formData.get("completed") === "on",
-///         });
-///         onSaved(updated);
-///         return { status: "success", message: `Saved "${updated.title}".` };
-///       } catch (e) {
-///         return {
-///           status: "error",
-///           message: e instanceof Error ? e.message : "Unknown error",
-///         };
-///       }
-///     },
-///     { status: "idle", message: "" } as EditState,
-///   );
-///
-///   return (
-///     <form action={submitAction}>
-///       <input name="title" defaultValue={todo.title} />
-///       <label>
-///         <input
-///           type="checkbox"
-///           name="completed"
-///           defaultChecked={todo.completed}
-///         />
-///         Done
-///       </label>
-///       {/* isPending from useActionState — no useFormStatus child needed */}
-///       <button disabled={isPending}>
-///         {isPending ? "Saving..." : "Save"}
-///       </button>
-///       {editState.status === "error" && (
-///         <p style={{ color: "red" }}>{editState.message}</p>
-///       )}
-///     </form>
-///   );
-/// }
-/// ```
 #[utoipa::path(
     put,
     path = "/todos/{id}",
@@ -654,76 +361,6 @@ pub async fn update_todo(
 /// This is the key difference from PUT:
 /// - PUT = "here is the complete new state" (all fields required)
 /// - PATCH = "update only these fields" (all fields optional)
-///
-/// # React 19 + TypeScript
-///
-/// Uses `useOptimistic` + `useTransition` for instant checkbox toggle.
-/// The `startTransition` async callback coordinates optimistic update,
-/// server request, and real state update in sequence.
-///
-/// ```tsx
-/// import { useOptimistic, useTransition } from "react";
-///
-/// // api.ts — partial update (only send changed fields)
-/// async function patchTodo(
-///   id: number,
-///   body: { title?: string; completed?: boolean },
-/// ): Promise<Todo> {
-///   const { data } = await api.patch<Todo>(`/todos/${id}`, body);
-///   return data;
-/// }
-///
-/// // TodoList.tsx — useOptimistic for instant checkbox toggle
-/// // useOptimistic(realState, reducer) returns:
-/// //   optimisticTodos = the "optimistic" version shown to the user
-/// //   addOptimistic   = dispatch an action to the reducer for instant update
-/// // When real `todos` state changes, the optimistic layer auto-resets.
-/// //
-/// // The reducer receives a discriminated union action so toggle and delete
-/// // can share the same optimistic state (see delete_todo for the delete branch).
-/// function TodoList({ todos, setTodos }: {
-///   todos: Todo[];
-///   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-/// }) {
-///   const [optimisticTodos, addOptimistic] = useOptimistic(
-///     todos,
-///     (state: Todo[], action: { type: "toggle"; todo: Todo }) =>
-///       state.map((t) =>
-///         t.id === action.todo.id
-///           ? { ...t, completed: !t.completed }
-///           : t,
-///       ),
-///   );
-///   const [, startTransition] = useTransition();
-///
-///   const handleToggle = (todo: Todo) => {
-///     // startTransition wraps the async work so React keeps the UI responsive.
-///     // Inside: optimistic first, then real request, then real state update.
-///     startTransition(async () => {
-///       addOptimistic({ type: "toggle", todo });
-///       const updated = await patchTodo(todo.id, {
-///         completed: !todo.completed,
-///       });
-///       setTodos((prev) =>
-///         prev.map((t) => (t.id === updated.id ? updated : t)),
-///       );
-///     });
-///   };
-///
-///   return (
-///     <ul>
-///       {optimisticTodos.map((t) => (
-///         <li key={t.id}>
-///           <button onClick={() => handleToggle(t)}>
-///             {t.completed ? "[x]" : "[ ]"}
-///           </button>
-///           {t.title}
-///         </li>
-///       ))}
-///     </ul>
-///   );
-/// }
-/// ```
 #[utoipa::path(
     patch,
     path = "/todos/{id}",
@@ -762,69 +399,6 @@ pub async fn patch_todo(
 /// DELETE — DELETE /todos/:id
 ///
 /// Removes a todo. Returns 204 No Content on success, 404 if not found.
-///
-/// # React 19 + TypeScript
-///
-/// Uses `useOptimistic` + `useTransition` for instant removal.
-/// Same pattern as PATCH toggle — the discriminated union action
-/// type can be extended to `{ type: "toggle" } | { type: "delete" }`
-/// so both operations share one optimistic reducer.
-///
-/// ```tsx
-/// import { useOptimistic, useTransition } from "react";
-///
-/// // api.ts — delete a todo
-/// async function deleteTodo(id: number): Promise<void> {
-///   await api.delete(`/todos/${id}`);
-/// }
-///
-/// // Combined optimistic reducer for toggle + delete in one component.
-/// // Discriminated union action keeps the switch exhaustive.
-/// type OptimisticAction =
-///   | { type: "toggle"; todo: Todo }
-///   | { type: "delete"; id: number };
-///
-/// function TodoList({ todos, setTodos }: {
-///   todos: Todo[];
-///   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-/// }) {
-///   const [optimisticTodos, addOptimistic] = useOptimistic(
-///     todos,
-///     (state: Todo[], action: OptimisticAction) => {
-///       switch (action.type) {
-///         case "toggle":
-///           return state.map((t) =>
-///             t.id === action.todo.id
-///               ? { ...t, completed: !t.completed }
-///               : t,
-///           );
-///         case "delete":
-///           return state.filter((t) => t.id !== action.id);
-///       }
-///     },
-///   );
-///   const [, startTransition] = useTransition();
-///
-///   const handleDelete = (id: number) => {
-///     startTransition(async () => {
-///       addOptimistic({ type: "delete", id }); // instant removal
-///       await deleteTodo(id);                   // real request
-///       setTodos((prev) => prev.filter((t) => t.id !== id));
-///     });
-///   };
-///
-///   return (
-///     <ul>
-///       {optimisticTodos.map((t) => (
-///         <li key={t.id}>
-///           {t.title}
-///           <button onClick={() => handleDelete(t.id)}>Delete</button>
-///         </li>
-///       ))}
-///     </ul>
-///   );
-/// }
-/// ```
 #[utoipa::path(
     delete,
     path = "/todos/{id}",
@@ -876,8 +450,8 @@ struct ApiDoc;
 
 /// Builds the axum router with all todo routes, CORS middleware, and Swagger UI.
 ///
-/// CORS (Cross-Origin Resource Sharing) is required so a React dev server
-/// running on `http://localhost:5173` can call our API on `http://localhost:3000`.
+/// CORS (Cross-Origin Resource Sharing) is required so a frontend dev server
+/// running on a different port can call our API on `http://localhost:3000`.
 /// Without it, the browser blocks cross-origin requests.
 ///
 /// Swagger UI is served at `/swagger-ui` — browse and test endpoints interactively.

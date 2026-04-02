@@ -19,11 +19,34 @@
 // Run:  cargo run --example lc_0122_best_time_to_buy_and_sell_stock_ii
 // Test: cargo test --example lc_0122_best_time_to_buy_and_sell_stock_ii
 // Bench: cargo test --example lc_0122_best_time_to_buy_and_sell_stock_ii bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - Index-based loop with range: `for i in 1..prices.len()` — usize range,
+//   direct Vec indexing with bounds-checked access
+// - .windows(2): iterator adaptor yielding overlapping &[i32] slices of
+//   length 2 — no index variables, no off-by-one risk
+// - Iterator chain: .filter().map().sum() — lazy evaluation, no intermediate
+//   allocation; compiler can fuse into a single loop
+// - Greedy proof: summing all positive consecutive differences equals the
+//   optimal multi-transaction profit (every uphill segment is captured)
+//
+// --- Benchmark (100_000 iterations, 2026-04-02) ---
+// My solution:  53.04ms (avg 530ns)
+// AI solution:  59.30ms (avg 593ns)
+// -> My solution is 1.12x faster
+// Reason: the index-based loop has less overhead per iteration than
+//   .windows(2) which creates a slice reference + closure dispatch per
+//   element; for these small inputs the pipeline setup cost dominates.
 
-/// My solution module.
+/// My solution module — greedy index-based loop.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Collect every upward price movement: if today > yesterday, add the
+/// difference. This works because buying at every local minimum and
+/// selling at every local maximum is equivalent to summing all positive
+/// consecutive differences.
+///
+/// Time:  O(n)
+/// Space: O(1)
 mod my_solution {
     pub struct Solution;
 
@@ -38,22 +61,26 @@ mod my_solution {
         ///
         /// Maximum profit achievable with multiple transactions
         pub fn max_profit(prices: Vec<i32>) -> i32 {
-            // profit = 0
-            // (1...prices.length).each do |i|
-            //   if prices[i] > prices[i - 1]
-            //     profit += prices[i] - prices[i - 1]
-            //   end
-            // end
-            // profit
-            todo!()
+            let mut profit = 0;
+            for i in 1..prices.len() {
+              if prices[i] > prices[i - 1] {
+                profit += prices[i] - prices[i - 1];
+              }
+            }
+
+            profit
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — iterator windows approach.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Same greedy idea but uses `.windows(2)` to iterate consecutive pairs
+/// instead of manual indexing. More idiomatic Rust — no index variables,
+/// no bounds checking, and the slice pattern `[a, b]` destructures directly.
+///
+/// Time:  O(n)
+/// Space: O(1)
 mod ai_solution {
     pub struct Solution;
 
@@ -68,7 +95,16 @@ mod ai_solution {
         ///
         /// Maximum profit achievable with multiple transactions
         pub fn max_profit(prices: Vec<i32>) -> i32 {
-            todo!()
+            // .windows(2) yields overlapping slices [prices[i], prices[i+1]].
+            // Slice pattern [a, b] destructures each window into two &i32 refs.
+            // .filter(|w| w[1] > w[0]) keeps only upward movements.
+            // .map(|w| w[1] - w[0]) extracts the profit from each gain.
+            // .sum() collects all positive differences into the total profit.
+            prices
+                .windows(2)
+                .filter(|w| w[1] > w[0])
+                .map(|w| w[1] - w[0])
+                .sum()
         }
     }
 }

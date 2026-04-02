@@ -18,11 +18,30 @@
 // Run:  cargo run --example lc_0121_best_time_to_buy_and_sell_stock
 // Test: cargo test --example lc_0121_best_time_to_buy_and_sell_stock
 // Bench: cargo test --example lc_0121_best_time_to_buy_and_sell_stock bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - Slice borrowing: &prices[1..] produces &[i32] from Vec<i32>
+// - DST vs fat pointer: [i32] is unsized; &[i32] is a fat pointer that
+//   implements IntoIterator (see Slices section in CHEATSHEET.md)
+// - Pattern destructuring in for: `for &price in &slice` copies i32 from &i32
+// - Iterator fold: .fold((acc1, acc2), |acc, &item| ...) for stateful reduction
+// - Tuple destructuring: .1 to extract second element from fold result
+// - i32::MAX as sentinel initial value for min tracking
+//
+// --- Benchmark (100_000 iterations, 2026-04-02) ---
+// My solution:  47.08ms (avg 470ns)
+// AI solution:  52.35ms (avg 523ns)
+// -> My solution is 1.11x faster
+// Reason: imperative loop with early slice skip (prices[1..]) avoids
+//   processing the first element twice, and the branch predictor handles
+//   the simple if/min/max pattern well. The fold version evaluates
+//   min_price.min(price) before max_profit.max(price - min_price) on the
+//   first element, comparing against i32::MAX — a harmless but extra step.
 
-/// My solution module.
+/// My solution module — imperative single-pass with tracking min price.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n)
+/// Space: O(1)
 mod my_solution {
     pub struct Solution;
 
@@ -37,24 +56,34 @@ mod my_solution {
         ///
         /// Maximum profit achievable, or 0 if no profit possible
         pub fn max_profit(prices: Vec<i32>) -> i32 {
-            // return 0 if prices.length < 2
-            // min_price = prices[0]
-            // max_profit = 0
-            // prices[1..].each do |price|
-            //   potential_profit = price - min_price
-            //   max_profit = [max_profit, potential_profit].max
-            //   min_price = [min_price, price].min
-            // end
-            // max_profit
-            todo!()
+            if prices.len() < 2 { return 0; };
+
+            let mut min_price = prices[0];
+            let mut max_profit = 0;
+            // &prices[1..] borrows the slice — prices[1..] alone is an owned
+            // [i32] which doesn't implement IntoIterator (unsized DST can't
+            // call into_iter()). The & gives &[i32] (fat pointer: address +
+            // length) which does implement IntoIterator, yielding &i32.
+            // &price destructures each &i32 into i32 (Copy type).
+            for &price in &prices[1..]{
+              let potential_profit = price - min_price;
+              max_profit = max_profit.max(potential_profit);
+              min_price = min_price.min(price);
+            }
+
+            max_profit
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — iterator fold approach.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Same O(n) algorithm but expressed as a functional fold instead of an
+/// imperative loop. The fold accumulates (min_price, max_profit) in a
+/// single pass with no indexing or early-return branching.
+///
+/// Time:  O(n)
+/// Space: O(1)
 mod ai_solution {
     pub struct Solution;
 
@@ -69,7 +98,15 @@ mod ai_solution {
         ///
         /// Maximum profit achievable, or 0 if no profit possible
         pub fn max_profit(prices: Vec<i32>) -> i32 {
-            todo!()
+            // fold accumulates (min_price_so_far, max_profit_so_far) in one pass.
+            // .iter() yields &i32; destructure with |&price| to get i32 (Copy).
+            // Initial min = i32::MAX so any first price becomes the new minimum.
+            prices
+                .iter()
+                .fold((i32::MAX, 0), |(min_price, max_profit), &price| {
+                    (min_price.min(price), max_profit.max(price - min_price))
+                })
+                .1 // extract max_profit from the (min_price, max_profit) tuple
         }
     }
 }

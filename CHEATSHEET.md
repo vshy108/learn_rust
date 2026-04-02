@@ -232,12 +232,32 @@ r.push_str(" world");
 ## Slices
 
 ```rust
+// Array vs Vec vs Slice — three distinct but related types
+// Array  [i32; 5]   — fixed size, stack, owned
+// Vec    Vec<i32>   — growable, heap, owned
+// Slice  [i32]      — unsized DST (Dynamically Sized Type), can't exist alone
+//                      DST = size unknown at compile time (how many elements?)
+//                      Must always live behind a pointer: &[i32], Box<[i32]>
+//                      Same applies to str and dyn Trait — all are DSTs
+// &[i32]            — slice ref = fat pointer (addr + len, 16 bytes on 64-bit)
+//                      fat pointer stores runtime size info that the DST lacks
+
+let arr: [i32; 5] = [1, 2, 3, 4, 5];
+let vec: Vec<i32> = vec![1, 2, 3, 4, 5];
+
+// Both produce &[i32] — a borrowed view into contiguous memory
+let s1: &[i32] = &arr;        // borrow entire array as slice
+let s2: &[i32] = &vec;        // deref coercion: &Vec<i32> → &[i32]
+let s3: &[i32] = &arr[1..3];  // sub-slice of array
+let s4: &[i32] = &vec[1..3];  // sub-slice of vec
+
+// for loops require IntoIterator — &[i32] implements it, [i32] does not
+for &x in &vec[1..] { }       // &vec[1..] is &[i32], &x destructures &i32 → i32
+// for x in vec[1..] { }      // ERROR: [i32] is unsized, no IntoIterator
+
 let s = String::from("hello world");
 let hello: &str = &s[0..5];    // &str slice
 let world: &str = &s[6..11];
-
-let a = [1, 2, 3, 4, 5];
-let slice: &[i32] = &a[1..3];  // [2, 3]
 
 // Slice as function parameter — accepts both &String and &str
 fn first_word(s: &str) -> &str { ... }

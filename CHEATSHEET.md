@@ -15,6 +15,41 @@ let x = x + 1;
 let x = x.to_string();  // i32 → String is fine
 ```
 
+### const vs static
+
+```rust
+// const — inlined at every use site (like a typed #define)
+const MAX_SIZE: u32 = 1024;
+// - No fixed memory address; compiler copies value wherever it's used
+// - Must be computable at compile time
+// - Large const (e.g., [u8; 1024]) gets duplicated at each use — binary bloat
+
+// static — single fixed memory location, 'static lifetime
+static GREETING: &str = "hello";
+// - One copy in read-only memory; &GREETING always the same address
+// - Use when you need a stable address (FFI, global singleton)
+
+// static mut — requires unsafe; almost never use directly
+static mut COUNTER: u32 = 0;
+unsafe { COUNTER += 1; }  // every access must be in unsafe block
+// Prefer Mutex, RwLock, or atomics instead:
+
+use std::sync::atomic::{AtomicU32, Ordering};
+static HIT_COUNT: AtomicU32 = AtomicU32::new(0);
+HIT_COUNT.fetch_add(1, Ordering::Relaxed);  // safe, no unsafe needed
+
+// Global mutable singleton — LazyLock + RwLock (std 1.80+)
+use std::sync::{LazyLock, RwLock};
+static CONFIG: LazyLock<RwLock<String>> = LazyLock::new(|| {
+    RwLock::new(String::from("default"))
+});
+// initialized on first access; safe concurrent reads + exclusive writes
+
+// Rule of thumb:
+//   const  — small scalars, lookup tables you want inlined
+//   static — large data, need fixed address, or global mutable state
+```
+
 ## Scalar Types
 
 ```rust

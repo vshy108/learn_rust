@@ -25,6 +25,16 @@
 //   -> AI solution is 2.59x faster
 //   Reason: Four direct array-index lookups (one per decimal place) beat the greedy loop's 13 iterations;
 //   no branching, just four table lookups and a single format!() concatenation.
+//
+// --- Rust concepts used ---
+// - const slice of tuples: `const ROMAN: &[(i32, &str)]` lives in read-only memory,
+//   zero heap allocation (see CHEATSHEET: const array/slice lookup table)
+// - const arrays of &str: `const ONES: [&str; 10]` for direct index lookup
+// - String += &str: AddAssign trait appends without reallocating each time
+// - `as usize` cast: i32 -> usize for safe array indexing
+// - format!() macro: concatenates four &str slices into one owned String
+// - Destructuring in for: `for (value, numeral) in ROMAN_NUMERALS`
+//   unpacks each (&i32, &&str) tuple; `*value` dereferences the &i32
 
 /// My solution module.
 ///

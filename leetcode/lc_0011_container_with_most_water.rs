@@ -27,6 +27,13 @@
 // Test: cargo test --example lc_0011_container_with_most_water
 // Bench: cargo test --example lc_0011_container_with_most_water bench -- --nocapture
 //
+// --- Rust concepts used ---
+// - Two-pointer convergence: left/right indices on a Vec<i32>, usize arithmetic
+// - i32::min / i32::max: method syntax for primitive comparisons
+// - `as i32` cast: converting usize width to i32 for multiplication
+// - Skip optimization (ai): inner while loop skips heights <= current bottleneck,
+//   pruning the search space without changing O(n) worst case
+//
 // --- Reference: faster cached-locals approach (LeetCode top submission) ---
 //   Caches height[start] and height[end] into locals `s_h`, `e_h`:
 //

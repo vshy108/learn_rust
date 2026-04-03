@@ -93,7 +93,10 @@ fn main() {
     for h in handles {
         h.join().expect("thread panicked");
     }
-    println!("Arc<Mutex> counter: {}", counter.lock().expect("mutex poisoned"));
+    println!(
+        "Arc<Mutex> counter: {}",
+        counter.lock().expect("mutex poisoned")
+    );
 }
 
 /// Print a string slice (demonstrates deref coercion from String).

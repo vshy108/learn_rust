@@ -24,11 +24,26 @@
 // Run:  cargo run --example lc_0134_gas_station
 // Test: cargo test --example lc_0134_gas_station
 // Bench: cargo test --example lc_0134_gas_station bench -- --nocapture
+//
+// --- Benchmark (100,000 iterations, 2026-04-03) ---
+// My solution: avg 830ns
+// AI solution: avg 1.058us
+// Ratio: My solution is 1.28x faster
+// Reason: enumerate + index avoids the extra tuple destructuring overhead
+//         that zip introduces; both are O(n) but my_solution has slightly
+//         less per-iteration work in unoptimized (debug) builds.
+//
+// --- Rust concepts used ---
+// - Iterator adaptors: .into_iter(), .enumerate(), .zip()
+// - Ownership: into_iter() consumes the Vec, avoiding borrows
+// - Pattern destructuring in for loops: (i, g) and (i, (g, c))
+// - Type casting: `as i32` for usize-to-i32 conversion
+// - Greedy algorithm: single-pass O(n) with running totals
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) - single pass through both arrays
+/// Space: O(1) - only three tracking variables
 mod my_solution {
     pub struct Solution;
 
@@ -44,32 +59,41 @@ mod my_solution {
         ///
         /// Starting station index, or -1 if no solution exists
         pub fn can_complete_circuit(gas: Vec<i32>, cost: Vec<i32>) -> i32 {
-            // total_tank = 0
-            // curr_tank = 0
-            // start_station = 0
-            // gas.each_with_index do |g, i|
-            //   curr_tank += g - cost[i]
-            //   total_tank += g - cost[i]
-            //   if curr_tank < 0
-            //     start_station = i + 1
-            //     curr_tank = 0
-            //   end
-            // end
-            // total_tank >= 0 ? start_station : -1
-            todo!()
+            let mut total_tank = 0;
+            let mut curr_tank = 0;
+            let mut start_station = 0;
+            // .enumerate() yields (index, element) — opposite of Ruby's each_with_index
+            for (i, g) in gas.into_iter().enumerate() {
+                curr_tank += g - cost[i];
+                total_tank += g - cost[i];
+                if curr_tank < 0 {
+                    // If current tank drops below 0, this station can't be the start;
+                    // try starting from the next station
+                    start_station = (i + 1) as i32;
+                    curr_tank = 0;
+                }
+            }
+
+            if total_tank >= 0 { start_station } else { -1 }
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses `zip` to pair gas/cost elements directly, avoiding index-based
+/// access into `cost`. This eliminates bounds checks and is more idiomatic.
+///
+/// Time:  O(n) - single pass through both arrays
+/// Space: O(1) - only three tracking variables
 mod ai_solution {
     pub struct Solution;
 
     impl Solution {
         /// Find the starting gas station index for a complete circuit.
+        ///
+        /// Uses `zip` to iterate `gas` and `cost` in lockstep, computing
+        /// the net gain at each station without indexing.
         ///
         /// # Arguments
         ///
@@ -80,7 +104,23 @@ mod ai_solution {
         ///
         /// Starting station index, or -1 if no solution exists
         pub fn can_complete_circuit(gas: Vec<i32>, cost: Vec<i32>) -> i32 {
-            todo!()
+            let mut total_tank = 0;
+            let mut curr_tank = 0;
+            let mut start_station = 0_i32;
+
+            // zip pairs each (gas[i], cost[i]) without needing an index
+            for (i, (g, c)) in gas.into_iter().zip(cost).enumerate() {
+                let net = g - c;
+                total_tank += net;
+                curr_tank += net;
+                if curr_tank < 0 {
+                    // Reset: current segment failed, try starting from next station
+                    start_station = (i as i32) + 1;
+                    curr_tank = 0;
+                }
+            }
+
+            if total_tank >= 0 { start_station } else { -1 }
         }
     }
 }

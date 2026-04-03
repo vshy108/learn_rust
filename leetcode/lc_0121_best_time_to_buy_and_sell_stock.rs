@@ -56,7 +56,9 @@ mod my_solution {
         ///
         /// Maximum profit achievable, or 0 if no profit possible
         pub fn max_profit(prices: Vec<i32>) -> i32 {
-            if prices.len() < 2 { return 0; };
+            if prices.len() < 2 {
+                return 0;
+            };
 
             let mut min_price = prices[0];
             let mut max_profit = 0;
@@ -65,10 +67,10 @@ mod my_solution {
             // call into_iter()). The & gives &[i32] (fat pointer: address +
             // length) which does implement IntoIterator, yielding &i32.
             // &price destructures each &i32 into i32 (Copy type).
-            for &price in &prices[1..]{
-              let potential_profit = price - min_price;
-              max_profit = max_profit.max(potential_profit);
-              min_price = min_price.min(price);
+            for &price in &prices[1..] {
+                let potential_profit = price - min_price;
+                max_profit = max_profit.max(potential_profit);
+                min_price = min_price.min(price);
             }
 
             max_profit

@@ -104,5 +104,4 @@ mod tests {
         // NLL cannot shorten runtime borrows -- this panics!
         let _exclusive = data.borrow_mut();
     }
-
 }

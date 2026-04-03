@@ -30,6 +30,12 @@ Common gotchas when converting Ruby solutions to Rust.
 
 ## Iterators
 - **`.into_iter()` on `.chars()` is redundant**: `.chars()` already returns an iterator.
+- **`iter()` vs `into_iter()`**: Ruby `.each` borrows implicitly. Rust has three:
+  - `v.iter()` → `&T` (like Ruby `.each`, vec still usable)
+  - `v.into_iter()` → `T` (consumes vec — no Ruby equivalent, vec is gone)
+  - `v.iter_mut()` → `&mut T` (like Ruby `.map!`, mutate in place)
+  - **Gotcha**: `v.iter().sum()` needs turbofish `.sum::<i32>()` (iterates `&i32`). `v.into_iter().sum()` infers the type automatically.
+- **`enumerate()` order is `(index, element)`**: Opposite of Ruby's `each_with_index { |element, index| }`. Easy to mix up.
 - **`peekable()`**: Look ahead without consuming — useful for sign detection.
 - **`take_while` + `fold`**: Replace manual while loops. `fold` = Ruby's `inject`.
 - **`clamp(min, max)`**: Built-in on numeric types. Replaces Ruby `[[val, max].min, min].max`.

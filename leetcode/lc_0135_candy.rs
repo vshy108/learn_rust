@@ -22,11 +22,29 @@
 // Run:  cargo run --example lc_0135_candy
 // Test: cargo test --example lc_0135_candy
 // Bench: cargo test --example lc_0135_candy bench -- --nocapture
+//
+// --- Benchmark (100,000 iterations, 2026-04-03) ---
+// My solution: avg 1.307us
+// AI solution: avg 520ns
+// Ratio: AI solution is 2.51x faster
+// Reason: AI uses O(1) space with slope-counting (no array allocation or
+//         iteration for sum), avoiding the two-pass + sum overhead of my_solution.
+//
+// --- Rust concepts used ---
+// - vec![value; n]: initialize Vec with n copies of value (runtime-sized)
+// - Reverse iteration: (0..n).rev() since Rust ranges only go forward
+// - saturating_sub(): prevents usize underflow (unsigned can't go negative)
+// - .max() on i32: built-in method, replaces Ruby's [a, b].max
+// - into_iter().sum(): consumes Vec and sums owned values (no turbofish needed)
+// - Slope-counting greedy: single-pass O(1) space alternative to two-pass array
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Two-pass greedy: left-to-right ensures right-higher neighbors get more,
+/// right-to-left ensures left-higher neighbors get more, taking the max.
+///
+/// Time:  O(n) - two linear passes + one sum pass
+/// Space: O(n) - auxiliary candies array
 mod my_solution {
     pub struct Solution;
 
@@ -41,36 +59,45 @@ mod my_solution {
         ///
         /// Minimum total number of candies
         pub fn candy(ratings: Vec<i32>) -> i32 {
-            // n = ratings.length
-            // return 0 if n == 0
-            // candies = Array.new(n, 1)
-            // left-to-right pass:
-            //   (1...n).each do |i|
-            //     if ratings[i] > ratings[i - 1]
-            //       candies[i] = candies[i - 1] + 1
-            //     end
-            //   end
-            // right-to-left pass:
-            //   (n - 2).downto(0) do |i|
-            //     if ratings[i] > ratings[i + 1]
-            //       candies[i] = [candies[i], candies[i + 1] + 1].max
-            //     end
-            //   end
-            // candies.sum
-            todo!()
+            let n = ratings.len();
+            if n == 0 { return 0 };
+            // Vec, not array: n is only known at runtime; arrays require compile-time size
+            let mut candies = vec![1; n];
+            for i in 1..n {
+                if ratings[i] > ratings[i - 1] {
+                    candies[i] = candies[i - 1] + 1;
+                }
+            }
+            // Rust ranges only go forward; use .rev() to iterate backwards.
+            // n.saturating_sub(2) prevents usize underflow when n <= 1
+            for i in (0..n.saturating_sub(1)).rev() {
+                if ratings[i] > ratings[i + 1] {
+                  candies[i] = candies[i].max(candies[i + 1] + 1);
+                }
+            }
+
+            candies.into_iter().sum()
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Single-pass O(1) space approach. Tracks ascending and descending slopes.
+/// When a descending slope ends, retroactively adjusts the peak if needed.
+/// No auxiliary array required.
+///
+/// Time:  O(n) - single pass
+/// Space: O(1) - only counter variables
 mod ai_solution {
     pub struct Solution;
 
     impl Solution {
         /// Return the minimum candies needed to satisfy the rating constraints.
+        ///
+        /// Uses slope-counting: tracks consecutive ascending (`up`) and
+        /// descending (`down`) runs. At each slope change, the accumulated
+        /// candy count for that mountain shape is added to the total.
         ///
         /// # Arguments
         ///
@@ -80,7 +107,41 @@ mod ai_solution {
         ///
         /// Minimum total number of candies
         pub fn candy(ratings: Vec<i32>) -> i32 {
-            todo!()
+            let n = ratings.len();
+            if n <= 1 { return n as i32; }
+
+            let mut total = 1_i32;  // first child always gets 1 candy
+            let mut up = 0_i32;    // length of current ascending slope
+            let mut down = 0_i32;  // length of current descending slope
+            let mut peak = 0_i32;  // height at the last peak
+
+            for i in 1..n {
+                if ratings[i] > ratings[i - 1] {
+                    // Ascending: extend the upward slope
+                    up += 1;
+                    down = 0;
+                    peak = up;
+                    // This child gets (up + 1) candies, but we add
+                    // incrementally: +1 more than previous
+                    total += up + 1;
+                } else if ratings[i] < ratings[i - 1] {
+                    // Descending: extend the downward slope
+                    down += 1;
+                    up = 0;
+                    // If descending slope reaches the peak height,
+                    // the peak itself must be raised by 1
+                    let peak_bump = if down > peak { 1 } else { 0 };
+                    total += down + peak_bump;
+                } else {
+                    // Equal: reset both slopes, child gets 1 candy
+                    up = 0;
+                    down = 0;
+                    peak = 0;
+                    total += 1;
+                }
+            }
+
+            total
         }
     }
 }

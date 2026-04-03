@@ -604,9 +604,21 @@ v.sort_by(|a, b| b.cmp(a));     // custom comparator (descending)
 v.sort_by_key(|x| x.abs());     // sort by derived key
 v.reverse();
 v.binary_search(&val);      // Result<usize, usize> — must be sorted
-v.iter()                    // &T iterator
-v.iter_mut()                // &mut T iterator
-v.into_iter()               // T iterator (consumes)
+v.iter()                    // &T iterator (borrows; vec still usable after)
+v.iter_mut()                // &mut T iterator (mutates in place; vec still usable)
+v.into_iter()               // T iterator (consumes vec; vec gone after)
+
+// iter() vs into_iter() vs iter_mut()
+//   iter()      → yields &T.  Vec lives on.  Need turbofish for sum: .sum::<i32>()
+//   into_iter() → yields T.   Vec is consumed (moved). Sum type inferred automatically.
+//   iter_mut()  → yields &mut T. Modify elements in place, vec still usable.
+//
+// Rule of thumb: use into_iter() when done with the vec, iter() when you need it after.
+//
+// Example:
+//   let v = vec![1, 2, 3];
+//   let total: i32 = v.iter().sum();     // v still usable
+//   let total = v.into_iter().sum();     // v consumed — can't use v after this
 
 // HashMap<K, V>
 use std::collections::HashMap;

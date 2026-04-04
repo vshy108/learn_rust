@@ -21,13 +21,37 @@
 // Run:  cargo run --example lc_0205_isomorphic_strings
 // Test: cargo test --example lc_0205_isomorphic_strings
 // Bench: cargo test --example lc_0205_isomorphic_strings bench -- --nocapture
+//
+// --- Benchmark (100,000 iterations, 2026-04-04) ---
+// My solution: avg 11.802us
+// AI solution: avg 931ns
+// Ratio: AI solution is 12.67x faster
+// Reason: Fixed-size [u8; 256] arrays use direct byte-indexed lookup (O(1),
+//         no hashing). HashMap has per-lookup hashing + probing overhead,
+//         plus heap allocations that grow with insertions. On small ASCII
+//         inputs, the hash overhead dominates.
+//
+// --- Rust concepts used ---
+// - .zip(): pairs two iterators element-wise (Ruby: each_with_index + t[i])
+// - .as_bytes(): view String as &[u8] without allocation (ASCII-safe)
+// - Pattern destructuring: `for (&cs, &ct)` dereferences &u8 -> u8 in-place
+// - HashMap::get() returns Option<&V> (safe); HashMap[&k] panics on missing key
+// - match with guard: `Some(&v) if v != ct =>` replaces Ruby's postfix `return false if`
+// - Fixed-size array `[0u8; 256]`: O(1) lookup by byte index, no hashing overhead
+// - Sentinel value (0): marks "unmapped" slots; valid because mapping values
+//   are offset by +1 to distinguish 0x00 from "not set"
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Dual HashMap approach: map_st tracks s->t mappings, map_ts tracks t->s.
+/// Both directions must be consistent for isomorphism.
+///
+/// Time:  O(n) - single pass through both strings
+/// Space: O(k) - two HashMaps, k = number of unique chars (at most 256)
 mod my_solution {
     pub struct Solution;
+
+    use std::collections::HashMap;
 
     impl Solution {
         /// Determine if two strings are isomorphic.
@@ -41,37 +65,71 @@ mod my_solution {
         ///
         /// `true` if s and t are isomorphic, `false` otherwise
         pub fn is_isomorphic(s: String, t: String) -> bool {
-            // return false if s.length != t.length
-            // map_st = {}
-            // map_ts = {}
-            // s.each_char.with_index do |char_s, i|
-            //   char_t = t[i]
-            //   if map_st.key?(char_s)
-            //     return false if map_st[char_s] != char_t
-            //   else
-            //     map_st[char_s] = char_t
-            //   end
-            //   if map_ts.key?(char_t)
-            //     return false if map_ts[char_t] != char_s
-            //   else
-            //     map_ts[char_t] = char_s
-            //   end
-            // end
-            // true
-            todo!()
+            if s.len() != t.len() { return false };
+
+            let mut map_st: HashMap<u8, u8> = HashMap::new();
+            let mut map_ts: HashMap<u8, u8> = HashMap::new();
+
+            // Ruby: s.each_char.with_index do |char_s, i| char_t = t[i] ...
+            // Rust: .zip() pairs two iterators element-wise — cleaner than
+            //   indexing with t[i] (which doesn't work on String anyway;
+            //   String has no Index<usize> trait — you'd need t.as_bytes()[i]).
+            // `&cs` / `&ct` destructure the references from .iter() so we get
+            //   u8 values directly instead of &u8 references.
+            //
+            // Step-by-step for s="egg", t="add":
+            //   s.as_bytes()        -> [101, 103, 103]       (e, g, g)
+            //   t.as_bytes()        -> [97, 100, 100]        (a, d, d)
+            //   .iter()             -> Iterator<Item = &u8>
+            //   .zip()              -> Iterator<Item = (&u8, &u8)>
+            //     yields: (&101, &97), (&103, &100), (&103, &100)
+            //   for (&cs, &ct)      -> destructures &u8 to u8:
+            //     iter 1: cs=101(e), ct=97(a)
+            //     iter 2: cs=103(g), ct=100(d)
+            //     iter 3: cs=103(g), ct=100(d)
+            for (&cs, &ct) in s.as_bytes().iter().zip(t.as_bytes().iter()) {
+                // Ruby: map_st.key?(cs) -> Rust: map_st.contains_key(&cs)
+                // Ruby: map_st[cs]      -> Rust: map_st[&cs] (Index trait)
+                //   BUT map_st[&cs] panics if key missing. Use .get() instead.
+                //
+                // Ruby: return false if map_st[cs] != ct
+                // Rust: match on .get() — returns Option<&V>
+                //   Some(&v) if v != ct -> conflict, not isomorphic
+                //   None -> first time seeing cs, insert the mapping
+                match map_st.get(&cs) {
+                    Some(&v) if v != ct => return false,
+                    None => { map_st.insert(cs, ct); }
+                    _ => {} // existing mapping matches, continue
+                }
+                match map_ts.get(&ct) {
+                    Some(&v) if v != cs => return false,
+                    None => { map_ts.insert(ct, cs); }
+                    _ => {}
+                }
+            }
+
+            true
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Fixed-size array approach: use `[u8; 256]` arrays indexed by byte value
+/// instead of HashMaps. O(1) direct lookup with zero hashing overhead.
+/// Stores mapped values offset by +1 so that 0 means "unmapped".
+///
+/// Time:  O(n) - single pass through both strings
+/// Space: O(1) - two fixed 256-byte arrays (constant regardless of input)
 mod ai_solution {
     pub struct Solution;
 
     impl Solution {
         /// Determine if two strings are isomorphic.
+        ///
+        /// Uses two `[u8; 256]` arrays as direct-indexed lookup tables.
+        /// Each byte value maps to its partner + 1 (0 = unmapped sentinel).
+        /// Avoids HashMap hashing overhead entirely.
         ///
         /// # Arguments
         ///
@@ -82,7 +140,34 @@ mod ai_solution {
         ///
         /// `true` if s and t are isomorphic, `false` otherwise
         pub fn is_isomorphic(s: String, t: String) -> bool {
-            todo!()
+            if s.len() != t.len() { return false; }
+
+            // Fixed-size arrays: index by byte value (0..255).
+            // Value 0 = unmapped; stored values are offset by +1 so that
+            // mapping to byte 0x00 is distinguishable from "not set".
+            let mut map_st = [0u8; 256];
+            let mut map_ts = [0u8; 256];
+
+            for (&cs, &ct) in s.as_bytes().iter().zip(t.as_bytes().iter()) {
+                let si = cs as usize; // index into map_st
+                let ti = ct as usize; // index into map_ts
+
+                // Check s->t direction
+                if map_st[si] == 0 {
+                    map_st[si] = ct.wrapping_add(1); // store ct + 1
+                } else if map_st[si] != ct.wrapping_add(1) {
+                    return false; // conflict: cs already maps to different char
+                }
+
+                // Check t->s direction
+                if map_ts[ti] == 0 {
+                    map_ts[ti] = cs.wrapping_add(1); // store cs + 1
+                } else if map_ts[ti] != cs.wrapping_add(1) {
+                    return false; // conflict: ct already maps to different char
+                }
+            }
+
+            true
         }
     }
 }

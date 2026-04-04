@@ -115,20 +115,23 @@ mod my_solution {
 
 /// AI solution module.
 ///
-/// Fixed-size array approach: use `[u8; 256]` arrays indexed by byte value
+/// Fixed-size array approach: use `[u16; 256]` arrays indexed by byte value
 /// instead of HashMaps. O(1) direct lookup with zero hashing overhead.
-/// Stores mapped values offset by +1 so that 0 means "unmapped".
+/// Uses u16 (not u8) to store mapped values + 1: avoids overflow when
+/// byte 0xFF maps to 0xFF+1=256 which doesn't fit in u8. With u16,
+/// values 1..=256 all fit, and 0 safely means "unmapped".
 ///
 /// Time:  O(n) - single pass through both strings
-/// Space: O(1) - two fixed 256-byte arrays (constant regardless of input)
+/// Space: O(1) - two fixed 256-element arrays (constant regardless of input)
 mod ai_solution {
     pub struct Solution;
 
     impl Solution {
         /// Determine if two strings are isomorphic.
         ///
-        /// Uses two `[u8; 256]` arrays as direct-indexed lookup tables.
+        /// Uses two `[u16; 256]` arrays as direct-indexed lookup tables.
         /// Each byte value maps to its partner + 1 (0 = unmapped sentinel).
+        /// u16 avoids overflow: max stored value is 255 + 1 = 256 (fits u16).
         /// Avoids HashMap hashing overhead entirely.
         ///
         /// # Arguments
@@ -143,26 +146,28 @@ mod ai_solution {
             if s.len() != t.len() { return false; }
 
             // Fixed-size arrays: index by byte value (0..255).
-            // Value 0 = unmapped; stored values are offset by +1 so that
-            // mapping to byte 0x00 is distinguishable from "not set".
-            let mut map_st = [0u8; 256];
-            let mut map_ts = [0u8; 256];
+            // Value 0 = unmapped; stored values are value + 1.
+            // u16 instead of u8: byte 0xFF + 1 = 256 overflows u8 but fits u16.
+            let mut map_st = [0u16; 256];
+            let mut map_ts = [0u16; 256];
 
             for (&cs, &ct) in s.as_bytes().iter().zip(t.as_bytes().iter()) {
                 let si = cs as usize; // index into map_st
                 let ti = ct as usize; // index into map_ts
+                let ct_val = ct as u16 + 1; // stored value for ct (1..=256)
+                let cs_val = cs as u16 + 1; // stored value for cs (1..=256)
 
                 // Check s->t direction
                 if map_st[si] == 0 {
-                    map_st[si] = ct.wrapping_add(1); // store ct + 1
-                } else if map_st[si] != ct.wrapping_add(1) {
+                    map_st[si] = ct_val;
+                } else if map_st[si] != ct_val {
                     return false; // conflict: cs already maps to different char
                 }
 
                 // Check t->s direction
                 if map_ts[ti] == 0 {
-                    map_ts[ti] = cs.wrapping_add(1); // store cs + 1
-                } else if map_ts[ti] != cs.wrapping_add(1) {
+                    map_ts[ti] = cs_val;
+                } else if map_ts[ti] != cs_val {
                     return false; // conflict: ct already maps to different char
                 }
             }

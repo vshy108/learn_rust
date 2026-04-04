@@ -65,7 +65,10 @@ mod my_solution {
             let mut index = 0;
             // guarantees exactly one solution then can skip last one
             // because must have pair before it
-            while index <= len - 2 {
+            // `len.saturating_sub(2)` instead of `len - 2` to prevent
+            // usize underflow if len < 2 (0_usize - 2 panics in debug,
+            // wraps to usize::MAX in release). saturating_sub clamps to 0.
+            while index <= len.saturating_sub(2) {
                 // A: access vector value by index
                 let difference = target - nums[index];
                 // `.get(&difference)` takes a reference because HashMap::get

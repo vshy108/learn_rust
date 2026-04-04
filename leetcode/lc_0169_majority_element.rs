@@ -19,11 +19,32 @@
 // Run:  cargo run --example lc_0169_majority_element
 // Test: cargo test --example lc_0169_majority_element
 // Bench: cargo test --example lc_0169_majority_element bench -- --nocapture
+//
+// --- Benchmark (100,000 iterations, 2026-04-04) ---
+// My solution: avg 479ns
+// AI solution: avg 736ns
+// Ratio: My solution is 1.54x faster
+// Reason: Boyer-Moore is a single branchless-style pass with two register
+//         variables (candidate + count). Quickselect does O(n) comparisons
+//         but with heavier partitioning swaps and worse cache access patterns
+//         on these small inputs.
+//
+// --- Rust concepts used ---
+// - Boyer-Moore Voting: single-pass O(1) space majority-finding algorithm
+// - `for num in nums`: consumes the Vec (takes ownership), no borrow needed
+// - Conditional expression as value: `if cond { 1 } else { -1 }` returns i32
+// - `nums[0]` safe here due to constraint n >= 1 (panics on empty Vec)
+// - Partial sort with `select_nth_unstable`: O(n) avg quickselect, no full sort
+// - Slice indexing with `nums[n / 2]` after partitioning finds the median
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Boyer-Moore Voting Algorithm: maintain a candidate and a count.
+/// When count drops to 0, adopt the current element as the new candidate.
+/// The majority element survives because it appears > n/2 times.
+///
+/// Time:  O(n) - single pass through the array
+/// Space: O(1) - only two variables (candidate + count)
 mod my_solution {
     pub struct Solution;
 
@@ -38,29 +59,47 @@ mod my_solution {
         ///
         /// The majority element
         pub fn majority_element(nums: Vec<i32>) -> i32 {
-            // count = 0
-            // candidate = nil
-            // nums.each do |num|
-            //   if count == 0
-            //     candidate = num
-            //   end
-            //   count += (num == candidate ? 1 : -1)
-            // end
-            // candidate
-            todo!()
+            // Boyer-Moore Voting: candidate tracks the potential majority.
+            // count acts as a "net votes" tally. When count hits 0, the
+            // current candidate is abandoned and replaced by the next element.
+            // The true majority element always survives because it has > n/2 votes.
+            let mut count = 0;
+            // Safe: constraint guarantees n >= 1, so nums[0] exists.
+            // Overwritten immediately on first iteration since count starts at 0.
+            let mut candidate = nums[0];
+
+            for num in nums {
+                if count == 0 {
+                    candidate = num;
+                }
+                // Conditional expression as value: returns 1 or -1 directly
+                count += if num == candidate { 1 } else { -1 };
+            }
+
+            candidate
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Partial sort (quickselect): since the majority element appears > n/2
+/// times, it must occupy the middle index after sorting. Instead of a
+/// full O(n log n) sort, `select_nth_unstable` partitions in O(n) average
+/// to place the median in position — then we just read it.
+///
+/// Time:  O(n) average — quickselect partitioning (O(n^2) worst case)
+/// Space: O(1) — in-place partitioning, no extra allocation
 mod ai_solution {
     pub struct Solution;
 
     impl Solution {
         /// Find the majority element (appears more than n/2 times).
+        ///
+        /// Uses `select_nth_unstable` (quickselect) to partially sort
+        /// the array so the median is in correct position. Since the
+        /// majority element appears > n/2 times, the median is always
+        /// the majority element.
         ///
         /// # Arguments
         ///
@@ -69,8 +108,15 @@ mod ai_solution {
         /// # Returns
         ///
         /// The majority element
-        pub fn majority_element(nums: Vec<i32>) -> i32 {
-            todo!()
+        pub fn majority_element(mut nums: Vec<i32>) -> i32 {
+            let n = nums.len();
+            // select_nth_unstable: O(n) avg quickselect that partitions
+            // so nums[n/2] holds the value that would be at index n/2
+            // in a fully sorted array. No need to sort the rest.
+            nums.select_nth_unstable(n / 2);
+            // The majority element (> n/2 occurrences) always occupies
+            // the median position after any valid partitioning.
+            nums[n / 2]
         }
     }
 }

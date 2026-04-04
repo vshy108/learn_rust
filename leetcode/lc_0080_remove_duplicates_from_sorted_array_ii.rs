@@ -25,18 +25,20 @@
 // Test: cargo test --example lc_0080_remove_duplicates_from_sorted_array_ii
 // Bench: cargo test --example lc_0080_remove_duplicates_from_sorted_array_ii bench -- --nocapture
 //
-// --- Benchmark (100,000 iterations, 2026-03-29) ---
-//   My solution:  72.18ms total (avg 721ns)
-//   AI solution:  61.50ms total (avg 615ns)
-//   -> AI solution is 1.17x faster
-//   Reason: AI skips the empty check and starts write pointer at 2,
-//     avoiding repeated `write_index < 2` branch on every iteration.
-//     Uses != instead of > since array is sorted (same semantics, clearer).
+// --- Benchmark (100,000 iterations, 2026-04-04) ---
+//   My solution:  72.81ms total (avg 728ns)
+//   AI solution:  55.03ms total (avg 550ns)
+//   -> AI solution is 1.32x faster
+//   Reason: AI caches the previous two values in local vars (CPU registers),
+//     avoiding repeated array loads + bounds checks in `nums[w - 2]`.
+//     `continue` on 3rd+ duplicates skips the write entirely (no dead store).
 //
 // --- Rust concepts used ---
 //   - Index-based loop: `for i in 0..nums.len()` avoids borrow conflict
 //     that `for num in nums` would cause (can't iterate and mutate simultaneously)
 //   - In-place two-pointer: write_index trails read index, overwriting duplicates
+//   - Register-cached sliding window: local vars (`n2`, `n1`) avoid array reads
+//   - `continue` to skip writes for 3rd+ duplicates (no dead store to array)
 //   - `as i32`: usize to i32 cast for return type matching LeetCode signature
 //   - `&mut Vec<i32>`: mutable reference allows in-place modification
 
@@ -80,19 +82,30 @@ mod my_solution {
     }
 }
 
-/// AI solution module — slice-based two-pointer with `split_at_mut`.
+/// AI solution module — register-cached sliding window.
 ///
-/// Same two-pointer algorithm but avoids index arithmetic by using
-/// `split_at_mut` to get disjoint mutable references, enabling
-/// safe simultaneous read and write without index bounds checks.
+/// Tracks the previous two elements (`n2`, `n1`) in local variables
+/// instead of reading `nums[w - 2]` from the array each iteration.
+/// The compiler can keep `n2`/`n1` in CPU registers, eliminating
+/// repeated array loads and bounds checks on every comparison.
+///
+/// Why faster than index-based two-pointer:
+/// - `nums[w - 2]` requires: bounds check + memory load each iteration
+/// - `n2`/`n1` in registers: zero-cost comparison, no memory access
+/// - `continue` skips the write entirely for duplicates (no dead store)
 ///
 /// Time:  O(n) — single pass through the array
-/// Space: O(1) — in-place, only a write pointer
+/// Space: O(1) — in-place, two cached variables + write pointer
 mod ai_solution {
     pub struct Solution;
 
     impl Solution {
         /// Remove duplicates so each element appears at most twice.
+        ///
+        /// Keeps a two-element sliding window (`n2`, `n1`) in local
+        /// variables. If the current element equals both, it's a 3rd+
+        /// duplicate and is skipped. Otherwise, it's written and the
+        /// window slides forward.
         ///
         /// # Arguments
         ///
@@ -103,22 +116,31 @@ mod ai_solution {
         /// The number of elements remaining (k). The first k elements
         /// of `nums` will be the result.
         pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
-            let n = nums.len();
-            if n <= 2 {
-                return n as i32;
+            if nums.len() < 3 {
+                // 0, 1, or 2 elements can never exceed the "at most 2" rule
+                return nums.len() as i32;
             }
 
-            // Start write pointer at 2 — first two elements always kept
-            let mut w = 2;
-            for i in 2..n {
-                // Only write if current element differs from element
-                // two positions back in the write window
-                if nums[i] != nums[w - 2] {
-                    nums[w] = nums[i];
-                    w += 1;
+            // Cache the first two elements in local vars (likely registers).
+            // These track the sliding window of the last two *written* values.
+            let mut n2 = nums[0]; // two positions back
+            let mut n1 = nums[1]; // one position back
+            let mut idx = 2;      // next write position
+
+            for i in 2..nums.len() {
+                let cur = nums[i];
+                // If cur == n2 == n1, we already have two copies — skip
+                if cur == n2 && cur == n1 {
+                    continue;
                 }
+                // Write and slide the window forward
+                nums[idx] = cur;
+                n2 = n1;
+                n1 = cur;
+                idx += 1;
             }
-            w as i32
+
+            idx as i32
         }
     }
 }

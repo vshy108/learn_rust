@@ -19,11 +19,36 @@
 // Run:  cargo run --example lc_0189_rotate_array
 // Test: cargo test --example lc_0189_rotate_array
 // Bench: cargo test --example lc_0189_rotate_array bench -- --nocapture
+//
+// --- Benchmark (100,000 iterations, 2026-04-04) ---
+// My solution: avg 220ns
+// AI solution: avg 104ns
+// Ratio: AI solution is 2.10x faster
+// Reason: stdlib rotate_right uses ptr::rotate (block-swap algorithm) which
+//         is cache-friendly and avoids the overhead of three separate reverse
+//         passes. The three-reverse approach touches every element 2x; the
+//         block-swap moves elements in larger contiguous chunks.
+//
+// --- Rust concepts used ---
+// - usize underflow: `0_usize - 1` panics (no negative unsigned values).
+//   Ruby's `-1` wraps to a negative index; Rust requires an early return guard.
+// - `mut` params: Rust function params are immutable by default, need `mut`
+//   to reassign (unlike Ruby where all locals are reassignable)
+// - `.swap(a, b)`: no parallel assignment (Ruby: `a, b = b, a`) in Rust.
+//   .swap() uses internal temp to avoid overwrite-before-read.
+// - Inner function: `fn reverse(...)` defined inside a method has no access
+//   to outer variables (unlike closures). Takes `&mut Vec` explicitly.
+// - Slice `.reverse()`: built-in in-place reversal, no manual loop needed.
+// - `.rotate_right(k)`: stdlib single-call O(n) rotation using
+//   ptr::rotate internally (block-swap algorithm, cache-friendly)
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Three-reverse algorithm: reverse all, reverse first k, reverse rest.
+/// Classic O(n) in-place rotation with O(1) extra space.
+///
+/// Time:  O(n) - three passes, each reversing a portion of the array
+/// Space: O(1) - in-place swaps, no extra allocation
 mod my_solution {
     pub struct Solution;
 
@@ -35,37 +60,53 @@ mod my_solution {
         /// * `nums` - Mutable reference to the array to rotate
         /// * `k` - Number of steps to rotate right
         pub fn rotate(nums: &mut Vec<i32>, k: i32) {
-            // n = nums.length
-            // k %= n
-            // helper reverse(arr, start_idx, end_idx):
-            //   while start_idx < end_idx
-            //     swap arr[start_idx], arr[end_idx]
-            //     start_idx += 1; end_idx -= 1
-            //   end
-            // reverse(nums, 0, n - 1)
-            // reverse(nums, 0, k - 1)
-            // reverse(nums, k, n - 1)
-            todo!()
+            let n = nums.len();
+            let k = k as usize % n;
+            // Early return: k == 0 means no rotation needed.
+            // Also prevents `k - 1` underflow below since k is usize (unsigned).
+            // Ruby: k - 1 when k == 0 gives -1 (negative index wraps).
+            // Rust: usize can't be negative — 0_usize - 1 panics with overflow.
+            if k == 0 { return; }
+            // Slice .reverse() replaces the manual reverse loop.
+            // The manual version (`end_idx -= 1`) risks usize underflow
+            // if end_idx reaches 0 inside the loop. Slice .reverse()
+            // handles all edge cases internally with safe pointer arithmetic.
+            // `..=` is inclusive range: nums[0..=2] reverses indices 0,1,2
+            nums[..].reverse();       // reverse all
+            nums[..k].reverse();      // reverse first k elements
+            nums[k..].reverse();      // reverse remaining elements
+            // No return needed: function returns () and mutates nums in-place
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses slice `.rotate_right(k)` which calls `ptr::rotate` internally —
+/// a cache-friendly block-swap algorithm. Single stdlib call, zero manual
+/// logic, same O(n) time and O(1) space.
+///
+/// Time:  O(n) - single pass block-swap rotation
+/// Space: O(1) - in-place (small stack buffer for block-swap)
 mod ai_solution {
     pub struct Solution;
 
     impl Solution {
         /// Rotate an array to the right by k steps in-place.
         ///
+        /// Delegates to the stdlib `rotate_right` which implements an
+        /// optimized block-swap algorithm internally. More cache-friendly
+        /// than the three-reverse approach on large arrays.
+        ///
         /// # Arguments
         ///
         /// * `nums` - Mutable reference to the array to rotate
         /// * `k` - Number of steps to rotate right
         pub fn rotate(nums: &mut Vec<i32>, k: i32) {
-            todo!()
+            let n = nums.len();
+            let k = k as usize % n;
+            // stdlib rotate_right: O(n) block-swap, handles k == 0 internally
+            nums.rotate_right(k);
         }
     }
 }

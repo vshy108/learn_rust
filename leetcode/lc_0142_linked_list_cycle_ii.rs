@@ -79,6 +79,7 @@ mod my_solution {
         /// # Returns
         ///
         /// Index of the cycle start, or -1 if no cycle
+        /// Leetcode no rust options for this, cannot verify solution
         pub fn detect_cycle(values: &[i32], pos: i32) -> i32 {
             let n = values.len();
             if n == 0 { return -1; }

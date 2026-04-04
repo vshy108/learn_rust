@@ -22,6 +22,22 @@
 // Run:  cargo run --example lc_0142_linked_list_cycle_ii
 // Test: cargo test --example lc_0142_linked_list_cycle_ii
 // Bench: cargo test --example lc_0142_linked_list_cycle_ii bench -- --nocapture
+//
+// --- Benchmark (100,000 iterations, 2026-04-03) ---
+// My solution: avg 140ns
+// AI solution: avg 3.952us
+// Ratio: My solution is 28.16x faster
+// Reason: Floyd's O(1) space uses no heap allocation; the HashSet approach
+//         pays heavy per-element hashing + allocation overhead on small inputs.
+//
+// --- Rust concepts used ---
+// - Closures capturing local variables: `let next = |i| -> Option<usize>`
+// - Option chaining: .and_then(|f| next(f)) for two-hop traversal (Ruby's &.)
+// - Pattern matching with early return: `match next(slow) { None => return -1 }`
+// - .expect() for invariant assertions (phase 2 pointers must be in cycle)
+// - HashSet::insert returns false if value already present (dual-purpose check+insert)
+// - HashSet::with_capacity(n) to pre-allocate and avoid rehashing
+// - Simulating cyclic data structures with indices (Rust ownership prevents Box cycles)
 
 /// Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]
@@ -44,8 +60,11 @@ impl ListNode {
 /// with `Box`, this uses a simplified approach: pass the values and cycle
 /// position, and return the index where the cycle starts (or -1).
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Floyd's tortoise and hare: two-phase cycle detection using a closure
+/// to simulate linked list traversal.
+///
+/// Time:  O(n) - each pointer traverses at most 2n nodes
+/// Space: O(1) - only pointer indices, no extra data structures
 mod my_solution {
     pub struct Solution;
 
@@ -61,38 +80,73 @@ mod my_solution {
         ///
         /// Index of the cycle start, or -1 if no cycle
         pub fn detect_cycle(values: &[i32], pos: i32) -> i32 {
-            // return nil if head.nil? || head.next.nil?
-            // Phase 1: detect cycle
-            //   slow = head
-            //   fast = head
-            //   while fast && fast.next
-            //     slow = slow.next
-            //     fast = fast.next.next
-            //     break if slow == fast
-            //   end
-            //   return nil if fast.nil? || fast.next.nil?
+            let n = values.len();
+            if n == 0 { return -1; }
+
+            // Simulate linked list traversal: node i -> i+1, last node -> pos
+            // Returns None if no next node (end of list or empty)
+            let next = |i: usize| -> Option<usize> {
+                if i == n - 1 {
+                    // Last node: connects back to pos, or None if no cycle
+                    if pos >= 0 { Some(pos as usize) } else { None }
+                } else {
+                    Some(i + 1)
+                }
+            };
+
+            // Phase 1: detect cycle using Floyd's tortoise and hare
+            // Ruby: slow = head; fast = head
+            let mut slow = 0_usize;
+            let mut fast = 0_usize;
+            loop {
+                // Ruby: slow = slow.next
+                slow = match next(slow) {
+                    Some(s) => s,
+                    None => return -1, // no cycle
+                };
+                // Ruby: fast = fast.next.next
+                fast = match next(fast).and_then(|f| next(f)) {
+                    Some(f) => f,
+                    // Ruby: return nil if fast.nil? || fast.next.nil?
+                    None => return -1, // no cycle
+                };
+                // Ruby: break if slow == fast
+                if slow == fast { break; }
+            }
+
             // Phase 2: find cycle entry
-            //   pointer1 = head
-            //   pointer2 = slow
-            //   while pointer1 != pointer2
-            //     pointer1 = pointer1.next
-            //     pointer2 = pointer2.next
-            //   end
-            //   pointer1
-            todo!()
+            // Ruby: pointer1 = head; pointer2 = slow
+            let mut p1 = 0_usize;
+            let mut p2 = slow;
+            // Ruby: while pointer1 != pointer2
+            while p1 != p2 {
+                // Both advance one step; guaranteed to meet at cycle start
+                p1 = next(p1).expect("p1 should be in cycle path");
+                p2 = next(p2).expect("p2 should be in cycle");
+            }
+            // Ruby: pointer1 (return the node, here we return the index)
+            p1 as i32
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// HashSet approach: traverse the simulated list, recording visited node
+/// indices. The first repeated index is the cycle entry point.
+///
+/// Time:  O(n) - single traversal until revisit
+/// Space: O(n) - HashSet storing visited indices
 mod ai_solution {
+    use std::collections::HashSet;
+
     pub struct Solution;
 
     impl Solution {
         /// Detect where a cycle begins in a linked list.
+        ///
+        /// Traverses the simulated list and tracks visited node indices
+        /// in a `HashSet`. The first index seen twice is the cycle start.
         ///
         /// # Arguments
         ///
@@ -103,7 +157,29 @@ mod ai_solution {
         ///
         /// Index of the cycle start, or -1 if no cycle
         pub fn detect_cycle(values: &[i32], pos: i32) -> i32 {
-            todo!()
+            let n = values.len();
+            if n == 0 { return -1; }
+
+            // HashSet to track which nodes we've already visited
+            let mut visited = HashSet::with_capacity(n);
+            let mut current = 0_usize;
+
+            loop {
+                // If we've seen this index before, it's the cycle entry
+                if !visited.insert(current) {
+                    return current as i32;
+                }
+                // Advance: last node wraps to pos, others go to i+1
+                if current == n - 1 {
+                    if pos >= 0 {
+                        current = pos as usize;
+                    } else {
+                        return -1; // end of list, no cycle
+                    }
+                } else {
+                    current += 1;
+                }
+            }
         }
     }
 }

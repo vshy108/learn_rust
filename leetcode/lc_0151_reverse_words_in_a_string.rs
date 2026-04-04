@@ -42,6 +42,7 @@ mod my_solution {
         ///
         /// Words in reverse order, separated by single spaces
         pub fn reverse_words(s: String) -> String {
+            let words = s.as_bytes();
             // words = s.split
             // reversed_words = words.reverse
             // reversed_words.join(" ")

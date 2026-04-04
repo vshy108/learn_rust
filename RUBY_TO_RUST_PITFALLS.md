@@ -27,6 +27,13 @@ Common gotchas when converting Ruby solutions to Rust.
 - **No `nil`**: Rust has no null. Use `Option<T>` for "maybe absent" values.
 - **`None == None` is true**: `Option::get()` returns `Option` — comparing two `None`s is true. Watch out in expansion loops.
 - **`.unwrap()` panics**: Use `match`, `if let`, or `?` operator instead.
+- **`and_then` = Ruby's `&.` (safe navigation)**: Chains `Option`-returning operations. If the first is `None`, short-circuits — second call never happens.
+  ```rust
+  // Ruby: fast.next&.next       (nil if fast.next is nil)
+  // Rust:  next(fast).and_then(|f| next(f))  (None if first hop is None)
+  ```
+  - `map` vs `and_then`: `map` wraps the result in `Some`; `and_then` expects the closure to return `Option` (avoids `Some(Some(...))` nesting).
+  - Also known as `flat_map` / `flatmap` in other languages.
 
 ## Iterators
 - **`.into_iter()` on `.chars()` is redundant**: `.chars()` already returns an iterator.

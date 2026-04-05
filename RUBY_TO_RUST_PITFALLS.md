@@ -52,6 +52,16 @@ Common gotchas when converting Ruby solutions to Rust.
 - **`i64` for intermediate overflow**: Accumulate in wider type, clamp at the end.
 - **`with_capacity(n)`**: Pre-allocate `String`/`Vec` when size known. Avoids reallocations.
 
+## Collections: HashSet vs HashMap
+- **`HashSet<T>`**: Stores keys only. Ruby's `Set`. Use for "does this exist?" checks.
+- **`HashMap<K,V>`**: Stores key-value pairs. Ruby's `Hash`. Use for "what's associated with this key?".
+- **`HashSet` is a `HashMap<T, ()>` internally**: Same performance, just no value stored.
+- **Lookup/remove take `&T`, not `T`**: Ruby `set.include?(val)` / `hash[key]` → Rust `set.contains(&val)` / `map.get(&key)`. Only needs to compare, no ownership transfer.
+- **Insert return values differ**:
+  - `HashSet::insert(val)` → `bool` (`false` = already existed). Ruby's `Set.add?(val)` returns `nil` on duplicate.
+  - `HashMap::insert(key, val)` → `Option<V>` (previous value if any). Ruby's `hash[key] = val` returns the new value.
+- **`with_capacity(n)`**: Pre-allocate to avoid rehashing. `HashSet::new()` starts at capacity 0.
+
 ## Clippy Tips
 - Use `.and_then()` instead of `.map_or(None, |x| ...)`
 - Remove unnecessary `as usize` casts when already `usize`

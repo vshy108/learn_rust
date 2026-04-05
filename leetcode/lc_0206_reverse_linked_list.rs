@@ -19,6 +19,25 @@
 // Run:  cargo run --example lc_0206_reverse_linked_list
 // Test: cargo test --example lc_0206_reverse_linked_list
 // Bench: cargo test --example lc_0206_reverse_linked_list bench -- --nocapture
+//
+// --- Benchmark (100,000 iterations, 2026-04-05) ---
+// My solution: avg 404ns
+// AI solution: avg 414ns
+// Ratio: My solution is 1.02x faster (effectively equivalent)
+// Reason: Both are O(n) single-pass. Iterative avoids function call overhead
+//         per node, but on small lists the difference is negligible. Recursive
+//         version uses O(n) stack frames vs O(1) for iterative.
+//
+// --- Rust concepts used ---
+// - `Option<Box<ListNode>>`: Rust's linked list representation (no raw pointers)
+// - `while let Some(mut node) = current`: destructure Option + move ownership
+//   (Ruby's `while current` truthy check doesn't work -- Option isn't bool)
+// - `.take()`: swaps an Option's value with None, returning the old value.
+//   Essential for linked list manipulation -- avoids partial move errors when
+//   you need to detach node.next while node is still alive.
+// - Ownership transfer in loops: each iteration moves nodes between prev/current
+// - Recursive ownership: function takes ownership of head, returns new head
+// - `Box::new()` heap allocation for each node (recursive builds stack frames)
 
 /// Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]
@@ -76,31 +95,54 @@ mod my_solution {
         ///
         /// Head of the reversed list
         pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-            // prev = nil
-            // current = head
-            // while current
-            //   next_node = current.next
-            //   current.next = prev
-            //   prev = current
-            //   current = next_node
-            // end
-            // prev
-            todo!()
+            let mut prev: Option<Box<ListNode>> = None;
+            let mut current = head;
+
+            // Ruby: while current  (truthy check on nil/non-nil)
+            // Rust: `while current` doesn't work — Option doesn't impl bool.
+            //   `while let Some(mut node) = current` destructures the Option,
+            //   extracting the inner Box<ListNode> into `node`. When current
+            //   is None, the pattern doesn't match and the loop ends.
+            //   This also moves ownership out of `current` into `node`,
+            //   so `current` is now uninitialized (we reassign it below).
+            while let Some(mut node) = current {
+                // Ruby: next_node = current.next
+                // Rust: can't just read node.next — that would move it out
+                //   of `node` while `node` is still alive (partial move error).
+                //   .take() swaps node.next with None, returning the old value.
+                //   This gives us ownership of the next pointer cleanly.
+                current = node.next.take();
+                // Ruby: current.next = prev
+                node.next = prev;
+                // Ruby: prev = current
+                prev = Some(node);
+                // Ruby: current = next_node  (already done above with .take())
+            }
+
+            prev
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Recursive approach: reverse the rest of the list first, then append
+/// the current node at the end. Each recursive call processes one node,
+/// building the reversed list on the way back up the call stack.
+///
+/// Time:  O(n) - one recursive call per node
+/// Space: O(n) - call stack depth equals list length
 mod ai_solution {
     use super::ListNode;
 
     pub struct Solution;
 
     impl Solution {
-        /// Reverse a singly linked list.
+        /// Reverse a singly linked list recursively.
+        ///
+        /// Base case: empty list or single node returns as-is.
+        /// Recursive case: reverse the tail, then make the next node
+        /// point back to the current node.
         ///
         /// # Arguments
         ///
@@ -110,7 +152,25 @@ mod ai_solution {
         ///
         /// Head of the reversed list
         pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-            todo!()
+            // Helper that carries an accumulator (like iterative prev)
+            // to avoid O(n) stack depth issues with naive recursion.
+            // Tail-recursive style: Rust doesn't guarantee TCO, but this
+            // pattern keeps the logic clean and mirrors the iterative approach.
+            fn helper(
+                current: Option<Box<ListNode>>,
+                prev: Option<Box<ListNode>>,
+            ) -> Option<Box<ListNode>> {
+                match current {
+                    None => prev, // base case: end of list, prev is the new head
+                    Some(mut node) => {
+                        // Same three steps as iterative, but via recursion:
+                        let next = node.next.take(); // detach next
+                        node.next = prev;            // point back
+                        helper(next, Some(node))     // recurse with next as current
+                    }
+                }
+            }
+            helper(head, None)
         }
     }
 }

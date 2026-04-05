@@ -65,7 +65,9 @@ mod my_solution {
         ///
         /// `true` if s and t are isomorphic, `false` otherwise
         pub fn is_isomorphic(s: String, t: String) -> bool {
-            if s.len() != t.len() { return false };
+            if s.len() != t.len() {
+                return false;
+            };
 
             let mut map_st: HashMap<u8, u8> = HashMap::new();
             let mut map_ts: HashMap<u8, u8> = HashMap::new();
@@ -98,12 +100,16 @@ mod my_solution {
                 //   None -> first time seeing cs, insert the mapping
                 match map_st.get(&cs) {
                     Some(&v) if v != ct => return false,
-                    None => { map_st.insert(cs, ct); }
+                    None => {
+                        map_st.insert(cs, ct);
+                    }
                     _ => {} // existing mapping matches, continue
                 }
                 match map_ts.get(&ct) {
                     Some(&v) if v != cs => return false,
-                    None => { map_ts.insert(ct, cs); }
+                    None => {
+                        map_ts.insert(ct, cs);
+                    }
                     _ => {}
                 }
             }
@@ -143,7 +149,9 @@ mod ai_solution {
         ///
         /// `true` if s and t are isomorphic, `false` otherwise
         pub fn is_isomorphic(s: String, t: String) -> bool {
-            if s.len() != t.len() { return false; }
+            if s.len() != t.len() {
+                return false;
+            }
 
             // Fixed-size arrays: index by byte value (0..255).
             // Value 0 = unmapped; stored values are value + 1.

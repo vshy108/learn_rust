@@ -140,7 +140,9 @@ mod my_solution {
         ///
         /// The total number of nodes
         pub fn count_nodes(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-            if root.is_none() { return 0; };
+            if root.is_none() {
+                return 0;
+            };
 
             // Ruby: left_height = 0; node = root
             // Rust: .clone() on Option<Rc<...>> is a cheap ref-count bump,

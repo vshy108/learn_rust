@@ -165,8 +165,8 @@ mod ai_solution {
                     Some(mut node) => {
                         // Same three steps as iterative, but via recursion:
                         let next = node.next.take(); // detach next
-                        node.next = prev;            // point back
-                        helper(next, Some(node))     // recurse with next as current
+                        node.next = prev; // point back
+                        helper(next, Some(node)) // recurse with next as current
                     }
                 }
             }

@@ -69,11 +69,15 @@ mod my_solution {
                 // Ruby: return true unless seen.add?(num)
                 // Rust: HashSet::insert returns false if value already present
                 // *num dereferences &i32 -> i32 because HashSet<i32> stores owned values
-                if !seen.insert(*num) { return true; }
+                if !seen.insert(*num) {
+                    return true;
+                }
                 // Ruby: seen.delete(nums[i - k])
                 // Rust: .remove() takes &T (a reference), not T (owned value),
                 // so we must pass &nums[...] instead of nums[...]
-                if i >= (k as usize) { seen.remove(&nums[i - (k as usize)]); }
+                if i >= (k as usize) {
+                    seen.remove(&nums[i - (k as usize)]);
+                }
             }
 
             false

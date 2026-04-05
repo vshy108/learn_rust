@@ -125,7 +125,7 @@ mod ai_solution {
             // These track the sliding window of the last two *written* values.
             let mut n2 = nums[0]; // two positions back
             let mut n1 = nums[1]; // one position back
-            let mut idx = 2;      // next write position
+            let mut idx = 2; // next write position
 
             for i in 2..nums.len() {
                 let cur = nums[i];

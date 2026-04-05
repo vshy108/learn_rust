@@ -82,7 +82,9 @@ mod my_solution {
         /// Leetcode no rust options for this, cannot verify solution
         pub fn detect_cycle(values: &[i32], pos: i32) -> i32 {
             let n = values.len();
-            if n == 0 { return -1; }
+            if n == 0 {
+                return -1;
+            }
 
             // Simulate linked list traversal: node i -> i+1, last node -> pos
             // Returns None if no next node (end of list or empty)
@@ -112,7 +114,9 @@ mod my_solution {
                     None => return -1, // no cycle
                 };
                 // Ruby: break if slow == fast
-                if slow == fast { break; }
+                if slow == fast {
+                    break;
+                }
             }
 
             // Phase 2: find cycle entry
@@ -159,7 +163,9 @@ mod ai_solution {
         /// Index of the cycle start, or -1 if no cycle
         pub fn detect_cycle(values: &[i32], pos: i32) -> i32 {
             let n = values.len();
-            if n == 0 { return -1; }
+            if n == 0 {
+                return -1;
+            }
 
             // HashSet to track which nodes we've already visited
             let mut visited = HashSet::with_capacity(n);

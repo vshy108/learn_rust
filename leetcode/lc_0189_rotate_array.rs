@@ -66,15 +66,17 @@ mod my_solution {
             // Also prevents `k - 1` underflow below since k is usize (unsigned).
             // Ruby: k - 1 when k == 0 gives -1 (negative index wraps).
             // Rust: usize can't be negative — 0_usize - 1 panics with overflow.
-            if k == 0 { return; }
+            if k == 0 {
+                return;
+            }
             // Slice .reverse() replaces the manual reverse loop.
             // The manual version (`end_idx -= 1`) risks usize underflow
             // if end_idx reaches 0 inside the loop. Slice .reverse()
             // handles all edge cases internally with safe pointer arithmetic.
             // `..=` is inclusive range: nums[0..=2] reverses indices 0,1,2
-            nums[..].reverse();       // reverse all
-            nums[..k].reverse();      // reverse first k elements
-            nums[k..].reverse();      // reverse remaining elements
+            nums[..].reverse(); // reverse all
+            nums[..k].reverse(); // reverse first k elements
+            nums[k..].reverse(); // reverse remaining elements
             // No return needed: function returns () and mutates nums in-place
         }
     }

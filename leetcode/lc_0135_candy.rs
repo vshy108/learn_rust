@@ -60,7 +60,9 @@ mod my_solution {
         /// Minimum total number of candies
         pub fn candy(ratings: Vec<i32>) -> i32 {
             let n = ratings.len();
-            if n == 0 { return 0 };
+            if n == 0 {
+                return 0;
+            };
             // Vec, not array: n is only known at runtime; arrays require compile-time size
             let mut candies = vec![1; n];
             for i in 1..n {
@@ -72,7 +74,7 @@ mod my_solution {
             // n.saturating_sub(2) prevents usize underflow when n <= 1
             for i in (0..n.saturating_sub(1)).rev() {
                 if ratings[i] > ratings[i + 1] {
-                  candies[i] = candies[i].max(candies[i + 1] + 1);
+                    candies[i] = candies[i].max(candies[i + 1] + 1);
                 }
             }
 
@@ -108,12 +110,14 @@ mod ai_solution {
         /// Minimum total number of candies
         pub fn candy(ratings: Vec<i32>) -> i32 {
             let n = ratings.len();
-            if n <= 1 { return n as i32; }
+            if n <= 1 {
+                return n as i32;
+            }
 
-            let mut total = 1_i32;  // first child always gets 1 candy
-            let mut up = 0_i32;    // length of current ascending slope
-            let mut down = 0_i32;  // length of current descending slope
-            let mut peak = 0_i32;  // height at the last peak
+            let mut total = 1_i32; // first child always gets 1 candy
+            let mut up = 0_i32; // length of current ascending slope
+            let mut down = 0_i32; // length of current descending slope
+            let mut peak = 0_i32; // height at the last peak
 
             for i in 1..n {
                 if ratings[i] > ratings[i - 1] {

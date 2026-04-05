@@ -62,6 +62,19 @@ Common gotchas when converting Ruby solutions to Rust.
   - `HashMap::insert(key, val)` → `Option<V>` (previous value if any). Ruby's `hash[key] = val` returns the new value.
 - **`with_capacity(n)`**: Pre-allocate to avoid rehashing. `HashSet::new()` starts at capacity 0.
 
+## Smart Pointers: Rc, RefCell, and Tree Nodes
+- **Why `Option<Rc<RefCell<TreeNode>>>`**: Ruby objects are GC'd and freely shared/mutated. Rust needs explicit layers:
+  - `Option<...>` — might be nil (`None`)
+  - `Rc<...>` — shared ownership (multiple pointers to same node, reference counted). Ruby: implicit via GC.
+  - `RefCell<...>` — interior mutability (runtime borrow check). Ruby: not needed, all objects are always mutable.
+  - `TreeNode` — the actual data
+- **`Rc<T>` only gives `&T`**: You can't mutate through `Rc` alone. `RefCell` lets you get `&mut T` at runtime.
+- **`.borrow()` / `.borrow_mut()`**: RefCell's runtime borrow check — panics if you mix read+write borrows on the same node simultaneously.
+- **`.clone()` on `Rc` is cheap**: Just bumps a reference count (like Ruby's object references). No deep copy.
+- **`.clone()` on `Option<Rc<...>>` is needed** to reuse a node reference later — can't move out of a borrowed `RefCell`.
+- **`while let Some(n) = node`**: Replaces Ruby's `while node` — Rust has no truthy nil, must pattern-match `Option`.
+- **Accessing children**: `n.borrow().left.clone()` — `.borrow()` for RefCell, `.clone()` because you can't move a field out of a borrow.
+
 ## Clippy Tips
 - Use `.and_then()` instead of `.map_or(None, |x| ...)`
 - Remove unnecessary `as usize` casts when already `usize`

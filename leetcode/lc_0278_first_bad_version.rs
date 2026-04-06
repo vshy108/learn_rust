@@ -20,6 +20,27 @@
 // Run:  cargo run --example lc_0278_first_bad_version
 // Test: cargo test --example lc_0278_first_bad_version
 // Bench: cargo test --example lc_0278_first_bad_version bench -- --nocapture
+//
+// --- Benchmark (100_000 iterations, 2026-04-06) ---
+//   My solution: 62.0ms (avg 620ns)
+//   AI solution: 58.6ms (avg 586ns)
+//   -> AI solution is 1.06x faster
+//   Reason: Both solutions are algorithmically identical (O(log n) binary
+//     search). The 1.06x difference is benchmark noise — CPU caching,
+//     branch prediction, and `>> 1` vs `/ 2` are equivalent after
+//     compiler optimization.
+//
+// --- Rust concepts used ---
+//   - `thread_local!` + `Cell<i32>`: per-thread mutable state without
+//     locks. Simulates LeetCode's external `isBadVersion` API. `Cell`
+//     is for Copy types (no runtime borrow checks, unlike RefCell).
+//   - `const { Cell::new(1) }`: const initializer in thread_local!
+//     avoids a runtime initialization check on each access.
+//   - `>> 1` for midpoint: bit shift equivalent to `/ 2` for unsigned.
+//     Cast to u32 first so `left + right` doesn't overflow i32.
+//   (Previously covered: binary search -> lc_0004, `as` casting -> lc_0004,
+//    bit shift -> lc_0222, overflow-safe midpoint `left + (right - left) / 2`
+//    -> lc_0035)
 
 /// Simulates the `isBadVersion` API. In LeetCode, this is provided
 /// externally. Here we store the bad version in a thread-local so
@@ -46,8 +67,11 @@ fn is_bad_version(version: i32) -> bool {
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Standard binary search: `left + (right - left) / 2` avoids
+/// i32 overflow that `(left + right) / 2` would cause.
+///
+/// Time:  O(log n) — halves the search space each iteration
+/// Space: O(1) — two pointers only
 mod my_solution {
     use super::is_bad_version;
 
@@ -68,26 +92,30 @@ mod my_solution {
         /// The first bad version number
         #[allow(unused_variables)]
         pub fn first_bad_version(n: i32) -> i32 {
-            // left = 1
-            // right = n
-            // while left < right
-            //   mid = left + (right - left) / 2
-            //   if is_bad_version(mid)
-            //     right = mid
-            //   else
-            //     left = mid + 1
-            //   end
-            // end
-            // left
-            todo!()
+            let mut left = 1;
+            let mut right = n;
+
+            while left < right {
+              let mid = left + (right - left) / 2;
+              if is_bad_version(mid){
+                right = mid;
+              } else {
+                left = mid + 1;
+              }
+            }
+            left
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Bit-shift binary search: cast to u32 to avoid overflow, then use
+/// `(left + right) >> 1` which is safe because u32 can hold up to
+/// 2^32 - 1 (enough for i32::MAX + i32::MAX).
+///
+/// Time:  O(log n) — halves the search space each iteration
+/// Space: O(1) — two pointers only
 mod ai_solution {
     use super::is_bad_version;
 
@@ -106,9 +134,23 @@ mod ai_solution {
         /// # Returns
         ///
         /// The first bad version number
-        #[allow(unused_variables)]
         pub fn first_bad_version(n: i32) -> i32 {
-            todo!()
+            // Cast to u32: (left + right) can reach up to 2 * i32::MAX
+            // which fits in u32 (max 4_294_967_295) but overflows i32.
+            // >> 1 is equivalent to / 2 for unsigned integers.
+            let mut left = 1u32;
+            let mut right = n as u32;
+
+            while left < right {
+                let mid = (left + right) >> 1;
+                if is_bad_version(mid as i32) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            left as i32
         }
     }
 }

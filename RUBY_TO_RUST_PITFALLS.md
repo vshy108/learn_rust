@@ -46,6 +46,11 @@ Common gotchas when converting Ruby solutions to Rust.
 - **`peekable()`**: Look ahead without consuming — useful for sign detection.
 - **`take_while` + `fold`**: Replace manual while loops. `fold` = Ruby's `inject`.
 - **`clamp(min, max)`**: Built-in on numeric types. Replaces Ruby `[[val, max].min, min].max`.
+- **Don't chain `.into_iter()` on things that are already iterators**:
+  - Already iterators: `0..n` (Range), `.chars()`, `.bytes()`, `.iter()`, `.enumerate()`, `.rev()`, `.zip()`
+  - NOT iterators (need `.iter()` / `.into_iter()`): `Vec<T>`, `&[T]`, `String`, `HashMap`, `HashSet`
+  - Rule: if it *returns* an iterator, don't add `.into_iter()` — it's redundant and clippy warns.
+  - Example: `(0..n).into_iter().rev()` → just `(0..n).rev()`
 
 ## Types
 - **`as` casts**: `num_rows as usize`, `(b[j] as char)`. Explicit, no implicit coercion.

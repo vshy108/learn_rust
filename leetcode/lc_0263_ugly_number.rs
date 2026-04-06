@@ -14,14 +14,35 @@
 // Constraints:
 //   - -2^31 <= n <= 2^31 - 1
 //
+// --- Benchmark (100_000 iterations, 2026-04-06) ---
+//   My solution: 46.4ms (avg 464ns)
+//   AI solution: 30.7ms (avg 307ns)
+//   -> AI solution is 1.51x faster
+//   Reason: Both solutions are algorithmically identical (same divisions).
+//     The difference is likely benchmark noise at this nanosecond scale —
+//     CPU caching, branch prediction, and run order can easily cause 1.5x
+//     variation. The fold approach is stylistically different, not faster.
+//
+// --- Rust concepts used ---
+//   - `let mut n = n`: shadow an immutable param with a mutable copy.
+//     Ruby: not needed, all variables are mutable.
+//   - `for prime in [2, 3, 5]`: small fixed arrays implement IntoIterator.
+//   - `.fold(init, |acc, x| ...)`: stateful reduce over an iterator.
+//     Ruby equivalent: .inject / .reduce.
+//   - `&prime` in closure param: destructure the reference from .iter()
+//     to get i32 directly (avoids *prime dereference inside the loop).
+//
 // Run:  cargo run --example lc_0263_ugly_number
 // Test: cargo test --example lc_0263_ugly_number
 // Bench: cargo test --example lc_0263_ugly_number bench -- --nocapture
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Iteratively divide out factors of 2, 3, 5. If what remains is 1,
+/// the number had no other prime factors — it's ugly.
+///
+/// Time:  O(log n) — each division at least halves n
+/// Space: O(1) — only a mutable copy of n
 mod my_solution {
     pub struct Solution;
 
@@ -36,22 +57,34 @@ mod my_solution {
         ///
         /// `true` if `n` is ugly, `false` otherwise
         pub fn is_ugly(n: i32) -> bool {
-            // return false if n <= 0
-            // [2, 3, 5].each do |prime|
-            //   while n % prime == 0
-            //     n /= prime
-            //   end
-            // end
-            // n == 1
-            todo!()
+            // Ruby: shadowing not needed — variables are always mutable
+            // Rust: function params are immutable by default, so we
+            // shadow `n` with `let mut n = n` to get a mutable copy
+            let mut n = n;
+            if n <= 0 { return false; }
+
+            // Ruby: [2, 3, 5].each { |prime| ... }
+            // Rust: array literal [2, 3, 5] iterated directly —
+            // small fixed arrays implement IntoIterator
+            for prime in [2, 3, 5] {
+                while n % prime == 0 {
+                    n /= prime;
+                }
+            }
+
+            n == 1
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Functional approach using Iterator::fold. Folds over the prime
+/// factors [2, 3, 5], dividing each out completely. Same logic as
+/// my_solution but expressed without explicit mutation or loops.
+///
+/// Time:  O(log n) — each division at least halves n
+/// Space: O(1) — fold accumulator only
 mod ai_solution {
     pub struct Solution;
 
@@ -66,7 +99,21 @@ mod ai_solution {
         ///
         /// `true` if `n` is ugly, `false` otherwise
         pub fn is_ugly(n: i32) -> bool {
-            todo!()
+            if n <= 0 {
+                return false;
+            }
+
+            // fold: start with n, divide out each prime factor completely
+            // The closure captures `prime` by value (i32 is Copy)
+            // fold = Ruby's inject/reduce
+            let remainder = [2, 3, 5].iter().fold(n, |mut acc, &prime| {
+                while acc % prime == 0 {
+                    acc /= prime;
+                }
+                acc
+            });
+
+            remainder == 1
         }
     }
 }

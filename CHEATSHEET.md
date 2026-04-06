@@ -187,6 +187,15 @@ let slices: Vec<&str> = vec![""; n];             // n borrowed — can't push!()
 // String += &str (AddAssign trait) (LC 0012)
 let mut result = String::new();
 result += "hello";    // same as result.push_str("hello")
+
+// Vec<u8> -> String conversion (LC 0345)
+// from_utf8: validates UTF-8, returns Result — O(n) scan
+let s = String::from_utf8(bytes).unwrap();   // panics on invalid UTF-8
+// from_utf8_unchecked: skips validation — O(1), just wraps Vec
+let s = unsafe { String::from_utf8_unchecked(bytes) };  // UB if invalid!
+// Rule: use from_utf8() by default. Only use unchecked when you can PROVE
+// the bytes are valid UTF-8 (e.g., started from a valid String, only
+// swapped/modified ASCII bytes).
 ```
 
 ## Ownership Rules

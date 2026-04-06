@@ -96,12 +96,12 @@ mod my_solution {
             let mut right = n;
 
             while left < right {
-              let mid = left + (right - left) / 2;
-              if is_bad_version(mid){
-                right = mid;
-              } else {
-                left = mid + 1;
-              }
+                let mid = left + (right - left) / 2;
+                if is_bad_version(mid) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
             }
             left
         }

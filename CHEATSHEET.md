@@ -664,6 +664,48 @@ a.union(&b)                  // elements in either
 a.difference(&b)             // in a but not b
 a.symmetric_difference(&b)  // in one but not both
 a.is_subset(&b)             // true if all of a is in b
+
+// BinaryHeap<T> — max-heap (priority queue)
+use std::collections::BinaryHeap;
+use std::cmp::Reverse;
+
+let mut heap = BinaryHeap::new();
+heap.push(3);
+heap.push(1);
+heap.push(5);
+heap.peek();                 // Some(&5) — largest element, O(1)
+heap.pop();                  // Some(5)  — removes largest, O(log n)
+heap.push(val);              // O(1) amortized, O(log n) worst
+heap.len();
+heap.is_empty();
+
+// Min-heap — wrap values in Reverse to flip Ord comparison
+let mut min_heap: BinaryHeap<Reverse<i32>> = BinaryHeap::new();
+min_heap.push(Reverse(3));
+min_heap.push(Reverse(1));
+min_heap.peek();             // Some(&Reverse(1)) — smallest first
+min_heap.peek().unwrap().0;  // 1 — extract inner value with .0
+min_heap.pop().unwrap().0;   // 1 — pop + extract inner
+
+// Build from vec — O(n) heapify (faster than n individual pushes)
+let heap = BinaryHeap::from(vec![3, 1, 5]);
+
+// Internals: Vec-backed binary tree
+//        [10]              index 0 = root (max element)
+//       /    \             parent of i  = (i-1) / 2
+//     [7]    [9]           children of i = 2i+1, 2i+2
+//    /   \
+//  [3]   [5]
+// Stored as: [10, 7, 9, 3, 5]
+// push: append to end, sift up (swap with parent while larger)
+// pop:  swap root with last, remove last, sift down (swap with larger child)
+
+// Ruby comparison:
+//   Ruby has no built-in heap — needs a gem or manual implementation.
+//   Rust BinaryHeap is always a max-heap; use Reverse for min-heap.
+//   Ruby .max/.min  →  Rust .peek() returns Option<&T>
+//   Ruby .pop       →  Rust .pop() returns Option<T>
+//   Ruby .size      →  Rust .len()
 ```
 
 ## Iterators

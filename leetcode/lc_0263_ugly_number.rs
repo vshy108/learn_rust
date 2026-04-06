@@ -57,7 +57,9 @@ mod my_solution {
             // Rust: function params are immutable by default, so we
             // shadow `n` with `let mut n = n` to get a mutable copy
             let mut n = n;
-            if n <= 0 { return false; }
+            if n <= 0 {
+                return false;
+            }
 
             // Ruby: [2, 3, 5].each { |prime| ... }
             // Rust: array literal [2, 3, 5] iterated directly —

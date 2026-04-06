@@ -22,24 +22,71 @@
 // Run:  cargo run --example lc_0295_find_median_from_data_stream
 // Test: cargo test --example lc_0295_find_median_from_data_stream
 // Bench: cargo test --example lc_0295_find_median_from_data_stream bench -- --nocapture
+//
+// --- Benchmark (10_000 iterations, 2026-04-06) ---
+//   My solution: 374.2ms (avg 37.4us)
+//   AI solution: 91.7ms (avg 9.2us)
+//   -> AI solution is 4.08x faster
+//   Reason: For 100-element streams in debug mode, the sorted Vec's
+//     cache-friendly contiguous memory + simple memcpy shifts beat
+//     the two-heap's pointer-chasing sift-up/sift-down. BinaryHeap
+//     has per-element Reverse wrapper overhead and more branch-heavy
+//     comparisons. At larger n the O(log n) heap would win over O(n)
+//     Vec::insert.
+//
+// --- Rust concepts used ---
+//   - `BinaryHeap<T>`: Rust's only built-in heap — always a max-heap.
+//     No separate MaxHeap/MinHeap types.
+//   - `BinaryHeap<Reverse<i32>>` for min-heap: `std::cmp::Reverse`
+//     wraps a value and flips its `Ord` comparison. Push with
+//     `Reverse(val)`, extract inner with `.0`.
+//   - `peek()` returns `Option<&T>`: need `*` to dereference — unlike
+//     Ruby's `.max`/`.min` which return the value directly.
+//   - `pop()` returns `Option<T>`: must `.unwrap()` or pattern match.
+//   - `.len()` not `.size`: Rust's convention for collection size.
+//   - `binary_search(&val)` returns `Result<usize, usize>`: Ok(idx) if
+//     found, Err(idx) if not — both give valid insertion point.
+//     `.unwrap_or_else(|i| i)` collapses both cases.
+//   - `Vec::insert(pos, val)`: shifts elements right — O(n) but
+//     cache-friendly due to contiguous memory layout.
+//   (Previously covered: `struct` fields + `impl` methods -> lc_0155,
+//    `Option<&T>` / `.unwrap()` -> lc_0001, `as f64` cast -> lc_0004)
 
 /// My solution module.
 ///
-/// Time:  O(?) per add_num, O(?) per find_median
-/// Space: O(?)
+/// Two-heap approach: keep lower half in a max-heap, upper half in a
+/// min-heap. Rebalance after each insert so max_heap.len() is equal
+/// to or one greater than min_heap.len().
+///
+/// Time:  O(log n) per add_num, O(1) per find_median
+/// Space: O(n)
 mod my_solution {
+    use std::cmp::Reverse;
+    use std::collections::BinaryHeap;
+
     /// Tracks a running stream of integers and efficiently returns the median.
+    ///
+    /// Rust has no separate MaxHeap/MinHeap types. `BinaryHeap<T>` is a
+    /// max-heap by default. To get a min-heap, wrap values in
+    /// `std::cmp::Reverse` — this flips the `Ord` comparison so the
+    /// smallest value is popped first.
     pub struct MedianFinder {
-        // max_heap for lower half
-        // min_heap for upper half
+        // Ruby: @max_heap = MaxHeap.new
+        // Rust: BinaryHeap is already a max-heap — pops the largest value.
+        max_heap: BinaryHeap<i32>,
+        // Ruby: @min_heap = MinHeap.new
+        // Rust: BinaryHeap<Reverse<i32>> — Reverse flips ordering so
+        // the smallest value sits at the top (popped first).
+        min_heap: BinaryHeap<Reverse<i32>>,
     }
 
     impl MedianFinder {
         /// Initialize the MedianFinder.
         pub fn new() -> Self {
-            // @max_heap = MaxHeap.new
-            // @min_heap = MinHeap.new
-            todo!()
+            Self {
+                max_heap: BinaryHeap::new(),
+                min_heap: BinaryHeap::new(),
+            }
         }
 
         /// Add a number to the data stream.
@@ -48,12 +95,21 @@ mod my_solution {
         ///
         /// * `num` - The integer to add
         pub fn add_num(&mut self, num: i32) {
-            // @max_heap.push(num)
-            // @min_heap.push(@max_heap.pop)
-            // if @min_heap.size > @max_heap.size
-            //   @max_heap.push(@min_heap.pop)
-            // end
-            todo!()
+            self.max_heap.push(num);
+
+            // Ruby: @min_heap.push(@max_heap.pop)
+            // Rust: pop() returns Option<i32> — .unwrap() is safe here
+            // because we just pushed above, so max_heap is never empty.
+            // Must wrap in Reverse() when pushing to the min-heap.
+            self.min_heap.push(Reverse(self.max_heap.pop().unwrap()));
+
+            // Rebalance: max_heap should be >= min_heap in size
+            // Ruby: @min_heap.size  ->  Rust: .len()
+            if self.min_heap.len() > self.max_heap.len() {
+                // Pop from min-heap returns Reverse(val) — unwrap the
+                // inner i32 with .0 before pushing to max-heap.
+                self.max_heap.push(self.min_heap.pop().unwrap().0);
+            }
         }
 
         /// Return the median of all numbers added so far.
@@ -62,30 +118,46 @@ mod my_solution {
         ///
         /// The median as f64. If even count, return mean of the two middle values.
         pub fn find_median(&self) -> f64 {
-            // if @max_heap.size == @min_heap.size
-            //   (@max_heap.max + @min_heap.min) / 2.0
-            // else
-            //   @max_heap.max
-            // end
-            todo!()
+            if self.max_heap.len() == self.min_heap.len() {
+                // Ruby: @max_heap.max + @min_heap.min
+                // Rust: peek() returns Option<&T> — dereference with *.
+                // Min-heap peek returns &Reverse(val) — access inner with .0.
+                let max_top = *self.max_heap.peek().unwrap();
+                let min_top = self.min_heap.peek().unwrap().0;
+                (max_top + min_top) as f64 / 2.0
+            } else {
+                // Ruby: @max_heap.max
+                // Rust: peek() returns Option<&i32>, dereference + cast to f64.
+                *self.max_heap.peek().unwrap() as f64
+            }
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?) per add_num, O(?) per find_median
-/// Space: O(?)
+/// Sorted-Vec approach: maintain a sorted vector via binary search
+/// insertion. Median is O(1) — direct index into the sorted array.
+/// Insertion is O(n) due to shifting, but benefits from cache
+/// locality for small/medium n.
+///
+/// Time:  O(n) per add_num (binary search O(log n) + shift O(n)),
+///        O(1) per find_median
+/// Space: O(n)
 mod ai_solution {
     /// Tracks a running stream of integers and efficiently returns the median.
+    ///
+    /// Uses a sorted `Vec<i32>`. On each insert, `binary_search` finds
+    /// the correct position in O(log n), then `Vec::insert` shifts
+    /// elements to make room in O(n). Median is a direct index lookup.
     pub struct MedianFinder {
-        // TODO: choose internal data structure
+        sorted: Vec<i32>,
     }
 
     impl MedianFinder {
         /// Initialize the MedianFinder.
         pub fn new() -> Self {
-            todo!()
+            Self { sorted: Vec::new() }
         }
 
         /// Add a number to the data stream.
@@ -94,7 +166,14 @@ mod ai_solution {
         ///
         /// * `num` - The integer to add
         pub fn add_num(&mut self, num: i32) {
-            todo!()
+            // binary_search returns:
+            //   Ok(index)  — found exact match at index
+            //   Err(index) — not found, index is where it would be inserted
+            // Both cases give the correct insertion point to maintain sort order.
+            let pos = self.sorted.binary_search(&num).unwrap_or_else(|i| i);
+            // Vec::insert shifts elements right — O(n) but cache-friendly
+            // since elements are contiguous in memory.
+            self.sorted.insert(pos, num);
         }
 
         /// Return the median of all numbers added so far.
@@ -103,7 +182,12 @@ mod ai_solution {
         ///
         /// The median as f64. If even count, return mean of the two middle values.
         pub fn find_median(&self) -> f64 {
-            todo!()
+            let n = self.sorted.len();
+            if n % 2 == 1 {
+                self.sorted[n / 2] as f64
+            } else {
+                (self.sorted[n / 2 - 1] + self.sorted[n / 2]) as f64 / 2.0
+            }
         }
     }
 }

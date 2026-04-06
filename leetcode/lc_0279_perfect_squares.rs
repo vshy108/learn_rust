@@ -74,11 +74,7 @@ mod my_solution {
             // Ruby: squares = []; i = 1; while i*i <= n: squares << i*i; i += 1; end
             // Rust: Ruby's [] is a growable array, but Rust's [] is a fixed-size
             // array — can't push to it. Use Vec via iterator + collect instead.
-            let squares: Vec<i32> = (1..)
-                .take_while(|&i| i * i <= n)
-                .map(|i| i * i)
-                .collect();
-            
+            let squares: Vec<i32> = (1..).take_while(|&i| i * i <= n).map(|i| i * i).collect();
 
             // `1..=n as usize` makes the range usize so `i` is usize for dp[i].
             // `for i as usize in 1..=n` won't compile — Rust's for-loop
@@ -91,13 +87,14 @@ mod my_solution {
                 // `for &sq in &squares` borrows the Vec and destructures &i32 to i32.
                 for &sq in &squares {
                     let sq = sq as usize;
-                    if sq > i { break; };
+                    if sq > i {
+                        break;
+                    };
                     // saturating_add(1): if dp[i-sq] is i32::MAX (unreachable),
                     // i32::MAX + 1 would overflow/panic. saturating_add caps at MAX.
                     dp[i] = dp[i].min(dp[i - sq].saturating_add(1));
                 }
             }
-            
 
             dp[n as usize]
         }

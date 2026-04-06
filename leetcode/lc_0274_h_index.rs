@@ -74,7 +74,9 @@ mod my_solution {
 
             let mut h = 0i32;
             for (i, &c) in citations.iter().enumerate() {
-                if c >= (i + 1) as i32 { h = (i + 1) as i32; };
+                if c >= (i + 1) as i32 {
+                    h = (i + 1) as i32;
+                };
             }
 
             h

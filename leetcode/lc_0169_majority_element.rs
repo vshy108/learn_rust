@@ -31,11 +31,10 @@
 //
 // --- Rust concepts used ---
 // - Boyer-Moore Voting: single-pass O(1) space majority-finding algorithm
-// - `for num in nums`: consumes the Vec (takes ownership), no borrow needed
-// - Conditional expression as value: `if cond { 1 } else { -1 }` returns i32
 // - `nums[0]` safe here due to constraint n >= 1 (panics on empty Vec)
 // - Partial sort with `select_nth_unstable`: O(n) avg quickselect, no full sort
 // - Slice indexing with `nums[n / 2]` after partitioning finds the median
+//   (Previously covered: consuming Vec in lc_0134, if-as-expression in lc_0008)
 
 /// My solution module.
 ///

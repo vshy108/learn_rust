@@ -35,12 +35,11 @@
 // --- Rust concepts used ---
 // - split_whitespace(): splits on any Unicode whitespace, trims edges,
 //   collapses runs of spaces — handles leading/trailing/multiple spaces
-// - .rev(): lazily reverses an iterator (no allocation until collected)
 // - .collect::<Vec<_>>().join(" "): materialise then concatenate with separator
-// - Byte-level string manipulation: .into_bytes() to get owned Vec<u8>
 // - Slice .reverse() is in-place O(n) with no allocation
 // - String::from_utf8() safely converts Vec<u8> back to String
 // - In-place word compaction: single-pass trim + collapse spaces into a byte vec
+//   (Previously covered: .rev() in lc_0042, .into_bytes() in lc_0079)
 
 /// My solution module.
 ///

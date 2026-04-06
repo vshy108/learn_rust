@@ -42,15 +42,12 @@
 //   For the median of two elements, cast to `f64` first:
 //   `(left + right) as f64 / 2.0`.
 //
-// Slice operations:
-//   `nums.len()` returns usize.
-//   `nums[i]` indexes into the slice (panics if out of bounds).
-//   Slices are already sorted per the problem guarantee.
-//
 // i32::MIN and i32::MAX:
 //   Used as sentinel values for empty partitions in the binary search
 //   approach. `i32::MIN` represents negative infinity (left side),
 //   `i32::MAX` represents positive infinity (right side).
+//
+//   (Previously covered: slice operations nums.len()/nums[i] -> lc_0001)
 
 /// My solution module — implement your solution here.
 mod my_solution {

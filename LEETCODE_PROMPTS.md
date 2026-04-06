@@ -22,6 +22,6 @@
 > 2. **Add benchmark results** to the file header in the format: `// --- Benchmark ({iterations} iterations, {date}) ---` with my solution time, AI solution time, ratio, and a `// Reason:` line explaining *why* the faster solution wins (e.g. fewer allocations, better cache locality, fewer passes, no hashing overhead).
 > 3. **Write an optimized `ai_solution`** using a different/better algorithm or approach. Include full doc comments with Arguments, Returns, Complexity. Add `Time: O(...)` / `Space: O(...)` on the module doc comment.
 > 4. **Update `my_solution` module doc** with actual `Time: O(...)` / `Space: O(...)` based on my implementation.
-> 5. **Add a `// --- Rust concepts used ---` section** to the file header documenting key Rust concepts demonstrated in the file (ownership patterns, trait usage, slice operations, etc.).
+> 5. **Add a `// --- Rust concepts used ---` section** to the file header documenting key Rust concepts demonstrated in the file (ownership patterns, trait usage, slice operations, etc.). **Only include concepts that have NOT appeared in any previous file's `Rust concepts used` section.** If a concept was already covered, omit it — do not repeat it. Add a `(Previously covered: ...)` note at the end referencing where each reused concept first appeared (e.g. `let mut x = x` -> lc_0263).
 > 6. **Re-run the benchmark** after adding the AI solution, and update the header with final numbers.
 > 7. Ensure all tests pass (`cargo test --example lc_{number}_{name}`).

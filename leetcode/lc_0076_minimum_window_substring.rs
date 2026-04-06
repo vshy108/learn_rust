@@ -34,11 +34,10 @@
 //
 // --- Rust concepts used ---
 //   - HashMap entry API: or_insert(0) for default-or-mutate pattern
-//   - as_bytes() to work with &[u8] instead of chars (avoids UTF-8 decoding)
 //   - if let Some(&val) = map.get(&key) for combined existence check + binding
 //   - std::str::from_utf8() to convert &[u8] back to &str
 //   - Fixed-size array [i32; 128] as O(1) lookup table replacing HashMap
-//   - Sliding window two-pointer pattern with formed/required tracking
+//   (Previously covered: as_bytes lc_0005, sliding window two-pointer lc_0003)
 //
 // --- Reference: faster single-counter approach (LeetCode top submission) ---
 //   Uses ONE array + ONE total counter instead of two arrays + formed/unique:

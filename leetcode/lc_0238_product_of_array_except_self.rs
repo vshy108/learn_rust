@@ -31,15 +31,14 @@
 //     extra iterator overhead).
 //
 // --- Rust concepts used ---
-//   - vec![1; n]: initialize Vec with n copies of 1. Ruby: Array.new(n, 1).
 //   - result[i] = val: direct index assignment (overwrite existing element).
 //     NOT result.insert(i, val) — that inserts a new element, shifting right.
 //   - result[i] *= suffix: augmented assignment works on Vec elements.
-//   - (0..n).rev(): reverse any iterator. Ruby: (0...n).reverse_each.
 //   - .scan(init, |acc, x| ...): stateful iterator transform — yields a value
 //     each step while mutating an accumulator. No direct Ruby equivalent.
-//   - .zip(): pairs two iterators element-wise into tuples. Ruby: .zip().
 //   - .collect::<Vec<_>>(): turbofish to specify collection target type.
+//   (Previously covered: vec![val; n] in lc_0006, (0..n).rev() in lc_0042,
+//    .zip() in lc_0134)
 //
 // Run:  cargo run --example lc_0238_product_of_array_except_self
 // Test: cargo test --example lc_0238_product_of_array_except_self

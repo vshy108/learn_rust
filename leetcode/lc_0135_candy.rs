@@ -31,12 +31,10 @@
 //         iteration for sum), avoiding the two-pass + sum overhead of my_solution.
 //
 // --- Rust concepts used ---
-// - vec![value; n]: initialize Vec with n copies of value (runtime-sized)
-// - Reverse iteration: (0..n).rev() since Rust ranges only go forward
 // - saturating_sub(): prevents usize underflow (unsigned can't go negative)
-// - .max() on i32: built-in method, replaces Ruby's [a, b].max
-// - into_iter().sum(): consumes Vec and sums owned values (no turbofish needed)
 // - Slope-counting greedy: single-pass O(1) space alternative to two-pass array
+//   (Previously covered: vec![val; n] in lc_0006, (0..n).rev() in lc_0042,
+//    .max() on i32 in lc_0003, into_iter/sum in lc_0134/lc_0005)
 
 /// My solution module.
 ///

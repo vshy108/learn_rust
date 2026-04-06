@@ -29,12 +29,10 @@
 //           involve pattern matching machinery that's slower for simple ASCII.
 //
 // --- Rust concepts used ---
-//   - as_bytes(): convert String to &[u8] for direct byte indexing
-//   - b' ' byte literal: compare u8 values, not char
-//   - usize underflow avoidance: i > 0 with bytes[i - 1] instead of index >= 0
-//   - str::trim_end(): returns &str slice (no allocation, borrows from original)
 //   - str::rsplit_once(' '): split at last occurrence, returns Option<(&str, &str)>
-//   - match on Option: destructure Some((_, last_word)) vs None
+//   (Previously covered: as_bytes lc_0005, byte literals lc_0008,
+//    usize underflow avoidance lc_0005, str::trim_end lc_0008,
+//    match on Option lc_0002)
 
 /// My solution module.
 ///

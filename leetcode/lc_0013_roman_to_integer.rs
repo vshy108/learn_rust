@@ -33,10 +33,11 @@
 //   prefer match or const for hot paths (see CHEATSHEET: HashMap section)
 // - map[&key] Index trait: requires &K reference, not K directly
 // - match as zero-cost lookup: compiles to a jump table, no heap allocation
-// - Closure as local function: `let char_value = |c: char| -> i32 { match c { ... } }`
 // - unreachable!() macro: marks impossible branches; panics with message in debug
 // - Subtraction trick: `total += value - 2 * prev_value` corrects for the
 //   previously-added smaller value in one step (no need to undo + redo)
+//
+//   (Previously covered: closure as local function -> lc_0005)
 
 /// My solution module.
 ///

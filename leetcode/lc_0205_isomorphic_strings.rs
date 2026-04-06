@@ -32,14 +32,12 @@
 //         inputs, the hash overhead dominates.
 //
 // --- Rust concepts used ---
-// - .zip(): pairs two iterators element-wise (Ruby: each_with_index + t[i])
-// - .as_bytes(): view String as &[u8] without allocation (ASCII-safe)
-// - Pattern destructuring: `for (&cs, &ct)` dereferences &u8 -> u8 in-place
-// - HashMap::get() returns Option<&V> (safe); HashMap[&k] panics on missing key
 // - match with guard: `Some(&v) if v != ct =>` replaces Ruby's postfix `return false if`
-// - Fixed-size array `[0u8; 256]`: O(1) lookup by byte index, no hashing overhead
 // - Sentinel value (0): marks "unmapped" slots; valid because mapping values
 //   are offset by +1 to distinguish 0x00 from "not set"
+//   (Previously covered: .zip() in lc_0134, .as_bytes() in lc_0005,
+//    pattern destructuring in lc_0001, HashMap::get() in lc_0001,
+//    fixed-size array lookup in lc_0076)
 
 /// My solution module.
 ///

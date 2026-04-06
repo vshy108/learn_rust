@@ -22,11 +22,32 @@
 // Run:  cargo run --example lc_0274_h_index
 // Test: cargo test --example lc_0274_h_index
 // Bench: cargo test --example lc_0274_h_index bench -- --nocapture
+//
+// --- Benchmark (100_000 iterations, 2026-04-06) ---
+//   My solution: 128.1ms (avg 1.28us)
+//   AI solution: 89.9ms (avg 898ns)
+//   -> AI solution is 1.42x faster
+//   Reason: Counting sort is O(n) vs O(n log n) comparison sort.
+//     Eliminates the sort entirely — just two linear passes (bucket + scan).
+//     Also avoids the in-place swap overhead of sort_unstable.
+//
+// --- Rust concepts used ---
+//   - `sort_unstable()` + `reverse()`: can't chain because sort returns ().
+//     "Unstable" = sorting stability (equal-element order), not API stability.
+//     Prefer sort_unstable for primitives — faster, no extra allocation.
+//   - Counting sort: bucket into `vec![0u32; n + 1]`, scan in reverse.
+//     Trades O(n) space for O(n) time vs O(n log n) comparison sort.
+//   (Previously covered: `let mut x = x` param rebind -> lc_0263,
+//    `(i, &c)` enumerate destructure -> lc_0263, `as i32`/`as usize`
+//    casts -> lc_0219, `vec![val; n]` init -> lc_0238, `.min()` -> lc_0223)
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Sort descending, then scan for the largest h where the (h)th paper
+/// has >= h citations.
+///
+/// Time:  O(n log n) — dominated by the sort
+/// Space: O(1) — in-place sort, no extra allocation
 mod my_solution {
     pub struct Solution;
 
@@ -41,22 +62,35 @@ mod my_solution {
         ///
         /// The h-index value
         pub fn h_index(citations: Vec<i32>) -> i32 {
-            // n = citations.length
-            // citations.sort!.reverse!
-            // h = 0
-            // citations.each_with_index do |c, i|
-            //   h = i + 1 if c >= i + 1
-            // end
-            // h
-            todo!()
+            // Ruby: citations.sort!.reverse! — sort! returns self, so chaining works
+            // Rust: .sort() / .sort_unstable() return () (unit), NOT self —
+            //   so `citations.sort().reverse()` won't compile.
+            //   Must be two separate statements.
+            // sort_unstable is preferred over sort for primitives (faster, no
+            // extra allocation — equal-element ordering doesn't matter for i32)
+            let mut citations = citations;
+            citations.sort_unstable();
+            citations.reverse();
+
+            let mut h = 0i32;
+            for (i, &c) in citations.iter().enumerate() {
+                if c >= (i + 1) as i32 { h = (i + 1) as i32; };
+            }
+
+            h
         }
     }
 }
 
 /// AI solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Counting sort approach: bucket citation counts into an array of size n+1,
+/// then scan from highest to lowest, accumulating paper counts. The first
+/// index where cumulative papers >= index is the h-index.
+/// Avoids the O(n log n) sort entirely.
+///
+/// Time:  O(n) — two linear passes (bucket + scan)
+/// Space: O(n) — counts array of size n+1
 mod ai_solution {
     pub struct Solution;
 
@@ -71,7 +105,28 @@ mod ai_solution {
         ///
         /// The h-index value
         pub fn h_index(citations: Vec<i32>) -> i32 {
-            todo!()
+            let n = citations.len();
+            // counts[i] = number of papers with exactly i citations
+            // counts[n] = papers with >= n citations (capped, since h <= n)
+            let mut counts = vec![0u32; n + 1];
+            for &c in &citations {
+                // Cap at n: any citation count >= n has the same effect
+                // because h-index can never exceed n (total number of papers)
+                let idx = (c as usize).min(n);
+                counts[idx] += 1;
+            }
+
+            // Scan from highest bucket down, accumulating total papers
+            let mut total = 0u32;
+            for i in (0..=n).rev() {
+                total += counts[i];
+                // If we have at least i papers with >= i citations, h = i
+                if total >= i as u32 {
+                    return i as i32;
+                }
+            }
+
+            0
         }
     }
 }

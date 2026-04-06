@@ -84,3 +84,12 @@ Common gotchas when converting Ruby solutions to Rust.
 - Use `.and_then()` instead of `.map_or(None, |x| ...)`
 - Remove unnecessary `as usize` casts when already `usize`
 - Don't chain `.into_iter()` after `.chars()` / `.iter()`
+
+## Sorting
+- **Ruby `sort!` returns `self`; Rust `sort()` returns `()`**: Ruby `arr.sort!.reverse!` chains fine. Rust `v.sort().reverse()` won't compile — must be two statements.
+- **"Unstable" = sorting stability, NOT API stability**: `sort_unstable` has been a stable API since Rust 1.20.
+  - **Stable sort** (`sort`): equal elements keep their original order. Allocates a temporary buffer.
+  - **Unstable sort** (`sort_unstable`): equal elements may be reordered. No extra allocation, typically faster.
+  - For primitives like `i32`, equal values are identical — the distinction is invisible. Prefer `sort_unstable`.
+  - **When stability matters**: sorting structs by one field — stable sort preserves original order for ties (e.g., students sorted by grade keep alphabetical order within the same grade).
+- **Sort descending**: `v.sort_unstable_by(|a, b| b.cmp(a))` or two steps: `v.sort_unstable(); v.reverse();`

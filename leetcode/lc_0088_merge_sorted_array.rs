@@ -43,12 +43,10 @@
 //     On larger inputs copy_from_slice's memcpy would win.
 //
 // --- Rust concepts used ---
-//   - usize indexing: Rust Vecs require usize, not i32 (Ruby has no such restriction)
-//   - > 0 guard pattern: avoids usize underflow (0usize - 1 panics, unlike Ruby's -1)
-//   - &mut Vec<i32>: mutable reference for in-place modification (no return needed)
-//   - as usize: i32 to usize cast for index compatibility
 //   - copy_from_slice: bulk memcpy for remaining elements (AI solution)
 //   - Tuple destructuring: `let (mut i, mut j, mut k) = (...)` for compact init
+//   (Previously covered: usize indexing lc_0001, > 0 guard pattern lc_0005,
+//    &mut Vec<i32> lc_0027, as usize lc_0004)
 
 /// My solution module — reverse two-pointer merge.
 ///

@@ -28,11 +28,8 @@
 //           always computes max() at every index even after reaching the end.
 //
 // --- Rust concepts used ---
-//   - Forward greedy: track max reachable index, early return on unreachable
-//   - Backward greedy: collapse goal from end to start
-//   - as usize cast: i32 -> usize for index arithmetic (safe when non-negative)
-//   - (0..n).rev(): reverse range iterator for right-to-left scan
-//   - usize::max(): Ord trait method for updating max reachable
+//   (Previously covered: `as usize` cast -> lc_0004, `(0..n).rev()` -> lc_0042,
+//    `usize::max()` -> lc_0003)
 
 /// My solution module.
 ///

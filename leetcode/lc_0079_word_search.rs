@@ -38,15 +38,15 @@
 //     and [i8; 128] frequency array avoids HashMap hashing overhead.
 //
 // --- Rust concepts used ---
-//   - HashMap entry API: or_insert(0) for default-or-mutate counting pattern
 //   - .get().copied().unwrap_or(0): safe HashMap lookup returning owned value
-//   - Variable shadowing: two word_bytes bindings (pre/post reversal)
 //   - Nested fn vs closure: recursive DFS needs &mut visited, closures can't recurse
 //   - isize for bounds checking: allows negative values without underflow panic
-//   - as_bytes() / into_bytes(): O(1) byte-level access vs char iteration
+//   - into_bytes(): owned Vec<u8> from String (vs as_bytes() which borrows)
 //   - u64 bitmask: encodes 6x6 visited grid in a single integer (AI solution)
 //   - Flat indexing: r*cols+c avoids Vec<Vec<>> double indirection (AI solution)
 //   - iter().flatten().filter(): counting chars across 2D grid without nested loops
+//   (Previously covered: HashMap entry API lc_0076, variable shadowing lc_0009,
+//    as_bytes lc_0005)
 
 /// My solution module — HashMap frequency pruning + backtracking DFS.
 ///

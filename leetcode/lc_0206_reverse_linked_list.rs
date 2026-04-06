@@ -29,15 +29,11 @@
 //         version uses O(n) stack frames vs O(1) for iterative.
 //
 // --- Rust concepts used ---
-// - `Option<Box<ListNode>>`: Rust's linked list representation (no raw pointers)
 // - `while let Some(mut node) = current`: destructure Option + move ownership
 //   (Ruby's `while current` truthy check doesn't work -- Option isn't bool)
-// - `.take()`: swaps an Option's value with None, returning the old value.
-//   Essential for linked list manipulation -- avoids partial move errors when
-//   you need to detach node.next while node is still alive.
-// - Ownership transfer in loops: each iteration moves nodes between prev/current
-// - Recursive ownership: function takes ownership of head, returns new head
 // - `Box::new()` heap allocation for each node (recursive builds stack frames)
+//   (Previously covered: Option<Box<ListNode>> in lc_0002, .take() in lc_0002,
+//    ownership transfer in loops in lc_0002, recursive ownership in lc_0021)
 
 /// Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]

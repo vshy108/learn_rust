@@ -36,11 +36,10 @@
 //
 // --- Rust concepts used ---
 //   - Greedy BFS: track current jump window end + farthest reachable
-//   - i32 vs usize arithmetic: my_solution casts len to i32, ai_solution stays usize
 //   - enumerate() + iter(): idiomatic indexed iteration without manual casting
 //   - .take(n - 1): limit iterator length instead of range with cast
-//   - Early break from loop when goal is reached
-//   - as usize cast: converting i32 jump values to usize for index arithmetic
+//   (Previously covered: i32 vs usize arithmetic -> lc_0005,
+//    `as usize` cast -> lc_0004, early break when goal reached -> lc_0007)
 
 /// My solution module.
 ///

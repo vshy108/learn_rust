@@ -30,17 +30,12 @@
 //         block-swap moves elements in larger contiguous chunks.
 //
 // --- Rust concepts used ---
-// - usize underflow: `0_usize - 1` panics (no negative unsigned values).
-//   Ruby's `-1` wraps to a negative index; Rust requires an early return guard.
-// - `mut` params: Rust function params are immutable by default, need `mut`
-//   to reassign (unlike Ruby where all locals are reassignable)
 // - `.swap(a, b)`: no parallel assignment (Ruby: `a, b = b, a`) in Rust.
 //   .swap() uses internal temp to avoid overwrite-before-read.
-// - Inner function: `fn reverse(...)` defined inside a method has no access
-//   to outer variables (unlike closures). Takes `&mut Vec` explicitly.
-// - Slice `.reverse()`: built-in in-place reversal, no manual loop needed.
 // - `.rotate_right(k)`: stdlib single-call O(n) rotation using
 //   ptr::rotate internally (block-swap algorithm, cache-friendly)
+//   (Previously covered: usize underflow in lc_0005, mut params in lc_0009,
+//    inner fn vs closure in lc_0079, slice .reverse() in lc_0151)
 
 /// My solution module.
 ///

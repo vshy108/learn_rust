@@ -41,9 +41,7 @@
 // str::starts_with(&str):
 //   Ruby `start_with?` without the `?`. Takes a &str; &String auto-derefs to &str.
 //
-// as_bytes() for indexed byte access:
-//   Returns &[u8] with O(1) indexing and no UTF-8 decoding overhead.
-//   `.get(i)` returns Option<&u8> — None if index is out of bounds.
+//   (Previously covered: as_bytes() for byte indexing -> lc_0005)
 
 /// My solution module.
 ///

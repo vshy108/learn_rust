@@ -29,25 +29,18 @@
 //
 // --- Rust concepts used ---
 //
-// Early return with compound condition:
-//   `if x < 0 || (x % 10 == 0 && x != 0) { return false; }`
-//   Combines two impossible-palindrome checks in one guard.
-//   Negative numbers have '-', trailing-zero numbers can't lead with 0.
-//
 // Variable shadowing for mutability:
 //   `let mut x = x;` re-binds the parameter as mutable.
 //   The original `x: i32` is immutable (Rust default). Shadowing
 //   avoids needing `mut` in the function signature.
 //
-// Integer division and modulo:
-//   `x % 10` extracts the last digit. `x / 10` removes it.
-//   `x / divisor` extracts the first digit when divisor is the
-//   largest power of 10 <= x. All integer arithmetic, no floats.
-//
 // Half-reversal vs full comparison:
 //   My solution only reverses half and compares — avoids overflow.
 //   AI solution uses divisor to compare outermost digits inward —
 //   no reversal at all, but slightly more division operations.
+//
+//   (Previously covered: early return with compound condition -> lc_0007,
+//    integer division and modulo -> lc_0004/lc_0007)
 
 /// My solution module — reverse half of the number.
 ///

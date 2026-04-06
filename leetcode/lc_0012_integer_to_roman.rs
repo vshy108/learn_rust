@@ -31,10 +31,11 @@
 //   zero heap allocation (see CHEATSHEET: const array/slice lookup table)
 // - const arrays of &str: `const ONES: [&str; 10]` for direct index lookup
 // - String += &str: AddAssign trait appends without reallocating each time
-// - `as usize` cast: i32 -> usize for safe array indexing
 // - format!() macro: concatenates four &str slices into one owned String
 // - Destructuring in for: `for (value, numeral) in ROMAN_NUMERALS`
 //   unpacks each (&i32, &&str) tuple; `*value` dereferences the &i32
+//
+//   (Previously covered: `as usize` cast -> lc_0004)
 
 /// My solution module.
 ///

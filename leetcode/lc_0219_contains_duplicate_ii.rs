@@ -23,12 +23,10 @@
 //     during window growth; early return on k==0 skips all work for that case.
 //
 // --- Rust concepts used ---
-//   - HashSet::insert returns bool (false = already present) for duplicate detection
-//   - HashSet::with_capacity pre-allocates to avoid rehashing during growth
-//   - .iter().enumerate() to borrow elements with index (avoids consuming the Vec)
 //   - *num dereference: .iter() yields &i32, but HashSet<i32>::insert takes i32
 //   - .remove(&val): HashSet remove takes &T, not T
-//   - `k as usize` cast for index arithmetic (k is i32 per LeetCode signature)
+//   (Previously covered: HashSet::insert in lc_0142, with_capacity in lc_0142,
+//    .enumerate() in lc_0045, `as usize` casting in lc_0004)
 //
 // Run:  cargo run --example lc_0219_contains_duplicate_ii
 // Test: cargo test --example lc_0219_contains_duplicate_ii

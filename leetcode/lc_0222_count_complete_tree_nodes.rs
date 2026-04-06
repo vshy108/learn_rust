@@ -34,13 +34,12 @@
 //     simultaneous read+write). Ruby: all objects always mutable.
 //   - .clone() on Option<Rc<...>>: cheap ref-count bump, not a deep copy.
 //     Needed because you can't move fields out of a borrowed RefCell.
-//   - while let Some(n) = node: pattern-match to iterate Option-wrapped
-//     tree pointers. Replaces Ruby's truthy `while node`.
 //   - Rc::clone(&root) vs root.clone(): idiomatic explicit Rc clone.
 //   - Bit masking (idx & bit): navigate binary tree levels by treating
 //     the node index as a binary path (0=left, 1=right).
 //   - 1 << height: bit shift for 2^height (Ruby: 2**height).
 //   - #[inline]: compiler hint to inline small functions at call sites.
+//   (Previously covered: while let Some in lc_0206)
 //
 // Run:  cargo run --example lc_0222_count_complete_tree_nodes
 // Test: cargo test --example lc_0222_count_complete_tree_nodes

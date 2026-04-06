@@ -61,10 +61,8 @@
 //   the string. Expand `right` to include new characters; shrink `left`
 //   when a duplicate is found. The window always contains unique characters.
 //
-// HashMap / HashSet for tracking:
-//   Use a HashMap<char, usize> to store the last-seen index of each
-//   character, or a HashSet<char> to track which characters are in the
-//   current window.
+// HashSet for tracking:
+//   HashSet<char> tracks which characters are in the current window.
 //
 // String iteration:
 //   `s.chars()` yields `char` values (Unicode scalar values).
@@ -74,6 +72,8 @@
 // .max() and cmp::max:
 //   `std::cmp::max(a, b)` returns the larger of two values.
 //   Useful for tracking the running maximum window size.
+//
+//   (Previously covered: HashMap basics -> lc_0001)
 
 /// My solution module — implement your solution here.
 ///

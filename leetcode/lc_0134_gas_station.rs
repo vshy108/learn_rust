@@ -34,11 +34,11 @@
 //         less per-iteration work in unoptimized (debug) builds.
 //
 // --- Rust concepts used ---
-// - Iterator adaptors: .into_iter(), .enumerate(), .zip()
+// - Iterator adaptors: .into_iter(), .zip()
 // - Ownership: into_iter() consumes the Vec, avoiding borrows
-// - Pattern destructuring in for loops: (i, g) and (i, (g, c))
-// - Type casting: `as i32` for usize-to-i32 conversion
 // - Greedy algorithm: single-pass O(n) with running totals
+//   (Previously covered: .enumerate() in lc_0045, pattern destructuring
+//    in for loops in lc_0012, `as i32` casting in lc_0004)
 
 /// My solution module.
 ///

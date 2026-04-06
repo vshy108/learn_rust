@@ -26,12 +26,11 @@
 //           + allocation overhead dominates on small inputs).
 //
 // --- Rust concepts used ---
-//   - Two-pointer convergence: left/right pointers meeting in the middle
 //   - Prefix/suffix max arrays: precompute running max from both directions
-//   - Vec::with_capacity(n): pre-allocate when size is known
 //   - (0..n).rev(): reverse range iterator for right-to-left traversal
-//   - Iterator chain: (0..n).map(...).sum() for functional accumulation
-//   - i32::max() / i32::min(): Ord trait methods for comparisons
+//   (Previously covered: two-pointer convergence -> lc_0003,
+//    Vec::with_capacity(n) -> lc_0006, iterator chain .map().sum() -> lc_0005,
+//    i32::max()/i32::min() -> lc_0003)
 
 /// My solution module.
 ///

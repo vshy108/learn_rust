@@ -32,11 +32,11 @@
 //
 // --- Rust concepts used ---
 //   - Exclusive upper bound binary search: right = len, left < right, right = mid
-//   - usize underflow avoidance: no mid - 1 subtraction needed
 //   - mid + 1 overflow safety: mid <= right - 1, so mid + 1 <= right <= len
 //   - slice::partition_point(): stdlib lower-bound binary search
-//   - Closure predicate: |&x| x < target with pattern-binding reference
-//   - as i32 cast from usize return
+//   (Previously covered: usize underflow avoidance -> lc_0005,
+//    closure predicate with pattern-binding reference -> lc_0005/lc_0001,
+//    `as i32` cast from usize -> lc_0004)
 
 /// My solution module.
 ///

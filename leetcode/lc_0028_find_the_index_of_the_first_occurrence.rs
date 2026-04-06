@@ -24,11 +24,11 @@
 //           while the manual slice loop is O((n-m)*m) with per-position m-byte compares.
 //
 // --- Rust concepts used ---
-//   - &str slicing: &haystack[i..i + m] produces an unsized str, needs & for &str
-//   - usize underflow guard: n - m panics when m > n (unsigned arithmetic)
 //   - str::find() returns Option<usize>, converted with map_or(-1, |i| i as i32)
 //   - PartialEq<String> for str: &str == String comparison works automatically
 //   - Option::map_or: transforms Some/None into a single return value
+//   (Previously covered: &str slicing / slice borrowing -> lc_0014,
+//    usize underflow guard -> lc_0005)
 
 /// My solution module.
 ///

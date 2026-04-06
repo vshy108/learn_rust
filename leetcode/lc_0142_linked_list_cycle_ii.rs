@@ -31,13 +31,12 @@
 //         pays heavy per-element hashing + allocation overhead on small inputs.
 //
 // --- Rust concepts used ---
-// - Closures capturing local variables: `let next = |i| -> Option<usize>`
 // - Option chaining: .and_then(|f| next(f)) for two-hop traversal (Ruby's &.)
-// - Pattern matching with early return: `match next(slow) { None => return -1 }`
 // - .expect() for invariant assertions (phase 2 pointers must be in cycle)
 // - HashSet::insert returns false if value already present (dual-purpose check+insert)
 // - HashSet::with_capacity(n) to pre-allocate and avoid rehashing
 // - Simulating cyclic data structures with indices (Rust ownership prevents Box cycles)
+//   (Previously covered: closures in lc_0005, match with early return in lc_0007)
 
 /// Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]

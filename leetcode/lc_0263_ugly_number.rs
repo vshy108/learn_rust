@@ -24,13 +24,9 @@
 //     variation. The fold approach is stylistically different, not faster.
 //
 // --- Rust concepts used ---
-//   - `let mut n = n`: shadow an immutable param with a mutable copy.
-//     Ruby: not needed, all variables are mutable.
 //   - `for prime in [2, 3, 5]`: small fixed arrays implement IntoIterator.
-//   - `.fold(init, |acc, x| ...)`: stateful reduce over an iterator.
-//     Ruby equivalent: .inject / .reduce.
-//   - `&prime` in closure param: destructure the reference from .iter()
-//     to get i32 directly (avoids *prime dereference inside the loop).
+//   (Previously covered: let mut n = n in lc_0009, .fold() in lc_0008,
+//    &ref destructuring in lc_0001)
 //
 // Run:  cargo run --example lc_0263_ugly_number
 // Test: cargo test --example lc_0263_ugly_number

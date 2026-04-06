@@ -36,17 +36,12 @@
 //
 // --- Rust concepts used ---
 //
-// Two-pointer / read-write pattern:
-//   `read_index` scans forward; `write_index` tracks where to place the next unique value.
-//   Both are usize indices into &mut Vec<i32>. Common for in-place array manipulation.
-//
-// `as i32` cast:
-//   `write_index` is usize (Rust array indices must be usize).
-//   The function returns i32 to match LeetCode signature, so `write_index as i32`.
-//
 // Vec::dedup():
 //   Built-in method that removes consecutive duplicate elements in-place.
 //   Only works on sorted or pre-grouped data (just like this problem requires).
+//
+//   (Previously covered: two-pointer read/write pattern -> lc_0003,
+//    `as i32` cast -> lc_0004)
 
 /// My solution module.
 ///

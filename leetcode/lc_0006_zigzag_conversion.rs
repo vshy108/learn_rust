@@ -48,10 +48,6 @@
 //   `.push(ch)` appends a single char. `.push_str(s)` appends a slice.
 //   Ruby `<<` is equivalent to `.push()` / `.push_str()`.
 //
-// usize and unsigned subtraction:
-//   `usize` can't hold negative values. `curr_row -= 1` at row 0
-//   would panic (debug) or wrap (release). Guard with conditionals.
-//
 // Vec<String>::concat():
 //   Joins all Strings with no separator. Like Ruby `rows.join`.
 //
@@ -59,9 +55,8 @@
 //   Pre-allocates space for n bytes, avoiding reallocations as
 //   the string grows. Useful when the final size is known.
 //
-// as_bytes() for O(1) indexing:
-//   `s.as_bytes()` gives `&[u8]` with O(1) random access.
-//   `b[j] as char` converts a byte back to char (safe for ASCII).
+//   (Previously covered: usize unsigned subtraction -> lc_0005,
+//    as_bytes() for byte indexing -> lc_0005)
 
 /// My solution module — row-bucket simulation.
 ///

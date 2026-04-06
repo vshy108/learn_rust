@@ -34,16 +34,6 @@
 //
 // --- Rust concepts used ---
 //
-// vec![vec![false; n + 1]; m + 1]:
-//   Creates a 2D Vec<Vec<bool>>. Equivalent to Ruby's
-//   `Array.new(m + 1) { Array.new(n + 1, false) }`.
-//   Inner vec is cloned (safe for Copy types like bool).
-//
-// as_bytes() for indexing:
-//   `String`/`&str` can't be indexed by usize (UTF-8 multi-byte).
-//   `as_bytes()` gives `&[u8]` with O(1) indexing. Compare with
-//   byte literals: `b'*'`, `b'.'`.
-//
 // |= (bitwise OR assign) for bool:
 //   Rust has no `||=` operator. `dp[i][j] |= val` is equivalent
 //   to `dp[i][j] = dp[i][j] || val` for booleans.
@@ -52,6 +42,9 @@
 //   When row `i` only depends on row `i-1` and current row,
 //   compress 2D table to 1D. Save the "diagonal" value in a
 //   `prev` variable before overwriting. O(n) vs O(m*n) space.
+//
+//   (Previously covered: vec![vec![val; n]; m] 2D init -> lc_0006,
+//    as_bytes() for byte indexing -> lc_0005)
 
 /// My solution module -- 2D bottom-up DP.
 ///

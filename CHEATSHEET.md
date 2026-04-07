@@ -610,6 +610,9 @@ v.extend([4, 5, 6]);       // append from iterator
 v.sort();                   // stable sort
 v.sort_unstable();          // faster, not stable
 v.sort_by(|a, b| b.cmp(a));     // custom comparator (descending)
+v.sort_unstable_by(|a, b| {     // multi-key sort with .then() (LC 0587)
+    a[0].cmp(&b[0]).then(a[1].cmp(&b[1]))  // sort by x, then by y
+});
 v.sort_by_key(|x| x.abs());     // sort by derived key
 v.reverse();
 v.binary_search(&val);      // Result<usize, usize> — must be sorted
@@ -797,6 +800,28 @@ let a = Arc::new(5);
 use std::cell::RefCell;
 let x = RefCell::new(5);
 *x.borrow_mut() += 1;
+
+// Cell<T> — interior mutability for Copy types, no runtime borrow check
+// Simpler than RefCell: just get/set, no borrow guards (LC 0380)
+use std::cell::Cell;
+let x = Cell::new(5);
+x.set(x.get() + 1);                 // no borrow_mut() needed
+// Use Cell when: field is Copy type + you need mutation through &self
+// Use RefCell when: field is non-Copy (Vec, HashMap) + mutation through &self
+// Cell<u64> is ideal for PRNG state in structs with &self methods
+
+// LeetCode &self pattern — when LeetCode gives `fn insert(&self, ...)` but
+// you need to mutate fields, wrap them in RefCell/Cell:
+struct MyStruct {
+    data: RefCell<Vec<i32>>,    // non-Copy → RefCell
+    counter: Cell<u64>,          // Copy → Cell
+}
+impl MyStruct {
+    fn mutate(&self) {           // &self, not &mut self
+        self.data.borrow_mut().push(1);
+        self.counter.set(self.counter.get() + 1);
+    }
+}
 
 // Mutex<T> — mutual exclusion for multi-thread mutation
 use std::sync::Mutex;
@@ -1386,4 +1411,42 @@ let cell = flat[r * cols + c];
 // --- copy_from_slice — bulk memory copy between slices (LC 0088) ---
 nums1[start..end].copy_from_slice(&nums2[..remaining]);
 // Equivalent to memcpy — faster than element-by-element loop
+
+// --- Union-Find (Disjoint Set Union) (LC 0947) ---
+let mut parent: Vec<usize> = (0..n).collect(); // each node is its own root
+fn find(x: usize, parent: &mut [usize]) -> usize {
+    if parent[x] != x {
+        parent[x] = find(parent[x], parent);   // path compression
+    }
+    parent[x]
+}
+fn union(x: usize, y: usize, parent: &mut [usize]) {
+    let rx = find(x, parent);
+    let ry = find(y, parent);
+    if rx != ry { parent[rx] = ry; }
+}
+// Variant: HashMap<i32, i32> parent for sparse keys (e.g., row/col ids)
+// Trick: !y (bitwise NOT) maps column y to negative space, avoiding
+// row/column key collisions in a single parent map
+
+// --- Prefix sum modular arithmetic (LC 0523) ---
+// Detect subarray with sum divisible by k in O(n)
+let mut mod_map: HashMap<i32, i32> = HashMap::new();
+mod_map.insert(0, -1);              // sentinel: sum=0 at virtual index -1
+let mut sum = 0;
+for (i, &num) in nums.iter().enumerate() {
+    sum = (sum + num) % k;
+    if let Some(&prev) = mod_map.get(&sum) {
+        if i as i32 - prev >= 2 { return true; }
+    } else {
+        mod_map.insert(sum, i as i32);
+    }
+}
+// Key insight: if prefix[i] % k == prefix[j] % k, then sum(i..j) % k == 0
+
+// --- Vec<bool> as dense lookup (alternative to HashSet) (LC 0523) ---
+// When keys are bounded integers [0, k), Vec<bool> is ~10x faster than HashSet
+let mut seen = vec![false; k as usize];
+seen[val as usize] = true;           // O(1) direct index, no hashing
+// Only works when key range is small enough to allocate
 ```

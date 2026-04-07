@@ -1,5 +1,6 @@
 // LeetCode 589: N-ary Tree Preorder Traversal [Easy]
 // https://leetcode.com/problems/n-ary-tree-preorder-traversal/
+// Note: No Rust option available on LeetCode for this problem.
 //
 // Given the root of an n-ary tree, return the preorder traversal of its
 // nodes' values.
@@ -65,7 +66,6 @@ impl Node {
 ///
 /// Time:  O(n)
 /// Space: O(h) recursion depth, where h = tree height
-/// No Rust option in Leetcode
 mod my_solution {
     use crate::Node;
 

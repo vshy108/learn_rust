@@ -80,6 +80,24 @@ Common gotchas when converting Ruby solutions to Rust.
 - **`while let Some(n) = node`**: Replaces Ruby's `while node` — Rust has no truthy nil, must pattern-match `Option`.
 - **Accessing children**: `n.borrow().left.clone()` — `.borrow()` for RefCell, `.clone()` because you can't move a field out of a borrow.
 
+## Interior Mutability: `&self` with Mutation (LC 0380)
+- **LeetCode sometimes gives `fn insert(&self, ...)` but you need to mutate fields**: Ruby doesn't have this problem — all methods can mutate instance vars freely.
+- **Solution**: Wrap fields in `Cell<T>` (Copy types) or `RefCell<T>` (non-Copy types):
+  ```rust
+  struct MyStruct {
+      nums: RefCell<Vec<i32>>,   // non-Copy: use RefCell
+      counter: Cell<u64>,         // Copy: use Cell (simpler, no borrow guard)
+  }
+  impl MyStruct {
+      fn mutate(&self) {           // &self, not &mut self!
+          self.nums.borrow_mut().push(1);
+          self.counter.set(self.counter.get() + 1);
+      }
+  }
+  ```
+- **`Cell` vs `RefCell`**: `Cell` only works for `Copy` types (get/set, no borrowing). `RefCell` works for anything but has runtime borrow checking overhead.
+- **`#[allow(unused_mut)]`**: When a test macro shares `let mut rs` between a `&self` solution and a `&mut self` solution, suppress the warning on the `&self` side.
+
 ## Clippy Tips
 - Use `.and_then()` instead of `.map_or(None, |x| ...)`
 - Remove unnecessary `as usize` casts when already `usize`
@@ -93,3 +111,18 @@ Common gotchas when converting Ruby solutions to Rust.
   - For primitives like `i32`, equal values are identical — the distinction is invisible. Prefer `sort_unstable`.
   - **When stability matters**: sorting structs by one field — stable sort preserves original order for ties (e.g., students sorted by grade keep alphabetical order within the same grade).
 - **Sort descending**: `v.sort_unstable_by(|a, b| b.cmp(a))` or two steps: `v.sort_unstable(); v.reverse();`
+- **Multi-key sort**: Ruby `sort_by { |a| [a.x, a.y] }` → Rust `sort_unstable_by(|a, b| a.x.cmp(&b.x).then(a.y.cmp(&b.y)))`. Ruby auto-compares arrays element-by-element; Rust chains `.then()` on `Ordering`.
+
+## Randomness
+- **No `Array#sample`**: Ruby's `.sample` picks a random element. Rust has no built-in equivalent — use `rand` crate or manual PRNG.
+- **`SystemTime::subsec_nanos()` is NOT a PRNG**: Calling it rapidly returns the same value (nanosecond resolution). Only suitable as a one-time seed, not per-call randomness.
+- **xorshift64 for cheap inline PRNG**: Seed once with `SystemTime`, advance with `s ^= s << 13; s ^= s >> 7; s ^= s << 17`. Store state in `Cell<u64>` for `&self` methods (LC 0380).
+- **`rand::rng()` has overhead**: Creates a thread-local RNG on each call. Faster than `SystemTime` per-call but slower than a cached xorshift (benchmarked 120us vs 76us on LC 0380).
+
+## Bitwise Operators
+- **`!x` is bitwise NOT (all bits flipped)**: Ruby uses `~x`. Rust's `!` flips every bit: `!0i32 == -1`, `!1i32 == -2`.
+- **Namespace trick**: `!y` maps column index `y` to a distinct negative value, so rows (0, 1, 2...) and columns (-1, -2, -3...) never collide in a single `HashMap<i32, i32>` (LC 0947 Union-Find).
+
+## Collections: Entry API
+- **`entry().or_default()`**: Ruby `Hash.new { |h, k| h[k] = [] }` → Rust `map.entry(key).or_default()`. Uses the `Default` trait (`Vec::default()` = empty vec, `i32::default()` = 0).
+- **`entry().or_insert_with(|| ...)`**: Lazy default — closure only runs if key is missing. Good for expensive defaults.

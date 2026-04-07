@@ -37,12 +37,11 @@
 //    HashSet -> lc_0003, i64 widening for overflow safety -> lc_0374)
 //
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
-// My solution:  862.37ms (avg 8.62us)
-// AI solution:  555.21ms (avg 5.55us)
-// -> AI solution is 1.55x faster
+// My solution:  920.40ms (avg 9.20us)
+// AI solution:  470.34ms (avg 4.70us)
+// -> AI solution is 1.96x faster
 // Reason: Andrew's monotone chain is O(n log n) vs Jarvis march
-//   O(n * h); the sort dominates but is cache-friendly, and the
-//   two-pass hull build avoids the inner-loop collinear point scan.
+//   O(n * h); sort+dedup avoids HashSet overhead for deduplication.
 
 /// My solution module — Jarvis march (gift wrapping) with collinear points.
 ///
@@ -134,9 +133,15 @@ mod my_solution {
 ///
 /// Time:  O(n log n) due to sorting
 /// Space: O(n)
+/// AI solution module — Andrew's monotone chain with sort+dedup.
+///
+/// Builds lower and upper hulls directly with cloned points, then
+/// deduplicates via sort+dedup (avoids HashSet hashing overhead).
+/// Uses a named `fn` instead of a closure for the cross product.
+///
+/// Time:  O(n log n) due to sorting
+/// Space: O(n)
 mod ai_solution {
-    use std::collections::HashSet;
-
     pub struct Solution;
 
     impl Solution {
@@ -149,50 +154,37 @@ mod ai_solution {
         /// # Returns
         ///
         /// Coordinates of trees on the fence perimeter
-        pub fn outer_trees(mut trees: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
-            let n = trees.len();
-            if n <= 3 {
-                return trees;
+        pub fn outer_trees(trees: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+            let mut pts = trees;
+            pts.sort_unstable_by(|a, b| a[0].cmp(&b[0]).then(a[1].cmp(&b[1])));
+            let n = pts.len();
+            if n <= 1 { return pts; }
+            fn cross(o: &[i32], a: &[i32], b: &[i32]) -> i64 {
+                (a[0]-o[0]) as i64 * (b[1]-o[1]) as i64
+                    - (a[1]-o[1]) as i64 * (b[0]-o[0]) as i64
             }
-            trees.sort_unstable_by(|a, b| a[0].cmp(&b[0]).then(a[1].cmp(&b[1])));
-            let cross = |o: &[i32], a: &[i32], b: &[i32]| -> i64 {
-                (a[0] as i64 - o[0] as i64) * (b[1] as i64 - o[1] as i64)
-                    - (a[1] as i64 - o[1] as i64) * (b[0] as i64 - o[0] as i64)
-            };
-            // Build lower hull
-            let mut lower: Vec<usize> = Vec::new();
-            for i in 0..n {
-                while lower.len() >= 2
-                    && cross(
-                        &trees[lower[lower.len() - 2]],
-                        &trees[lower[lower.len() - 1]],
-                        &trees[i],
-                    ) < 0
+            let mut hull: Vec<Vec<i32>> = Vec::new();
+            for p in &pts {
+                while hull.len() >= 2
+                    && cross(&hull[hull.len()-2], &hull[hull.len()-1], p) < 0
                 {
-                    lower.pop();
+                    hull.pop();
                 }
-                lower.push(i);
+                hull.push(p.clone());
             }
-            // Build upper hull
-            let mut upper: Vec<usize> = Vec::new();
-            for i in (0..n).rev() {
-                while upper.len() >= 2
-                    && cross(
-                        &trees[upper[upper.len() - 2]],
-                        &trees[upper[upper.len() - 1]],
-                        &trees[i],
-                    ) < 0
+            let lower_len = hull.len();
+            for p in pts.iter().rev() {
+                while hull.len() > lower_len
+                    && cross(&hull[hull.len()-2], &hull[hull.len()-1], p) < 0
                 {
-                    upper.pop();
+                    hull.pop();
                 }
-                upper.push(i);
+                hull.push(p.clone());
             }
-            // Merge and deduplicate
-            let mut result_set: HashSet<usize> = HashSet::new();
-            for &idx in lower.iter().chain(upper.iter()) {
-                result_set.insert(idx);
-            }
-            result_set.into_iter().map(|i| trees[i].clone()).collect()
+            hull.pop();
+            hull.sort_unstable();
+            hull.dedup();
+            hull
         }
     }
 }

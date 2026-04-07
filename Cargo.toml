@@ -84,8 +84,32 @@ name = "lc_0018_4sum"
 path = "leetcode/lc_0018_4sum.rs"
 
 [[example]]
+name = "lc_0019_remove_nth_from_end"
+path = "leetcode/lc_0019_remove_nth_from_end.rs"
+
+[[example]]
+name = "lc_0020_valid_parentheses"
+path = "leetcode/lc_0020_valid_parentheses.rs"
+
+[[example]]
 name = "lc_0021_merge_two_sorted_lists"
 path = "leetcode/lc_0021_merge_two_sorted_lists.rs"
+
+[[example]]
+name = "lc_0022_generate_parentheses"
+path = "leetcode/lc_0022_generate_parentheses.rs"
+
+[[example]]
+name = "lc_0023_merge_k_sorted_lists"
+path = "leetcode/lc_0023_merge_k_sorted_lists.rs"
+
+[[example]]
+name = "lc_0024_swap_nodes_in_pairs"
+path = "leetcode/lc_0024_swap_nodes_in_pairs.rs"
+
+[[example]]
+name = "lc_0025_reverse_nodes_in_k_group"
+path = "leetcode/lc_0025_reverse_nodes_in_k_group.rs"
 
 [[example]]
 name = "lc_0026_remove_duplicates_from_sorted_array"
@@ -100,16 +124,164 @@ name = "lc_0028_find_the_index_of_the_first_occurrence"
 path = "leetcode/lc_0028_find_the_index_of_the_first_occurrence.rs"
 
 [[example]]
+name = "lc_0029_divide_two_integers"
+path = "leetcode/lc_0029_divide_two_integers.rs"
+
+[[example]]
+name = "lc_0030_substring_with_concatenation"
+path = "leetcode/lc_0030_substring_with_concatenation.rs"
+
+[[example]]
+name = "lc_0031_next_permutation"
+path = "leetcode/lc_0031_next_permutation.rs"
+
+[[example]]
+name = "lc_0032_longest_valid_parentheses"
+path = "leetcode/lc_0032_longest_valid_parentheses.rs"
+
+[[example]]
+name = "lc_0033_search_in_rotated_sorted_array"
+path = "leetcode/lc_0033_search_in_rotated_sorted_array.rs"
+
+[[example]]
+name = "lc_0034_find_first_and_last_position"
+path = "leetcode/lc_0034_find_first_and_last_position.rs"
+
+[[example]]
 name = "lc_0035_search_insert_position"
 path = "leetcode/lc_0035_search_insert_position.rs"
+
+[[example]]
+name = "lc_0036_valid_sudoku"
+path = "leetcode/lc_0036_valid_sudoku.rs"
+
+[[example]]
+name = "lc_0037_sudoku_solver"
+path = "leetcode/lc_0037_sudoku_solver.rs"
+
+[[example]]
+name = "lc_0038_count_and_say"
+path = "leetcode/lc_0038_count_and_say.rs"
+
+[[example]]
+name = "lc_0039_combination_sum"
+path = "leetcode/lc_0039_combination_sum.rs"
+
+[[example]]
+name = "lc_0040_combination_sum_ii"
+path = "leetcode/lc_0040_combination_sum_ii.rs"
+
+[[example]]
+name = "lc_0041_first_missing_positive"
+path = "leetcode/lc_0041_first_missing_positive.rs"
 
 [[example]]
 name = "lc_0042_trapping_rain_water"
 path = "leetcode/lc_0042_trapping_rain_water.rs"
 
 [[example]]
+name = "lc_0043_multiply_strings"
+path = "leetcode/lc_0043_multiply_strings.rs"
+
+[[example]]
+name = "lc_0044_wildcard_matching"
+path = "leetcode/lc_0044_wildcard_matching.rs"
+
+[[example]]
 name = "lc_0045_jump_game_ii"
 path = "leetcode/lc_0045_jump_game_ii.rs"
+
+[[example]]
+name = "lc_0046_permutations"
+path = "leetcode/lc_0046_permutations.rs"
+
+[[example]]
+name = "lc_0047_permutations_ii"
+path = "leetcode/lc_0047_permutations_ii.rs"
+
+[[example]]
+name = "lc_0048_rotate_image"
+path = "leetcode/lc_0048_rotate_image.rs"
+
+[[example]]
+name = "lc_0049_group_anagrams"
+path = "leetcode/lc_0049_group_anagrams.rs"
+
+[[example]]
+name = "lc_0050_pow_x_n"
+path = "leetcode/lc_0050_pow_x_n.rs"
+
+[[example]]
+name = "lc_0051_n_queens"
+path = "leetcode/lc_0051_n_queens.rs"
+
+[[example]]
+name = "lc_0052_n_queens_ii"
+path = "leetcode/lc_0052_n_queens_ii.rs"
+
+[[example]]
+name = "lc_0053_maximum_subarray"
+path = "leetcode/lc_0053_maximum_subarray.rs"
+
+[[example]]
+name = "lc_0054_spiral_matrix"
+path = "leetcode/lc_0054_spiral_matrix.rs"
+
+[[example]]
+name = "lc_0056_merge_intervals"
+path = "leetcode/lc_0056_merge_intervals.rs"
+
+[[example]]
+name = "lc_0057_insert_interval"
+path = "leetcode/lc_0057_insert_interval.rs"
+
+[[example]]
+name = "lc_0059_spiral_matrix_ii"
+path = "leetcode/lc_0059_spiral_matrix_ii.rs"
+
+[[example]]
+name = "lc_0060_permutation_sequence"
+path = "leetcode/lc_0060_permutation_sequence.rs"
+
+[[example]]
+name = "lc_0061_rotate_list"
+path = "leetcode/lc_0061_rotate_list.rs"
+
+[[example]]
+name = "lc_0062_unique_paths"
+path = "leetcode/lc_0062_unique_paths.rs"
+
+[[example]]
+name = "lc_0063_unique_paths_ii"
+path = "leetcode/lc_0063_unique_paths_ii.rs"
+
+[[example]]
+name = "lc_0064_minimum_path_sum"
+path = "leetcode/lc_0064_minimum_path_sum.rs"
+
+[[example]]
+name = "lc_0066_plus_one"
+path = "leetcode/lc_0066_plus_one.rs"
+
+[[example]]
+name = "lc_0067_add_binary"
+path = "leetcode/lc_0067_add_binary.rs"
+
+[[example]]
+name = "lc_0069_sqrt_x"
+path = "leetcode/lc_0069_sqrt_x.rs"
+
+[[example]]
+name = "lc_0070_climbing_stairs"
+path = "leetcode/lc_0070_climbing_stairs.rs"
+
+[[example]]
+name = "lc_0073_set_matrix_zeroes"
+path = "leetcode/lc_0073_set_matrix_zeroes.rs"
+
+[[example]]
+name = "lc_0074_search_2d_matrix"
+path = "leetcode/lc_0074_search_2d_matrix.rs"
 
 [[example]]
 name = "lc_0055_jump_game"

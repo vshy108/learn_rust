@@ -1403,6 +1403,30 @@ path = "leetcode/lc_0323_number_of_connected_components.rs"
 name = "lc_0324_wiggle_sort_ii"
 path = "leetcode/lc_0324_wiggle_sort_ii.rs"
 
+[[example]]
+name = "lc_0325_maximum_size_subarray_sum_equals_k"
+path = "leetcode/lc_0325_maximum_size_subarray_sum_equals_k.rs"
+
+[[example]]
+name = "lc_0326_power_of_three"
+path = "leetcode/lc_0326_power_of_three.rs"
+
+[[example]]
+name = "lc_0327_count_of_range_sum"
+path = "leetcode/lc_0327_count_of_range_sum.rs"
+
+[[example]]
+name = "lc_0328_odd_even_linked_list"
+path = "leetcode/lc_0328_odd_even_linked_list.rs"
+
+[[example]]
+name = "lc_0329_longest_increasing_path_in_a_matrix"
+path = "leetcode/lc_0329_longest_increasing_path_in_a_matrix.rs"
+
+[[example]]
+name = "lc_0330_patching_array"
+path = "leetcode/lc_0330_patching_array.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

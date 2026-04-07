@@ -17,6 +17,23 @@
 // Run:  cargo run --example lc_0876_middle_of_the_linked_list
 // Test: cargo test --example lc_0876_middle_of_the_linked_list
 // Bench: cargo test --example lc_0876_middle_of_the_linked_list bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - Borrow traversal with `let mut curr = &head`: borrow chain to
+//   count list length without consuming the list
+// - `.and_then(|node| node.next)`: Option chaining to advance by
+//   consuming the current node and returning its next
+// - Rebuild from Vec slice `vals[mid..].iter().rev()`: construct a
+//   linked list from a value slice by iterating in reverse
+//   (Previously covered: Option<Box<ListNode>> -> lc_0002,
+//    while let Some(node) -> lc_0206, Vec::push -> lc_0014)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  118.84ms (avg 1.18us)
+// AI solution:  229.96ms (avg 2.29us)
+// -> My solution is 1.93x faster
+// Reason: two-pass count-then-skip avoids the Vec allocation and
+//   list reconstruction overhead of the collect approach.
 
 /// Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]
@@ -54,10 +71,10 @@ fn list_to_vec(mut head: Option<Box<ListNode>>) -> Vec<i32> {
     result
 }
 
-/// My solution module.
+/// My solution module — count length, then advance to middle.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n)
+/// Space: O(1)
 mod my_solution {
     use super::ListNode;
 
@@ -74,21 +91,30 @@ mod my_solution {
         ///
         /// The middle node (second middle if two exist)
         pub fn middle_node(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-            // slow = head; fast = head
-            // while fast && fast.next
-            //   slow = slow.next
-            //   fast = fast.next.next
-            // end
-            // slow
-            todo!()
+            // Count total length first
+            let mut len = 0;
+            let mut curr = &head;
+            while let Some(node) = curr {
+                len += 1;
+                curr = &node.next;
+            }
+            // Advance to middle
+            let mut result = head;
+            for _ in 0..len / 2 {
+                result = result.and_then(|node| node.next);
+            }
+            result
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — collect values then reconstruct from midpoint.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Collects all values into a Vec, then rebuilds the list from the
+/// middle index onward.
+///
+/// Time:  O(n)
+/// Space: O(n) for the values Vec
 mod ai_solution {
     use super::ListNode;
 
@@ -105,7 +131,25 @@ mod ai_solution {
         ///
         /// The middle node (second middle if two exist)
         pub fn middle_node(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-            todo!()
+            // Collect all values into a Vec
+            let mut vals = Vec::new();
+            let mut curr = &head;
+            while let Some(node) = curr {
+                vals.push(node.val);
+                curr = &node.next;
+            }
+            if vals.is_empty() {
+                return None;
+            }
+            // Rebuild list from middle onward
+            let mid = vals.len() / 2;
+            let mut result = None;
+            for &v in vals[mid..].iter().rev() {
+                let mut node = ListNode::new(v);
+                node.next = result;
+                result = Some(Box::new(node));
+            }
+            result
         }
     }
 }

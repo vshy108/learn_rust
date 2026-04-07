@@ -20,11 +20,30 @@
 // Run:  cargo run --example lc_0704_binary_search
 // Test: cargo test --example lc_0704_binary_search
 // Bench: cargo test --example lc_0704_binary_search bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - `usize` exclusive upper bound pattern: `right = nums.len()` with
+//   `left < right` and `right = mid` avoids underflow when right = 0
+// - i32 inclusive bounds with `as usize` indexing: simpler loop but
+//   requires casting mid to usize for array access
+//   (Previously covered: binary search -> lc_0004, match .cmp() -> lc_0374,
+//    as i32/usize casts -> lc_0004)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  34.35ms (avg 343ns)
+// AI solution:  33.09ms (avg 330ns)
+// -> AI solution is 1.04x faster
+// Reason: usize arithmetic avoids the `as usize` cast per iteration;
+//   both are effectively identical at this scale.
 
 /// My solution module.
 ///
 /// Time:  O(?)
 /// Space: O(?)
+/// My solution module — classic binary search with inclusive bounds.
+///
+/// Time:  O(log n)
+/// Space: O(1)
 mod my_solution {
     pub struct Solution;
 
@@ -40,24 +59,30 @@ mod my_solution {
         ///
         /// Index of target, or -1 if not found
         pub fn search(nums: Vec<i32>, target: i32) -> i32 {
-            // left = 0; right = nums.length - 1
-            // while left <= right
-            //   mid = left + (right - left) / 2
-            //   if nums[mid] == target: return mid
-            //   elsif nums[mid] < target: left = mid + 1
-            //   else: right = mid - 1
-            //   end
-            // end
-            // -1
-            todo!()
+            let mut left: i32 = 0;
+            let mut right: i32 = nums.len() as i32 - 1;
+            while left <= right {
+                let mid = left + (right - left) / 2;
+                if nums[mid as usize] == target {
+                    return mid;
+                } else if nums[mid as usize] < target {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            -1
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — binary search using usize with exclusive upper bound.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses `left < right` loop with `right = mid` instead of `mid - 1`,
+/// avoiding the i32 cast and underflow concerns.
+///
+/// Time:  O(log n)
+/// Space: O(1)
 mod ai_solution {
     pub struct Solution;
 
@@ -73,7 +98,20 @@ mod ai_solution {
         ///
         /// Index of target, or -1 if not found
         pub fn search(nums: Vec<i32>, target: i32) -> i32 {
-            todo!()
+            if nums.is_empty() {
+                return -1;
+            }
+            let mut left: usize = 0;
+            let mut right: usize = nums.len();
+            while left < right {
+                let mid = left + (right - left) / 2;
+                match nums[mid].cmp(&target) {
+                    std::cmp::Ordering::Equal => return mid as i32,
+                    std::cmp::Ordering::Less => left = mid + 1,
+                    std::cmp::Ordering::Greater => right = mid,
+                }
+            }
+            -1
         }
     }
 }

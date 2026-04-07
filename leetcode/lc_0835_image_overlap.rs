@@ -30,11 +30,29 @@
 // Run:  cargo run --example lc_0835_image_overlap
 // Test: cargo test --example lc_0835_image_overlap
 // Bench: cargo test --example lc_0835_image_overlap bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - Nested `for` with i32 ranges including negative: `-(n-1)..n`
+//   iterates signed ranges for translation offsets
+// - HashMap<(i32, i32), i32> counting: tuple key for (dx, dy) offset
+//   with increment via `entry().or_insert(0) += 1`
+// - `.values().copied().max().unwrap_or(0)`: chain to extract max
+//   from HashMap values with a default for empty maps
+//   (Previously covered: HashMap entry -> lc_0380, nested loops -> lc_0042,
+//    flat_map -> lc_0005)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  548.70ms (avg 5.48us)
+// AI solution:  1069.13ms (avg 10.69us)
+// -> My solution is 1.95x faster
+// Reason: brute-force translation is cache-friendly with sequential
+//   matrix access; the HashMap approach has hashing overhead and
+//   random access patterns that hurt on small matrices.
 
-/// My solution module.
+/// My solution module — brute-force all translations.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n^4)
+/// Space: O(1)
 mod my_solution {
     pub struct Solution;
 
@@ -50,32 +68,44 @@ mod my_solution {
         ///
         /// Maximum number of overlapping 1s after any translation
         pub fn largest_overlap(img1: Vec<Vec<i32>>, img2: Vec<Vec<i32>>) -> i32 {
-            // n = A.size; max_overlap = 0
-            // (-n+1...n).each do |dx|
-            //   (-n+1...n).each do |dy|
-            //     overlap = 0
-            //     (0...n).each do |i|
-            //       (0...n).each do |j|
-            //         ni = i + dx; nj = j + dy
-            //         if ni >= 0 && ni < n && nj >= 0 && nj < n
-            //           overlap += 1 if A[i][j] == 1 && B[ni][nj] == 1
-            //         end
-            //       end
-            //     end
-            //     max_overlap = [max_overlap, overlap].max
-            //   end
-            // end
-            // max_overlap
-            todo!()
+            let n = img1.len() as i32;
+            let mut max_overlap = 0;
+            for dx in -(n - 1)..n {
+                for dy in -(n - 1)..n {
+                    let mut overlap = 0;
+                    for i in 0..n {
+                        for j in 0..n {
+                            let ni = i + dx;
+                            let nj = j + dy;
+                            if ni >= 0
+                                && ni < n
+                                && nj >= 0
+                                && nj < n
+                                && img1[i as usize][j as usize] == 1
+                                && img2[ni as usize][nj as usize] == 1
+                            {
+                                overlap += 1;
+                            }
+                        }
+                    }
+                    max_overlap = max_overlap.max(overlap);
+                }
+            }
+            max_overlap
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — HashMap counting of translation vectors.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Collects 1-positions from both images, counts each (dx, dy)
+/// offset that aligns a pair of 1s, and returns the max count.
+///
+/// Time:  O(n^2 * m^2) where m = number of 1s (but often much less than n^4)
+/// Space: O(m^2) for the counter map
 mod ai_solution {
+    use std::collections::HashMap;
+
     pub struct Solution;
 
     impl Solution {
@@ -90,7 +120,27 @@ mod ai_solution {
         ///
         /// Maximum number of overlapping 1s after any translation
         pub fn largest_overlap(img1: Vec<Vec<i32>>, img2: Vec<Vec<i32>>) -> i32 {
-            todo!()
+            let n = img1.len();
+            // Collect positions of 1s in each image
+            let mut ones1 = Vec::new();
+            let mut ones2 = Vec::new();
+            for i in 0..n {
+                for j in 0..n {
+                    if img1[i][j] == 1 {
+                        ones1.push((i as i32, j as i32));
+                    }
+                    if img2[i][j] == 1 {
+                        ones2.push((i as i32, j as i32));
+                    }
+                }
+            }
+            let mut count: HashMap<(i32, i32), i32> = HashMap::new();
+            for &(r1, c1) in &ones1 {
+                for &(r2, c2) in &ones2 {
+                    *count.entry((r1 - r2, c1 - c2)).or_insert(0) += 1;
+                }
+            }
+            count.values().copied().max().unwrap_or(0)
         }
     }
 }

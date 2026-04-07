@@ -591,6 +591,106 @@ path = "leetcode/lc_0099_recover_bst.rs"
 name = "lc_0100_same_tree"
 path = "leetcode/lc_0100_same_tree.rs"
 
+[[example]]
+name = "lc_0101_symmetric_tree"
+path = "leetcode/lc_0101_symmetric_tree.rs"
+
+[[example]]
+name = "lc_0103_zigzag_level_order"
+path = "leetcode/lc_0103_zigzag_level_order.rs"
+
+[[example]]
+name = "lc_0104_max_depth_binary_tree"
+path = "leetcode/lc_0104_max_depth_binary_tree.rs"
+
+[[example]]
+name = "lc_0105_construct_tree_preorder_inorder"
+path = "leetcode/lc_0105_construct_tree_preorder_inorder.rs"
+
+[[example]]
+name = "lc_0106_construct_tree_inorder_postorder"
+path = "leetcode/lc_0106_construct_tree_inorder_postorder.rs"
+
+[[example]]
+name = "lc_0107_level_order_bottom"
+path = "leetcode/lc_0107_level_order_bottom.rs"
+
+[[example]]
+name = "lc_0108_sorted_array_to_bst"
+path = "leetcode/lc_0108_sorted_array_to_bst.rs"
+
+[[example]]
+name = "lc_0109_sorted_list_to_bst"
+path = "leetcode/lc_0109_sorted_list_to_bst.rs"
+
+[[example]]
+name = "lc_0110_balanced_binary_tree"
+path = "leetcode/lc_0110_balanced_binary_tree.rs"
+
+[[example]]
+name = "lc_0111_min_depth_binary_tree"
+path = "leetcode/lc_0111_min_depth_binary_tree.rs"
+
+[[example]]
+name = "lc_0112_path_sum"
+path = "leetcode/lc_0112_path_sum.rs"
+
+[[example]]
+name = "lc_0113_path_sum_ii"
+path = "leetcode/lc_0113_path_sum_ii.rs"
+
+[[example]]
+name = "lc_0114_flatten_binary_tree"
+path = "leetcode/lc_0114_flatten_binary_tree.rs"
+
+[[example]]
+name = "lc_0115_distinct_subsequences"
+path = "leetcode/lc_0115_distinct_subsequences.rs"
+
+[[example]]
+name = "lc_0116_populating_next_right"
+path = "leetcode/lc_0116_populating_next_right.rs"
+
+[[example]]
+name = "lc_0117_populating_next_right_ii"
+path = "leetcode/lc_0117_populating_next_right_ii.rs"
+
+[[example]]
+name = "lc_0118_pascals_triangle"
+path = "leetcode/lc_0118_pascals_triangle.rs"
+
+[[example]]
+name = "lc_0119_pascals_triangle_ii"
+path = "leetcode/lc_0119_pascals_triangle_ii.rs"
+
+[[example]]
+name = "lc_0120_triangle"
+path = "leetcode/lc_0120_triangle.rs"
+
+[[example]]
+name = "lc_0123_best_time_stock_iii"
+path = "leetcode/lc_0123_best_time_stock_iii.rs"
+
+[[example]]
+name = "lc_0124_binary_tree_max_path_sum"
+path = "leetcode/lc_0124_binary_tree_max_path_sum.rs"
+
+[[example]]
+name = "lc_0125_valid_palindrome"
+path = "leetcode/lc_0125_valid_palindrome.rs"
+
+[[example]]
+name = "lc_0126_word_ladder_ii"
+path = "leetcode/lc_0126_word_ladder_ii.rs"
+
+[[example]]
+name = "lc_0127_word_ladder"
+path = "leetcode/lc_0127_word_ladder.rs"
+
+[[example]]
+name = "lc_0128_longest_consecutive"
+path = "leetcode/lc_0128_longest_consecutive.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

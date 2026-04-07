@@ -33,15 +33,19 @@
 //   remainder -> first index to detect subarray sums divisible by k
 // - Sentinel seeding: `mod_map.insert(0, -1)` handles subarrays starting
 //   at index 0 without special-casing
+// - Adaptive data structure (AI solution): `Vec<bool>` for small k (direct
+//   index lookup, no hashing) vs `HashSet` for large k (bounded memory)
+// - Delayed insertion (`prevsum`): inserts the *previous* iteration's
+//   remainder, guaranteeing subarray length >= 2 without index tracking
 //   (Previously covered: HashMap get -> lc_0001, enumerate -> lc_0045,
 //    entry or_insert -> lc_0380, as i32 cast -> lc_0004)
 //
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
-// My solution:  743.88ms (avg 7.43us)
-// AI solution:  622.89ms (avg 6.22us)
-// -> AI solution is 1.19x faster
-// Reason: AI uses or_insert to atomically check-and-store the first
-//   occurrence, avoiding the if-let / else branch on every iteration.
+// My solution:  760.46ms (avg 7.60us)
+// AI solution:  81.72ms (avg 817ns)
+// -> AI solution is 9.31x faster
+// Reason: Vec<bool> direct-index lookup for small k avoids all hashing;
+//   delayed-insertion trick eliminates index tracking overhead.
 
 /// My solution module — prefix sum mod k with HashMap.
 ///
@@ -93,8 +97,17 @@ mod my_solution {
 ///
 /// Time:  O(n)
 /// Space: O(min(n, k))
+/// AI solution module — adaptive Vec<bool> / HashSet with delayed insertion.
+///
+/// For small k (< 500_000), uses `Vec<bool>` for O(1) direct-index lookup
+/// instead of hashing. For large k, falls back to `HashSet`.
+/// Inserts the *previous* remainder (`prevsum`) each iteration, which
+/// guarantees subarray length >= 2 without tracking indices.
+///
+/// Time:  O(n)
+/// Space: O(min(n, k))
 mod ai_solution {
-    use std::collections::HashMap;
+    use std::collections::HashSet;
 
     pub struct Solution;
 
@@ -110,17 +123,31 @@ mod ai_solution {
         ///
         /// `true` if such a subarray exists
         pub fn check_subarray_sum(nums: Vec<i32>, k: i32) -> bool {
-            let mut first_seen: HashMap<i32, usize> = HashMap::new();
-            first_seen.insert(0, 0); // remainder 0 at virtual index 0 (before first element)
-            let mut prefix = 0;
-            for (i, &num) in nums.iter().enumerate() {
-                prefix += num;
-                let rem = prefix % k;
-                // or_insert only inserts if key is absent, preserving earliest index
-                let earliest = *first_seen.entry(rem).or_insert(i + 1);
-                // i + 1 is current 1-based index; gap of >= 2 means subarray length >= 2
-                if i + 1 - earliest >= 2 {
-                    return true;
+            if k < 500_000 {
+                // Small k: use Vec<bool> for direct index lookup (no hashing)
+                let mut sum = 0i32;
+                let mut prevsum = 0usize;
+                let mut freq = vec![false; k as usize];
+                for num in nums {
+                    sum += num;
+                    if sum >= k { sum %= k; }
+                    if freq[sum as usize] { return true; }
+                    // Insert previous remainder: ensures subarray length >= 2
+                    freq[prevsum] = true;
+                    prevsum = sum as usize;
+                }
+            } else {
+                // Large k: use HashSet to avoid huge Vec allocation
+                let mut sum = 0i32;
+                let mut prevsum = 0i32;
+                let mut hmap = HashSet::new();
+                for num in nums {
+                    sum += num;
+                    if sum >= k { sum %= k; }
+                    if hmap.contains(&sum) { return true; }
+                    // Insert previous remainder: ensures subarray length >= 2
+                    hmap.insert(prevsum);
+                    prevsum = sum;
                 }
             }
             false

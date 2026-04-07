@@ -68,6 +68,22 @@ name = "lc_0014_longest_common_prefix"
 path = "leetcode/lc_0014_longest_common_prefix.rs"
 
 [[example]]
+name = "lc_0015_3sum"
+path = "leetcode/lc_0015_3sum.rs"
+
+[[example]]
+name = "lc_0016_3sum_closest"
+path = "leetcode/lc_0016_3sum_closest.rs"
+
+[[example]]
+name = "lc_0017_letter_combinations"
+path = "leetcode/lc_0017_letter_combinations.rs"
+
+[[example]]
+name = "lc_0018_4sum"
+path = "leetcode/lc_0018_4sum.rs"
+
+[[example]]
 name = "lc_0021_merge_two_sorted_lists"
 path = "leetcode/lc_0021_merge_two_sorted_lists.rs"
 

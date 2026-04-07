@@ -65,6 +65,7 @@ impl Node {
 ///
 /// Time:  O(n)
 /// Space: O(h) recursion depth, where h = tree height
+/// No Rust option in Leetcode
 mod my_solution {
     use crate::Node;
 

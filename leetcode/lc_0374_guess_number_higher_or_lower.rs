@@ -15,6 +15,11 @@
 //
 // Return the number that I picked.
 //
+// LeetCode Rust signature:
+//   unsafe fn guess(num: i32) -> i32 {}
+//   impl Solution { unsafe fn guessNumber(n: i32) -> i32 {} }
+// Note: we use safe fn guess() locally; guessNumber matches LeetCode's camelCase.
+//
 // Examples:
 //   n = 10, pick = 6 -> 6
 //   n = 1,  pick = 1 -> 1
@@ -69,6 +74,7 @@ fn guess(num: i32) -> i32 {
 ///
 /// Time:  O(log n)
 /// Space: O(1)
+#[allow(non_snake_case)]
 mod my_solution {
     use super::guess;
 
@@ -84,7 +90,7 @@ mod my_solution {
         /// # Returns
         ///
         /// The picked number
-        pub fn guess_number(n: i32) -> i32 {
+        pub fn guessNumber(n: i32) -> i32 {
             let mut left = 1;
             let mut right = n;
             while left <= right {
@@ -115,6 +121,7 @@ mod my_solution {
 ///
 /// Time:  O(log n)
 /// Space: O(1)
+#[allow(non_snake_case)]
 mod ai_solution {
     use super::guess;
     use std::cmp::Ordering;
@@ -131,7 +138,7 @@ mod ai_solution {
         /// # Returns
         ///
         /// The picked number
-        pub fn guess_number(n: i32) -> i32 {
+        pub fn guessNumber(n: i32) -> i32 {
             let mut lo = 1_i64;
             let mut hi = n as i64;
             while lo <= hi {
@@ -155,14 +162,14 @@ fn main() {
     println!("--- My Solution ---");
     for &(n, pick, expected) in &test_cases {
         set_pick(pick);
-        let result = my_solution::Solution::guess_number(n);
+        let result = my_solution::Solution::guessNumber(n);
         println!("  n={n}, pick={pick} -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for &(n, pick, expected) in &test_cases {
         set_pick(pick);
-        let result = ai_solution::Solution::guess_number(n);
+        let result = ai_solution::Solution::guessNumber(n);
         println!("  n={n}, pick={pick} -> {result} (expected {expected})");
     }
 }
@@ -171,7 +178,7 @@ fn main() {
 mod tests {
     use super::set_pick;
 
-    macro_rules! test_guess_number {
+    macro_rules! test_guessNumber {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
                 use super::super::set_pick;
@@ -180,50 +187,50 @@ mod tests {
                 #[test]
                 fn test_pick_6_of_10() {
                     set_pick(6);
-                    assert_eq!(Solution::guess_number(10), 6);
+                    assert_eq!(Solution::guessNumber(10), 6);
                 }
 
                 #[test]
                 fn test_pick_1_of_1() {
                     set_pick(1);
-                    assert_eq!(Solution::guess_number(1), 1);
+                    assert_eq!(Solution::guessNumber(1), 1);
                 }
 
                 #[test]
                 fn test_pick_1_of_2() {
                     set_pick(1);
-                    assert_eq!(Solution::guess_number(2), 1);
+                    assert_eq!(Solution::guessNumber(2), 1);
                 }
 
                 #[test]
                 fn test_pick_at_n() {
                     set_pick(100);
-                    assert_eq!(Solution::guess_number(100), 100);
+                    assert_eq!(Solution::guessNumber(100), 100);
                 }
 
                 #[test]
                 fn test_pick_at_1() {
                     set_pick(1);
-                    assert_eq!(Solution::guess_number(100), 1);
+                    assert_eq!(Solution::guessNumber(100), 1);
                 }
 
                 #[test]
                 fn test_pick_middle() {
                     set_pick(50);
-                    assert_eq!(Solution::guess_number(100), 50);
+                    assert_eq!(Solution::guessNumber(100), 50);
                 }
 
                 #[test]
                 fn test_large_n() {
                     set_pick(1_000_000);
-                    assert_eq!(Solution::guess_number(2_000_000), 1_000_000);
+                    assert_eq!(Solution::guessNumber(2_000_000), 1_000_000);
                 }
             }
         };
     }
 
-    test_guess_number!(my_tests, crate::my_solution::Solution);
-    test_guess_number!(ai_tests, crate::ai_solution::Solution);
+    test_guessNumber!(my_tests, crate::my_solution::Solution);
+    test_guessNumber!(ai_tests, crate::ai_solution::Solution);
 
     #[test]
     fn bench_comparison() {
@@ -241,7 +248,7 @@ mod tests {
         for _ in 0..iterations {
             for &(n, pick) in &inputs {
                 set_pick(pick);
-                std::hint::black_box(crate::my_solution::Solution::guess_number(
+                std::hint::black_box(crate::my_solution::Solution::guessNumber(
                     std::hint::black_box(n),
                 ));
             }
@@ -252,7 +259,7 @@ mod tests {
         for _ in 0..iterations {
             for &(n, pick) in &inputs {
                 set_pick(pick);
-                std::hint::black_box(crate::ai_solution::Solution::guess_number(
+                std::hint::black_box(crate::ai_solution::Solution::guessNumber(
                     std::hint::black_box(n),
                 ));
             }

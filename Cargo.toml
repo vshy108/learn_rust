@@ -691,6 +691,106 @@ path = "leetcode/lc_0127_word_ladder.rs"
 name = "lc_0128_longest_consecutive"
 path = "leetcode/lc_0128_longest_consecutive.rs"
 
+[[example]]
+name = "lc_0129_sum_root_to_leaf"
+path = "leetcode/lc_0129_sum_root_to_leaf.rs"
+
+[[example]]
+name = "lc_0130_surrounded_regions"
+path = "leetcode/lc_0130_surrounded_regions.rs"
+
+[[example]]
+name = "lc_0131_palindrome_partitioning"
+path = "leetcode/lc_0131_palindrome_partitioning.rs"
+
+[[example]]
+name = "lc_0132_palindrome_partitioning_ii"
+path = "leetcode/lc_0132_palindrome_partitioning_ii.rs"
+
+[[example]]
+name = "lc_0133_clone_graph"
+path = "leetcode/lc_0133_clone_graph.rs"
+
+[[example]]
+name = "lc_0136_single_number"
+path = "leetcode/lc_0136_single_number.rs"
+
+[[example]]
+name = "lc_0137_single_number_ii"
+path = "leetcode/lc_0137_single_number_ii.rs"
+
+[[example]]
+name = "lc_0138_copy_list_random_pointer"
+path = "leetcode/lc_0138_copy_list_random_pointer.rs"
+
+[[example]]
+name = "lc_0139_word_break"
+path = "leetcode/lc_0139_word_break.rs"
+
+[[example]]
+name = "lc_0140_word_break_ii"
+path = "leetcode/lc_0140_word_break_ii.rs"
+
+[[example]]
+name = "lc_0141_linked_list_cycle"
+path = "leetcode/lc_0141_linked_list_cycle.rs"
+
+[[example]]
+name = "lc_0143_reorder_list"
+path = "leetcode/lc_0143_reorder_list.rs"
+
+[[example]]
+name = "lc_0144_preorder_traversal"
+path = "leetcode/lc_0144_preorder_traversal.rs"
+
+[[example]]
+name = "lc_0145_postorder_traversal"
+path = "leetcode/lc_0145_postorder_traversal.rs"
+
+[[example]]
+name = "lc_0146_lru_cache"
+path = "leetcode/lc_0146_lru_cache.rs"
+
+[[example]]
+name = "lc_0147_insertion_sort_list"
+path = "leetcode/lc_0147_insertion_sort_list.rs"
+
+[[example]]
+name = "lc_0148_sort_list"
+path = "leetcode/lc_0148_sort_list.rs"
+
+[[example]]
+name = "lc_0149_max_points_on_line"
+path = "leetcode/lc_0149_max_points_on_line.rs"
+
+[[example]]
+name = "lc_0150_eval_rpn"
+path = "leetcode/lc_0150_eval_rpn.rs"
+
+[[example]]
+name = "lc_0152_max_product_subarray"
+path = "leetcode/lc_0152_max_product_subarray.rs"
+
+[[example]]
+name = "lc_0153_find_min_rotated"
+path = "leetcode/lc_0153_find_min_rotated.rs"
+
+[[example]]
+name = "lc_0154_find_min_rotated_ii"
+path = "leetcode/lc_0154_find_min_rotated_ii.rs"
+
+[[example]]
+name = "lc_0155_min_stack"
+path = "leetcode/lc_0155_min_stack.rs"
+
+[[example]]
+name = "lc_0160_intersection_two_lists"
+path = "leetcode/lc_0160_intersection_two_lists.rs"
+
+[[example]]
+name = "lc_0162_find_peak_element"
+path = "leetcode/lc_0162_find_peak_element.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

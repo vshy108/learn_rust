@@ -791,6 +791,106 @@ path = "leetcode/lc_0160_intersection_two_lists.rs"
 name = "lc_0162_find_peak_element"
 path = "leetcode/lc_0162_find_peak_element.rs"
 
+[[example]]
+name = "lc_0164_maximum_gap"
+path = "leetcode/lc_0164_maximum_gap.rs"
+
+[[example]]
+name = "lc_0165_compare_version_numbers"
+path = "leetcode/lc_0165_compare_version_numbers.rs"
+
+[[example]]
+name = "lc_0166_fraction_to_recurring_decimal"
+path = "leetcode/lc_0166_fraction_to_recurring_decimal.rs"
+
+[[example]]
+name = "lc_0167_two_sum_ii"
+path = "leetcode/lc_0167_two_sum_ii.rs"
+
+[[example]]
+name = "lc_0168_excel_sheet_column_title"
+path = "leetcode/lc_0168_excel_sheet_column_title.rs"
+
+[[example]]
+name = "lc_0171_excel_sheet_column_number"
+path = "leetcode/lc_0171_excel_sheet_column_number.rs"
+
+[[example]]
+name = "lc_0172_factorial_trailing_zeroes"
+path = "leetcode/lc_0172_factorial_trailing_zeroes.rs"
+
+[[example]]
+name = "lc_0173_bst_iterator"
+path = "leetcode/lc_0173_bst_iterator.rs"
+
+[[example]]
+name = "lc_0174_dungeon_game"
+path = "leetcode/lc_0174_dungeon_game.rs"
+
+[[example]]
+name = "lc_0179_largest_number"
+path = "leetcode/lc_0179_largest_number.rs"
+
+[[example]]
+name = "lc_0187_repeated_dna_sequences"
+path = "leetcode/lc_0187_repeated_dna_sequences.rs"
+
+[[example]]
+name = "lc_0188_best_time_stock_iv"
+path = "leetcode/lc_0188_best_time_stock_iv.rs"
+
+[[example]]
+name = "lc_0190_reverse_bits"
+path = "leetcode/lc_0190_reverse_bits.rs"
+
+[[example]]
+name = "lc_0191_number_of_1_bits"
+path = "leetcode/lc_0191_number_of_1_bits.rs"
+
+[[example]]
+name = "lc_0198_house_robber"
+path = "leetcode/lc_0198_house_robber.rs"
+
+[[example]]
+name = "lc_0199_right_side_view"
+path = "leetcode/lc_0199_right_side_view.rs"
+
+[[example]]
+name = "lc_0200_number_of_islands"
+path = "leetcode/lc_0200_number_of_islands.rs"
+
+[[example]]
+name = "lc_0201_bitwise_and_range"
+path = "leetcode/lc_0201_bitwise_and_range.rs"
+
+[[example]]
+name = "lc_0202_happy_number"
+path = "leetcode/lc_0202_happy_number.rs"
+
+[[example]]
+name = "lc_0203_remove_linked_list_elements"
+path = "leetcode/lc_0203_remove_linked_list_elements.rs"
+
+[[example]]
+name = "lc_0204_count_primes"
+path = "leetcode/lc_0204_count_primes.rs"
+
+[[example]]
+name = "lc_0207_course_schedule"
+path = "leetcode/lc_0207_course_schedule.rs"
+
+[[example]]
+name = "lc_0208_implement_trie"
+path = "leetcode/lc_0208_implement_trie.rs"
+
+[[example]]
+name = "lc_0209_min_size_subarray_sum"
+path = "leetcode/lc_0209_min_size_subarray_sum.rs"
+
+[[example]]
+name = "lc_0210_course_schedule_ii"
+path = "leetcode/lc_0210_course_schedule_ii.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

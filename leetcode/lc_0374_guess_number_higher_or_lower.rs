@@ -27,6 +27,20 @@
 // Run:  cargo run --example lc_0374_guess_number_higher_or_lower
 // Test: cargo test --example lc_0374_guess_number_higher_or_lower
 // Bench: cargo test --example lc_0374_guess_number_higher_or_lower bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - i64 widening to avoid i32 midpoint overflow: cast n to i64, compute
+//   mid in 64-bit, cast back to i32 for the API call
+//   (Previously covered: match on Ordering -> lc_0374 (introduced above in
+//    the guess() helper), binary search -> lc_0004, thread_local! + Cell
+//    -> lc_0278, as usize/as i32 casts -> lc_0004)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  51.90ms (avg 519ns)
+// AI solution:  55.03ms (avg 550ns)
+// -> My solution is 1.06x faster
+// Reason: pure i32 arithmetic avoids the i32 <-> i64 casts on every
+//   iteration that the AI solution pays for the widening safety net.
 
 /// Simulates the `guess` API. The picked number is stored in a
 /// thread-local for safe per-thread configuration in tests.
@@ -51,10 +65,10 @@ fn guess(num: i32) -> i32 {
     }
 }
 
-/// My solution module.
+/// My solution module — classic binary search with inclusive bounds.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(log n)
+/// Space: O(1)
 mod my_solution {
     use super::guess;
 
@@ -70,29 +84,40 @@ mod my_solution {
         /// # Returns
         ///
         /// The picked number
-        #[allow(unused_variables)]
         pub fn guess_number(n: i32) -> i32 {
-            // left = 1; right = n
-            // while left <= right
-            //   mid = left + (right - left) / 2
-            //   result = guess(mid)
-            //   if result == 0: return mid
-            //   elsif result < 0: right = mid - 1
-            //   else: left = mid + 1
-            //   end
-            // end
-            // -1
-            todo!()
+            let mut left = 1;
+            let mut right = n;
+            while left <= right {
+                // Avoids overflow: left + (right - left) / 2 instead of (left + right) / 2
+                let mid = left + (right - left) / 2;
+                let result = guess(mid);
+                if result == 0 {
+                    return mid;
+                } else if result < 0 {
+                    // guess returned -1: our guess is too high
+                    right = mid - 1;
+                } else {
+                    // guess returned 1: our guess is too low
+                    left = mid + 1;
+                }
+            }
+            // Should never reach here given valid constraints (1 <= pick <= n)
+            -1
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — binary search using `match` on `Ordering`.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Same O(log n) algorithm but uses `std::cmp::Ordering` matching
+/// instead of numeric comparison, making the intent clearer and
+/// avoiding the subtle sign semantics of -1 / 0 / 1.
+///
+/// Time:  O(log n)
+/// Space: O(1)
 mod ai_solution {
     use super::guess;
+    use std::cmp::Ordering;
 
     pub struct Solution;
 
@@ -106,9 +131,20 @@ mod ai_solution {
         /// # Returns
         ///
         /// The picked number
-        #[allow(unused_variables)]
         pub fn guess_number(n: i32) -> i32 {
-            todo!()
+            let mut lo = 1_i64;
+            let mut hi = n as i64;
+            while lo <= hi {
+                let mid = lo + (hi - lo) / 2;
+                // Re-interpret the i32 result as Ordering for pattern matching.
+                // guess() returns -1 (too high), 0 (correct), 1 (too low).
+                match guess(mid as i32).cmp(&0) {
+                    Ordering::Equal => return mid as i32,
+                    Ordering::Less => hi = mid - 1,   // guess too high
+                    Ordering::Greater => lo = mid + 1, // guess too low
+                }
+            }
+            -1
         }
     }
 }

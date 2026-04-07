@@ -17,12 +17,29 @@
 // Run:  cargo run --example lc_0409_longest_palindrome
 // Test: cargo test --example lc_0409_longest_palindrome
 // Bench: cargo test --example lc_0409_longest_palindrome bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - `bool as i32` cast: `has_odd as i32` converts true->1 / false->0,
+//   replacing an if-else branch with branchless arithmetic
+// - Fixed-size array `[0i32; 128]` as frequency table: stack-allocated
+//   lookup indexed by ASCII byte value, no hashing overhead
+//   (Previously covered: HashMap entry API -> lc_0380, as_bytes() -> lc_0005,
+//    HashMap frequency counting -> lc_0076)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  824.51ms (avg 8.24us)
+// AI solution:  451.44ms (avg 4.51us)
+// -> AI solution is 1.83x faster
+// Reason: fixed-size array avoids HashMap heap allocation and hash
+//   computation; branchless `has_odd as i32` saves a conditional.
 
-/// My solution module.
+/// My solution module — HashMap frequency counting.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n)
+/// Space: O(k) where k = number of distinct characters
 mod my_solution {
+    use std::collections::HashMap;
+
     pub struct Solution;
 
     impl Solution {
@@ -36,24 +53,35 @@ mod my_solution {
         ///
         /// Length of the longest palindrome that can be built
         pub fn longest_palindrome(s: String) -> i32 {
-            // count = Hash.new(0)
-            // s.each_char { |c| count[c] += 1 }
-            // length = 0; odd_found = false
-            // count.each_value do |freq|
-            //   length += freq / 2 * 2
-            //   odd_found = true if freq.odd?
-            // end
-            // length += 1 if odd_found
-            // length
-            todo!()
+            let mut count: HashMap<u8, i32> = HashMap::new();
+            for &byte in s.as_bytes() {
+                *count.entry(byte).or_insert(0) += 1;
+            }
+            let mut length = 0;
+            let mut odd_found = false;
+            for &freq in count.values() {
+                // Take the biggest even chunk from each frequency
+                length += freq / 2 * 2;
+                if freq % 2 != 0 {
+                    odd_found = true;
+                }
+            }
+            // One odd-count char can sit in the center
+            if odd_found {
+                length += 1;
+            }
+            length
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — fixed-size array counting (no HashMap).
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses a `[i32; 128]` array indexed by ASCII byte value, avoiding
+/// HashMap overhead entirely. Only ASCII letters appear per constraints.
+///
+/// Time:  O(n)
+/// Space: O(1) (128-element fixed array)
 mod ai_solution {
     pub struct Solution;
 
@@ -68,7 +96,20 @@ mod ai_solution {
         ///
         /// Length of the longest palindrome that can be built
         pub fn longest_palindrome(s: String) -> i32 {
-            todo!()
+            // Fixed-size array avoids heap allocation and hash overhead.
+            let mut freq = [0i32; 128];
+            for &b in s.as_bytes() {
+                freq[b as usize] += 1;
+            }
+            let mut length = 0;
+            let mut has_odd = false;
+            for &f in &freq {
+                length += f / 2 * 2;
+                if f % 2 != 0 {
+                    has_odd = true;
+                }
+            }
+            length + has_odd as i32
         }
     }
 }

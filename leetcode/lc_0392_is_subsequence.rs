@@ -24,11 +24,26 @@
 // Run:  cargo run --example lc_0392_is_subsequence
 // Test: cargo test --example lc_0392_is_subsequence
 // Bench: cargo test --example lc_0392_is_subsequence bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - .bytes() iterator: yields owned `u8` values (no lifetime tie to the
+//   String), unlike .as_bytes() which borrows &[u8]
+// - Option state machine: `let mut current = iter.next()` + `if let
+//   Some(target)` to drive a manual iterator forward only on match
+//   (Previously covered: as_bytes() -> lc_0005, two-pointer scan -> lc_0003,
+//    is_empty() guard -> lc_0014)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  73.27ms (avg 732ns)
+// AI solution:  85.69ms (avg 856ns)
+// -> My solution is 1.17x faster
+// Reason: index-based as_bytes() approach avoids the Option<u8> wrapping
+//   overhead per iteration that the .bytes() iterator incurs.
 
-/// My solution module.
+/// My solution module — two-pointer scan.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n) where n = t.len()
+/// Space: O(1)
 mod my_solution {
     pub struct Solution;
 
@@ -44,23 +59,32 @@ mod my_solution {
         ///
         /// `true` if `s` is a subsequence of `t`, `false` otherwise
         pub fn is_subsequence(s: String, t: String) -> bool {
-            // return true if s.empty?
-            // i = 0; j = 0
-            // while j < t.length
-            //   i += 1 if s[i] == t[j]
-            //   return true if i == s.length
-            //   j += 1
-            // end
-            // false
-            todo!()
+            if s.is_empty() {
+                return true;
+            }
+            let s = s.as_bytes();
+            let t = t.as_bytes();
+            let mut i = 0;
+            for &byte in t {
+                if s[i] == byte {
+                    i += 1;
+                    if i == s.len() {
+                        return true;
+                    }
+                }
+            }
+            false
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — iterator-based approach.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses `t.as_bytes().iter()` with a mutable iterator over `s` bytes,
+/// advancing the `s` iterator only on a match.
+///
+/// Time:  O(n) where n = t.len()
+/// Space: O(1)
 mod ai_solution {
     pub struct Solution;
 
@@ -76,7 +100,20 @@ mod ai_solution {
         ///
         /// `true` if `s` is a subsequence of `t`, `false` otherwise
         pub fn is_subsequence(s: String, t: String) -> bool {
-            todo!()
+            // Create a peekable iterator over s bytes; advance only on match.
+            let mut s_iter = s.bytes();
+            let mut current = s_iter.next();
+            for byte in t.bytes() {
+                if let Some(target) = current {
+                    if byte == target {
+                        current = s_iter.next();
+                    }
+                } else {
+                    break; // already matched all of s
+                }
+            }
+            // current is None when all bytes of s have been matched
+            current.is_none()
         }
     }
 }

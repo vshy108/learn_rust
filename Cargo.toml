@@ -891,6 +891,46 @@ path = "leetcode/lc_0209_min_size_subarray_sum.rs"
 name = "lc_0210_course_schedule_ii"
 path = "leetcode/lc_0210_course_schedule_ii.rs"
 
+[[example]]
+name = "lc_0211_design_add_and_search_words"
+path = "leetcode/lc_0211_design_add_and_search_words.rs"
+
+[[example]]
+name = "lc_0212_word_search_ii"
+path = "leetcode/lc_0212_word_search_ii.rs"
+
+[[example]]
+name = "lc_0213_house_robber_ii"
+path = "leetcode/lc_0213_house_robber_ii.rs"
+
+[[example]]
+name = "lc_0214_shortest_palindrome"
+path = "leetcode/lc_0214_shortest_palindrome.rs"
+
+[[example]]
+name = "lc_0215_kth_largest_element"
+path = "leetcode/lc_0215_kth_largest_element.rs"
+
+[[example]]
+name = "lc_0216_combination_sum_iii"
+path = "leetcode/lc_0216_combination_sum_iii.rs"
+
+[[example]]
+name = "lc_0217_contains_duplicate"
+path = "leetcode/lc_0217_contains_duplicate.rs"
+
+[[example]]
+name = "lc_0218_the_skyline_problem"
+path = "leetcode/lc_0218_the_skyline_problem.rs"
+
+[[example]]
+name = "lc_0220_contains_duplicate_iii"
+path = "leetcode/lc_0220_contains_duplicate_iii.rs"
+
+[[example]]
+name = "lc_0221_maximal_square"
+path = "leetcode/lc_0221_maximal_square.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

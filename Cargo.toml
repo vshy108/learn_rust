@@ -487,6 +487,110 @@ path = "leetcode/lc_2256_minimum_average_difference.rs"
 name = "lc_3437_permutations_iii"
 path = "leetcode/lc_3437_permutations_iii.rs"
 
+[[example]]
+name = "lc_0065_valid_number"
+path = "leetcode/lc_0065_valid_number.rs"
+
+[[example]]
+name = "lc_0068_text_justification"
+path = "leetcode/lc_0068_text_justification.rs"
+
+[[example]]
+name = "lc_0071_simplify_path"
+path = "leetcode/lc_0071_simplify_path.rs"
+
+[[example]]
+name = "lc_0072_edit_distance"
+path = "leetcode/lc_0072_edit_distance.rs"
+
+[[example]]
+name = "lc_0075_sort_colors"
+path = "leetcode/lc_0075_sort_colors.rs"
+
+[[example]]
+name = "lc_0077_combinations"
+path = "leetcode/lc_0077_combinations.rs"
+
+[[example]]
+name = "lc_0078_subsets"
+path = "leetcode/lc_0078_subsets.rs"
+
+[[example]]
+name = "lc_0081_search_rotated_sorted_ii"
+path = "leetcode/lc_0081_search_rotated_sorted_ii.rs"
+
+[[example]]
+name = "lc_0082_remove_duplicates_sorted_list_ii"
+path = "leetcode/lc_0082_remove_duplicates_sorted_list_ii.rs"
+
+[[example]]
+name = "lc_0083_remove_duplicates_sorted_list"
+path = "leetcode/lc_0083_remove_duplicates_sorted_list.rs"
+
+[[example]]
+name = "lc_0084_largest_rectangle_histogram"
+path = "leetcode/lc_0084_largest_rectangle_histogram.rs"
+
+[[example]]
+name = "lc_0085_maximal_rectangle"
+path = "leetcode/lc_0085_maximal_rectangle.rs"
+
+[[example]]
+name = "lc_0086_partition_list"
+path = "leetcode/lc_0086_partition_list.rs"
+
+[[example]]
+name = "lc_0087_scramble_string"
+path = "leetcode/lc_0087_scramble_string.rs"
+
+[[example]]
+name = "lc_0089_gray_code"
+path = "leetcode/lc_0089_gray_code.rs"
+
+[[example]]
+name = "lc_0090_subsets_ii"
+path = "leetcode/lc_0090_subsets_ii.rs"
+
+[[example]]
+name = "lc_0091_decode_ways"
+path = "leetcode/lc_0091_decode_ways.rs"
+
+[[example]]
+name = "lc_0092_reverse_linked_list_ii"
+path = "leetcode/lc_0092_reverse_linked_list_ii.rs"
+
+[[example]]
+name = "lc_0093_restore_ip_addresses"
+path = "leetcode/lc_0093_restore_ip_addresses.rs"
+
+[[example]]
+name = "lc_0094_binary_tree_inorder"
+path = "leetcode/lc_0094_binary_tree_inorder.rs"
+
+[[example]]
+name = "lc_0095_unique_bst_ii"
+path = "leetcode/lc_0095_unique_bst_ii.rs"
+
+[[example]]
+name = "lc_0096_unique_bst"
+path = "leetcode/lc_0096_unique_bst.rs"
+
+[[example]]
+name = "lc_0097_interleaving_string"
+path = "leetcode/lc_0097_interleaving_string.rs"
+
+[[example]]
+name = "lc_0098_validate_bst"
+path = "leetcode/lc_0098_validate_bst.rs"
+
+[[example]]
+name = "lc_0099_recover_bst"
+path = "leetcode/lc_0099_recover_bst.rs"
+
+[[example]]
+name = "lc_0100_same_tree"
+path = "leetcode/lc_0100_same_tree.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

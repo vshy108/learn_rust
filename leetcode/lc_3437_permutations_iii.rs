@@ -63,12 +63,7 @@ mod my_solution {
             result
         }
 
-        fn dfs(
-            n: i32,
-            used: &mut Vec<bool>,
-            current: &mut Vec<i32>,
-            result: &mut Vec<Vec<i32>>,
-        ) {
+        fn dfs(n: i32, used: &mut Vec<bool>, current: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {
             if current.len() == n as usize {
                 result.push(current.clone());
                 return;

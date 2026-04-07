@@ -110,10 +110,7 @@ mod my_solution {
                 }
                 // Also include collinear points between current and next
                 for candidate in 0..n {
-                    if candidate != current
-                        && candidate != next
-                        && !on_hull.contains(&candidate)
-                    {
+                    if candidate != current && candidate != next && !on_hull.contains(&candidate) {
                         if cross(&trees[current], &trees[next], &trees[candidate]) == 0 {
                             hull_indices.push(candidate);
                             on_hull.insert(candidate);
@@ -125,10 +122,7 @@ mod my_solution {
                     break;
                 }
             }
-            hull_indices
-                .into_iter()
-                .map(|i| trees[i].clone())
-                .collect()
+            hull_indices.into_iter().map(|i| trees[i].clone()).collect()
         }
     }
 }
@@ -198,10 +192,7 @@ mod ai_solution {
             for &idx in lower.iter().chain(upper.iter()) {
                 result_set.insert(idx);
             }
-            result_set
-                .into_iter()
-                .map(|i| trees[i].clone())
-                .collect()
+            result_set.into_iter().map(|i| trees[i].clone()).collect()
         }
     }
 }

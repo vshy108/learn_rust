@@ -140,7 +140,7 @@ mod ai_solution {
                 // guess() returns -1 (too high), 0 (correct), 1 (too low).
                 match guess(mid as i32).cmp(&0) {
                     Ordering::Equal => return mid as i32,
-                    Ordering::Less => hi = mid - 1,   // guess too high
+                    Ordering::Less => hi = mid - 1, // guess too high
                     Ordering::Greater => lo = mid + 1, // guess too low
                 }
             }

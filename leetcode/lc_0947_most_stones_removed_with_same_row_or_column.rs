@@ -94,10 +94,7 @@ mod my_solution {
             }
 
             // Count unique components among stones
-            let components: HashSet<i32> = stones
-                .iter()
-                .map(|s| find(&mut parent, s[0]))
-                .collect();
+            let components: HashSet<i32> = stones.iter().map(|s| find(&mut parent, s[0])).collect();
             stones.len() as i32 - components.len() as i32
         }
     }

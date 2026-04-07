@@ -1387,6 +1387,22 @@ path = "leetcode/lc_0319_bulb_switcher.rs"
 name = "lc_0320_generalized_abbreviation"
 path = "leetcode/lc_0320_generalized_abbreviation.rs"
 
+[[example]]
+name = "lc_0321_create_maximum_number"
+path = "leetcode/lc_0321_create_maximum_number.rs"
+
+[[example]]
+name = "lc_0322_coin_change"
+path = "leetcode/lc_0322_coin_change.rs"
+
+[[example]]
+name = "lc_0323_number_of_connected_components"
+path = "leetcode/lc_0323_number_of_connected_components.rs"
+
+[[example]]
+name = "lc_0324_wiggle_sort_ii"
+path = "leetcode/lc_0324_wiggle_sort_ii.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

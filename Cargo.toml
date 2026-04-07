@@ -1427,6 +1427,46 @@ path = "leetcode/lc_0329_longest_increasing_path_in_a_matrix.rs"
 name = "lc_0330_patching_array"
 path = "leetcode/lc_0330_patching_array.rs"
 
+[[example]]
+name = "lc_0331_verify_preorder_serialization_of_a_binary_tree"
+path = "leetcode/lc_0331_verify_preorder_serialization_of_a_binary_tree.rs"
+
+[[example]]
+name = "lc_0332_reconstruct_itinerary"
+path = "leetcode/lc_0332_reconstruct_itinerary.rs"
+
+[[example]]
+name = "lc_0333_largest_bst_subtree"
+path = "leetcode/lc_0333_largest_bst_subtree.rs"
+
+[[example]]
+name = "lc_0334_increasing_triplet_subsequence"
+path = "leetcode/lc_0334_increasing_triplet_subsequence.rs"
+
+[[example]]
+name = "lc_0335_self_crossing"
+path = "leetcode/lc_0335_self_crossing.rs"
+
+[[example]]
+name = "lc_0336_palindrome_pairs"
+path = "leetcode/lc_0336_palindrome_pairs.rs"
+
+[[example]]
+name = "lc_0337_house_robber_iii"
+path = "leetcode/lc_0337_house_robber_iii.rs"
+
+[[example]]
+name = "lc_0338_counting_bits"
+path = "leetcode/lc_0338_counting_bits.rs"
+
+[[example]]
+name = "lc_0339_nested_list_weight_sum"
+path = "leetcode/lc_0339_nested_list_weight_sum.rs"
+
+[[example]]
+name = "lc_0340_longest_substring_with_at_most_k_distinct_characters"
+path = "leetcode/lc_0340_longest_substring_with_at_most_k_distinct_characters.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

@@ -206,12 +206,6 @@ mod ai_solution {
     }
 }
 
-/// Helper to sort points for comparison (order-independent equality).
-fn sorted_points(mut pts: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
-    pts.sort();
-    pts
-}
-
 fn main() {
     let test_cases: Vec<(Vec<Vec<i32>>, Vec<Vec<i32>>)> = vec![
         (
@@ -246,12 +240,16 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use super::sorted_points;
+    /// Helper to sort points for comparison (order-independent equality).
+    fn sorted_points(mut pts: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        pts.sort();
+        pts
+    }
 
     macro_rules! test_outer_trees {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use super::super::sorted_points;
+                use super::sorted_points;
                 use $solution as Solution;
 
                 #[test]

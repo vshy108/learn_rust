@@ -22,11 +22,26 @@
 // Run:  cargo run --example lc_1672_richest_customer_wealth
 // Test: cargo test --example lc_1672_richest_customer_wealth
 // Bench: cargo test --example lc_1672_richest_customer_wealth bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - `i32::max(self, other)`: method-style max comparison, equivalent to
+//   `std::cmp::max(a, b)` but reads more naturally in a chain
+// - `.iter().map(|r| r.iter().sum::<i32>()).max()`: nested iterator chain
+//   that sums each row then finds the global maximum
+// - `.unwrap_or(0)` on Option<i32>: handles empty iterator case safely
+//   (Previously covered: .iter().sum() -> lc_0724, .max() -> lc_0121)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  124.41ms (avg 1.244us)
+// AI solution:  129.58ms (avg 1.295us)
+// -> My solution is 1.04x faster
+// Reason: nearly identical performance; imperative loop avoids the tiny
+//   overhead of nested iterator adaptors.
 
-/// My solution module.
+/// My solution module — imperative loop.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(m * n)
+/// Space: O(1)
 mod my_solution {
     pub struct Solution;
 
@@ -41,21 +56,22 @@ mod my_solution {
         ///
         /// Maximum total wealth across all customers
         pub fn maximum_wealth(accounts: Vec<Vec<i32>>) -> i32 {
-            // max_wealth = 0
-            // accounts.each do |customer|
-            //   wealth = customer.sum
-            //   max_wealth = [max_wealth, wealth].max
-            // end
-            // max_wealth
-            todo!()
+            let mut max_wealth = 0;
+            for customer in &accounts {
+                let wealth: i32 = customer.iter().sum();
+                max_wealth = max_wealth.max(wealth);
+            }
+            max_wealth
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — iterator chain.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// `.iter().map(sum).max()` in a single expression.
+///
+/// Time:  O(m * n)
+/// Space: O(1)
 mod ai_solution {
     pub struct Solution;
 
@@ -70,7 +86,11 @@ mod ai_solution {
         ///
         /// Maximum total wealth across all customers
         pub fn maximum_wealth(accounts: Vec<Vec<i32>>) -> i32 {
-            todo!()
+            accounts
+                .iter()
+                .map(|customer| customer.iter().sum::<i32>())
+                .max()
+                .unwrap_or(0)
         }
     }
 }

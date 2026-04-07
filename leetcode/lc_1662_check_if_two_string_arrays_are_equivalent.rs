@@ -21,11 +21,27 @@
 // Run:  cargo run --example lc_1662_check_if_two_string_arrays_are_equivalent
 // Test: cargo test --example lc_1662_check_if_two_string_arrays_are_equivalent
 // Bench: cargo test --example lc_1662_check_if_two_string_arrays_are_equivalent bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - `into_iter().collect::<String>()`: consumes Vec<String> and
+//   concatenates all elements into a single owned String
+// - Multi-index pointer walk: (array_idx, byte_idx) pairs to compare
+//   two Vec<String>s byte-by-byte without allocating joined strings
+// - `str::is_empty()` guard: skip zero-length strings to avoid
+//   out-of-bounds on `as_bytes()[0]`
+//   (Previously covered: .as_bytes() -> lc_1047, into_iter() -> lc_0151)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  239.59ms (avg 2.395us)
+// AI solution:  217.97ms (avg 2.179us)
+// -> AI solution is 1.10x faster
+// Reason: O(1) space byte-by-byte walk avoids the allocation overhead
+//   of joining both arrays into Strings.
 
-/// My solution module.
+/// My solution module — join and compare.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n + m) where n, m = total chars in word1, word2
+/// Space: O(n + m) for the joined strings
 mod my_solution {
     pub struct Solution;
 
@@ -41,18 +57,20 @@ mod my_solution {
         ///
         /// true if concatenated arrays are equal
         pub fn array_strings_are_equal(word1: Vec<String>, word2: Vec<String>) -> bool {
-            // str1 = word1.join
-            // str2 = word2.join
-            // str1 == str2
-            todo!()
+            let s1: String = word1.into_iter().collect();
+            let s2: String = word2.into_iter().collect();
+            s1 == s2
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — byte-by-byte comparison without joining.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Walks both arrays simultaneously using (array_index, char_index)
+/// pointers, comparing one byte at a time without allocating.
+///
+/// Time:  O(min(n, m))
+/// Space: O(1)
 mod ai_solution {
     pub struct Solution;
 
@@ -68,7 +86,49 @@ mod ai_solution {
         ///
         /// true if concatenated arrays are equal
         pub fn array_strings_are_equal(word1: Vec<String>, word2: Vec<String>) -> bool {
-            todo!()
+            let mut i1 = 0usize; // index into word1 array
+            let mut j1 = 0usize; // index into word1[i1] bytes
+            let mut i2 = 0usize;
+            let mut j2 = 0usize;
+            // Skip empty strings in each array to avoid out-of-bounds
+            while i1 < word1.len() && word1[i1].is_empty() {
+                i1 += 1;
+            }
+            while i2 < word2.len() && word2[i2].is_empty() {
+                i2 += 1;
+            }
+            loop {
+                let done1 = i1 >= word1.len();
+                let done2 = i2 >= word2.len();
+                if done1 && done2 {
+                    return true;
+                }
+                if done1 || done2 {
+                    return false;
+                }
+                let b1 = word1[i1].as_bytes()[j1];
+                let b2 = word2[i2].as_bytes()[j2];
+                if b1 != b2 {
+                    return false;
+                }
+                j1 += 1;
+                if j1 >= word1[i1].len() {
+                    i1 += 1;
+                    j1 = 0;
+                    // Skip empty strings after advancing
+                    while i1 < word1.len() && word1[i1].is_empty() {
+                        i1 += 1;
+                    }
+                }
+                j2 += 1;
+                if j2 >= word2[i2].len() {
+                    i2 += 1;
+                    j2 = 0;
+                    while i2 < word2.len() && word2[i2].is_empty() {
+                        i2 += 1;
+                    }
+                }
+            }
         }
     }
 }

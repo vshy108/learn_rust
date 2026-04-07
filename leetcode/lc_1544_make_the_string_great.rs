@@ -32,11 +32,28 @@
 // Run:  cargo run --example lc_1544_make_the_string_great
 // Test: cargo test --example lc_1544_make_the_string_great
 // Bench: cargo test --example lc_1544_make_the_string_great bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - XOR 32 case-flip trick: `top ^ b == 32` exploits ASCII layout where
+//   upper/lower pairs differ only in bit 5 (e.g. 'a'=0x61, 'A'=0x41)
+// - `s.as_bytes()` borrow: iterates &[u8] without consuming the String
+// - `Vec<u8>` as byte stack: push/pop O(1) for character matching
+// - `eq_ignore_ascii_case(&ch)`: stdlib method for case-insensitive char
+//   comparison without manual XOR
+//   (Previously covered: String::from_utf8() -> lc_1047,
+//    Vec<u8> byte stack -> lc_1047, .last() -> lc_1047)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  76.89ms (avg 768ns)
+// AI solution:  121.28ms (avg 1.212us)
+// -> My solution is 1.58x faster
+// Reason: byte-level XOR check avoids the overhead of char iteration
+//   and eq_ignore_ascii_case method calls.
 
-/// My solution module.
+/// My solution module — byte stack with XOR 32 check.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n)
+/// Space: O(n)
 mod my_solution {
     pub struct Solution;
 
@@ -51,24 +68,26 @@ mod my_solution {
         ///
         /// The "good" string after all bad pairs are removed
         pub fn make_good(s: String) -> String {
-            // stack = []
-            // s.each_char do |c|
-            //   if !stack.empty? && (stack[-1].ord ^ c.ord) == 32
-            //     stack.pop
-            //   else
-            //     stack << c
-            //   end
-            // end
-            // stack.join
-            todo!()
+            let mut stack: Vec<u8> = Vec::with_capacity(s.len());
+            for &b in s.as_bytes() {
+                // XOR with 32 flips the case bit in ASCII: 'a'^32='A', 'A'^32='a'
+                if stack.last().is_some_and(|&top| top ^ b == 32) {
+                    stack.pop();
+                } else {
+                    stack.push(b);
+                }
+            }
+            String::from_utf8(stack).expect("valid ASCII")
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — String push/pop with char comparison.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses `eq_ignore_ascii_case` + `!=` to detect same-letter-different-case.
+///
+/// Time:  O(n)
+/// Space: O(n)
 mod ai_solution {
     pub struct Solution;
 
@@ -83,7 +102,18 @@ mod ai_solution {
         ///
         /// The "good" string after all bad pairs are removed
         pub fn make_good(s: String) -> String {
-            todo!()
+            let mut result = String::with_capacity(s.len());
+            for ch in s.chars() {
+                if let Some(last) = result.chars().last() {
+                    // Same letter but different case
+                    if last != ch && last.eq_ignore_ascii_case(&ch) {
+                        result.pop();
+                        continue;
+                    }
+                }
+                result.push(ch);
+            }
+            result
         }
     }
 }

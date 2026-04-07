@@ -1,5 +1,21 @@
 # Rust CRUD Service — Interview Q&A
 
+> See also: [API Design](RUST_API_DESIGN.md) | [Error Handling](RUST_ERROR_HANDLING.md) | [Full-Stack General](RUST_FULLSTACK_GENERAL.md)
+
+## Table of Contents
+
+- [Q1: Implement a full CRUD service with axum and sqlx](#q1-implement-a-full-crud-service-in-rust-with-axum-and-sqlx)
+- [Q2: How does sqlx differ from an ORM like Diesel?](#q2-how-does-sqlx-differ-from-an-orm-like-diesel)
+- [Q3: How do you handle database migrations?](#q3-how-do-you-handle-database-migrations-in-rust)
+- [Q4: How do you test a CRUD service?](#q4-how-do-you-test-a-crud-service-in-rust)
+- [Q5: fetch_one vs fetch_optional vs fetch_all](#q5-what-is-the-difference-between-fetch_one-fetch_optional-and-fetch_all-in-sqlx)
+- [Q6: How do you handle partial updates (PATCH)?](#q6-how-do-you-handle-partial-updates-patch-semantics)
+- [Q7: How does ownership help in a CRUD context?](#q7-how-does-rusts-ownership-system-help-in-a-crud-context)
+
+> **Note:** All SQL queries use parameterized bindings (`$1`, `$2`, ...) which prevent SQL injection by design — user input is never interpolated into SQL strings.
+
+---
+
 ## Q1: Implement a full CRUD service in Rust with axum and sqlx.
 
 **Answer:**

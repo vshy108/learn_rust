@@ -1,5 +1,22 @@
 # Rust Error Handling — Interview Q&A
 
+> See also: [API Design](RUST_API_DESIGN.md) | [CRUD Service](RUST_CRUD_SERVICE.md) | [Full-Stack General](RUST_FULLSTACK_GENERAL.md)
+
+## Table of Contents
+
+- [Q1: How does Rust's error handling differ from exceptions?](#q1-how-does-rusts-error-handling-differ-from-exceptions-in-other-languages)
+- [Q2: What are Result\<T, E\> and Option\<T\>?](#q2-what-are-resultt-e-and-optiont)
+- [Q3: Explain the ? operator](#q3-explain-the--operator-when-can-you-use-it)
+- [Q4: What is thiserror?](#q4-what-is-thiserror-and-when-do-you-use-it)
+- [Q5: What is anyhow? thiserror vs anyhow](#q5-what-is-anyhow-and-when-do-you-use-it-vs-thiserror)
+- [Q6: Centralized HTTP error handling in axum](#q6-how-do-you-implement-centralized-http-error-handling-in-axum)
+- [Q7: When is .unwrap() acceptable?](#q7-when-is-unwrap-acceptable-in-rust)
+- [Q8: Multiple error types in one function](#q8-how-do-you-handle-multiple-error-types-in-one-function)
+- [Q9: The From trait and error handling](#q9-what-is-the-from-trait-and-how-does-it-relate-to-error-handling)
+- [Q10: How do you log errors properly?](#q10-how-do-you-log-errors-properly-in-a-rust-service)
+
+---
+
 ## Q1: How does Rust's error handling differ from exceptions in other languages?
 
 **Answer:**

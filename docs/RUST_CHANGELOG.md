@@ -5,7 +5,23 @@ Curated changelog of Rust releases focusing on **language changes**, common
 
 Source: [releases.rs](https://releases.rs/)
 
-> Versions covered: 1.85.0 (Edition 2024) through 1.94.1 (current).
+> Versions covered: 1.85.0 (Edition 2024) through 1.94.1 (current as of April 2026).
+
+## Table of Contents
+
+- [1.94.1](#1941--2026-03-26-patch)
+- [1.94.0](#1940--2026-03-05)
+- [1.93.0](#1930--2026-01-22)
+- [1.92.0](#1920--2025-12-11)
+- [1.91.0](#1910--2025-10-30)
+- [1.90.0](#1900--2025-09-18)
+- [1.89.0](#1890--2025-08-07)
+- [1.88.0](#1880--2025-06-26)
+- [1.87.0](#1870--2025-05-15)
+- [1.86.0](#1860--2025-04-03)
+- [1.85.0](#1850--2025-02-20) (Edition 2024)
+- [Edition Migration Quick Reference](#edition-migration-quick-reference)
+- [How to Update](#how-to-update)
 
 ---
 

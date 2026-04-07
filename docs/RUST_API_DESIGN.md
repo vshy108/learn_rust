@@ -1,5 +1,21 @@
 # Rust API Design — Interview Q&A
 
+> See also: [CRUD Service](RUST_CRUD_SERVICE.md) | [Error Handling](RUST_ERROR_HANDLING.md) | [Full-Stack General](RUST_FULLSTACK_GENERAL.md)
+
+## Table of Contents
+
+- [Q1: How would you design a REST API in Rust?](#q1-how-would-you-design-a-rest-api-in-rust-what-framework-would-you-choose)
+- [Q2: How do axum extractors work?](#q2-how-do-axum-extractors-work-and-why-are-they-useful)
+- [Q3: How do you version an API?](#q3-how-do-you-version-an-api-and-handle-breaking-changes)
+- [Q4: How do you handle pagination?](#q4-how-do-you-handle-pagination-in-a-rust-api)
+- [Q5: How do you add middleware in axum?](#q5-how-do-you-add-middleware-in-axum)
+- [Q6: How does Rust's type system benefit API design?](#q6-how-does-rusts-type-system-benefit-api-design)
+- [Q7: How do you handle request validation?](#q7-how-do-you-handle-request-validation-at-the-api-boundary)
+- [Q8: How do you structure a larger Rust API project?](#q8-how-do-you-structure-a-larger-rust-api-project)
+- [Q9: How do you manually control HTTP status codes?](#q9-how-do-you-manually-control-http-status-codes-in-axum)
+
+---
+
 ## Q1: How would you design a REST API in Rust? What framework would you choose?
 
 **Answer:**

@@ -2,6 +2,25 @@
 
 Common gotchas when converting Ruby solutions to Rust.
 
+## Table of Contents
+
+- [Strings](#strings)
+- [Numbers](#numbers)
+- [Control Flow](#control-flow)
+- [Option / Nil](#option--nil)
+- [Iterators](#iterators)
+- [Types](#types)
+- [Collections: HashSet vs HashMap](#collections-hashset-vs-hashmap)
+- [Smart Pointers: Rc, RefCell, and Tree Nodes](#smart-pointers-rc-refcell-and-tree-nodes)
+- [Interior Mutability: &self with Mutation (LC 0380)](#interior-mutability-self-with-mutation-lc-0380)
+- [Clippy Tips](#clippy-tips)
+- [Sorting](#sorting)
+- [Randomness](#randomness)
+- [Bitwise Operators](#bitwise-operators)
+- [Collections: Entry API](#collections-entry-api)
+
+---
+
 ## Strings
 - **No `s[i]` indexing**: `String`/`&str` can't be indexed by `usize` (UTF-8 is multi-byte). Use `s.as_bytes()[i]` for byte access or `s.chars().nth(i)` (O(n)).
 - **Byte literals**: Compare with `b' '`, `b'0'`, `b'-'` (type `u8`), not `' '` (type `char`). Ruby: `' '.ord`.

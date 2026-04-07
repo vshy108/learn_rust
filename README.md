@@ -1,6 +1,6 @@
 # Learn Rust
 
-A comprehensive Rust learning project with **324 standalone examples** across **27 sections**, progressing from basics to smart pointers. Each topic is a self-contained file with `fn main()`, inline comments explaining Rust-specific nuances, and unit tests.
+A comprehensive Rust learning project with **323 standalone examples** across **28 sections**, progressing from basics to smart pointers and web APIs, plus **72 LeetCode solutions** with benchmarks. Each topic is a self-contained file with `fn main()`, inline comments explaining Rust-specific nuances, and unit tests.
 
 The topic list and section structure are based on the Udemy course [Learn to Code with Rust](https://www.udemy.com/course/learn-to-code-with-rust/). Thanks to the course author for the excellent curriculum.
 
@@ -29,16 +29,20 @@ cargo fmt --all --check
 learn_rust/
 ├── Cargo.toml                       # Workspace root
 ├── examples/
-│   ├── s01_*.rs  ..  s27_*.rs       # 324 standalone example files
+│   ├── s01_*.rs  ..  s27_*.rs       # 323 standalone example files
+├── leetcode/
+│   ├── lc_0001_*.rs .. lc_3437_*.rs # 72 LeetCode solutions with benchmarks
 ├── crates/
 │   ├── s14_project_structure/       # Multi-file module demos
-│   └── s21_wordle/                  # Wordle game project
+│   ├── s21_wordle/                  # Wordle game project
+│   └── s28_axum_api/                # Full CRUD REST API with axum
+├── docs/                            # Interview prep & reference docs
 ├── src/main.rs
-├── PLAN.md                          # Full roadmap with all 339 topics
+├── PLAN.md                          # Full roadmap with all 340 topics + 72 LC
 └── README.md
 ```
 
-**Convention**: one file per topic, named `s{NN}_{topic}.rs`. Cargo auto-discovers them as runnable examples.
+**Convention**: one file per topic, named `s{NN}_{topic}.rs`. LeetCode files use `lc_{NNNN}_{slug}.rs`. All are registered as Cargo examples.
 
 ## Sections
 
@@ -71,6 +75,106 @@ learn_rust/
 | 25 | Regex (`regex`) | 13 | `find`, `captures`, character classes, anchors, `replace_all` |
 | 26 | Smart Pointers I: Box | 16 | raw pointers, `Box`, linked list, BST, `Deref`/`Drop`, trait objects, `thiserror` |
 | 27 | Smart Pointers II | 2 | `Cell`, `RefCell`, interior mutability |
+| 28 | Web APIs with Axum | 1 crate | CRUD REST API, `axum`, `tower`, CORS, shared state |
+
+## LeetCode Solutions
+
+**72 problems** solved in Rust — each file includes both a hand-written solution and an AI-optimized solution with 100k-iteration benchmarks comparing the two.
+
+```bash
+# Run a solution
+cargo run --example lc_0001_two_sum
+
+# Run its tests
+cargo test --example lc_0001_two_sum
+
+# Run its benchmark
+cargo test --example lc_0001_two_sum bench -- --nocapture
+```
+
+**Companion docs:**
+- [RUBY_TO_RUST_PITFALLS.md](RUBY_TO_RUST_PITFALLS.md) — Rust idioms for LeetCode (coming from Ruby)
+- [LEETCODE_PROMPTS.md](LEETCODE_PROMPTS.md) — Prompt templates used to scaffold each file
+
+<details>
+<summary>Full problem list (72 problems: 28 Easy, 33 Medium, 11 Hard)</summary>
+
+| # | Problem | Difficulty |
+|---|---------|------------|
+| 1 | Two Sum | Easy |
+| 2 | Add Two Numbers | Medium |
+| 3 | Longest Substring Without Repeating Characters | Medium |
+| 4 | Median of Two Sorted Arrays | Hard |
+| 5 | Longest Palindromic Substring | Medium |
+| 6 | Zigzag Conversion | Medium |
+| 7 | Reverse Integer | Medium |
+| 8 | String to Integer (atoi) | Medium |
+| 9 | Palindrome Number | Easy |
+| 10 | Regular Expression Matching | Hard |
+| 11 | Container With Most Water | Medium |
+| 12 | Integer to Roman | Medium |
+| 13 | Roman to Integer | Easy |
+| 14 | Longest Common Prefix | Easy |
+| 21 | Merge Two Sorted Lists | Easy |
+| 26 | Remove Duplicates from Sorted Array | Easy |
+| 27 | Remove Element | Easy |
+| 28 | Find the Index of the First Occurrence in a String | Easy |
+| 35 | Search Insert Position | Easy |
+| 42 | Trapping Rain Water | Hard |
+| 45 | Jump Game II | Medium |
+| 55 | Jump Game | Medium |
+| 58 | Length of Last Word | Easy |
+| 76 | Minimum Window Substring | Hard |
+| 79 | Word Search | Medium |
+| 80 | Remove Duplicates from Sorted Array II | Medium |
+| 88 | Merge Sorted Array | Easy |
+| 102 | Binary Tree Level Order Traversal | Medium |
+| 121 | Best Time to Buy and Sell Stock | Easy |
+| 122 | Best Time to Buy and Sell Stock II | Medium |
+| 134 | Gas Station | Medium |
+| 135 | Candy | Hard |
+| 142 | Linked List Cycle II | Medium |
+| 151 | Reverse Words in a String | Medium |
+| 169 | Majority Element | Easy |
+| 189 | Rotate Array | Medium |
+| 205 | Isomorphic Strings | Easy |
+| 206 | Reverse Linked List | Easy |
+| 219 | Contains Duplicate II | Easy |
+| 222 | Count Complete Tree Nodes | Easy |
+| 223 | Rectangle Area | Medium |
+| 238 | Product of Array Except Self | Medium |
+| 263 | Ugly Number | Easy |
+| 274 | H-Index | Medium |
+| 278 | First Bad Version | Easy |
+| 279 | Perfect Squares | Medium |
+| 295 | Find Median from Data Stream | Hard |
+| 345 | Reverse Vowels of a String | Easy |
+| 374 | Guess Number Higher or Lower | Easy |
+| 380 | Insert Delete GetRandom O(1) | Medium |
+| 392 | Is Subsequence | Easy |
+| 409 | Longest Palindrome | Easy |
+| 412 | Fizz Buzz | Easy |
+| 446 | Arithmetic Slices II - Subsequence | Hard |
+| 514 | Freedom Trail | Hard |
+| 523 | Continuous Subarray Sum | Medium |
+| 587 | Erect the Fence | Hard |
+| 589 | N-ary Tree Preorder Traversal | Easy |
+| 704 | Binary Search | Easy |
+| 724 | Find Pivot Index | Easy |
+| 835 | Image Overlap | Medium |
+| 876 | Middle of the Linked List | Easy |
+| 947 | Most Stones Removed with Same Row or Column | Medium |
+| 1047 | Remove All Adjacent Duplicates In String | Easy |
+| 1323 | Maximum 69 Number | Easy |
+| 1342 | Number of Steps to Reduce a Number to Zero | Easy |
+| 1480 | Running Sum of 1d Array | Easy |
+| 1544 | Make The String Great | Easy |
+| 1662 | Check If Two String Arrays are Equivalent | Easy |
+| 1672 | Richest Customer Wealth | Easy |
+| 2256 | Minimum Average Difference | Medium |
+| 3437 | Permutations III | Medium |
+
+</details>
 
 ## Dependencies
 
@@ -84,6 +188,30 @@ learn_rust/
 | `mockall` | 0.13 | Mocking (dev) |
 | `pretty_assertions` | 1 | Colored test diffs (dev) |
 | `rstest` | 0.23 | Test fixtures (dev) |
+
+**Axum API crate** (`crates/s28_axum_api/`):
+
+| Crate | Version | Purpose |
+|-------|---------|---------|
+| `axum` | 0.8 | Web framework |
+| `serde` / `serde_json` | 1 | JSON serialization |
+| `tower-http` | 0.6 | CORS middleware |
+| `tracing` / `tracing-subscriber` | 0.1 / 0.3 | Structured logging |
+| `utoipa` | 5 | OpenAPI spec generation |
+
+## Documentation
+
+| Doc | Contents |
+|-----|----------|
+| [PLAN.md](PLAN.md) | Full roadmap — 340 topics + 72 LeetCode problems |
+| [CHEATSHEET.md](CHEATSHEET.md) | Quick Rust reference with code examples |
+| [RUBY_TO_RUST_PITFALLS.md](RUBY_TO_RUST_PITFALLS.md) | Ruby-to-Rust idiom translation for LeetCode |
+| [LEETCODE_PROMPTS.md](LEETCODE_PROMPTS.md) | Prompt templates for LeetCode file scaffolding |
+| [docs/RUST_API_DESIGN.md](docs/RUST_API_DESIGN.md) | REST API design patterns with axum |
+| [docs/RUST_CRUD_SERVICE.md](docs/RUST_CRUD_SERVICE.md) | Full CRUD implementation with axum/sqlx |
+| [docs/RUST_ERROR_HANDLING.md](docs/RUST_ERROR_HANDLING.md) | Error handling patterns (thiserror, anyhow, ?) |
+| [docs/RUST_FULLSTACK_GENERAL.md](docs/RUST_FULLSTACK_GENERAL.md) | General backend Rust concepts |
+| [docs/RUST_CHANGELOG.md](docs/RUST_CHANGELOG.md) | Curated Rust release notes (1.85 -- 1.94) |
 
 ## Requirements
 

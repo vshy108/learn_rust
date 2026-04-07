@@ -137,10 +137,12 @@ HTTP 204
 ## Architecture Notes
 
 - **State**: `Arc<RwLock<HashMap<u64, Todo>>>` — concurrent reads,
-  exclusive writes, no database needed.
+  exclusive writes, no database needed. In-memory storage is intentional
+  for learning — data resets on restart.
 - **Error handling**: `AppError` enum with `IntoResponse` impl maps each
   variant to an HTTP status code. Handlers return `Result<T, AppError>`.
-- **CORS**: `CorsLayer` allows all origins for development. In production,
-  restrict to your frontend domain.
 - **PUT vs PATCH**: PUT requires all fields (full replacement). PATCH
   accepts optional fields (partial update). Both are demonstrated.
+
+> **CORS**: `CorsLayer` allows all origins for development. In production,
+> restrict to your frontend domain to prevent unauthorized cross-origin requests.

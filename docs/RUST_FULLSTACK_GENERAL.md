@@ -1,5 +1,25 @@
 # Rust Full-Stack & General — Interview Q&A
 
+> See also: [API Design](RUST_API_DESIGN.md) | [CRUD Service](RUST_CRUD_SERVICE.md) | [Error Handling](RUST_ERROR_HANDLING.md)
+
+## Table of Contents
+
+- [Q1: Why choose Rust for backend development?](#q1-why-choose-rust-for-backend-development)
+- [Q2: Explain Rust's ownership model](#q2-explain-rusts-ownership-model-in-simple-terms)
+- [Q3: What are Send and Sync traits?](#q3-what-are-send-and-sync-traits)
+- [Q4: How does async/await work in Rust?](#q4-how-does-asyncawait-work-in-rust)
+- [Q5: How does Rust's type system prevent common bugs?](#q5-how-does-rusts-type-system-prevent-common-bugs)
+- [Q6: What is serde?](#q6-what-is-serde-and-how-does-serialization-work-in-rust)
+- [Q7: How do you structure a multi-crate project?](#q7-how-do-you-structure-a-rust-project-with-multiple-crates)
+- [Q8: What are lifetimes?](#q8-what-are-lifetimes-and-when-do-you-need-to-annotate-them)
+- [Q9: Configuration and secrets](#q9-how-do-you-handle-configuration-and-secrets-in-a-rust-service)
+- [Q10: Tools and practices for code quality](#q10-what-rust-tools-and-practices-do-you-use-for-code-quality)
+- [Q11: Rust vs Go for backend services](#q11-how-does-rust-compare-to-go-for-backend-services)
+- [Q12: How do you write tests in Rust?](#q12-how-do-you-write-tests-in-rust)
+- [Q13: What is Cow<'a, str>?](#q13-what-is-cowa-str-and-when-would-you-use-it)
+
+---
+
 ## Q1: Why choose Rust for backend development?
 
 **Answer:**

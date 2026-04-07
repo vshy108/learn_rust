@@ -1,5 +1,52 @@
 # Rust Cheatsheet
 
+## Table of Contents
+
+- [Variables & Mutability](#variables--mutability)
+- [Scalar Types](#scalar-types)
+- [Numeric Methods](#numeric-methods)
+- [Compound Types](#compound-types)
+- [Strings](#strings)
+- [Ownership Rules](#ownership-rules)
+- [References & Borrowing](#references--borrowing)
+- [Slices](#slices)
+- [Functions](#functions)
+- [Control Flow](#control-flow)
+- [Structs](#structs)
+- [Enums](#enums)
+- [Error Handling](#error-handling)
+- [Traits](#traits)
+- [Type Conversions: From / Into / TryInto / as](#type-conversions-from--into--tryinto--as)
+- [Generics](#generics)
+- [Lifetimes](#lifetimes)
+- [Collections](#collections)
+  - [Vec\<T\>](#vect)
+  - [HashMap\<K, V\>](#hashmapk-v)
+  - [VecDeque\<T\>](#vecdequet)
+  - [HashSet\<T\>](#hashsett)
+  - [BinaryHeap\<T\>](#binaryheapt)
+- [Iterators](#iterators)
+- [Smart Pointers](#smart-pointers)
+- [Closures & Higher-Order Functions](#closures--higher-order-functions)
+- [Concurrency](#concurrency)
+- [Async / Await](#async--await)
+- [Modules & Visibility](#modules--visibility)
+- [Common Patterns](#common-patterns)
+- [std Utility Functions](#std-utility-functions)
+- [Useful Macros](#useful-macros)
+- [Testing](#testing)
+- [Cargo Commands](#cargo-commands)
+- [Common Gotchas](#common-gotchas)
+- [Byte-Level String Processing](#byte-level-string-processing)
+- [HashMap Advanced Patterns](#hashmap-advanced-patterns)
+- [Useful Vec Methods](#useful-vec-methods)
+- [Useful str Methods](#useful-str-methods)
+- [Checked & Saturating Arithmetic](#checked--saturating-arithmetic)
+- [Benchmarking Pattern](#benchmarking-pattern)
+- [LeetCode Algorithm Patterns](#leetcode-algorithm-patterns)
+
+---
+
 ## Variables & Mutability
 
 ```rust
@@ -200,7 +247,7 @@ let s = unsafe { String::from_utf8_unchecked(bytes) };  // UB if invalid!
 
 ## Ownership Rules
 
-```
+```text
 1. Each value has exactly one owner.
 2. When the owner goes out of scope, the value is dropped.
 3. Only one mutable reference OR any number of immutable references at a time.
@@ -588,6 +635,8 @@ let s: &'static str = "I live forever";
 
 ## Collections
 
+### Vec\<T\>
+
 ```rust
 // Vec<T> — growable array
 let mut v: Vec<i32> = Vec::new();
@@ -631,7 +680,11 @@ v.into_iter()               // T iterator (consumes vec; vec gone after)
 //   let v = vec![1, 2, 3];
 //   let total: i32 = v.iter().sum();     // v still usable
 //   let total = v.into_iter().sum();     // v consumed — can't use v after this
+```
 
+### HashMap\<K, V\>
+
+```rust
 // HashMap<K, V>
 use std::collections::HashMap;
 let mut map: HashMap<String, i32> = HashMap::new();
@@ -650,7 +703,11 @@ let map: HashMap<char, i32> = HashMap::from([
 // map[&key] — Index trait requires reference (LC 0013)
 let value = roman_map[&ch];  // must pass &K, not K
 // Prefer .get(&k) for Option-based safe lookup
+```
 
+### VecDeque\<T\>
+
+```rust
 // VecDeque<T> — double-ended queue, O(1) push/pop at both ends
 use std::collections::VecDeque;
 let mut q: VecDeque<i32> = VecDeque::new();
@@ -660,7 +717,11 @@ q.pop_front();              // Some(1), q = [2]
 q.push_front(0);            // [0, 2]
 // Ruby: Array#shift is O(n); VecDeque::pop_front is O(1)
 // Use VecDeque for BFS queues, sliding windows, or any FIFO pattern
+```
 
+### HashSet\<T\>
+
+```rust
 // HashSet<T>
 use std::collections::HashSet;
 let mut set: HashSet<i32> = HashSet::new();
@@ -676,7 +737,11 @@ a.union(&b)                  // elements in either
 a.difference(&b)             // in a but not b
 a.symmetric_difference(&b)  // in one but not both
 a.is_subset(&b)             // true if all of a is in b
+```
 
+### BinaryHeap\<T\>
+
+```rust
 // BinaryHeap<T> — max-heap (priority queue)
 use std::collections::BinaryHeap;
 use std::cmp::Reverse;

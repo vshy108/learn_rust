@@ -1,5 +1,40 @@
 # LeetCode File Generation Prompts
 
+> **Status**: All 72 problems completed. These prompts document the workflow used to scaffold and complete each file.
+
+## Cargo.toml Registration
+
+Each LeetCode file must be registered as an `[[example]]` in the root `Cargo.toml`:
+
+```toml
+[[example]]
+name = "lc_0001_two_sum"
+path = "leetcode/lc_0001_two_sum.rs"
+```
+
+## Example File Header
+
+Every completed file follows this header format (from `lc_0001_two_sum.rs`):
+
+```rust
+// LeetCode 1: Two Sum [Easy]
+// https://leetcode.com/problems/two-sum/
+//
+// Given an array of integers `nums` and an integer `target`, return indices
+// of the two numbers such that they add up to `target`.
+//
+// Run:  cargo run --example lc_0001_two_sum
+// Test: cargo test --example lc_0001_two_sum
+// Bench: cargo test --example lc_0001_two_sum bench -- --nocapture
+//
+// --- Benchmark (100k iterations, 2026-03-25) ---
+//   My solution: 2.929us avg (293ms total)
+//   AI solution: 1.904us avg (190ms total)
+//   AI is 1.54x faster
+//   Reason: AI does a single pass -- it inserts and looks up each number in one loop;
+//   my solution builds the entire HashMap first, then iterates again.
+```
+
 ## Prompt 1: Generate scaffold (before solving)
 
 > Create a LeetCode problem file for **LeetCode {number}: {title} [{difficulty}]** following my existing file pattern in the `leetcode/` folder. Use the exact pattern from my other LC files (e.g. `lc_0004_median_of_two_sorted_arrays.rs`):

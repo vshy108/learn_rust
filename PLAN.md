@@ -14,6 +14,10 @@ learn_rust/
 │   ├── s02_*.rs             # Section 2 topics
 │   ├── ...                  # Sections 3-13, 15-20, 22-27
 │   └── s27_*.rs
+├── leetcode/
+│   ├── lc_0001_*.rs         # LeetCode solutions (registered as [[example]] in Cargo.toml)
+│   ├── ...
+│   └── lc_3437_*.rs
 ├── crates/
 │   ├── s14_project_structure/   # Section 14 multi-file topics
 │   │   ├── Cargo.toml
@@ -21,17 +25,24 @@ learn_rust/
 │   │   │   ├── lib.rs
 │   │   │   └── ... (modules, submodules)
 │   │   └── examples/
-│   └── s21_wordle/              # Section 21 Wordle project
+│   ├── s21_wordle/              # Section 21 Wordle project
+│   │   ├── Cargo.toml
+│   │   └── src/main.rs
+│   └── s28_axum_api/            # Section 28 REST API
 │       ├── Cargo.toml
 │       └── src/main.rs
+├── docs/                        # Interview prep & reference docs
+└── README.md
 ```
 
 ## Conventions
 
 - **File naming**: `examples/s{NN}_{topic}.rs` — Cargo auto-discovers these as runnable examples
+- **LeetCode naming**: `leetcode/lc_{NNNN}_{slug}.rs` — registered as `[[example]]` in `Cargo.toml`
 - **No consolidation**: every topic = one file, independently runnable
 - **Section 14** multi-file module topics → `crates/s14_project_structure/`
 - **Section 21** Wordle project → `crates/s21_wordle/`
+- **Section 28** Axum API → `crates/s28_axum_api/`
 
 ## Verification (per topic)
 
@@ -471,3 +482,92 @@ cargo fmt --all --check
 ## Section 28: Web APIs with Axum
 
 - [x] 340. `s28_axum_api` — Full CRUD REST API (in-memory store, CORS)
+
+---
+
+## LeetCode Solutions (72 problems)
+
+> Each file includes a hand-written solution, an AI-optimized solution, and 100k-iteration benchmarks.
+> Run any solution: `cargo run --example lc_0001_two_sum`
+> See [LEETCODE_PROMPTS.md](LEETCODE_PROMPTS.md) for the file scaffold workflow.
+
+### Easy (28 problems)
+
+- [x] `lc_0001_two_sum` — Two Sum
+- [x] `lc_0009_palindrome_number` — Palindrome Number
+- [x] `lc_0013_roman_to_integer` — Roman to Integer
+- [x] `lc_0014_longest_common_prefix` — Longest Common Prefix
+- [x] `lc_0021_merge_two_sorted_lists` — Merge Two Sorted Lists
+- [x] `lc_0026_remove_duplicates_from_sorted_array` — Remove Duplicates from Sorted Array
+- [x] `lc_0027_remove_element` — Remove Element
+- [x] `lc_0028_find_the_index_of_the_first_occurrence` — Find the Index of the First Occurrence in a String
+- [x] `lc_0035_search_insert_position` — Search Insert Position
+- [x] `lc_0058_length_of_last_word` — Length of Last Word
+- [x] `lc_0088_merge_sorted_array` — Merge Sorted Array
+- [x] `lc_0121_best_time_to_buy_and_sell_stock` — Best Time to Buy and Sell Stock
+- [x] `lc_0169_majority_element` — Majority Element
+- [x] `lc_0205_isomorphic_strings` — Isomorphic Strings
+- [x] `lc_0206_reverse_linked_list` — Reverse Linked List
+- [x] `lc_0219_contains_duplicate_ii` — Contains Duplicate II
+- [x] `lc_0222_count_complete_tree_nodes` — Count Complete Tree Nodes
+- [x] `lc_0263_ugly_number` — Ugly Number
+- [x] `lc_0278_first_bad_version` — First Bad Version
+- [x] `lc_0345_reverse_vowels_of_a_string` — Reverse Vowels of a String
+- [x] `lc_0374_guess_number_higher_or_lower` — Guess Number Higher or Lower
+- [x] `lc_0392_is_subsequence` — Is Subsequence
+- [x] `lc_0409_longest_palindrome` — Longest Palindrome
+- [x] `lc_0412_fizz_buzz` — Fizz Buzz
+- [x] `lc_0589_n_ary_tree_preorder_traversal` — N-ary Tree Preorder Traversal
+- [x] `lc_0704_binary_search` — Binary Search
+- [x] `lc_0724_find_pivot_index` — Find Pivot Index
+- [x] `lc_0876_middle_of_the_linked_list` — Middle of the Linked List
+- [x] `lc_1047_remove_all_adjacent_duplicates_in_string` — Remove All Adjacent Duplicates In String
+- [x] `lc_1323_maximum_69_number` — Maximum 69 Number
+- [x] `lc_1342_number_of_steps_to_reduce_to_zero` — Number of Steps to Reduce a Number to Zero
+- [x] `lc_1480_running_sum_of_1d_array` — Running Sum of 1d Array
+- [x] `lc_1544_make_the_string_great` — Make The String Great
+- [x] `lc_1662_check_if_two_string_arrays_are_equivalent` — Check If Two String Arrays are Equivalent
+- [x] `lc_1672_richest_customer_wealth` — Richest Customer Wealth
+
+### Medium (33 problems)
+
+- [x] `lc_0002_add_two_numbers` — Add Two Numbers
+- [x] `lc_0003_longest_substring_without_repeating` — Longest Substring Without Repeating Characters
+- [x] `lc_0005_longest_palindromic_substring` — Longest Palindromic Substring
+- [x] `lc_0006_zigzag_conversion` — Zigzag Conversion
+- [x] `lc_0007_reverse_integer` — Reverse Integer
+- [x] `lc_0008_string_to_integer_atoi` — String to Integer (atoi)
+- [x] `lc_0011_container_with_most_water` — Container With Most Water
+- [x] `lc_0012_integer_to_roman` — Integer to Roman
+- [x] `lc_0045_jump_game_ii` — Jump Game II
+- [x] `lc_0055_jump_game` — Jump Game
+- [x] `lc_0079_word_search` — Word Search
+- [x] `lc_0080_remove_duplicates_from_sorted_array_ii` — Remove Duplicates from Sorted Array II
+- [x] `lc_0102_binary_tree_level_order_traversal` — Binary Tree Level Order Traversal
+- [x] `lc_0122_best_time_to_buy_and_sell_stock_ii` — Best Time to Buy and Sell Stock II
+- [x] `lc_0134_gas_station` — Gas Station
+- [x] `lc_0142_linked_list_cycle_ii` — Linked List Cycle II
+- [x] `lc_0151_reverse_words_in_a_string` — Reverse Words in a String
+- [x] `lc_0189_rotate_array` — Rotate Array
+- [x] `lc_0223_rectangle_area` — Rectangle Area
+- [x] `lc_0238_product_of_array_except_self` — Product of Array Except Self
+- [x] `lc_0274_h_index` — H-Index
+- [x] `lc_0279_perfect_squares` — Perfect Squares
+- [x] `lc_0380_insert_delete_getrandom_o1` — Insert Delete GetRandom O(1)
+- [x] `lc_0523_continuous_subarray_sum` — Continuous Subarray Sum
+- [x] `lc_0835_image_overlap` — Image Overlap
+- [x] `lc_0947_most_stones_removed_with_same_row_or_column` — Most Stones Removed with Same Row or Column
+- [x] `lc_2256_minimum_average_difference` — Minimum Average Difference
+- [x] `lc_3437_permutations_iii` — Permutations III
+
+### Hard (11 problems)
+
+- [x] `lc_0004_median_of_two_sorted_arrays` — Median of Two Sorted Arrays
+- [x] `lc_0010_regular_expression_matching` — Regular Expression Matching
+- [x] `lc_0042_trapping_rain_water` — Trapping Rain Water
+- [x] `lc_0076_minimum_window_substring` — Minimum Window Substring
+- [x] `lc_0135_candy` — Candy
+- [x] `lc_0295_find_median_from_data_stream` — Find Median from Data Stream
+- [x] `lc_0446_arithmetic_slices_ii_subsequence` — Arithmetic Slices II - Subsequence
+- [x] `lc_0514_freedom_trail` — Freedom Trail
+- [x] `lc_0587_erect_the_fence` — Erect the Fence

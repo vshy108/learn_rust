@@ -34,20 +34,21 @@
 // --- Rust concepts used ---
 // - Top-down DP with `HashMap<(usize, usize), i32>` memo: tuple key for
 //   (ring_idx, key_idx) state, recursive with memoization
-// - Bottom-up DP with 2D Vec: `vec![vec![0i32; n]; m + 1]` table
-//   iterated in reverse key order
 // - `positions.entry(b).or_default()`: uses Default trait on Vec to
 //   auto-create empty vec for missing keys
+// - Rolling 1D DP with i16 (AI solution): replaces full 2D table with
+//   a single row; last-position tracking prunes the inner loop;
+//   same-char shortcut skips DP rebuild for repeated characters
 //   (Previously covered: HashMap memoization tuple key -> lc_0010,
 //    i32::MAX sentinel -> lc_0004, .min() chaining -> lc_0003)
 //
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
-// My solution:  2158.82ms (avg 21.58us)
-// AI solution:  1169.93ms (avg 11.69us)
-// -> AI solution is 1.85x faster
-// Reason: bottom-up DP eliminates recursive call overhead and HashMap
-//   lookup per state; sequential memory access in the 2D Vec is more
-//   cache-friendly than HashMap probing.
+// My solution:  2209.71ms (avg 22.09us)
+// AI solution:  678.06ms (avg 6.78us)
+// -> AI solution is 3.26x faster
+// Reason: rolling 1D DP with last-position tracking prunes unnecessary
+//   iterations; i16 reduces memory traffic; same-char shortcut avoids
+//   rebuilding the DP row for repeated characters.
 
 /// My solution module — top-down DP with memoization.
 ///
@@ -117,13 +118,14 @@ mod my_solution {
     }
 }
 
-/// AI solution module — bottom-up DP with 2D table.
+/// AI solution module — rolling 1D DP with last-position tracking.
 ///
-/// Iterates key characters in reverse, building a table of minimum
-/// cost from each ring position to spell the remaining key.
+/// Only tracks positions from the previous character (not all ring
+/// positions), and skips DP when consecutive key chars match.
+/// Uses `i16` for smaller memory footprint.
 ///
 /// Time:  O(m * n^2)
-/// Space: O(m * n)
+/// Space: O(n) — only one DP row at a time
 mod ai_solution {
     pub struct Solution;
 
@@ -139,29 +141,53 @@ mod ai_solution {
         ///
         /// Minimum number of steps (rotations + button presses)
         pub fn find_rotate_steps(ring: String, key: String) -> i32 {
-            let ring = ring.as_bytes();
-            let key = key.as_bytes();
-            let n = ring.len();
-            let m = key.len();
-            // Precompute positions for each character
-            let mut positions = vec![vec![]; 26];
-            for (i, &b) in ring.iter().enumerate() {
-                positions[(b - b'a') as usize].push(i);
-            }
-            // dp[k][i] = min steps to spell key[k..] when ring is at position i
-            let mut dp = vec![vec![0i32; n]; m + 1];
-            for k in (0..m).rev() {
-                let target = (key[k] - b'a') as usize;
-                for i in 0..n {
-                    dp[k][i] = i32::MAX;
-                    for &pos in &positions[target] {
-                        let diff = if pos >= i { pos - i } else { i - pos };
-                        let step = diff.min(n - diff) as i32 + 1;
-                        dp[k][i] = dp[k][i].min(step + dp[k + 1][pos]);
+            const LARGE: i16 = 10000;
+            let nr = ring.len();
+            let nri = nr as i16;
+            let mut dp0 = vec![LARGE; nr];
+            dp0[0] = 0;
+            let pos = {
+                let mut pos = vec![Vec::new(); 26];
+                for (i, k) in ring.bytes().enumerate() {
+                    pos[usize::from(k - b'a')].push(i);
+                }
+                pos
+            };
+            let mut last = vec![0];
+            let mut last_c = ring.as_bytes()[0];
+            for k in key.bytes() {
+                if last_c == k {
+                    // Same char as last: just add 1 button press, no rotation
+                    for &p in &last {
+                        dp0[p] += 1;
                     }
+                } else {
+                    let mut dp1 = vec![LARGE; nr];
+                    let pos = pos[usize::from(k - b'a')].clone();
+                    for &p1 in &pos {
+                        let mut res = LARGE;
+                        for &p0 in &last {
+                            let d = {
+                                let p1 = p1 as i16;
+                                let p0 = p0 as i16;
+                                let d = (p0 - p1).abs();
+                                d.min(nri - d)
+                            };
+                            let t = dp0[p0] + d + 1;
+                            res = res.min(t);
+                        }
+                        dp1[p1] = res;
+                    }
+                    dp0 = dp1;
+                    last = pos;
+                    last_c = k;
                 }
             }
-            dp[0][0]
+            let mut ans = LARGE;
+            for p in last {
+                ans = ans.min(dp0[p]);
+            }
+            i32::from(ans)
         }
     }
 }

@@ -23,6 +23,12 @@
 //   - At most 2 * 10^5 calls total to insert, remove, and get_random
 //   - There will be at least one element when get_random is called
 //
+// LeetCode Rust signature (note: all methods take &self, not &mut self):
+//   fn new() -> Self
+//   fn insert(&self, val: i32) -> bool
+//   fn remove(&self, val: i32) -> bool
+//   fn get_random(&self) -> i32
+//
 // Run:  cargo run --example lc_0380_insert_delete_getrandom_o1
 // Test: cargo test --example lc_0380_insert_delete_getrandom_o1
 // Bench: cargo test --example lc_0380_insert_delete_getrandom_o1 bench -- --nocapture
@@ -52,37 +58,56 @@
 /// get_random: O(1)
 /// Space:      O(n)
 mod my_solution {
+    use std::cell::{Cell, RefCell};
     use std::collections::HashMap;
 
     /// A set that supports insert, remove, and get_random in O(1) average time.
     ///
     /// Uses a Vec for O(1) random-index access and a HashMap mapping each
     /// value to its index in the Vec for O(1) lookup/removal.
+    /// All fields wrapped in `RefCell` / `Cell` for interior mutability so
+    /// every method can take `&self` — matching LeetCode's required signature.
     pub struct RandomizedSet {
-        nums: Vec<i32>,
-        val_to_index: HashMap<i32, usize>,
+        /// RefCell allows mutable borrows through &self (interior mutability).
+        nums: RefCell<Vec<i32>>,
+        val_to_index: RefCell<HashMap<i32, usize>>,
+        /// Internal xorshift64 state for O(1) random index generation.
+        rng_state: Cell<u64>,
     }
 
     impl RandomizedSet {
         /// Initialize an empty RandomizedSet.
         pub fn new() -> Self {
+            use std::time::SystemTime;
+            // Seed once at construction; `| 1` ensures non-zero (xorshift
+            // requirement).
+            let seed = SystemTime::now()
+                .duration_since(SystemTime::UNIX_EPOCH)
+                .expect("time went backwards")
+                .subsec_nanos() as u64
+                | 1;
             Self {
-                nums: Vec::new(),
-                val_to_index: HashMap::new(),
+                nums: RefCell::new(Vec::new()),
+                val_to_index: RefCell::new(HashMap::new()),
+                rng_state: Cell::new(seed),
             }
         }
 
         /// Insert `val` into the set if not present.
+        /// Takes `&self` (not `&mut self`) — LeetCode's required signature.
+        /// Interior mutability via RefCell allows mutation.
         ///
         /// # Returns
         ///
         /// `true` if the item was inserted, `false` if already present
-        pub fn insert(&mut self, val: i32) -> bool {
-            if self.val_to_index.contains_key(&val) {
+        pub fn insert(&self, val: i32) -> bool {
+            let mut map = self.val_to_index.borrow_mut();
+            if map.contains_key(&val) {
                 return false;
             }
-            self.val_to_index.insert(val, self.nums.len());
-            self.nums.push(val);
+            let mut nums = self.nums.borrow_mut();
+            map.insert(val, nums.len());
+            nums.push(val);
             true
         }
 
@@ -93,15 +118,17 @@ mod my_solution {
         /// # Returns
         ///
         /// `true` if the item was removed, `false` if not found
-        pub fn remove(&mut self, val: i32) -> bool {
-            if let Some(&index) = self.val_to_index.get(&val) {
-                let last_val = *self.nums.last().expect("set is non-empty");
+        pub fn remove(&self, val: i32) -> bool {
+            let mut map = self.val_to_index.borrow_mut();
+            if let Some(&index) = map.get(&val) {
+                let mut nums = self.nums.borrow_mut();
+                let last_val = *nums.last().expect("set is non-empty");
                 // Swap target with last element in the array
-                self.nums[index] = last_val;
-                self.val_to_index.insert(last_val, index);
+                nums[index] = last_val;
+                map.insert(last_val, index);
                 // Remove the last element
-                self.nums.pop();
-                self.val_to_index.remove(&val);
+                nums.pop();
+                map.remove(&val);
                 true
             } else {
                 false
@@ -111,20 +138,22 @@ mod my_solution {
         /// Return a random element from the set.
         ///
         /// Each element must be equally likely to be returned.
+        /// Uses xorshift64 PRNG so rapid successive calls produce
+        /// distinct pseudo-random indices (unlike SystemTime which
+        /// can repeat within the same nanosecond).
         ///
         /// # Returns
         ///
         /// A random element from the current set
         pub fn get_random(&self) -> i32 {
-            // Simple pseudo-random using thread_rng isn't in std;
-            // use a deterministic approach for reproducibility in tests.
-            // In production, use rand::thread_rng().gen_range(0..self.nums.len()).
-            use std::time::SystemTime;
-            let seed = SystemTime::now()
-                .duration_since(SystemTime::UNIX_EPOCH)
-                .expect("time went backwards")
-                .subsec_nanos() as usize;
-            self.nums[seed % self.nums.len()]
+            // xorshift64: advance state on every call for uniform distribution
+            let mut s = self.rng_state.get();
+            s ^= s << 13;
+            s ^= s >> 7;
+            s ^= s << 17;
+            self.rng_state.set(s);
+            let nums = self.nums.borrow();
+            nums[(s as usize) % nums.len()]
         }
     }
 }
@@ -216,7 +245,8 @@ mod ai_solution {
 fn main() {
     println!("--- My Solution ---");
     {
-        let mut rs = my_solution::RandomizedSet::new();
+        // No longer needs `mut` — all methods take &self via RefCell
+        let rs = my_solution::RandomizedSet::new();
         println!("  insert(1) -> {}", rs.insert(1));
         println!("  remove(2) -> {}", rs.remove(2));
         println!("  insert(2) -> {}", rs.insert(2));
@@ -243,6 +273,9 @@ fn main() {
 mod tests {
     macro_rules! test_randomized_set {
         ($mod_name:ident, $rs_path:path) => {
+            // allow(unused_mut): my_solution takes &self so `mut` is unused,
+            // but ai_solution still takes &mut self and needs it.
+            #[allow(unused_mut)]
             mod $mod_name {
                 use $rs_path as RandomizedSet;
 
@@ -311,7 +344,7 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            let mut rs = crate::my_solution::RandomizedSet::new();
+            let rs = crate::my_solution::RandomizedSet::new();
             for i in 0..100 {
                 std::hint::black_box(rs.insert(std::hint::black_box(i)));
             }

@@ -1347,6 +1347,46 @@ path = "leetcode/lc_0309_best_time_buy_sell_stock_cooldown.rs"
 name = "lc_0310_minimum_height_trees"
 path = "leetcode/lc_0310_minimum_height_trees.rs"
 
+[[example]]
+name = "lc_0311_sparse_matrix_multiplication"
+path = "leetcode/lc_0311_sparse_matrix_multiplication.rs"
+
+[[example]]
+name = "lc_0312_burst_balloons"
+path = "leetcode/lc_0312_burst_balloons.rs"
+
+[[example]]
+name = "lc_0313_super_ugly_number"
+path = "leetcode/lc_0313_super_ugly_number.rs"
+
+[[example]]
+name = "lc_0314_binary_tree_vertical_order_traversal"
+path = "leetcode/lc_0314_binary_tree_vertical_order_traversal.rs"
+
+[[example]]
+name = "lc_0315_count_of_smaller_numbers_after_self"
+path = "leetcode/lc_0315_count_of_smaller_numbers_after_self.rs"
+
+[[example]]
+name = "lc_0316_remove_duplicate_letters"
+path = "leetcode/lc_0316_remove_duplicate_letters.rs"
+
+[[example]]
+name = "lc_0317_shortest_distance_from_all_buildings"
+path = "leetcode/lc_0317_shortest_distance_from_all_buildings.rs"
+
+[[example]]
+name = "lc_0318_maximum_product_of_word_lengths"
+path = "leetcode/lc_0318_maximum_product_of_word_lengths.rs"
+
+[[example]]
+name = "lc_0319_bulb_switcher"
+path = "leetcode/lc_0319_bulb_switcher.rs"
+
+[[example]]
+name = "lc_0320_generalized_abbreviation"
+path = "leetcode/lc_0320_generalized_abbreviation.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

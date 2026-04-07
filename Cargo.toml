@@ -784,12 +784,36 @@ name = "lc_0155_min_stack"
 path = "leetcode/lc_0155_min_stack.rs"
 
 [[example]]
+name = "lc_0156_binary_tree_upside_down"
+path = "leetcode/lc_0156_binary_tree_upside_down.rs"
+
+[[example]]
+name = "lc_0157_read_n_characters_given_read4"
+path = "leetcode/lc_0157_read_n_characters_given_read4.rs"
+
+[[example]]
+name = "lc_0158_read_n_characters_given_read4_ii"
+path = "leetcode/lc_0158_read_n_characters_given_read4_ii.rs"
+
+[[example]]
+name = "lc_0159_longest_substring_two_distinct"
+path = "leetcode/lc_0159_longest_substring_two_distinct.rs"
+
+[[example]]
 name = "lc_0160_intersection_two_lists"
 path = "leetcode/lc_0160_intersection_two_lists.rs"
 
 [[example]]
+name = "lc_0161_one_edit_distance"
+path = "leetcode/lc_0161_one_edit_distance.rs"
+
+[[example]]
 name = "lc_0162_find_peak_element"
 path = "leetcode/lc_0162_find_peak_element.rs"
+
+[[example]]
+name = "lc_0163_missing_ranges"
+path = "leetcode/lc_0163_missing_ranges.rs"
 
 [[example]]
 name = "lc_0164_maximum_gap"
@@ -812,6 +836,10 @@ name = "lc_0168_excel_sheet_column_title"
 path = "leetcode/lc_0168_excel_sheet_column_title.rs"
 
 [[example]]
+name = "lc_0170_two_sum_iii"
+path = "leetcode/lc_0170_two_sum_iii.rs"
+
+[[example]]
 name = "lc_0171_excel_sheet_column_number"
 path = "leetcode/lc_0171_excel_sheet_column_number.rs"
 
@@ -828,8 +856,52 @@ name = "lc_0174_dungeon_game"
 path = "leetcode/lc_0174_dungeon_game.rs"
 
 [[example]]
+name = "lc_0175_combine_two_tables"
+path = "leetcode/lc_0175_combine_two_tables.rs"
+
+[[example]]
+name = "lc_0176_second_highest_salary"
+path = "leetcode/lc_0176_second_highest_salary.rs"
+
+[[example]]
+name = "lc_0177_nth_highest_salary"
+path = "leetcode/lc_0177_nth_highest_salary.rs"
+
+[[example]]
+name = "lc_0178_rank_scores"
+path = "leetcode/lc_0178_rank_scores.rs"
+
+[[example]]
 name = "lc_0179_largest_number"
 path = "leetcode/lc_0179_largest_number.rs"
+
+[[example]]
+name = "lc_0180_consecutive_numbers"
+path = "leetcode/lc_0180_consecutive_numbers.rs"
+
+[[example]]
+name = "lc_0181_employees_earning_more_than_their_managers"
+path = "leetcode/lc_0181_employees_earning_more_than_their_managers.rs"
+
+[[example]]
+name = "lc_0182_duplicate_emails"
+path = "leetcode/lc_0182_duplicate_emails.rs"
+
+[[example]]
+name = "lc_0183_customers_who_never_order"
+path = "leetcode/lc_0183_customers_who_never_order.rs"
+
+[[example]]
+name = "lc_0184_department_highest_salary"
+path = "leetcode/lc_0184_department_highest_salary.rs"
+
+[[example]]
+name = "lc_0185_department_top_three_salaries"
+path = "leetcode/lc_0185_department_top_three_salaries.rs"
+
+[[example]]
+name = "lc_0186_reverse_words_in_a_string_ii"
+path = "leetcode/lc_0186_reverse_words_in_a_string_ii.rs"
 
 [[example]]
 name = "lc_0187_repeated_dna_sequences"
@@ -846,6 +918,30 @@ path = "leetcode/lc_0190_reverse_bits.rs"
 [[example]]
 name = "lc_0191_number_of_1_bits"
 path = "leetcode/lc_0191_number_of_1_bits.rs"
+
+[[example]]
+name = "lc_0192_word_frequency"
+path = "leetcode/lc_0192_word_frequency.rs"
+
+[[example]]
+name = "lc_0193_valid_phone_numbers"
+path = "leetcode/lc_0193_valid_phone_numbers.rs"
+
+[[example]]
+name = "lc_0194_transpose_file"
+path = "leetcode/lc_0194_transpose_file.rs"
+
+[[example]]
+name = "lc_0195_tenth_line"
+path = "leetcode/lc_0195_tenth_line.rs"
+
+[[example]]
+name = "lc_0196_delete_duplicate_emails"
+path = "leetcode/lc_0196_delete_duplicate_emails.rs"
+
+[[example]]
+name = "lc_0197_rising_temperature"
+path = "leetcode/lc_0197_rising_temperature.rs"
 
 [[example]]
 name = "lc_0198_house_robber"

@@ -60,3 +60,123 @@ Every completed file follows this header format (from `lc_0001_two_sum.rs`):
 > 5. **Add a `// --- Rust concepts used ---` section** to the file header documenting key Rust concepts demonstrated in the file (ownership patterns, trait usage, slice operations, etc.). **Only include concepts that have NOT appeared in any previous file's `Rust concepts used` section.** If a concept was already covered, omit it — do not repeat it. Add a `(Previously covered: ...)` note at the end referencing where each reused concept first appeared (e.g. `let mut x = x` -> lc_0263).
 > 6. **Re-run the benchmark** after adding the AI solution, and update the header with final numbers.
 > 7. Ensure all tests pass (`cargo test --example lc_{number}_{name}`).
+
+## Premium LeetCode Problems
+
+Premium (locked) problems are not accessible on leetcode.com without a subscription. Use the **doocs/leetcode** open-source repo on GitHub to get problem descriptions and reference solutions.
+
+### doocs URL Patterns
+
+- **Problem description (English)**:
+  ```
+  https://github.com/doocs/leetcode/blob/main/solution/{RANGE}/{NNNN}.{Title}/README_EN.md
+  ```
+  Example for LC 156:
+  ```
+  https://github.com/doocs/leetcode/blob/main/solution/0100-0199/0156.Binary%20Tree%20Upside%20Down/README_EN.md
+  ```
+
+- **Solution directory** (lists all available language files):
+  ```
+  https://github.com/doocs/leetcode/tree/main/solution/{RANGE}/{NNNN}.{Title}
+  ```
+
+- **Specific solution file** (e.g. Rust, Python, Java):
+  ```
+  https://github.com/doocs/leetcode/blob/main/solution/{RANGE}/{NNNN}.{Title}/Solution.rs
+  https://github.com/doocs/leetcode/blob/main/solution/{RANGE}/{NNNN}.{Title}/Solution.py
+  https://github.com/doocs/leetcode/blob/main/solution/{RANGE}/{NNNN}.{Title}/Solution.java
+  ```
+
+- **Range format**: `0000-0099`, `0100-0199`, `0200-0299`, etc.
+- **Title format**: spaces encoded as `%20` in URLs, e.g. `Two%20Sum`
+
+### Prompt 3: Premium problem — Rust-applicable (coding problem)
+
+> Create a LeetCode problem file for **LeetCode {number}: {title} [{difficulty}] (Premium)**.
+>
+> This is a premium problem. Fetch the problem description from:
+> `https://github.com/doocs/leetcode/blob/main/solution/{RANGE}/{NNNN}.{Title}/README_EN.md`
+>
+> Check the solution directory for available languages:
+> `https://github.com/doocs/leetcode/tree/main/solution/{RANGE}/{NNNN}.{Title}`
+>
+> **Workflow**:
+> 1. Fetch the `README_EN.md` for the problem description, examples, and constraints.
+> 2. If `Solution.rs` exists in the doocs repo, use it as `my_solution` (converted/adapted to match our file pattern with `pub struct Solution` + `impl Solution`).
+> 3. If no `Solution.rs` exists, translate the best available solution (prefer Python > Java > C++ > Go) into idiomatic Rust as `my_solution`. Add a comment: `// Translated from {language} solution in doocs/leetcode`.
+> 4. Generate a **different** `ai_solution` using an alternative algorithm or approach. Do NOT duplicate the same logic.
+> 5. Follow the same file structure as Prompt 1 (header, modules, main, tests, bench).
+> 6. Register in `Cargo.toml`, run tests, run benchmark, update header with results.
+>
+> The doocs-sourced solution counts as "my solution" for benchmarking purposes.
+
+### Prompt 4: Premium problem — NOT applicable for Rust (SQL/Shell)
+
+> Create a placeholder file for **LeetCode {number}: {title} [{difficulty}] (Premium)**.
+>
+> This problem is **not applicable for Rust** because it is a {SQL|Shell} problem.
+>
+> **File format**:
+> ```rust
+> // LeetCode {number}: {title} [{difficulty}] (Premium)
+> // https://leetcode.com/problems/{slug}/
+> //
+> // NOT APPLICABLE FOR RUST — this is a {SQL|Shell} problem.
+> //
+> // Problem description (from doocs/leetcode):
+> // {brief 1-2 line description}
+> //
+> // Reference: https://github.com/doocs/leetcode/blob/main/solution/{RANGE}/{NNNN}.{Title}/README_EN.md
+>
+> fn main() {
+>     println!("LeetCode {number}: {title}");
+>     println!("This is a {SQL|Shell} problem — not applicable for Rust.");
+>     println!("See README_EN.md link in file header for the problem and solution.");
+> }
+> ```
+>
+> Register in `Cargo.toml` as usual. No tests or benchmarks needed.
+
+### Missing Premium Problems (1-242 range)
+
+**Coding problems (8)** — create with Prompt 3:
+
+| # | Title | Difficulty | doocs Rust? |
+|---|-------|-----------|:-----------:|
+| 156 | Binary Tree Upside Down | Medium | No |
+| 157 | Read N Characters Given Read4 | Easy | No |
+| 158 | Read N Characters Given read4 II - Call Multiple Times | Hard | No |
+| 159 | Longest Substring with At Most Two Distinct Characters | Medium | No |
+| 161 | One Edit Distance | Medium | No |
+| 163 | Missing Ranges | Easy | No |
+| 170 | Two Sum III - Data structure design | Easy | No |
+| 186 | Reverse Words in a String II | Medium | No |
+
+All have descriptions on doocs. None have Rust solutions — translate from Python/Java/C++/Go.
+
+**SQL problems (12)** — create with Prompt 4:
+
+| # | Title | Type |
+|---|-------|------|
+| 175 | Combine Two Tables | SQL |
+| 176 | Second Highest Salary | SQL |
+| 177 | Nth Highest Salary | SQL |
+| 178 | Rank Scores | SQL |
+| 180 | Consecutive Numbers | SQL |
+| 181 | Employees Earning More Than Their Managers | SQL |
+| 182 | Duplicate Emails | SQL |
+| 183 | Customers Who Never Order | SQL |
+| 184 | Department Highest Salary | SQL |
+| 185 | Department Top Three Salaries | SQL |
+| 196 | Delete Duplicate Emails | SQL |
+| 197 | Rising Temperature | SQL |
+
+**Shell problems (4)** — create with Prompt 4:
+
+| # | Title | Type |
+|---|-------|------|
+| 192 | Word Frequency | Shell |
+| 193 | Valid Phone Numbers | Shell |
+| 194 | Transpose File | Shell |
+| 195 | Tenth Line | Shell |

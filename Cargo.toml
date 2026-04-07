@@ -931,6 +931,78 @@ path = "leetcode/lc_0220_contains_duplicate_iii.rs"
 name = "lc_0221_maximal_square"
 path = "leetcode/lc_0221_maximal_square.rs"
 
+[[example]]
+name = "lc_0224_basic_calculator"
+path = "leetcode/lc_0224_basic_calculator.rs"
+
+[[example]]
+name = "lc_0225_implement_stack_using_queues"
+path = "leetcode/lc_0225_implement_stack_using_queues.rs"
+
+[[example]]
+name = "lc_0226_invert_binary_tree"
+path = "leetcode/lc_0226_invert_binary_tree.rs"
+
+[[example]]
+name = "lc_0227_basic_calculator_ii"
+path = "leetcode/lc_0227_basic_calculator_ii.rs"
+
+[[example]]
+name = "lc_0228_summary_ranges"
+path = "leetcode/lc_0228_summary_ranges.rs"
+
+[[example]]
+name = "lc_0229_majority_element_ii"
+path = "leetcode/lc_0229_majority_element_ii.rs"
+
+[[example]]
+name = "lc_0230_kth_smallest_element_in_bst"
+path = "leetcode/lc_0230_kth_smallest_element_in_bst.rs"
+
+[[example]]
+name = "lc_0231_power_of_two"
+path = "leetcode/lc_0231_power_of_two.rs"
+
+[[example]]
+name = "lc_0232_implement_queue_using_stacks"
+path = "leetcode/lc_0232_implement_queue_using_stacks.rs"
+
+[[example]]
+name = "lc_0233_number_of_digit_one"
+path = "leetcode/lc_0233_number_of_digit_one.rs"
+
+[[example]]
+name = "lc_0234_palindrome_linked_list"
+path = "leetcode/lc_0234_palindrome_linked_list.rs"
+
+[[example]]
+name = "lc_0235_lowest_common_ancestor_bst"
+path = "leetcode/lc_0235_lowest_common_ancestor_bst.rs"
+
+[[example]]
+name = "lc_0236_lowest_common_ancestor_bt"
+path = "leetcode/lc_0236_lowest_common_ancestor_bt.rs"
+
+[[example]]
+name = "lc_0237_delete_node_linked_list"
+path = "leetcode/lc_0237_delete_node_linked_list.rs"
+
+[[example]]
+name = "lc_0239_sliding_window_maximum"
+path = "leetcode/lc_0239_sliding_window_maximum.rs"
+
+[[example]]
+name = "lc_0240_search_2d_matrix_ii"
+path = "leetcode/lc_0240_search_2d_matrix_ii.rs"
+
+[[example]]
+name = "lc_0241_different_ways_to_add_parentheses"
+path = "leetcode/lc_0241_different_ways_to_add_parentheses.rs"
+
+[[example]]
+name = "lc_0242_valid_anagram"
+path = "leetcode/lc_0242_valid_anagram.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

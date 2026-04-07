@@ -1303,6 +1303,50 @@ path = "leetcode/lc_0298_binary_tree_longest_consecutive_sequence.rs"
 name = "lc_0299_bulls_and_cows"
 path = "leetcode/lc_0299_bulls_and_cows.rs"
 
+[[example]]
+name = "lc_0300_longest_increasing_subsequence"
+path = "leetcode/lc_0300_longest_increasing_subsequence.rs"
+
+[[example]]
+name = "lc_0301_remove_invalid_parentheses"
+path = "leetcode/lc_0301_remove_invalid_parentheses.rs"
+
+[[example]]
+name = "lc_0302_smallest_rectangle_enclosing_black_pixels"
+path = "leetcode/lc_0302_smallest_rectangle_enclosing_black_pixels.rs"
+
+[[example]]
+name = "lc_0303_range_sum_query_immutable"
+path = "leetcode/lc_0303_range_sum_query_immutable.rs"
+
+[[example]]
+name = "lc_0304_range_sum_query_2d_immutable"
+path = "leetcode/lc_0304_range_sum_query_2d_immutable.rs"
+
+[[example]]
+name = "lc_0305_number_of_islands_ii"
+path = "leetcode/lc_0305_number_of_islands_ii.rs"
+
+[[example]]
+name = "lc_0306_additive_number"
+path = "leetcode/lc_0306_additive_number.rs"
+
+[[example]]
+name = "lc_0307_range_sum_query_mutable"
+path = "leetcode/lc_0307_range_sum_query_mutable.rs"
+
+[[example]]
+name = "lc_0308_range_sum_query_2d_mutable"
+path = "leetcode/lc_0308_range_sum_query_2d_mutable.rs"
+
+[[example]]
+name = "lc_0309_best_time_buy_sell_stock_cooldown"
+path = "leetcode/lc_0309_best_time_buy_sell_stock_cooldown.rs"
+
+[[example]]
+name = "lc_0310_minimum_height_trees"
+path = "leetcode/lc_0310_minimum_height_trees.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

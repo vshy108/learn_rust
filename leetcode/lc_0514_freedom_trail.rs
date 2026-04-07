@@ -30,12 +30,32 @@
 // Run:  cargo run --example lc_0514_freedom_trail
 // Test: cargo test --example lc_0514_freedom_trail
 // Bench: cargo test --example lc_0514_freedom_trail bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - Top-down DP with `HashMap<(usize, usize), i32>` memo: tuple key for
+//   (ring_idx, key_idx) state, recursive with memoization
+// - Bottom-up DP with 2D Vec: `vec![vec![0i32; n]; m + 1]` table
+//   iterated in reverse key order
+// - `positions.entry(b).or_default()`: uses Default trait on Vec to
+//   auto-create empty vec for missing keys
+//   (Previously covered: HashMap memoization tuple key -> lc_0010,
+//    i32::MAX sentinel -> lc_0004, .min() chaining -> lc_0003)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  2158.82ms (avg 21.58us)
+// AI solution:  1169.93ms (avg 11.69us)
+// -> AI solution is 1.85x faster
+// Reason: bottom-up DP eliminates recursive call overhead and HashMap
+//   lookup per state; sequential memory access in the 2D Vec is more
+//   cache-friendly than HashMap probing.
 
-/// My solution module.
+/// My solution module — top-down DP with memoization.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(m * n^2) where m = key.len(), n = ring.len()
+/// Space: O(m * n) for the memo table
 mod my_solution {
+    use std::collections::HashMap;
+
     pub struct Solution;
 
     impl Solution {
@@ -50,30 +70,60 @@ mod my_solution {
         ///
         /// Minimum number of steps (rotations + button presses)
         pub fn find_rotate_steps(ring: String, key: String) -> i32 {
-            // n = ring.size
-            // memo = {}  # [ring_idx, key_idx] -> min steps
-            // positions = { char -> [indices] }
-            // dp(ring_idx, key_idx):
-            //   return 0 if key_idx == key.size
-            //   return memo if cached
-            //   target = key[key_idx]
-            //   min_steps = INF
-            //   positions[target].each do |pos|
-            //     diff = (pos - ring_idx).abs
-            //     step = [diff, n - diff].min + 1
-            //     min_steps = [min_steps, step + dp(pos, key_idx + 1)].min
-            //   end
-            //   memo[[ring_idx, key_idx]] = min_steps
-            // dp(0, 0)
-            todo!()
+            let ring = ring.as_bytes();
+            let key = key.as_bytes();
+            let n = ring.len();
+            // Precompute positions for each character in ring
+            let mut positions: HashMap<u8, Vec<usize>> = HashMap::new();
+            for (i, &b) in ring.iter().enumerate() {
+                positions.entry(b).or_default().push(i);
+            }
+            let mut memo: HashMap<(usize, usize), i32> = HashMap::new();
+            Self::dp(0, 0, ring, key, n, &positions, &mut memo)
+        }
+
+        fn dp(
+            ring_idx: usize,
+            key_idx: usize,
+            ring: &[u8],
+            key: &[u8],
+            n: usize,
+            positions: &HashMap<u8, Vec<usize>>,
+            memo: &mut HashMap<(usize, usize), i32>,
+        ) -> i32 {
+            if key_idx == key.len() {
+                return 0;
+            }
+            if let Some(&cached) = memo.get(&(ring_idx, key_idx)) {
+                return cached;
+            }
+            let target = key[key_idx];
+            let mut min_steps = i32::MAX;
+            // Try every position of the target character on the ring
+            for &pos in &positions[&target] {
+                let diff = if pos >= ring_idx {
+                    pos - ring_idx
+                } else {
+                    ring_idx - pos
+                };
+                // Minimum of clockwise vs counterclockwise, plus 1 for button press
+                let step = diff.min(n - diff) as i32 + 1;
+                let rest = Self::dp(pos, key_idx + 1, ring, key, n, positions, memo);
+                min_steps = min_steps.min(step + rest);
+            }
+            memo.insert((ring_idx, key_idx), min_steps);
+            min_steps
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — bottom-up DP with 2D table.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Iterates key characters in reverse, building a table of minimum
+/// cost from each ring position to spell the remaining key.
+///
+/// Time:  O(m * n^2)
+/// Space: O(m * n)
 mod ai_solution {
     pub struct Solution;
 
@@ -89,7 +139,29 @@ mod ai_solution {
         ///
         /// Minimum number of steps (rotations + button presses)
         pub fn find_rotate_steps(ring: String, key: String) -> i32 {
-            todo!()
+            let ring = ring.as_bytes();
+            let key = key.as_bytes();
+            let n = ring.len();
+            let m = key.len();
+            // Precompute positions for each character
+            let mut positions = vec![vec![]; 26];
+            for (i, &b) in ring.iter().enumerate() {
+                positions[(b - b'a') as usize].push(i);
+            }
+            // dp[k][i] = min steps to spell key[k..] when ring is at position i
+            let mut dp = vec![vec![0i32; n]; m + 1];
+            for k in (0..m).rev() {
+                let target = (key[k] - b'a') as usize;
+                for i in 0..n {
+                    dp[k][i] = i32::MAX;
+                    for &pos in &positions[target] {
+                        let diff = if pos >= i { pos - i } else { i - pos };
+                        let step = diff.min(n - diff) as i32 + 1;
+                        dp[k][i] = dp[k][i].min(step + dp[k + 1][pos]);
+                    }
+                }
+            }
+            dp[0][0]
         }
     }
 }

@@ -27,12 +27,29 @@
 // Run:  cargo run --example lc_0523_continuous_subarray_sum
 // Test: cargo test --example lc_0523_continuous_subarray_sum
 // Bench: cargo test --example lc_0523_continuous_subarray_sum bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - Prefix sum modular arithmetic: track running sum % k and map
+//   remainder -> first index to detect subarray sums divisible by k
+// - Sentinel seeding: `mod_map.insert(0, -1)` handles subarrays starting
+//   at index 0 without special-casing
+//   (Previously covered: HashMap get -> lc_0001, enumerate -> lc_0045,
+//    entry or_insert -> lc_0380, as i32 cast -> lc_0004)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  743.88ms (avg 7.43us)
+// AI solution:  622.89ms (avg 6.22us)
+// -> AI solution is 1.19x faster
+// Reason: AI uses or_insert to atomically check-and-store the first
+//   occurrence, avoiding the if-let / else branch on every iteration.
 
-/// My solution module.
+/// My solution module — prefix sum mod k with HashMap.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n)
+/// Space: O(min(n, k))
 mod my_solution {
+    use std::collections::HashMap;
+
     pub struct Solution;
 
     impl Solution {
@@ -47,28 +64,38 @@ mod my_solution {
         ///
         /// `true` if such a subarray exists
         pub fn check_subarray_sum(nums: Vec<i32>, k: i32) -> bool {
-            // mod_map = { 0 => -1 }
-            // sum = 0
-            // nums.each_with_index do |num, i|
-            //   sum += num
-            //   mod = k != 0 ? sum % k : sum
-            //   if mod_map.key?(mod)
-            //     return true if i - mod_map[mod] >= 2
-            //   else
-            //     mod_map[mod] = i
-            //   end
-            // end
-            // false
-            todo!()
+            // Map remainder -> earliest index where that remainder was seen.
+            // Seed with 0 -> -1 to handle subarrays starting from index 0.
+            let mut mod_map: HashMap<i32, i32> = HashMap::new();
+            mod_map.insert(0, -1);
+            let mut sum = 0;
+            for (i, &num) in nums.iter().enumerate() {
+                sum += num;
+                let remainder = sum % k;
+                if let Some(&prev_index) = mod_map.get(&remainder) {
+                    // Subarray length must be at least 2
+                    if i as i32 - prev_index >= 2 {
+                        return true;
+                    }
+                } else {
+                    mod_map.insert(remainder, i as i32);
+                }
+            }
+            false
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — same prefix-mod approach, uses `entry` API.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses `or_insert` to only store the first occurrence of each remainder,
+/// avoiding the if-else branch.
+///
+/// Time:  O(n)
+/// Space: O(min(n, k))
 mod ai_solution {
+    use std::collections::HashMap;
+
     pub struct Solution;
 
     impl Solution {
@@ -83,7 +110,20 @@ mod ai_solution {
         ///
         /// `true` if such a subarray exists
         pub fn check_subarray_sum(nums: Vec<i32>, k: i32) -> bool {
-            todo!()
+            let mut first_seen: HashMap<i32, usize> = HashMap::new();
+            first_seen.insert(0, 0); // remainder 0 at virtual index 0 (before first element)
+            let mut prefix = 0;
+            for (i, &num) in nums.iter().enumerate() {
+                prefix += num;
+                let rem = prefix % k;
+                // or_insert only inserts if key is absent, preserving earliest index
+                let earliest = *first_seen.entry(rem).or_insert(i + 1);
+                // i + 1 is current 1-based index; gap of >= 2 means subarray length >= 2
+                if i + 1 - earliest >= 2 {
+                    return true;
+                }
+            }
+            false
         }
     }
 }

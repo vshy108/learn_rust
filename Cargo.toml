@@ -1099,6 +1099,210 @@ path = "leetcode/lc_0241_different_ways_to_add_parentheses.rs"
 name = "lc_0242_valid_anagram"
 path = "leetcode/lc_0242_valid_anagram.rs"
 
+[[example]]
+name = "lc_0243_shortest_word_distance"
+path = "leetcode/lc_0243_shortest_word_distance.rs"
+
+[[example]]
+name = "lc_0244_shortest_word_distance_ii"
+path = "leetcode/lc_0244_shortest_word_distance_ii.rs"
+
+[[example]]
+name = "lc_0245_shortest_word_distance_iii"
+path = "leetcode/lc_0245_shortest_word_distance_iii.rs"
+
+[[example]]
+name = "lc_0246_strobogrammatic_number"
+path = "leetcode/lc_0246_strobogrammatic_number.rs"
+
+[[example]]
+name = "lc_0247_strobogrammatic_number_ii"
+path = "leetcode/lc_0247_strobogrammatic_number_ii.rs"
+
+[[example]]
+name = "lc_0248_strobogrammatic_number_iii"
+path = "leetcode/lc_0248_strobogrammatic_number_iii.rs"
+
+[[example]]
+name = "lc_0249_group_shifted_strings"
+path = "leetcode/lc_0249_group_shifted_strings.rs"
+
+[[example]]
+name = "lc_0250_count_univalue_subtrees"
+path = "leetcode/lc_0250_count_univalue_subtrees.rs"
+
+[[example]]
+name = "lc_0251_flatten_2d_vector"
+path = "leetcode/lc_0251_flatten_2d_vector.rs"
+
+[[example]]
+name = "lc_0252_meeting_rooms"
+path = "leetcode/lc_0252_meeting_rooms.rs"
+
+[[example]]
+name = "lc_0253_meeting_rooms_ii"
+path = "leetcode/lc_0253_meeting_rooms_ii.rs"
+
+[[example]]
+name = "lc_0254_factor_combinations"
+path = "leetcode/lc_0254_factor_combinations.rs"
+
+[[example]]
+name = "lc_0255_verify_preorder_sequence_bst"
+path = "leetcode/lc_0255_verify_preorder_sequence_bst.rs"
+
+[[example]]
+name = "lc_0256_paint_house"
+path = "leetcode/lc_0256_paint_house.rs"
+
+[[example]]
+name = "lc_0257_binary_tree_paths"
+path = "leetcode/lc_0257_binary_tree_paths.rs"
+
+[[example]]
+name = "lc_0258_add_digits"
+path = "leetcode/lc_0258_add_digits.rs"
+
+[[example]]
+name = "lc_0259_3sum_smaller"
+path = "leetcode/lc_0259_3sum_smaller.rs"
+
+[[example]]
+name = "lc_0260_single_number_iii"
+path = "leetcode/lc_0260_single_number_iii.rs"
+
+[[example]]
+name = "lc_0261_graph_valid_tree"
+path = "leetcode/lc_0261_graph_valid_tree.rs"
+
+[[example]]
+name = "lc_0264_ugly_number_ii"
+path = "leetcode/lc_0264_ugly_number_ii.rs"
+
+[[example]]
+name = "lc_0265_paint_house_ii"
+path = "leetcode/lc_0265_paint_house_ii.rs"
+
+[[example]]
+name = "lc_0266_palindrome_permutation"
+path = "leetcode/lc_0266_palindrome_permutation.rs"
+
+[[example]]
+name = "lc_0267_palindrome_permutation_ii"
+path = "leetcode/lc_0267_palindrome_permutation_ii.rs"
+
+[[example]]
+name = "lc_0268_missing_number"
+path = "leetcode/lc_0268_missing_number.rs"
+
+[[example]]
+name = "lc_0269_alien_dictionary"
+path = "leetcode/lc_0269_alien_dictionary.rs"
+
+[[example]]
+name = "lc_0270_closest_bst_value"
+path = "leetcode/lc_0270_closest_bst_value.rs"
+
+[[example]]
+name = "lc_0271_encode_decode_strings"
+path = "leetcode/lc_0271_encode_decode_strings.rs"
+
+[[example]]
+name = "lc_0272_closest_bst_value_ii"
+path = "leetcode/lc_0272_closest_bst_value_ii.rs"
+
+[[example]]
+name = "lc_0273_integer_to_english_words"
+path = "leetcode/lc_0273_integer_to_english_words.rs"
+
+[[example]]
+name = "lc_0275_h_index_ii"
+path = "leetcode/lc_0275_h_index_ii.rs"
+
+[[example]]
+name = "lc_0276_paint_fence"
+path = "leetcode/lc_0276_paint_fence.rs"
+
+[[example]]
+name = "lc_0277_find_the_celebrity"
+path = "leetcode/lc_0277_find_the_celebrity.rs"
+
+[[example]]
+name = "lc_0280_wiggle_sort"
+path = "leetcode/lc_0280_wiggle_sort.rs"
+
+[[example]]
+name = "lc_0281_zigzag_iterator"
+path = "leetcode/lc_0281_zigzag_iterator.rs"
+
+[[example]]
+name = "lc_0282_expression_add_operators"
+path = "leetcode/lc_0282_expression_add_operators.rs"
+
+[[example]]
+name = "lc_0283_move_zeroes"
+path = "leetcode/lc_0283_move_zeroes.rs"
+
+[[example]]
+name = "lc_0284_peeking_iterator"
+path = "leetcode/lc_0284_peeking_iterator.rs"
+
+[[example]]
+name = "lc_0285_inorder_successor_bst"
+path = "leetcode/lc_0285_inorder_successor_bst.rs"
+
+[[example]]
+name = "lc_0286_walls_and_gates"
+path = "leetcode/lc_0286_walls_and_gates.rs"
+
+[[example]]
+name = "lc_0287_find_the_duplicate_number"
+path = "leetcode/lc_0287_find_the_duplicate_number.rs"
+
+[[example]]
+name = "lc_0288_unique_word_abbreviation"
+path = "leetcode/lc_0288_unique_word_abbreviation.rs"
+
+[[example]]
+name = "lc_0289_game_of_life"
+path = "leetcode/lc_0289_game_of_life.rs"
+
+[[example]]
+name = "lc_0290_word_pattern"
+path = "leetcode/lc_0290_word_pattern.rs"
+
+[[example]]
+name = "lc_0291_word_pattern_ii"
+path = "leetcode/lc_0291_word_pattern_ii.rs"
+
+[[example]]
+name = "lc_0292_nim_game"
+path = "leetcode/lc_0292_nim_game.rs"
+
+[[example]]
+name = "lc_0293_flip_game"
+path = "leetcode/lc_0293_flip_game.rs"
+
+[[example]]
+name = "lc_0294_flip_game_ii"
+path = "leetcode/lc_0294_flip_game_ii.rs"
+
+[[example]]
+name = "lc_0296_best_meeting_point"
+path = "leetcode/lc_0296_best_meeting_point.rs"
+
+[[example]]
+name = "lc_0297_serialize_deserialize_binary_tree"
+path = "leetcode/lc_0297_serialize_deserialize_binary_tree.rs"
+
+[[example]]
+name = "lc_0298_binary_tree_longest_consecutive_sequence"
+path = "leetcode/lc_0298_binary_tree_longest_consecutive_sequence.rs"
+
+[[example]]
+name = "lc_0299_bulls_and_cows"
+path = "leetcode/lc_0299_bulls_and_cows.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

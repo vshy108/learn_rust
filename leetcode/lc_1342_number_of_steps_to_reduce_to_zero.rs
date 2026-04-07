@@ -17,11 +17,27 @@
 // Run:  cargo run --example lc_1342_number_of_steps_to_reduce_to_zero
 // Test: cargo test --example lc_1342_number_of_steps_to_reduce_to_zero
 // Bench: cargo test --example lc_1342_number_of_steps_to_reduce_to_zero bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - `let mut num = num` parameter rebinding: takes ownership of the
+//   i32 param and rebinds as mutable for in-place modification
+// - Bitwise `& 1` and `>>= 1`: test odd/even and divide-by-2 in a
+//   single pass without branching on even/odd separately
+//   (Previously covered: let mut x = x shadowing -> lc_0009,
+//    >> 1 bit shift -> lc_0278, & bitwise ops -> lc_0222)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  17.25ms (avg 172ns)
+// AI solution:  10.29ms (avg 102ns)
+// -> AI solution is 1.68x faster
+// Reason: bitwise approach processes all bits uniformly without the
+//   branch misprediction cost of the if num%2==0 check.
 
 /// My solution module.
+/// My solution module — direct simulation.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(log n)
+/// Space: O(1)
 mod my_solution {
     pub struct Solution;
 
@@ -36,23 +52,28 @@ mod my_solution {
         ///
         /// Number of steps to reach zero
         pub fn number_of_steps(num: i32) -> i32 {
-            // steps = 0
-            // while num > 0
-            //   if num.even?: num /= 2
-            //   else: num -= 1
-            //   end
-            //   steps += 1
-            // end
-            // steps
-            todo!()
+            let mut num = num;
+            let mut steps = 0;
+            while num > 0 {
+                if num % 2 == 0 {
+                    num /= 2;
+                } else {
+                    num -= 1;
+                }
+                steps += 1;
+            }
+            steps
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — bitwise approach.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Each bit contributes: 1 step for shift-right (divide by 2), plus
+/// 1 extra step if the bit is 1 (subtract 1). Special case: num == 0.
+///
+/// Time:  O(log n)
+/// Space: O(1)
 mod ai_solution {
     pub struct Solution;
 
@@ -67,7 +88,19 @@ mod ai_solution {
         ///
         /// Number of steps to reach zero
         pub fn number_of_steps(num: i32) -> i32 {
-            todo!()
+            if num == 0 {
+                return 0;
+            }
+            let mut n = num;
+            let mut steps = 0;
+            while n > 0 {
+                // Bitwise: & 1 checks odd (subtract step), >> 1 is divide step
+                steps += (n & 1) + 1;
+                n >>= 1;
+            }
+            // The last bit (when n becomes 1) only needs the subtract step,
+            // not the extra divide step. Subtract 1 to correct.
+            steps - 1
         }
     }
 }

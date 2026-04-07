@@ -18,11 +18,30 @@
 // Run:  cargo run --example lc_1323_maximum_69_number
 // Test: cargo test --example lc_1323_maximum_69_number
 // Bench: cargo test --example lc_1323_maximum_69_number bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - `.into_bytes()` on String: consumes the String into owned Vec<u8>,
+//   used here to get mutable digit bytes
+// - `&mut` iteration over Vec<u8>: `for d in &mut digits` yields `&mut u8`
+//   allowing in-place modification of bytes
+// - Arithmetic digit manipulation: `num + 3 * power` flips 6 to 9 (6+3=9)
+//   without any string conversion
+//   (Previously covered: .to_string() -> lc_0012, .parse() -> lc_0008,
+//    into_bytes() -> lc_0079, String::from_utf8 -> lc_0151)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  75.08ms (avg 750ns)
+// AI solution:  9.27ms (avg 92ns)
+// -> AI solution is 8.09x faster
+// Reason: pure arithmetic (division + modulo) avoids the String
+//   allocation, byte manipulation, and parse overhead entirely.
 
 /// My solution module.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// My solution module — convert to chars, flip first '6'.
+///
+/// Time:  O(d) where d = number of digits
+/// Space: O(d) for the char vector
 mod my_solution {
     pub struct Solution;
 
@@ -37,23 +56,28 @@ mod my_solution {
         ///
         /// The maximum number achievable with at most one digit change
         pub fn maximum69_number(num: i32) -> i32 {
-            // digits = num.to_s.chars
-            // digits.each_with_index do |d, i|
-            //   if d == '6'
-            //     digits[i] = '9'
-            //     break
-            //   end
-            // end
-            // digits.join.to_i
-            todo!()
+            let mut digits: Vec<u8> = num.to_string().into_bytes();
+            for d in &mut digits {
+                if *d == b'6' {
+                    *d = b'9';
+                    break;
+                }
+            }
+            String::from_utf8(digits)
+                .expect("valid ASCII digits")
+                .parse()
+                .expect("valid number")
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — arithmetic approach (no string conversion).
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Finds the highest power of 10 where the digit is 6, then adds
+/// 3 * that power to flip it to 9.
+///
+/// Time:  O(d)
+/// Space: O(1)
 mod ai_solution {
     pub struct Solution;
 
@@ -68,7 +92,22 @@ mod ai_solution {
         ///
         /// The maximum number achievable with at most one digit change
         pub fn maximum69_number(num: i32) -> i32 {
-            todo!()
+            let mut first_six_power = -1;
+            let mut n = num;
+            let mut p = 1;
+            // Find the highest position with a 6
+            while n > 0 {
+                if n % 10 == 6 {
+                    first_six_power = p;
+                }
+                n /= 10;
+                p *= 10;
+            }
+            if first_six_power == -1 {
+                num // all 9s
+            } else {
+                num + 3 * first_six_power // 6 + 3 = 9
+            }
         }
     }
 }

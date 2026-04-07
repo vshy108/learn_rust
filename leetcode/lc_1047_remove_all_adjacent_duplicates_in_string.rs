@@ -21,11 +21,28 @@
 // Run:  cargo run --example lc_1047_remove_all_adjacent_duplicates_in_string
 // Test: cargo test --example lc_1047_remove_all_adjacent_duplicates_in_string
 // Bench: cargo test --example lc_1047_remove_all_adjacent_duplicates_in_string bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - `Vec<u8>` as byte stack with `.last() == Some(&b)`: compare top of
+//   stack without removing it, avoiding the `chars()` overhead
+// - `String::from_utf8(vec)`: safe conversion from byte vec back to
+//   String with UTF-8 validation
+// - `String::ends_with(char)`: O(1) check on the last byte for ASCII
+//   (Previously covered: as_bytes() -> lc_0005, String::with_capacity -> lc_0006,
+//    String::push/pop -> lc_0006/lc_0014)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  81.66ms (avg 816ns)
+// AI solution:  131.88ms (avg 1.31us)
+// -> My solution is 1.61x faster
+// Reason: byte-level stack avoids the char decoding overhead of
+//   .chars() and the UTF-8 boundary scan of .ends_with(char).
 
 /// My solution module.
+/// My solution module — stack of bytes.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n)
+/// Space: O(n)
 mod my_solution {
     pub struct Solution;
 
@@ -40,24 +57,26 @@ mod my_solution {
         ///
         /// The final string after all duplicate removals
         pub fn remove_duplicates(s: String) -> String {
-            // stack = []
-            // s.each_char do |c|
-            //   if !stack.empty? && stack[-1] == c
-            //     stack.pop
-            //   else
-            //     stack << c
-            //   end
-            // end
-            // stack.join
-            todo!()
+            let mut stack: Vec<u8> = Vec::with_capacity(s.len());
+            for &b in s.as_bytes() {
+                if stack.last() == Some(&b) {
+                    stack.pop();
+                } else {
+                    stack.push(b);
+                }
+            }
+            // Safety: input is ASCII lowercase, output is valid UTF-8
+            String::from_utf8(stack).expect("valid ASCII")
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — in-place String with pop/push.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Uses the String itself as a stack via push(char)/pop().
+///
+/// Time:  O(n)
+/// Space: O(n)
 mod ai_solution {
     pub struct Solution;
 
@@ -72,7 +91,15 @@ mod ai_solution {
         ///
         /// The final string after all duplicate removals
         pub fn remove_duplicates(s: String) -> String {
-            todo!()
+            let mut result = String::with_capacity(s.len());
+            for ch in s.chars() {
+                if result.ends_with(ch) {
+                    result.pop();
+                } else {
+                    result.push(ch);
+                }
+            }
+            result
         }
     }
 }

@@ -24,12 +24,34 @@
 // Run:  cargo run --example lc_0947_most_stones_removed_with_same_row_or_column
 // Test: cargo test --example lc_0947_most_stones_removed_with_same_row_or_column
 // Bench: cargo test --example lc_0947_most_stones_removed_with_same_row_or_column bench -- --nocapture
+//
+// --- Rust concepts used ---
+// - `!y` (bitwise NOT) for namespace separation: maps column index to
+//   a distinct negative value so rows and columns never collide in the
+//   union-find parent map
+// - Nested `fn` inside `impl`: `find` and `union` as standalone functions
+//   taking `&mut HashMap` instead of closures (avoids borrow issues)
+// - DFS with `vec![bool]` visited: iterative stack-based graph traversal
+//   (Previously covered: HashMap -> lc_0001, HashSet -> lc_0003,
+//    Union-Find -> already introduced here, path compression pattern)
+//
+// --- Benchmark (100_000 iterations, 2026-04-07) ---
+// My solution:  4817.93ms (avg 48.17us)
+// AI solution:  380.19ms (avg 3.80us)
+// -> AI solution is 12.67x faster
+// Reason: DFS iterates an adjacency check in O(n) per node, but operates
+//   on a small visited vec. Union-Find with HashMap has per-stone constant
+//   cost amortized, but the HashMap overhead per operation is higher for
+//   small inputs. AI wins because small test inputs favour the simple DFS.
 
-/// My solution module.
+/// My solution module — Union-Find with bitwise complement for column separation.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Time:  O(n * α(n)) amortized, effectively O(n)
+/// Space: O(n) for the parent map
 mod my_solution {
+    use std::collections::HashMap;
+    use std::collections::HashSet;
+
     pub struct Solution;
 
     impl Solution {
@@ -43,23 +65,51 @@ mod my_solution {
         ///
         /// Maximum number of removable stones
         pub fn remove_stones(stones: Vec<Vec<i32>>) -> i32 {
-            // parent = {}
-            // find(x): path compression → parent[x] ||= x
-            // union(x, y): parent[find(x)] = find(y)
-            // stones.each do |x, y|
-            //   union(x, ~y)  # ~y distinguishes row vs column
-            // end
-            // components = stones.map { |x, y| find(x) }.uniq.size
-            // stones.size - components
-            todo!()
+            let mut parent: HashMap<i32, i32> = HashMap::new();
+
+            fn find(parent: &mut HashMap<i32, i32>, x: i32) -> i32 {
+                // Path compression: if parent[x] not set, x is its own root
+                if !parent.contains_key(&x) {
+                    parent.insert(x, x);
+                    return x;
+                }
+                if parent[&x] != x {
+                    let root = find(parent, parent[&x]);
+                    parent.insert(x, root);
+                }
+                parent[&x]
+            }
+
+            fn union(parent: &mut HashMap<i32, i32>, x: i32, y: i32) {
+                let rx = find(parent, x);
+                let ry = find(parent, y);
+                if rx != ry {
+                    parent.insert(rx, ry);
+                }
+            }
+
+            for stone in &stones {
+                // !y (bitwise NOT) maps column y to a distinct negative space
+                union(&mut parent, stone[0], !stone[1]);
+            }
+
+            // Count unique components among stones
+            let components: HashSet<i32> = stones
+                .iter()
+                .map(|s| find(&mut parent, s[0]))
+                .collect();
+            stones.len() as i32 - components.len() as i32
         }
     }
 }
 
-/// AI solution module.
+/// AI solution module — DFS connected components.
 ///
-/// Time:  O(?)
-/// Space: O(?)
+/// Build adjacency: two stones share an edge if they have the same
+/// row or column. Then count connected components via DFS.
+///
+/// Time:  O(n^2)
+/// Space: O(n)
 mod ai_solution {
     pub struct Solution;
 
@@ -74,7 +124,31 @@ mod ai_solution {
         ///
         /// Maximum number of removable stones
         pub fn remove_stones(stones: Vec<Vec<i32>>) -> i32 {
-            todo!()
+            let n = stones.len();
+            let mut visited = vec![false; n];
+            let mut components = 0;
+            for i in 0..n {
+                if !visited[i] {
+                    components += 1;
+                    // DFS from stone i
+                    let mut stack = vec![i];
+                    while let Some(curr) = stack.pop() {
+                        if visited[curr] {
+                            continue;
+                        }
+                        visited[curr] = true;
+                        for j in 0..n {
+                            if !visited[j]
+                                && (stones[curr][0] == stones[j][0]
+                                    || stones[curr][1] == stones[j][1])
+                            {
+                                stack.push(j);
+                            }
+                        }
+                    }
+                }
+            }
+            n as i32 - components
         }
     }
 }

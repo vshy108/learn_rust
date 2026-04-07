@@ -1467,6 +1467,82 @@ path = "leetcode/lc_0339_nested_list_weight_sum.rs"
 name = "lc_0340_longest_substring_with_at_most_k_distinct_characters"
 path = "leetcode/lc_0340_longest_substring_with_at_most_k_distinct_characters.rs"
 
+[[example]]
+name = "lc_0341_flatten_nested_list_iterator"
+path = "leetcode/lc_0341_flatten_nested_list_iterator.rs"
+
+[[example]]
+name = "lc_0342_power_of_four"
+path = "leetcode/lc_0342_power_of_four.rs"
+
+[[example]]
+name = "lc_0343_integer_break"
+path = "leetcode/lc_0343_integer_break.rs"
+
+[[example]]
+name = "lc_0344_reverse_string"
+path = "leetcode/lc_0344_reverse_string.rs"
+
+[[example]]
+name = "lc_0346_moving_average_from_data_stream"
+path = "leetcode/lc_0346_moving_average_from_data_stream.rs"
+
+[[example]]
+name = "lc_0347_top_k_frequent_elements"
+path = "leetcode/lc_0347_top_k_frequent_elements.rs"
+
+[[example]]
+name = "lc_0348_design_tic_tac_toe"
+path = "leetcode/lc_0348_design_tic_tac_toe.rs"
+
+[[example]]
+name = "lc_0349_intersection_of_two_arrays"
+path = "leetcode/lc_0349_intersection_of_two_arrays.rs"
+
+[[example]]
+name = "lc_0350_intersection_of_two_arrays_ii"
+path = "leetcode/lc_0350_intersection_of_two_arrays_ii.rs"
+
+[[example]]
+name = "lc_0351_android_unlock_patterns"
+path = "leetcode/lc_0351_android_unlock_patterns.rs"
+
+[[example]]
+name = "lc_0352_data_stream_as_disjoint_intervals"
+path = "leetcode/lc_0352_data_stream_as_disjoint_intervals.rs"
+
+[[example]]
+name = "lc_0353_design_snake_game"
+path = "leetcode/lc_0353_design_snake_game.rs"
+
+[[example]]
+name = "lc_0354_russian_doll_envelopes"
+path = "leetcode/lc_0354_russian_doll_envelopes.rs"
+
+[[example]]
+name = "lc_0355_design_twitter"
+path = "leetcode/lc_0355_design_twitter.rs"
+
+[[example]]
+name = "lc_0356_line_reflection"
+path = "leetcode/lc_0356_line_reflection.rs"
+
+[[example]]
+name = "lc_0357_count_numbers_with_unique_digits"
+path = "leetcode/lc_0357_count_numbers_with_unique_digits.rs"
+
+[[example]]
+name = "lc_0358_rearrange_string_k_distance_apart"
+path = "leetcode/lc_0358_rearrange_string_k_distance_apart.rs"
+
+[[example]]
+name = "lc_0359_logger_rate_limiter"
+path = "leetcode/lc_0359_logger_rate_limiter.rs"
+
+[[example]]
+name = "lc_0360_sort_transformed_array"
+path = "leetcode/lc_0360_sort_transformed_array.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"

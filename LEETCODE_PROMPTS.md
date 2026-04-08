@@ -1,12 +1,12 @@
 # LeetCode File Generation Prompts
 
-> **Status**: Problems 1–500 completed. These prompts document the workflow used to scaffold and complete each file.
+> **Status**: 518 files — problems 1–500 fully covered (no gaps, no skips) plus selected problems beyond 500. These prompts document the workflow used to scaffold and complete each file.
 
 ## Key Principles
 
 1. **Every problem number must have a file** — no gaps. If a problem cannot have a full solution, create a skip file explaining why.
 2. **Every solvable problem must have `my_solution`** — never leave it as `todo!()`. Source it from doocs or generate it.
-3. **Premium problems are solvable** — fetch descriptions from doocs. Only skip SQL/Shell problems and problems with no available description.
+3. **Premium problems are solvable** — fetch descriptions from doocs. SQL/Shell problems are also solvable as Rust equivalents (see below). Only skip problems with no available description anywhere.
 
 ## Cargo.toml Registration
 

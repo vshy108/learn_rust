@@ -27,7 +27,9 @@ mod my_solution {
         /// Find max profit with at most 2 transactions.
         pub fn max_profit(prices: Vec<i32>) -> i32 {
             let n = prices.len();
-            if n < 2 { return 0; }
+            if n < 2 {
+                return 0;
+            }
 
             // left[i] = max profit from one transaction in prices[0..=i]
             let mut left = vec![0; n];
@@ -97,26 +99,17 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        <$solution>::max_profit(vec![3, 3, 5, 0, 0, 3, 1, 4]),
-                        6,
-                    );
+                    assert_eq!(<$solution>::max_profit(vec![3, 3, 5, 0, 0, 3, 1, 4]), 6,);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        <$solution>::max_profit(vec![1, 2, 3, 4, 5]),
-                        4,
-                    );
+                    assert_eq!(<$solution>::max_profit(vec![1, 2, 3, 4, 5]), 4,);
                 }
 
                 #[test]
                 fn test_no_profit() {
-                    assert_eq!(
-                        <$solution>::max_profit(vec![7, 6, 4, 3, 1]),
-                        0,
-                    );
+                    assert_eq!(<$solution>::max_profit(vec![7, 6, 4, 3, 1]), 0,);
                 }
 
                 #[test]
@@ -126,10 +119,7 @@ mod tests {
 
                 #[test]
                 fn test_two_clear_trades() {
-                    assert_eq!(
-                        <$solution>::max_profit(vec![1, 5, 1, 5]),
-                        8,
-                    );
+                    assert_eq!(<$solution>::max_profit(vec![1, 5, 1, 5]), 8,);
                 }
 
                 #[test]

@@ -129,22 +129,22 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[i32], i32) -> i32) {
-    // Example 1: [1,-1,5,-2] sums to 3, length 4
-    assert_eq!(f(&[1, -1, 5, -2, 3], 3), 4);
-    // Example 2: [-1,2] sums to 1, length 2
-    assert_eq!(f(&[-2, -1, 2, 1], 1), 2);
-    // No subarray sums to target
-    assert_eq!(f(&[1, 2, 3], 100), 0);
-    // Single element match
-    assert_eq!(f(&[5], 5), 1);
-    // Entire array sums to k
-    assert_eq!(f(&[1, 1, 1], 3), 3);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[i32], i32) -> i32) {
+        // Example 1: [1,-1,5,-2] sums to 3, length 4
+        assert_eq!(f(&[1, -1, 5, -2, 3], 3), 4);
+        // Example 2: [-1,2] sums to 1, length 2
+        assert_eq!(f(&[-2, -1, 2, 1], 1), 2);
+        // No subarray sums to target
+        assert_eq!(f(&[1, 2, 3], 100), 0);
+        // Single element match
+        assert_eq!(f(&[5], 5), 1);
+        // Entire array sums to k
+        assert_eq!(f(&[1, 1, 1], 3), 3);
+    }
 
     #[test]
     fn test_my_solution() {

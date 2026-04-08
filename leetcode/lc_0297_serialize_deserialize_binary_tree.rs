@@ -35,7 +35,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -106,27 +110,21 @@ mod my_solution {
             return None;
         }
         let vals: Vec<&str> = data.split(',').collect();
-        let root = Rc::new(RefCell::new(TreeNode::new(
-            vals[0].parse().unwrap(),
-        )));
+        let root = Rc::new(RefCell::new(TreeNode::new(vals[0].parse().unwrap())));
         let mut queue = VecDeque::new();
         queue.push_back(root.clone());
         let mut i = 1;
         while let Some(node) = queue.pop_front() {
             // Left child
             if i < vals.len() && vals[i] != "#" {
-                let left = Rc::new(RefCell::new(TreeNode::new(
-                    vals[i].parse().unwrap(),
-                )));
+                let left = Rc::new(RefCell::new(TreeNode::new(vals[i].parse().unwrap())));
                 node.borrow_mut().left = Some(left.clone());
                 queue.push_back(left);
             }
             i += 1;
             // Right child
             if i < vals.len() && vals[i] != "#" {
-                let right = Rc::new(RefCell::new(TreeNode::new(
-                    vals[i].parse().unwrap(),
-                )));
+                let right = Rc::new(RefCell::new(TreeNode::new(vals[i].parse().unwrap())));
                 node.borrow_mut().right = Some(right.clone());
                 queue.push_back(right);
             }
@@ -196,9 +194,7 @@ mod tests {
             (Some(a), Some(b)) => {
                 let a = a.borrow();
                 let b = b.borrow();
-                a.val == b.val
-                    && trees_equal(&a.left, &b.left)
-                    && trees_equal(&a.right, &b.right)
+                a.val == b.val && trees_equal(&a.left, &b.left) && trees_equal(&a.right, &b.right)
             }
             _ => false,
         }
@@ -242,28 +238,27 @@ mod tests {
     test_serde!(test_single, [Some(42)]);
 
     // Left-skewed
-    test_serde!(
-        test_left_skewed,
-        [Some(1), Some(2), None, Some(3)]
-    );
+    test_serde!(test_left_skewed, [Some(1), Some(2), None, Some(3)]);
 
     // Right-skewed
-    test_serde!(
-        test_right_skewed,
-        [Some(1), None, Some(2), None, Some(3)]
-    );
+    test_serde!(test_right_skewed, [Some(1), None, Some(2), None, Some(3)]);
 
     // Balanced
     test_serde!(
         test_balanced,
-        [Some(4), Some(2), Some(6), Some(1), Some(3), Some(5), Some(7)]
+        [
+            Some(4),
+            Some(2),
+            Some(6),
+            Some(1),
+            Some(3),
+            Some(5),
+            Some(7)
+        ]
     );
 
     // Negative values
-    test_serde!(
-        test_negatives,
-        [Some(-1), Some(-2), Some(-3)]
-    );
+    test_serde!(test_negatives, [Some(-1), Some(-2), Some(-3)]);
 
     // Single child nodes
     test_serde!(
@@ -272,31 +267,21 @@ mod tests {
     );
 
     // Two nodes
-    test_serde!(
-        test_two_nodes_left,
-        [Some(1), Some(2)]
-    );
-    test_serde!(
-        test_two_nodes_right,
-        [Some(1), None, Some(2)]
-    );
+    test_serde!(test_two_nodes_left, [Some(1), Some(2)]);
+    test_serde!(test_two_nodes_right, [Some(1), None, Some(2)]);
 }
 
 fn main() {
     println!("LeetCode 297: Serialize and Deserialize Binary Tree");
-    let root = build_tree(&[
-        Some(1),
-        Some(2),
-        Some(3),
-        None,
-        None,
-        Some(4),
-        Some(5),
-    ]);
+    let root = build_tree(&[Some(1), Some(2), Some(3), None, None, Some(4), Some(5)]);
     let my_data = my_solution::serialize(&root);
     println!("my_solution serialized: {}", my_data);
+    let my_root = my_solution::deserialize(&my_data);
+    println!("my_solution deserialized ok: {}", my_root.is_some());
     let ai_data = ai_solution::serialize(&root);
     println!("ai_solution serialized: {}", ai_data);
+    let ai_root = ai_solution::deserialize(&ai_data);
+    println!("ai_solution deserialized ok: {}", ai_root.is_some());
 }
 
 #[cfg(test)]

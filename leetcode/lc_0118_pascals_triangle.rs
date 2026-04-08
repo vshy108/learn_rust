@@ -105,10 +105,7 @@ mod tests {
 
                 #[test]
                 fn test_two_rows() {
-                    assert_eq!(
-                        <$solution>::generate(2),
-                        vec![vec![1], vec![1, 1]],
-                    );
+                    assert_eq!(<$solution>::generate(2), vec![vec![1], vec![1, 1]],);
                 }
 
                 #[test]

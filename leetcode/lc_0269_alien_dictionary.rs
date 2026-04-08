@@ -53,7 +53,9 @@ mod my_solution {
                         cnt += 1;
                         s[c] = true;
                     }
-                    if cnt == 26 { break; }
+                    if cnt == 26 {
+                        break;
+                    }
                 }
                 // Compare words[i] and words[i+1] char by char
                 let w1 = words[i].as_bytes();
@@ -67,7 +69,9 @@ mod my_solution {
                     }
                     let c1 = (w1[j] - b'a') as usize;
                     let c2 = (w2[j] - b'a') as usize;
-                    if c1 == c2 { continue; }
+                    if c1 == c2 {
+                        continue;
+                    }
                     if g[c2][c1] {
                         // Contradictory edge
                         return String::new();
@@ -86,7 +90,9 @@ mod my_solution {
                     cnt += 1;
                     s[c] = true;
                 }
-                if cnt == 26 { break; }
+                if cnt == 26 {
+                    break;
+                }
             }
 
             // Compute in-degrees
@@ -180,12 +186,17 @@ mod ai_solution {
                 result: &mut Vec<u8>,
                 has_cycle: &mut bool,
             ) {
-                if *has_cycle { return; }
+                if *has_cycle {
+                    return;
+                }
                 state.insert(node, 1); // in-progress
                 if let Some(neighbors) = adj.get(&node) {
                     for &next in neighbors {
                         match state.get(&next).copied().unwrap_or(0) {
-                            1 => { *has_cycle = true; return; }
+                            1 => {
+                                *has_cycle = true;
+                                return;
+                            }
                             0 => dfs(next, adj, state, result, has_cycle),
                             _ => {} // already done
                         }
@@ -201,7 +212,9 @@ mod ai_solution {
             for &c in &sorted_chars {
                 if state.get(&c).copied().unwrap_or(0) == 0 {
                     dfs(c, &adj, &mut state, &mut result, &mut has_cycle);
-                    if has_cycle { return String::new(); }
+                    if has_cycle {
+                        return String::new();
+                    }
                 }
             }
             result.reverse();
@@ -212,7 +225,9 @@ mod ai_solution {
 
 fn main() {
     let words: Vec<String> = ["wrt", "wrf", "er", "ett", "rftt"]
-        .iter().map(|s| s.to_string()).collect();
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
     println!("my: {}", my_solution::Solution::alien_order(words.clone()));
     println!("ai: {}", ai_solution::Solution::alien_order(words));
 }
@@ -232,7 +247,9 @@ mod tests {
 
                 /// Verify result is a valid topological order
                 fn is_valid_order(words: &[String], order: &str) -> bool {
-                    if order.is_empty() { return false; }
+                    if order.is_empty() {
+                        return false;
+                    }
                     let mut pos = [0usize; 26];
                     for (i, b) in order.bytes().enumerate() {
                         pos[(b - b'a') as usize] = i;
@@ -244,9 +261,7 @@ mod tests {
                         let mut valid = false;
                         for j in 0..w1.len().min(w2.len()) {
                             if w1[j] != w2[j] {
-                                if pos[(w1[j] - b'a') as usize]
-                                    >= pos[(w2[j] - b'a') as usize]
-                                {
+                                if pos[(w1[j] - b'a') as usize] >= pos[(w2[j] - b'a') as usize] {
                                     return false;
                                 }
                                 valid = true;
@@ -310,7 +325,9 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let words: Vec<String> = ["wrt", "wrf", "er", "ett", "rftt"]
-            .iter().map(|s| s.to_string()).collect();
+            .iter()
+            .map(|s| s.to_string())
+            .collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {

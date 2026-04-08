@@ -126,18 +126,12 @@ mod tests {
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        <$solution>::largest_rectangle_area(vec![2, 4]),
-                        4
-                    );
+                    assert_eq!(<$solution>::largest_rectangle_area(vec![2, 4]), 4);
                 }
 
                 #[test]
                 fn test_single() {
-                    assert_eq!(
-                        <$solution>::largest_rectangle_area(vec![5]),
-                        5
-                    );
+                    assert_eq!(<$solution>::largest_rectangle_area(vec![5]), 5);
                 }
 
                 #[test]
@@ -150,18 +144,12 @@ mod tests {
 
                 #[test]
                 fn test_descending() {
-                    assert_eq!(
-                        <$solution>::largest_rectangle_area(vec![5, 4, 3, 2, 1]),
-                        9
-                    );
+                    assert_eq!(<$solution>::largest_rectangle_area(vec![5, 4, 3, 2, 1]), 9);
                 }
 
                 #[test]
                 fn test_uniform() {
-                    assert_eq!(
-                        <$solution>::largest_rectangle_area(vec![3, 3, 3, 3]),
-                        12
-                    );
+                    assert_eq!(<$solution>::largest_rectangle_area(vec![3, 3, 3, 3]), 12);
                 }
             }
         };

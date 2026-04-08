@@ -29,7 +29,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -84,14 +88,13 @@ mod my_solution {
                 return None;
             }
             let root_val = *postorder.last().expect("non-empty");
-            let mid = inorder.iter().position(|&x| x == root_val)
+            let mid = inorder
+                .iter()
+                .position(|&x| x == root_val)
                 .expect("value must exist");
             let mut node = TreeNode::new(root_val);
             node.left = Self::build(&inorder[..mid], &postorder[..mid]);
-            node.right = Self::build(
-                &inorder[mid + 1..],
-                &postorder[mid..postorder.len() - 1],
-            );
+            node.right = Self::build(&inorder[mid + 1..], &postorder[mid..postorder.len() - 1]);
             Some(Rc::new(RefCell::new(node)))
         }
     }
@@ -109,9 +112,8 @@ mod ai_solution {
     impl Solution {
         /// Build tree from inorder and postorder using hashmap lookup.
         pub fn build_tree(inorder: Vec<i32>, postorder: Vec<i32>) -> Node {
-            let map: HashMap<i32, usize> = inorder.iter().enumerate()
-                .map(|(i, &v)| (v, i))
-                .collect();
+            let map: HashMap<i32, usize> =
+                inorder.iter().enumerate().map(|(i, &v)| (v, i)).collect();
             let mut post_idx = postorder.len();
             Self::build(&postorder, &mut post_idx, 0, inorder.len(), &map)
         }

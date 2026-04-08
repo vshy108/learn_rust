@@ -28,7 +28,9 @@ mod my_solution {
         pub fn rob(nums: Vec<i32>) -> i32 {
             // DP with full array
             let n = nums.len();
-            if n == 1 { return nums[0]; }
+            if n == 1 {
+                return nums[0];
+            }
             let mut dp = vec![0; n];
             dp[0] = nums[0];
             dp[1] = nums[0].max(nums[1]);
@@ -115,17 +117,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::my_solution::Solution::rob(
-                std::hint::black_box(nums.clone()),
-            ));
+            std::hint::black_box(crate::my_solution::Solution::rob(std::hint::black_box(
+                nums.clone(),
+            )));
         }
         let my_dur = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::ai_solution::Solution::rob(
-                std::hint::black_box(nums.clone()),
-            ));
+            std::hint::black_box(crate::ai_solution::Solution::rob(std::hint::black_box(
+                nums.clone(),
+            )));
         }
         let ai_dur = start.elapsed();
 

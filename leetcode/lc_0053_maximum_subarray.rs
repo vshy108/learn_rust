@@ -153,21 +153,23 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let nums: Vec<i32> = (0..1000).map(|i| if i % 3 == 0 { -(i as i32) } else { i as i32 }).collect();
+        let nums: Vec<i32> = (0..1000)
+            .map(|i| if i % 3 == 0 { -(i as i32) } else { i as i32 })
+            .collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::max_sub_array(std::hint::black_box(nums.clone())),
-            );
+            std::hint::black_box(crate::my_solution::Solution::max_sub_array(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::max_sub_array(std::hint::black_box(nums.clone())),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::max_sub_array(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

@@ -120,10 +120,7 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_basic() {
-                    assert_eq!(
-                        <$solution>::add_binary("11".into(), "1".into()),
-                        "100"
-                    );
+                    assert_eq!(<$solution>::add_binary("11".into(), "1".into()), "100");
                 }
 
                 #[test]
@@ -136,26 +133,17 @@ mod tests {
 
                 #[test]
                 fn test_zeros() {
-                    assert_eq!(
-                        <$solution>::add_binary("0".into(), "0".into()),
-                        "0"
-                    );
+                    assert_eq!(<$solution>::add_binary("0".into(), "0".into()), "0");
                 }
 
                 #[test]
                 fn test_one_zero() {
-                    assert_eq!(
-                        <$solution>::add_binary("1".into(), "0".into()),
-                        "1"
-                    );
+                    assert_eq!(<$solution>::add_binary("1".into(), "0".into()), "1");
                 }
 
                 #[test]
                 fn test_carry_chain() {
-                    assert_eq!(
-                        <$solution>::add_binary("111".into(), "1".into()),
-                        "1000"
-                    );
+                    assert_eq!(<$solution>::add_binary("111".into(), "1".into()), "1000");
                 }
             }
         };

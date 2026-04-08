@@ -35,12 +35,19 @@ mod my_solution {
             let mut state = vec![0u8; n]; // 0=unvisited, 1=visiting, 2=visited
             let mut order = Vec::with_capacity(n);
             fn dfs(
-                node: usize, adj: &[Vec<usize>], state: &mut [u8], order: &mut Vec<i32>,
+                node: usize,
+                adj: &[Vec<usize>],
+                state: &mut [u8],
+                order: &mut Vec<i32>,
             ) -> bool {
                 state[node] = 1;
                 for &next in &adj[node] {
-                    if state[next] == 1 { return false; }
-                    if state[next] == 0 && !dfs(next, adj, state, order) { return false; }
+                    if state[next] == 1 {
+                        return false;
+                    }
+                    if state[next] == 0 && !dfs(next, adj, state, order) {
+                        return false;
+                    }
                 }
                 state[node] = 2;
                 order.push(node as i32);
@@ -101,8 +108,10 @@ mod ai_solution {
 }
 
 fn main() {
-    let my = my_solution::Solution::find_order(4, vec![vec![1, 0], vec![2, 0], vec![3, 1], vec![3, 2]]);
-    let ai = ai_solution::Solution::find_order(4, vec![vec![1, 0], vec![2, 0], vec![3, 1], vec![3, 2]]);
+    let my =
+        my_solution::Solution::find_order(4, vec![vec![1, 0], vec![2, 0], vec![3, 1], vec![3, 2]]);
+    let ai =
+        ai_solution::Solution::find_order(4, vec![vec![1, 0], vec![2, 0], vec![3, 1], vec![3, 2]]);
     println!("order: my={my:?}, ai={ai:?}");
 }
 
@@ -118,7 +127,9 @@ mod tests {
             pos[c as usize] = i;
         }
         // For each [a, b], b must come before a
-        prereqs.iter().all(|e| pos[e[1] as usize] < pos[e[0] as usize])
+        prereqs
+            .iter()
+            .all(|e| pos[e[1] as usize] < pos[e[0] as usize])
     }
 
     macro_rules! test_cs2 {
@@ -135,9 +146,7 @@ mod tests {
 
                 #[test]
                 fn test_example2() {
-                    let prereqs = vec![
-                        vec![1, 0], vec![2, 0], vec![3, 1], vec![3, 2],
-                    ];
+                    let prereqs = vec![vec![1, 0], vec![2, 0], vec![3, 1], vec![3, 2]];
                     let order = <$solution>::find_order(4, prereqs.clone());
                     assert!(is_valid_order(4, &prereqs, &order));
                 }
@@ -150,10 +159,7 @@ mod tests {
 
                 #[test]
                 fn test_cycle() {
-                    let order = <$solution>::find_order(
-                        2,
-                        vec![vec![1, 0], vec![0, 1]],
-                    );
+                    let order = <$solution>::find_order(2, vec![vec![1, 0], vec![0, 1]]);
                     assert!(order.is_empty());
                 }
 

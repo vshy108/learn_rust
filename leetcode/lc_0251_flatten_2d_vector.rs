@@ -192,7 +192,14 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let data = vec![vec![1, 2, 3], vec![], vec![4, 5], vec![6], vec![], vec![7, 8, 9, 10]];
+        let data = vec![
+            vec![1, 2, 3],
+            vec![],
+            vec![4, 5],
+            vec![6],
+            vec![],
+            vec![7, 8, 9, 10],
+        ];
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {

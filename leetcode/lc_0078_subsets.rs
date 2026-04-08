@@ -118,8 +118,13 @@ mod tests {
                 fn test_example1() {
                     let result = sorted(<$solution>::subsets(vec![1, 2, 3]));
                     let expected = sorted(vec![
-                        vec![], vec![1], vec![2], vec![3],
-                        vec![1, 2], vec![1, 3], vec![2, 3],
+                        vec![],
+                        vec![1],
+                        vec![2],
+                        vec![3],
+                        vec![1, 2],
+                        vec![1, 3],
+                        vec![2, 3],
                         vec![1, 2, 3],
                     ]);
                     assert_eq!(result, expected);
@@ -152,17 +157,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::my_solution::Solution::subsets(
-                std::hint::black_box(nums.clone()),
-            ));
+            std::hint::black_box(crate::my_solution::Solution::subsets(std::hint::black_box(
+                nums.clone(),
+            )));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::ai_solution::Solution::subsets(
-                std::hint::black_box(nums.clone()),
-            ));
+            std::hint::black_box(crate::ai_solution::Solution::subsets(std::hint::black_box(
+                nums.clone(),
+            )));
         }
         let ai_duration = start.elapsed();
 

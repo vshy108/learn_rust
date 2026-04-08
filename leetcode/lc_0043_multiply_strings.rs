@@ -50,7 +50,7 @@ mod my_solution {
             for i in (0..n1.len()).rev() {
                 for j in (0..n2.len()).rev() {
                     let mul = (n1[i] - b'0') as u32 * (n2[j] - b'0') as u32;
-                    let p1 = i + j;     // tens position
+                    let p1 = i + j; // tens position
                     let p2 = i + j + 1; // ones position
                     let sum = mul + result[p2];
 
@@ -60,13 +60,14 @@ mod my_solution {
             }
 
             // Convert to string, skipping leading zeros.
-            let s: String = result
-                .iter()
-                .map(|&d| (d as u8 + b'0') as char)
-                .collect();
+            let s: String = result.iter().map(|&d| (d as u8 + b'0') as char).collect();
             let trimmed = s.trim_start_matches('0');
 
-            if trimmed.is_empty() { "0".to_string() } else { trimmed.to_string() }
+            if trimmed.is_empty() {
+                "0".to_string()
+            } else {
+                trimmed.to_string()
+            }
         }
     }
 }
@@ -98,12 +99,13 @@ mod ai_solution {
                 }
             }
 
-            let s: String = result
-                .iter()
-                .map(|&d| (d as u8 + b'0') as char)
-                .collect();
+            let s: String = result.iter().map(|&d| (d as u8 + b'0') as char).collect();
             let trimmed = s.trim_start_matches('0');
-            if trimmed.is_empty() { "0".to_string() } else { trimmed.to_string() }
+            if trimmed.is_empty() {
+                "0".to_string()
+            } else {
+                trimmed.to_string()
+            }
         }
     }
 }
@@ -153,10 +155,7 @@ mod tests {
 
                 #[test]
                 fn test_large() {
-                    assert_eq!(
-                        Solution::multiply("999".into(), "999".into()),
-                        "998001",
-                    );
+                    assert_eq!(Solution::multiply("999".into(), "999".into()), "998001",);
                 }
 
                 #[test]

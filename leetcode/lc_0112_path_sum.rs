@@ -30,7 +30,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -131,8 +135,19 @@ mod ai_solution {
 
 fn main() {
     let root = build_tree(&[
-        Some(5), Some(4), Some(8), Some(11), None, Some(13), Some(4),
-        Some(7), Some(2), None, None, None, Some(1),
+        Some(5),
+        Some(4),
+        Some(8),
+        Some(11),
+        None,
+        Some(13),
+        Some(4),
+        Some(7),
+        Some(2),
+        None,
+        None,
+        None,
+        Some(1),
     ]);
     let my = my_solution::Solution::has_path_sum(root.clone(), 22);
     let ai = ai_solution::Solution::has_path_sum(root, 22);
@@ -151,8 +166,19 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     let root = build_tree(&[
-                        Some(5), Some(4), Some(8), Some(11), None, Some(13), Some(4),
-                        Some(7), Some(2), None, None, None, Some(1),
+                        Some(5),
+                        Some(4),
+                        Some(8),
+                        Some(11),
+                        None,
+                        Some(13),
+                        Some(4),
+                        Some(7),
+                        Some(2),
+                        None,
+                        None,
+                        None,
+                        Some(1),
                     ]);
                     assert!(<$solution>::has_path_sum(root, 22));
                 }

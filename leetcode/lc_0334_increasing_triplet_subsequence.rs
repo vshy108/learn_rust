@@ -77,17 +77,17 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[i32]) -> bool) {
-    assert!(f(&[1, 2, 3, 4, 5]));
-    assert!(!f(&[5, 4, 3, 2, 1]));
-    assert!(f(&[2, 1, 5, 0, 4, 6]));
-    assert!(!f(&[1, 1, 1]));
-    assert!(f(&[20, 100, 10, 12, 5, 13])); // 10 < 12 < 13
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[i32]) -> bool) {
+        assert!(f(&[1, 2, 3, 4, 5]));
+        assert!(!f(&[5, 4, 3, 2, 1]));
+        assert!(f(&[2, 1, 5, 0, 4, 6]));
+        assert!(!f(&[1, 1, 1]));
+        assert!(f(&[20, 100, 10, 12, 5, 13])); // 10 < 12 < 13
+    }
 
     #[test]
     fn test_my_solution() {
@@ -105,28 +105,20 @@ fn main() {
     let iterations = 100_000;
 
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::increasing_triplet(
-            std::hint::black_box(&nums),
-        ));
+        std::hint::black_box(my_solution::increasing_triplet(std::hint::black_box(&nums)));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::increasing_triplet(
-            std::hint::black_box(&nums),
-        ));
+        std::hint::black_box(my_solution::increasing_triplet(std::hint::black_box(&nums)));
     }
     let my_dur = start.elapsed();
 
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::increasing_triplet(
-            std::hint::black_box(&nums),
-        ));
+        std::hint::black_box(ai_solution::increasing_triplet(std::hint::black_box(&nums)));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::increasing_triplet(
-            std::hint::black_box(&nums),
-        ));
+        std::hint::black_box(ai_solution::increasing_triplet(std::hint::black_box(&nums)));
     }
     let ai_dur = start.elapsed();
 

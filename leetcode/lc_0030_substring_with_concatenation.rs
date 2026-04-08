@@ -207,7 +207,10 @@ mod ai_solution {
 fn main() {
     let cases: Vec<(&str, Vec<&str>)> = vec![
         ("barfoothefoobarman", vec!["foo", "bar"]),
-        ("wordgoodgoodgoodbestword", vec!["word", "good", "best", "word"]),
+        (
+            "wordgoodgoodgoodbestword",
+            vec!["word", "good", "best", "word"],
+        ),
         ("barfoofoobarthefoobarman", vec!["bar", "foo", "the"]),
     ];
     for (s, words) in &cases {
@@ -260,28 +263,19 @@ mod tests {
 
                 #[test]
                 fn test_empty_words() {
-                    let result = Solution::find_substring(
-                        "hello".into(),
-                        vec![],
-                    );
+                    let result = Solution::find_substring("hello".into(), vec![]);
                     assert_eq!(result, vec![]);
                 }
 
                 #[test]
                 fn test_s_too_short() {
-                    let result = Solution::find_substring(
-                        "ab".into(),
-                        to_words(&["abc"]),
-                    );
+                    let result = Solution::find_substring("ab".into(), to_words(&["abc"]));
                     assert_eq!(result, vec![]);
                 }
 
                 #[test]
                 fn test_single_word() {
-                    let result = Solution::find_substring(
-                        "foobarfoo".into(),
-                        to_words(&["foo"]),
-                    );
+                    let result = Solution::find_substring("foobarfoo".into(), to_words(&["foo"]));
                     let mut r = result;
                     r.sort();
                     assert_eq!(r, vec![0, 6]);
@@ -289,10 +283,8 @@ mod tests {
 
                 #[test]
                 fn test_duplicate_words() {
-                    let mut result = Solution::find_substring(
-                        "aaaaaa".into(),
-                        to_words(&["aa", "aa"]),
-                    );
+                    let mut result =
+                        Solution::find_substring("aaaaaa".into(), to_words(&["aa", "aa"]));
                     result.sort();
                     // Positions 0,1,2 all yield "aaaa" = "aa"+"aa".
                     assert_eq!(result, vec![0, 1, 2]);
@@ -300,10 +292,7 @@ mod tests {
 
                 #[test]
                 fn test_no_match() {
-                    let result = Solution::find_substring(
-                        "abcdef".into(),
-                        to_words(&["gh", "ij"]),
-                    );
+                    let result = Solution::find_substring("abcdef".into(), to_words(&["gh", "ij"]));
                     assert_eq!(result, vec![]);
                 }
             }

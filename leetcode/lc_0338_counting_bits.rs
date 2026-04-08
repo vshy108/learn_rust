@@ -53,16 +53,16 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(i32) -> Vec<i32>) {
-    assert_eq!(f(2), vec![0, 1, 1]);
-    assert_eq!(f(5), vec![0, 1, 1, 2, 1, 2]);
-    assert_eq!(f(0), vec![0]);
-    assert_eq!(f(1), vec![0, 1]);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(i32) -> Vec<i32>) {
+        assert_eq!(f(2), vec![0, 1, 1]);
+        assert_eq!(f(5), vec![0, 1, 1, 2, 1, 2]);
+        assert_eq!(f(0), vec![0]);
+        assert_eq!(f(1), vec![0, 1]);
+    }
 
     #[test]
     fn test_my_solution() {

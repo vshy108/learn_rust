@@ -122,62 +122,41 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        <$solution>::find_kth_largest(vec![3, 2, 1, 5, 6, 4], 2),
-                        5
-                    );
+                    assert_eq!(<$solution>::find_kth_largest(vec![3, 2, 1, 5, 6, 4], 2), 5);
                 }
 
                 #[test]
                 fn test_example2() {
                     assert_eq!(
-                        <$solution>::find_kth_largest(
-                            vec![3, 2, 3, 1, 2, 4, 5, 5, 6],
-                            4
-                        ),
+                        <$solution>::find_kth_largest(vec![3, 2, 3, 1, 2, 4, 5, 5, 6], 4),
                         4
                     );
                 }
 
                 #[test]
                 fn test_single() {
-                    assert_eq!(
-                        <$solution>::find_kth_largest(vec![1], 1),
-                        1
-                    );
+                    assert_eq!(<$solution>::find_kth_largest(vec![1], 1), 1);
                 }
 
                 #[test]
                 fn test_k_equals_n() {
                     // kth largest where k == len => smallest element
-                    assert_eq!(
-                        <$solution>::find_kth_largest(vec![7, 3, 5, 1], 4),
-                        1
-                    );
+                    assert_eq!(<$solution>::find_kth_largest(vec![7, 3, 5, 1], 4), 1);
                 }
 
                 #[test]
                 fn test_duplicates() {
-                    assert_eq!(
-                        <$solution>::find_kth_largest(vec![2, 2, 2, 2], 2),
-                        2
-                    );
+                    assert_eq!(<$solution>::find_kth_largest(vec![2, 2, 2, 2], 2), 2);
                 }
 
                 #[test]
                 fn test_negatives() {
-                    assert_eq!(
-                        <$solution>::find_kth_largest(vec![-1, -2, -3, -4], 1),
-                        -1
-                    );
+                    assert_eq!(<$solution>::find_kth_largest(vec![-1, -2, -3, -4], 1), -1);
                 }
 
                 #[test]
                 fn test_mixed() {
-                    assert_eq!(
-                        <$solution>::find_kth_largest(vec![-1, 2, 0, 3, -2], 3),
-                        0
-                    );
+                    assert_eq!(<$solution>::find_kth_largest(vec![-1, 2, 0, 3, -2], 3), 0);
                 }
             }
         };

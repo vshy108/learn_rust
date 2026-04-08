@@ -58,9 +58,8 @@ mod my_solution {
             let med_r = rows[rows.len() / 2];
             let med_c = cols[cols.len() / 2];
 
-            let dist = |arr: &[i32], target: i32| -> i32 {
-                arr.iter().map(|&v| (v - target).abs()).sum()
-            };
+            let dist =
+                |arr: &[i32], target: i32| -> i32 { arr.iter().map(|&v| (v - target).abs()).sum() };
 
             dist(&rows, med_r) + dist(&cols, med_c)
         }
@@ -149,11 +148,7 @@ mod tests {
     test_meeting!(test_example_2, vec![vec![1, 1]], 1);
 
     // All in same row
-    test_meeting!(
-        test_same_row,
-        vec![vec![1, 0, 1, 0, 1]],
-        4
-    );
+    test_meeting!(test_same_row, vec![vec![1, 0, 1, 0, 1]], 4);
 
     // All in same column
     test_meeting!(
@@ -163,36 +158,20 @@ mod tests {
     );
 
     // 2x2 all ones
-    test_meeting!(
-        test_2x2_all,
-        vec![vec![1, 1], vec![1, 1]],
-        4
-    );
+    test_meeting!(test_2x2_all, vec![vec![1, 1], vec![1, 1]], 4);
 
     // Two friends adjacent
-    test_meeting!(
-        test_adjacent,
-        vec![vec![1, 1, 0]],
-        1
-    );
+    test_meeting!(test_adjacent, vec![vec![1, 1, 0]], 1);
 
     // Corner friends
     test_meeting!(
         test_corners,
-        vec![
-            vec![1, 0, 1],
-            vec![0, 0, 0],
-            vec![1, 0, 1],
-        ],
+        vec![vec![1, 0, 1], vec![0, 0, 0], vec![1, 0, 1],],
         8
     );
 
     // Single row, friends at ends
-    test_meeting!(
-        test_ends,
-        vec![vec![1, 0, 0, 0, 1]],
-        4
-    );
+    test_meeting!(test_ends, vec![vec![1, 0, 0, 0, 1]], 4);
 
     // Three friends in a line
     test_meeting!(
@@ -227,9 +206,7 @@ mod bench {
     fn bench_solutions() {
         // 50x50 grid with friends in a diagonal
         let grid: Vec<Vec<i32>> = (0..50)
-            .map(|i| {
-                (0..50).map(|j| if i == j { 1 } else { 0 }).collect()
-            })
+            .map(|i| (0..50).map(|j| if i == j { 1 } else { 0 }).collect())
             .collect();
         let iterations = 100_000;
 

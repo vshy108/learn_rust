@@ -166,26 +166,17 @@ mod tests {
 
                 #[test]
                 fn test_single_zero() {
-                    assert_eq!(
-                        <$solution>::maximal_rectangle(vec![vec!['0']]),
-                        0
-                    );
+                    assert_eq!(<$solution>::maximal_rectangle(vec![vec!['0']]), 0);
                 }
 
                 #[test]
                 fn test_single_one() {
-                    assert_eq!(
-                        <$solution>::maximal_rectangle(vec![vec!['1']]),
-                        1
-                    );
+                    assert_eq!(<$solution>::maximal_rectangle(vec![vec!['1']]), 1);
                 }
 
                 #[test]
                 fn test_all_ones() {
-                    let matrix = vec![
-                        vec!['1', '1'],
-                        vec!['1', '1'],
-                    ];
+                    let matrix = vec![vec!['1', '1'], vec!['1', '1']];
                     assert_eq!(<$solution>::maximal_rectangle(matrix), 4);
                 }
             }

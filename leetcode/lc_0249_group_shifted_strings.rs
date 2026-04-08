@@ -139,8 +139,8 @@ mod tests {
     macro_rules! test_group_shifted {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use $solution as Sol;
                 use super::{make, normalize};
+                use $solution as Sol;
 
                 #[test]
                 fn test_example_1() {
@@ -200,8 +200,8 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let strs: Vec<String> = vec![
-            "abc", "bcd", "acef", "xyz", "az", "ba", "a", "z",
-            "def", "efg", "bdeg", "yza", "by", "cb",
+            "abc", "bcd", "acef", "xyz", "az", "ba", "a", "z", "def", "efg", "bdeg", "yza", "by",
+            "cb",
         ]
         .into_iter()
         .map(String::from)

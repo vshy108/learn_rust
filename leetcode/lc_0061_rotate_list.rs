@@ -199,10 +199,7 @@ mod tests {
                 #[test]
                 fn test_single() {
                     let head = build_list(&[1]);
-                    assert_eq!(
-                        list_to_vec(<$solution>::rotate_right(head, 3)),
-                        vec![1]
-                    );
+                    assert_eq!(list_to_vec(<$solution>::rotate_right(head, 3)), vec![1]);
                 }
 
                 #[test]

@@ -57,9 +57,7 @@ mod my_solution {
                     let ch = bytes[i];
                     let mut count = 1u32;
                     // Count consecutive identical digits.
-                    while i + (count as usize) < bytes.len()
-                        && bytes[i + (count as usize)] == ch
-                    {
+                    while i + (count as usize) < bytes.len() && bytes[i + (count as usize)] == ch {
                         count += 1;
                     }
                     // Append "count" then "digit".

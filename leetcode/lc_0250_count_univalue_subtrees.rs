@@ -174,10 +174,7 @@ fn main() {
         "my: {}",
         my_solution::Solution::count_unival_subtrees(tree.clone())
     );
-    println!(
-        "ai: {}",
-        ai_solution::Solution::count_unival_subtrees(tree)
-    );
+    println!("ai: {}", ai_solution::Solution::count_unival_subtrees(tree));
 }
 
 #[cfg(test)]
@@ -187,15 +184,14 @@ mod tests {
     macro_rules! test_count_unival {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use $solution as Sol;
                 use super::super::build_tree;
+                use $solution as Sol;
 
                 #[test]
                 fn test_example_1() {
                     // [5,1,5,5,5,null,5] -> 4
-                    let tree = build_tree(&[
-                        Some(5), Some(1), Some(5), Some(5), Some(5), None, Some(5),
-                    ]);
+                    let tree =
+                        build_tree(&[Some(5), Some(1), Some(5), Some(5), Some(5), None, Some(5)]);
                     assert_eq!(Sol::count_unival_subtrees(tree), 4);
                 }
 
@@ -207,9 +203,8 @@ mod tests {
                 #[test]
                 fn test_example_3_all_same() {
                     // [5,5,5,5,5,null,5] -> 6
-                    let tree = build_tree(&[
-                        Some(5), Some(5), Some(5), Some(5), Some(5), None, Some(5),
-                    ]);
+                    let tree =
+                        build_tree(&[Some(5), Some(5), Some(5), Some(5), Some(5), None, Some(5)]);
                     assert_eq!(Sol::count_unival_subtrees(tree), 6);
                 }
 
@@ -249,23 +244,21 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let tree = build_tree(&[
-            Some(5), Some(1), Some(5), Some(5), Some(5), None, Some(5),
-        ]);
+        let tree = build_tree(&[Some(5), Some(1), Some(5), Some(5), Some(5), None, Some(5)]);
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::count_unival_subtrees(tree.clone()),
-            );
+            std::hint::black_box(crate::my_solution::Solution::count_unival_subtrees(
+                tree.clone(),
+            ));
         }
         let my_dur = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::count_unival_subtrees(tree.clone()),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::count_unival_subtrees(
+                tree.clone(),
+            ));
         }
         let ai_dur = start.elapsed();
 

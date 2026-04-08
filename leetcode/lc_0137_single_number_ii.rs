@@ -30,9 +30,7 @@ mod my_solution {
             // For each of the 32 bits, count how many numbers have that bit set.
             // If count % 3 != 0, the unique number has that bit set.
             for bit in 0..32 {
-                let count: i32 = nums.iter()
-                    .map(|&n| (n >> bit) & 1)
-                    .sum();
+                let count: i32 = nums.iter().map(|&n| (n >> bit) & 1).sum();
                 if count % 3 != 0 {
                     result |= 1 << bit;
                 }
@@ -78,18 +76,12 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        <$solution>::single_number(vec![2, 2, 3, 2]),
-                        3,
-                    );
+                    assert_eq!(<$solution>::single_number(vec![2, 2, 3, 2]), 3,);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        <$solution>::single_number(vec![0, 1, 0, 1, 0, 1, 99]),
-                        99,
-                    );
+                    assert_eq!(<$solution>::single_number(vec![0, 1, 0, 1, 0, 1, 99]), 99,);
                 }
 
                 #[test]
@@ -99,18 +91,12 @@ mod tests {
 
                 #[test]
                 fn test_negative() {
-                    assert_eq!(
-                        <$solution>::single_number(vec![-2, -2, 1, -2]),
-                        1,
-                    );
+                    assert_eq!(<$solution>::single_number(vec![-2, -2, 1, -2]), 1,);
                 }
 
                 #[test]
                 fn test_all_negative() {
-                    assert_eq!(
-                        <$solution>::single_number(vec![-1, -1, -1, -5]),
-                        -5,
-                    );
+                    assert_eq!(<$solution>::single_number(vec![-1, -1, -1, -5]), -5,);
                 }
             }
         };

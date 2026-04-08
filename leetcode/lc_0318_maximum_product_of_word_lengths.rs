@@ -47,9 +47,7 @@ mod my_solution {
             let n = words.len();
             let masks: Vec<u32> = words
                 .iter()
-                .map(|w| {
-                    w.bytes().fold(0u32, |m, b| m | (1 << (b - b'a')))
-                })
+                .map(|w| w.bytes().fold(0u32, |m, b| m | (1 << (b - b'a'))))
                 .collect();
 
             let mut ans = 0i32;
@@ -128,10 +126,7 @@ mod tests {
         );
 
         // Example 2
-        assert_eq!(
-            solve(s(&["a", "ab", "abc", "d", "cd", "bcd", "abcd"])),
-            4
-        );
+        assert_eq!(solve(s(&["a", "ab", "abc", "d", "cd", "bcd", "abcd"])), 4);
 
         // Example 3
         assert_eq!(solve(s(&["a", "aa", "aaa", "aaaa"])), 0);

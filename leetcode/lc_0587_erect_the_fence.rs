@@ -158,15 +158,16 @@ mod ai_solution {
             let mut pts = trees;
             pts.sort_unstable_by(|a, b| a[0].cmp(&b[0]).then(a[1].cmp(&b[1])));
             let n = pts.len();
-            if n <= 1 { return pts; }
+            if n <= 1 {
+                return pts;
+            }
             fn cross(o: &[i32], a: &[i32], b: &[i32]) -> i64 {
-                (a[0]-o[0]) as i64 * (b[1]-o[1]) as i64
-                    - (a[1]-o[1]) as i64 * (b[0]-o[0]) as i64
+                (a[0] - o[0]) as i64 * (b[1] - o[1]) as i64
+                    - (a[1] - o[1]) as i64 * (b[0] - o[0]) as i64
             }
             let mut hull: Vec<Vec<i32>> = Vec::new();
             for p in &pts {
-                while hull.len() >= 2
-                    && cross(&hull[hull.len()-2], &hull[hull.len()-1], p) < 0
+                while hull.len() >= 2 && cross(&hull[hull.len() - 2], &hull[hull.len() - 1], p) < 0
                 {
                     hull.pop();
                 }
@@ -175,7 +176,7 @@ mod ai_solution {
             let lower_len = hull.len();
             for p in pts.iter().rev() {
                 while hull.len() > lower_len
-                    && cross(&hull[hull.len()-2], &hull[hull.len()-1], p) < 0
+                    && cross(&hull[hull.len() - 2], &hull[hull.len() - 1], p) < 0
                 {
                     hull.pop();
                 }

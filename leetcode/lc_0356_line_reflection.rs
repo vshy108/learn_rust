@@ -34,7 +34,9 @@ mod my_solution {
             set.insert((p[0], p[1]));
         }
         let sum = min_x as i64 + max_x as i64;
-        points.iter().all(|p| set.contains(&((sum - p[0] as i64) as i32, p[1])))
+        points
+            .iter()
+            .all(|p| set.contains(&((sum - p[0] as i64) as i32, p[1])))
     }
 }
 
@@ -87,18 +89,18 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[[i32; 2]]) -> bool) {
-    assert!(f(&[[1, 1], [-1, 1]]));
-    assert!(!f(&[[1, 1], [-1, -1]]));
-    // Duplicate points
-    assert!(f(&[[0, 0], [0, 0]]));
-    // Single point
-    assert!(f(&[[5, 5]]));
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[[i32; 2]]) -> bool) {
+        assert!(f(&[[1, 1], [-1, 1]]));
+        assert!(!f(&[[1, 1], [-1, -1]]));
+        // Duplicate points
+        assert!(f(&[[0, 0], [0, 0]]));
+        // Single point
+        assert!(f(&[[5, 5]]));
+    }
 
     #[test]
     fn test_my_solution() {

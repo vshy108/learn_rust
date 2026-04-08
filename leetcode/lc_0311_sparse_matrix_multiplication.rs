@@ -127,8 +127,8 @@ mod ai_solution {
 
 #[cfg(test)]
 mod tests {
-    use super::my_solution::Solution as MySolution;
     use super::ai_solution::Solution as AiSolution;
+    use super::my_solution::Solution as MySolution;
 
     fn run_tests(multiply: fn(Vec<Vec<i32>>, Vec<Vec<i32>>) -> Vec<Vec<i32>>) {
         // Example 1: basic sparse multiply
@@ -141,50 +141,32 @@ mod tests {
         );
 
         // Example 2: all zeros
-        assert_eq!(
-            multiply(vec![vec![0]], vec![vec![0]]),
-            vec![vec![0]]
-        );
+        assert_eq!(multiply(vec![vec![0]], vec![vec![0]]), vec![vec![0]]);
 
         // Single element non-zero
-        assert_eq!(
-            multiply(vec![vec![3]], vec![vec![5]]),
-            vec![vec![15]]
-        );
+        assert_eq!(multiply(vec![vec![3]], vec![vec![5]]), vec![vec![15]]);
 
         // Identity-like: diagonal mat2
         assert_eq!(
-            multiply(
-                vec![vec![1, 2], vec![3, 4]],
-                vec![vec![1, 0], vec![0, 1]],
-            ),
+            multiply(vec![vec![1, 2], vec![3, 4]], vec![vec![1, 0], vec![0, 1]],),
             vec![vec![1, 2], vec![3, 4]]
         );
 
         // Fully dense small case
         assert_eq!(
-            multiply(
-                vec![vec![1, 2, 3]],
-                vec![vec![4], vec![5], vec![6]],
-            ),
-            vec![vec![32]]  // 1*4 + 2*5 + 3*6 = 32
+            multiply(vec![vec![1, 2, 3]], vec![vec![4], vec![5], vec![6]],),
+            vec![vec![32]] // 1*4 + 2*5 + 3*6 = 32
         );
 
         // All zeros in mat1
         assert_eq!(
-            multiply(
-                vec![vec![0, 0], vec![0, 0]],
-                vec![vec![1, 2], vec![3, 4]],
-            ),
+            multiply(vec![vec![0, 0], vec![0, 0]], vec![vec![1, 2], vec![3, 4]],),
             vec![vec![0, 0], vec![0, 0]]
         );
 
         // Sparse with negatives
         assert_eq!(
-            multiply(
-                vec![vec![0, -1], vec![2, 0]],
-                vec![vec![0, 3], vec![-4, 0]],
-            ),
+            multiply(vec![vec![0, -1], vec![2, 0]], vec![vec![0, 3], vec![-4, 0]],),
             vec![vec![4, 0], vec![0, 6]]
         );
     }
@@ -201,8 +183,8 @@ mod tests {
 }
 
 fn main() {
-    use std::time::Instant;
     use std::hint::black_box;
+    use std::time::Instant;
 
     let mat1 = vec![vec![1, 0, 0], vec![-1, 0, 3]];
     let mat2 = vec![vec![7, 0, 0], vec![0, 0, 0], vec![0, 0, 1]];

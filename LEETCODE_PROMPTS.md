@@ -42,12 +42,66 @@ Every completed file follows this header format (from `lc_0001_two_sum.rs`):
 > 1. **File header**: problem number, title, difficulty, LeetCode URL, description, examples with expected output, constraints, and Run/Test/Bench commands.
 > 2. **`my_solution` module**: `pub struct Solution` + `impl Solution` with the LeetCode function signature, doc comments (Arguments, Returns), and body as `todo!()`. Include `Time: O(?)` / `Space: O(?)` placeholders on the module doc.
 > 3. **`ai_solution` module**: identical scaffold with `todo!()`.
-> 4. **`fn main()`**: test cases printed for both solutions.
+> 4. **`fn main()`**: test cases printed for both solutions. **Must call both `my_solution` and `ai_solution`** (see "Avoiding dead_code warnings" below).
 > 5. **`#[cfg(test)] mod tests`**: a `macro_rules!` test macro that generates tests for any Solution path, invoked for both `my_tests` and `ai_tests`. Include edge cases. For problems with multiple valid answers, use a helper that validates the result instead of exact `assert_eq!`.
 > 6. **`bench_comparison` test**: 100k iterations, `black_box`, prints avg durations and ratio.
 > 7. **Register the example in `Cargo.toml`** as `[[example]]`.
 >
 > Leave both solution bodies as `todo!()`. Do NOT fill in any solution logic.
+
+## Avoiding dead_code Warnings
+
+Rust's dead code analysis runs against non-test code only. Items referenced exclusively
+inside `#[cfg(test)]` blocks are invisible to the compiler in normal builds, triggering
+`dead_code` warnings. Follow these rules to stay warning-free:
+
+### Rule 1: `fn main()` must exercise both solutions
+
+`main()` must call **all public functions/methods from both `my_solution` and `ai_solution`**.
+If only one solution is demoed, the other's `struct Solution` and associated functions will
+warn as "never constructed" / "never used".
+
+```rust
+// GOOD — both solutions called
+fn main() {
+    println!("my: {}", my_solution::Solution::foo(42));
+    println!("ai: {}", ai_solution::Solution::foo(42));
+}
+
+// BAD — ai_solution is dead code outside tests
+fn main() {
+    println!("{}", my_solution::Solution::foo(42));
+}
+```
+
+For design problems (non-`Solution` structs like `HitCounter`, `PeekingIterator`), `main()`
+must instantiate and call methods on **both** implementations.
+
+### Rule 2: Test-only helpers need `#[cfg(test)]`
+
+Helper functions/traits used **only** in tests (validation helpers, sorting helpers,
+trait abstractions for polymorphic testing) must be gated with `#[cfg(test)]`:
+
+```rust
+// GOOD — gated because only tests use it
+#[cfg(test)]
+fn is_valid(result: &[i32]) -> bool { ... }
+
+#[cfg(test)]
+fn sorted_nested(mut v: Vec<Vec<i32>>) -> Vec<Vec<i32>> { ... }
+
+// For trait-based test helpers, gate the trait AND all impls
+#[cfg(test)]
+trait HitCounterApi { ... }
+
+#[cfg(test)]
+impl HitCounterApi for my_solution::HitCounter { ... }
+```
+
+### Rule 3: No unused struct fields
+
+If a struct field is stored but never read, remove it. The compiler warns on fields
+that are written during construction but never accessed afterward.
 
 ## Prompt 2: Complete the file (after solving)
 

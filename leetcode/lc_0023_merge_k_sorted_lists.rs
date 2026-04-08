@@ -69,7 +69,7 @@ fn list_to_vec(mut head: Option<Box<ListNode>>) -> Vec<i32> {
 /// Time: O(N log N) where N = total number of nodes across all lists.
 /// Space: O(N) for the collected values vector.
 mod my_solution {
-    use crate::{build_list, ListNode};
+    use crate::{ListNode, build_list};
 
     pub struct Solution;
 
@@ -208,8 +208,8 @@ mod tests {
     macro_rules! test_merge_k_lists {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use $solution as Solution;
                 use crate::{build_list, list_to_vec};
+                use $solution as Solution;
 
                 #[test]
                 fn test_example_1() {
@@ -225,13 +225,19 @@ mod tests {
                 #[test]
                 fn test_empty_input() {
                     let lists: Vec<Option<Box<crate::ListNode>>> = vec![];
-                    assert_eq!(list_to_vec(Solution::merge_k_lists(lists)), Vec::<i32>::new());
+                    assert_eq!(
+                        list_to_vec(Solution::merge_k_lists(lists)),
+                        Vec::<i32>::new()
+                    );
                 }
 
                 #[test]
                 fn test_single_empty_list() {
                     let lists = vec![None];
-                    assert_eq!(list_to_vec(Solution::merge_k_lists(lists)), Vec::<i32>::new());
+                    assert_eq!(
+                        list_to_vec(Solution::merge_k_lists(lists)),
+                        Vec::<i32>::new()
+                    );
                 }
 
                 #[test]
@@ -251,10 +257,7 @@ mod tests {
 
                 #[test]
                 fn test_lists_with_negatives() {
-                    let lists = vec![
-                        build_list(&[-5, -1, 3]),
-                        build_list(&[-3, 0, 2]),
-                    ];
+                    let lists = vec![build_list(&[-5, -1, 3]), build_list(&[-3, 0, 2])];
                     assert_eq!(
                         list_to_vec(Solution::merge_k_lists(lists)),
                         vec![-5, -3, -1, 0, 2, 3]
@@ -263,11 +266,7 @@ mod tests {
 
                 #[test]
                 fn test_all_same_values() {
-                    let lists = vec![
-                        build_list(&[1, 1]),
-                        build_list(&[1, 1]),
-                        build_list(&[1]),
-                    ];
+                    let lists = vec![build_list(&[1, 1]), build_list(&[1, 1]), build_list(&[1])];
                     assert_eq!(
                         list_to_vec(Solution::merge_k_lists(lists)),
                         vec![1, 1, 1, 1, 1]
@@ -276,13 +275,7 @@ mod tests {
 
                 #[test]
                 fn test_mixed_empty_and_non_empty() {
-                    let lists = vec![
-                        None,
-                        build_list(&[2, 4]),
-                        None,
-                        build_list(&[1, 3]),
-                        None,
-                    ];
+                    let lists = vec![None, build_list(&[2, 4]), None, build_list(&[1, 3]), None];
                     assert_eq!(
                         list_to_vec(Solution::merge_k_lists(lists)),
                         vec![1, 2, 3, 4]

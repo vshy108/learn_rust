@@ -38,12 +38,7 @@ mod my_solution {
             result
         }
 
-        fn backtrack(
-            s: &[u8],
-            start: usize,
-            segments: &mut Vec<String>,
-            result: &mut Vec<String>,
-        ) {
+        fn backtrack(s: &[u8], start: usize, segments: &mut Vec<String>, result: &mut Vec<String>) {
             if segments.len() == 4 {
                 if start == s.len() {
                     result.push(segments.join("."));
@@ -54,9 +49,7 @@ mod my_solution {
             let remaining_segments = 4 - segments.len();
             let remaining_chars = s.len() - start;
             // Prune: each segment needs 1-3 chars
-            if remaining_chars < remaining_segments
-                || remaining_chars > remaining_segments * 3
-            {
+            if remaining_chars < remaining_segments || remaining_chars > remaining_segments * 3 {
                 return;
             }
 
@@ -129,7 +122,9 @@ mod ai_solution {
             if seg.len() > 1 && seg[0] == b'0' {
                 return None; // leading zero
             }
-            let val = seg.iter().fold(0u32, |acc, &b| acc * 10 + (b - b'0') as u32);
+            let val = seg
+                .iter()
+                .fold(0u32, |acc, &b| acc * 10 + (b - b'0') as u32);
             if val > 255 { None } else { Some(val) }
         }
     }
@@ -156,9 +151,8 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    let result = sorted(<$solution>::restore_ip_addresses(
-                        "25525511135".to_string(),
-                    ));
+                    let result =
+                        sorted(<$solution>::restore_ip_addresses("25525511135".to_string()));
                     assert_eq!(
                         result,
                         sorted(vec![
@@ -170,17 +164,13 @@ mod tests {
 
                 #[test]
                 fn test_zeros() {
-                    let result = sorted(<$solution>::restore_ip_addresses(
-                        "0000".to_string(),
-                    ));
+                    let result = sorted(<$solution>::restore_ip_addresses("0000".to_string()));
                     assert_eq!(result, vec!["0.0.0.0".to_string()]);
                 }
 
                 #[test]
                 fn test_101023() {
-                    let result = sorted(<$solution>::restore_ip_addresses(
-                        "101023".to_string(),
-                    ));
+                    let result = sorted(<$solution>::restore_ip_addresses("101023".to_string()));
                     let expected = sorted(vec![
                         "1.0.10.23".to_string(),
                         "1.0.102.3".to_string(),

@@ -113,9 +113,7 @@ mod tests {
                 #[test]
                 fn test_basic() {
                     assert_eq!(
-                        <$solution>::merge(vec![
-                            vec![1, 3], vec![2, 6], vec![8, 10], vec![15, 18]
-                        ]),
+                        <$solution>::merge(vec![vec![1, 3], vec![2, 6], vec![8, 10], vec![15, 18]]),
                         vec![vec![1, 6], vec![8, 10], vec![15, 18]]
                     );
                 }
@@ -130,10 +128,7 @@ mod tests {
 
                 #[test]
                 fn test_single() {
-                    assert_eq!(
-                        <$solution>::merge(vec![vec![1, 5]]),
-                        vec![vec![1, 5]]
-                    );
+                    assert_eq!(<$solution>::merge(vec![vec![1, 5]]), vec![vec![1, 5]]);
                 }
 
                 #[test]
@@ -169,23 +164,21 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let intervals: Vec<Vec<i32>> = (0..100)
-            .map(|i| vec![i * 3, i * 3 + 2])
-            .collect();
+        let intervals: Vec<Vec<i32>> = (0..100).map(|i| vec![i * 3, i * 3 + 2]).collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::merge(std::hint::black_box(intervals.clone())),
-            );
+            std::hint::black_box(crate::my_solution::Solution::merge(std::hint::black_box(
+                intervals.clone(),
+            )));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::merge(std::hint::black_box(intervals.clone())),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::merge(std::hint::black_box(
+                intervals.clone(),
+            )));
         }
         let ai_duration = start.elapsed();
 

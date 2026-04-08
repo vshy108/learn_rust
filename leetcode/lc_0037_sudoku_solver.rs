@@ -262,9 +262,7 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             let mut board = base.clone();
-            crate::my_solution::Solution::solve_sudoku(
-                std::hint::black_box(&mut board),
-            );
+            crate::my_solution::Solution::solve_sudoku(std::hint::black_box(&mut board));
             std::hint::black_box(&board);
         }
         let my_duration = start.elapsed();
@@ -272,9 +270,7 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             let mut board = base.clone();
-            crate::ai_solution::Solution::solve_sudoku(
-                std::hint::black_box(&mut board),
-            );
+            crate::ai_solution::Solution::solve_sudoku(std::hint::black_box(&mut board));
             std::hint::black_box(&board);
         }
         let ai_duration = start.elapsed();

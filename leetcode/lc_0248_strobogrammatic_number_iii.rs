@@ -190,70 +190,46 @@ mod tests {
 
                 #[test]
                 fn test_example_1() {
-                    assert_eq!(
-                        Sol::strobogrammatic_in_range("50".into(), "100".into()),
-                        3
-                    );
+                    assert_eq!(Sol::strobogrammatic_in_range("50".into(), "100".into()), 3);
                 }
 
                 #[test]
                 fn test_example_2() {
-                    assert_eq!(
-                        Sol::strobogrammatic_in_range("0".into(), "0".into()),
-                        1
-                    );
+                    assert_eq!(Sol::strobogrammatic_in_range("0".into(), "0".into()), 1);
                 }
 
                 #[test]
                 fn test_single_digit_range() {
                     // Strobogrammatic single digits: 0, 1, 8
-                    assert_eq!(
-                        Sol::strobogrammatic_in_range("0".into(), "9".into()),
-                        3
-                    );
+                    assert_eq!(Sol::strobogrammatic_in_range("0".into(), "9".into()), 3);
                 }
 
                 #[test]
                 fn test_two_digit_range() {
                     // Two-digit strobogrammatic: 11, 69, 88, 96
-                    assert_eq!(
-                        Sol::strobogrammatic_in_range("10".into(), "99".into()),
-                        4
-                    );
+                    assert_eq!(Sol::strobogrammatic_in_range("10".into(), "99".into()), 4);
                 }
 
                 #[test]
                 fn test_cross_length() {
                     // 0-99: single digit (0,1,8) + two digit (11,69,88,96)
-                    assert_eq!(
-                        Sol::strobogrammatic_in_range("0".into(), "99".into()),
-                        7
-                    );
+                    assert_eq!(Sol::strobogrammatic_in_range("0".into(), "99".into()), 7);
                 }
 
                 #[test]
                 fn test_large_range() {
                     // 0-999: singles(3) + doubles(4) + triples(12)
-                    assert_eq!(
-                        Sol::strobogrammatic_in_range("0".into(), "999".into()),
-                        19
-                    );
+                    assert_eq!(Sol::strobogrammatic_in_range("0".into(), "999".into()), 19);
                 }
 
                 #[test]
                 fn test_just_one() {
-                    assert_eq!(
-                        Sol::strobogrammatic_in_range("88".into(), "88".into()),
-                        1
-                    );
+                    assert_eq!(Sol::strobogrammatic_in_range("88".into(), "88".into()), 1);
                 }
 
                 #[test]
                 fn test_no_match() {
-                    assert_eq!(
-                        Sol::strobogrammatic_in_range("12".into(), "15".into()),
-                        0
-                    );
+                    assert_eq!(Sol::strobogrammatic_in_range("12".into(), "15".into()), 0);
                 }
             }
         };

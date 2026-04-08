@@ -43,8 +43,8 @@ mod my_solution {
             let mut events: Vec<(i32, i32)> = Vec::with_capacity(buildings.len() * 2);
             for b in &buildings {
                 let (left, right, height) = (b[0], b[1], b[2]);
-                events.push((left, -height));  // open event
-                events.push((right, height));  // close event
+                events.push((left, -height)); // open event
+                events.push((right, height)); // close event
             }
             // Sort by x first, then by height value (negative opens come before
             // positive closes at the same x)
@@ -73,7 +73,9 @@ mod my_solution {
 
                 // Current max height across all active buildings
                 // BTreeMap's last key is the maximum
-                let &cur_max = active.keys().next_back()
+                let &cur_max = active
+                    .keys()
+                    .next_back()
                     .expect("active set always has ground level 0");
 
                 if cur_max != prev_max {
@@ -252,12 +254,7 @@ mod tests {
                 #[test]
                 fn test_non_overlapping() {
                     let buildings = vec![vec![1, 3, 5], vec![5, 8, 7]];
-                    let expected = vec![
-                        vec![1, 5],
-                        vec![3, 0],
-                        vec![5, 7],
-                        vec![8, 0],
-                    ];
+                    let expected = vec![vec![1, 5], vec![3, 0], vec![5, 7], vec![8, 0]];
                     assert_eq!(<$solution>::get_skyline(buildings), expected);
                 }
             }

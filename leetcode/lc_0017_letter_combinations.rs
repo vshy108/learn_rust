@@ -70,12 +70,7 @@ mod my_solution {
         }
 
         /// Recursive helper that builds combinations one character at a time.
-        fn backtrack(
-            digits: &[u8],
-            index: usize,
-            current: &mut String,
-            result: &mut Vec<String>,
-        ) {
+        fn backtrack(digits: &[u8], index: usize, current: &mut String, result: &mut Vec<String>) {
             if index == digits.len() {
                 // Built a full-length combination — save it.
                 result.push(current.clone());
@@ -186,19 +181,19 @@ mod tests {
                     let result = Solution::letter_combinations("23".into());
                     assert_eq!(
                         sorted(result),
-                        sorted(vec![
-                            "ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"
-                        ].into_iter().map(String::from).collect())
+                        sorted(
+                            vec!["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]
+                                .into_iter()
+                                .map(String::from)
+                                .collect()
+                        )
                     );
                 }
 
                 #[test]
                 fn test_single_digit() {
                     let result = Solution::letter_combinations("2".into());
-                    assert_eq!(
-                        sorted(result),
-                        vec!["a", "b", "c"]
-                    );
+                    assert_eq!(sorted(result), vec!["a", "b", "c"]);
                 }
 
                 #[test]
@@ -211,10 +206,7 @@ mod tests {
                 fn test_four_letter_digit() {
                     // Digit 7 maps to "pqrs" (4 letters).
                     let result = Solution::letter_combinations("7".into());
-                    assert_eq!(
-                        sorted(result),
-                        vec!["p", "q", "r", "s"]
-                    );
+                    assert_eq!(sorted(result), vec!["p", "q", "r", "s"]);
                 }
 
                 #[test]

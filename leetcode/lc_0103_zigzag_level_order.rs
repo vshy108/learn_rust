@@ -29,7 +29,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -188,9 +192,8 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    let root = build_tree(&[
-                        Some(3), Some(9), Some(20), None, None, Some(15), Some(7),
-                    ]);
+                    let root =
+                        build_tree(&[Some(3), Some(9), Some(20), None, None, Some(15), Some(7)]);
                     assert_eq!(
                         <$solution>::zigzag_level_order(root),
                         vec![vec![3], vec![20, 9], vec![15, 7]],
@@ -214,7 +217,13 @@ mod tests {
                 #[test]
                 fn test_full() {
                     let root = build_tree(&[
-                        Some(1), Some(2), Some(3), Some(4), Some(5), Some(6), Some(7),
+                        Some(1),
+                        Some(2),
+                        Some(3),
+                        Some(4),
+                        Some(5),
+                        Some(6),
+                        Some(7),
                     ]);
                     assert_eq!(
                         <$solution>::zigzag_level_order(root),

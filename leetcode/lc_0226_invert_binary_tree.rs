@@ -51,9 +51,7 @@ mod my_solution {
 
     impl Solution {
         /// Invert the binary tree rooted at `root` and return the new root.
-        pub fn invert_tree(
-            root: Option<Rc<RefCell<TreeNode>>>,
-        ) -> Option<Rc<RefCell<TreeNode>>> {
+        pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
             if let Some(node) = root {
                 let mut borrowed = node.borrow_mut();
                 // Recursively invert each subtree
@@ -86,9 +84,7 @@ mod ai_solution {
 
     impl Solution {
         /// Invert the binary tree rooted at `root` and return the new root.
-        pub fn invert_tree(
-            root: Option<Rc<RefCell<TreeNode>>>,
-        ) -> Option<Rc<RefCell<TreeNode>>> {
+        pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
             let root_ref = root.as_ref()?; // return None if empty
 
             let mut queue = VecDeque::new();
@@ -170,11 +166,27 @@ fn to_level_order(root: &Option<Rc<RefCell<TreeNode>>>) -> Vec<Option<i32>> {
 }
 
 fn main() {
-    let tree = build_tree(&[Some(4), Some(2), Some(7), Some(1), Some(3), Some(6), Some(9)]);
+    let tree = build_tree(&[
+        Some(4),
+        Some(2),
+        Some(7),
+        Some(1),
+        Some(3),
+        Some(6),
+        Some(9),
+    ]);
     let inverted = my_solution::Solution::invert_tree(tree);
     println!("My: {:?}", to_level_order(&inverted));
 
-    let tree2 = build_tree(&[Some(4), Some(2), Some(7), Some(1), Some(3), Some(6), Some(9)]);
+    let tree2 = build_tree(&[
+        Some(4),
+        Some(2),
+        Some(7),
+        Some(1),
+        Some(3),
+        Some(6),
+        Some(9),
+    ]);
     let inverted2 = ai_solution::Solution::invert_tree(tree2);
     println!("AI: {:?}", to_level_order(&inverted2));
 }
@@ -191,14 +203,27 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     let tree = build_tree(&[
-                        Some(4), Some(2), Some(7),
-                        Some(1), Some(3), Some(6), Some(9),
+                        Some(4),
+                        Some(2),
+                        Some(7),
+                        Some(1),
+                        Some(3),
+                        Some(6),
+                        Some(9),
                     ]);
                     let result = <$solution>::invert_tree(tree);
                     // Inverted: [4, 7, 2, 9, 6, 3, 1]
                     assert_eq!(
                         to_level_order(&result),
-                        vec![Some(4), Some(7), Some(2), Some(9), Some(6), Some(3), Some(1)],
+                        vec![
+                            Some(4),
+                            Some(7),
+                            Some(2),
+                            Some(9),
+                            Some(6),
+                            Some(3),
+                            Some(1)
+                        ],
                     );
                 }
 
@@ -206,10 +231,7 @@ mod tests {
                 fn test_example2() {
                     let tree = build_tree(&[Some(2), Some(1), Some(3)]);
                     let result = <$solution>::invert_tree(tree);
-                    assert_eq!(
-                        to_level_order(&result),
-                        vec![Some(2), Some(3), Some(1)],
-                    );
+                    assert_eq!(to_level_order(&result), vec![Some(2), Some(3), Some(1)],);
                 }
 
                 #[test]
@@ -247,8 +269,21 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let values = vec![
-            Some(4), Some(2), Some(7), Some(1), Some(3), Some(6), Some(9),
-            Some(0), Some(5), Some(8), Some(10), Some(11), Some(12), Some(13), Some(14),
+            Some(4),
+            Some(2),
+            Some(7),
+            Some(1),
+            Some(3),
+            Some(6),
+            Some(9),
+            Some(0),
+            Some(5),
+            Some(8),
+            Some(10),
+            Some(11),
+            Some(12),
+            Some(13),
+            Some(14),
         ];
 
         let start = std::time::Instant::now();

@@ -149,10 +149,7 @@ mod tests {
 
                 #[test]
                 fn test_negative_values() {
-                    let matrix = vec![
-                        vec![-5, -3],
-                        vec![-1, 0],
-                    ];
+                    let matrix = vec![vec![-5, -3], vec![-1, 0]];
                     assert!(<$solution>::search_matrix(matrix, -3));
                 }
             }

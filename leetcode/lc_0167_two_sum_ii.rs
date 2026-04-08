@@ -83,34 +83,22 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        <$solution>::two_sum(vec![2, 7, 11, 15], 9),
-                        vec![1, 2],
-                    );
+                    assert_eq!(<$solution>::two_sum(vec![2, 7, 11, 15], 9), vec![1, 2],);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        <$solution>::two_sum(vec![2, 3, 4], 6),
-                        vec![1, 3],
-                    );
+                    assert_eq!(<$solution>::two_sum(vec![2, 3, 4], 6), vec![1, 3],);
                 }
 
                 #[test]
                 fn test_negatives() {
-                    assert_eq!(
-                        <$solution>::two_sum(vec![-1, 0], -1),
-                        vec![1, 2],
-                    );
+                    assert_eq!(<$solution>::two_sum(vec![-1, 0], -1), vec![1, 2],);
                 }
 
                 #[test]
                 fn test_larger() {
-                    assert_eq!(
-                        <$solution>::two_sum(vec![1, 2, 3, 4, 5, 6], 11),
-                        vec![5, 6],
-                    );
+                    assert_eq!(<$solution>::two_sum(vec![1, 2, 3, 4, 5, 6], 11), vec![5, 6],);
                 }
             }
         };

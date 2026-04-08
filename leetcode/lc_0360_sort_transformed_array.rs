@@ -70,15 +70,15 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[i32], i32, i32, i32) -> Vec<i32>) {
-    assert_eq!(f(&[-4, -2, 2, 4], 1, 3, 5), vec![3, 9, 15, 33]);
-    assert_eq!(f(&[-4, -2, 2, 4], -1, 3, 5), vec![-23, -5, 1, 7]);
-    assert_eq!(f(&[1, 2, 3], 0, 1, 0), vec![1, 2, 3]); // linear
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[i32], i32, i32, i32) -> Vec<i32>) {
+        assert_eq!(f(&[-4, -2, 2, 4], 1, 3, 5), vec![3, 9, 15, 33]);
+        assert_eq!(f(&[-4, -2, 2, 4], -1, 3, 5), vec![-23, -5, 1, 7]);
+        assert_eq!(f(&[1, 2, 3], 0, 1, 0), vec![1, 2, 3]); // linear
+    }
 
     #[test]
     fn test_my_solution() {
@@ -98,26 +98,38 @@ fn main() {
 
     for _ in 0..1000 {
         std::hint::black_box(my_solution::sort_transformed_array(
-            std::hint::black_box(&nums), a, b, c,
+            std::hint::black_box(&nums),
+            a,
+            b,
+            c,
         ));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
         std::hint::black_box(my_solution::sort_transformed_array(
-            std::hint::black_box(&nums), a, b, c,
+            std::hint::black_box(&nums),
+            a,
+            b,
+            c,
         ));
     }
     let my_dur = start.elapsed();
 
     for _ in 0..1000 {
         std::hint::black_box(ai_solution::sort_transformed_array(
-            std::hint::black_box(&nums), a, b, c,
+            std::hint::black_box(&nums),
+            a,
+            b,
+            c,
         ));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
         std::hint::black_box(ai_solution::sort_transformed_array(
-            std::hint::black_box(&nums), a, b, c,
+            std::hint::black_box(&nums),
+            a,
+            b,
+            c,
         ));
     }
     let ai_dur = start.elapsed();

@@ -121,8 +121,7 @@ mod ai_solution {
                 let mut node = &mut root;
                 for &b in w.as_bytes() {
                     let idx = (b - b'a') as usize;
-                    node = node.children[idx]
-                        .get_or_insert_with(|| Box::new(TrieNode::new()));
+                    node = node.children[idx].get_or_insert_with(|| Box::new(TrieNode::new()));
                 }
                 node.word = Some(w.clone());
             }
@@ -268,10 +267,7 @@ mod tests {
 
                 #[test]
                 fn test_all_match() {
-                    let board = vec![
-                        vec!['a', 'b'],
-                        vec!['c', 'd'],
-                    ];
+                    let board = vec![vec!['a', 'b'], vec!['c', 'd']];
                     let words = s(vec!["ab", "cd", "ac"]);
                     let result = sorted(<$solution>::find_words(board, words));
                     assert_eq!(result, vec!["ab", "ac", "cd"]);

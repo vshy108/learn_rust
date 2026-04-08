@@ -111,31 +111,31 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[(bool, i32)]) -> Vec<Vec<[i32; 2]>>) {
-    // Example: addNum(1), get, addNum(3), get, addNum(7), get, addNum(2), get, addNum(6), get
-    let ops = vec![
-        (true, 1),
-        (false, 0), // getIntervals
-        (true, 3),
-        (false, 0),
-        (true, 7),
-        (false, 0),
-        (true, 2),
-        (false, 0),
-        (true, 6),
-        (false, 0),
-    ];
-    let result = f(&ops);
-    assert_eq!(result[0], vec![[1, 1]]);
-    assert_eq!(result[1], vec![[1, 1], [3, 3]]);
-    assert_eq!(result[2], vec![[1, 1], [3, 3], [7, 7]]);
-    assert_eq!(result[3], vec![[1, 3], [7, 7]]);
-    assert_eq!(result[4], vec![[1, 3], [6, 7]]);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[(bool, i32)]) -> Vec<Vec<[i32; 2]>>) {
+        // Example: addNum(1), get, addNum(3), get, addNum(7), get, addNum(2), get, addNum(6), get
+        let ops = vec![
+            (true, 1),
+            (false, 0), // getIntervals
+            (true, 3),
+            (false, 0),
+            (true, 7),
+            (false, 0),
+            (true, 2),
+            (false, 0),
+            (true, 6),
+            (false, 0),
+        ];
+        let result = f(&ops);
+        assert_eq!(result[0], vec![[1, 1]]);
+        assert_eq!(result[1], vec![[1, 1], [3, 3]]);
+        assert_eq!(result[2], vec![[1, 1], [3, 3], [7, 7]]);
+        assert_eq!(result[3], vec![[1, 3], [7, 7]]);
+        assert_eq!(result[4], vec![[1, 3], [6, 7]]);
+    }
 
     #[test]
     fn test_my_solution() {

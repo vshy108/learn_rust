@@ -105,8 +105,7 @@ mod ai_solution {
             while i < bytes.len() {
                 // Find the '#' delimiter to extract the length
                 let hash_pos = s[i..].find('#').expect("valid encoding has '#'");
-                let size: usize =
-                    s[i..i + hash_pos].parse().expect("valid numeric length");
+                let size: usize = s[i..i + hash_pos].parse().expect("valid numeric length");
                 i += hash_pos + 1; // skip past '#'
                 result.push(s[i..i + size].to_string());
                 i += size;
@@ -125,8 +124,7 @@ mod tests {
         ($name:ident, $input:expr) => {
             #[test]
             fn $name() {
-                let strs: Vec<String> =
-                    $input.iter().map(|s| s.to_string()).collect();
+                let strs: Vec<String> = $input.iter().map(|s| s.to_string()).collect();
 
                 let my_codec = my_solution::Codec::new();
                 let my_encoded = my_codec.encode(strs.clone());
@@ -225,8 +223,7 @@ mod tests {
 fn main() {
     println!("LeetCode 271: Encode and Decode Strings");
 
-    let strs: Vec<String> =
-        vec!["Hello".to_string(), "World".to_string()];
+    let strs: Vec<String> = vec!["Hello".to_string(), "World".to_string()];
 
     let my_codec = my_solution::Codec::new();
     let encoded = my_codec.encode(strs.clone());
@@ -245,11 +242,10 @@ mod bench {
 
     #[test]
     fn bench_solutions() {
-        let strs: Vec<String> =
-            vec!["Hello", "World", "LeetCode", "Rust", ""]
-                .into_iter()
-                .map(String::from)
-                .collect();
+        let strs: Vec<String> = vec!["Hello", "World", "LeetCode", "Rust", ""]
+            .into_iter()
+            .map(String::from)
+            .collect();
         let iterations = 100_000;
 
         let my_codec = my_solution::Codec::new();

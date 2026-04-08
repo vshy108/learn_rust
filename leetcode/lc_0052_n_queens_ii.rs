@@ -108,13 +108,8 @@ mod ai_solution {
                 if cols & bit != 0 || diags & d_bit != 0 || anti_diags & ad_bit != 0 {
                     continue;
                 }
-                count += Self::backtrack(
-                    n,
-                    row + 1,
-                    cols | bit,
-                    diags | d_bit,
-                    anti_diags | ad_bit,
-                );
+                count +=
+                    Self::backtrack(n, row + 1, cols | bit, diags | d_bit, anti_diags | ad_bit);
             }
             count
         }
@@ -179,13 +174,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::my_solution::Solution::total_n_queens(std::hint::black_box(n)));
+            std::hint::black_box(crate::my_solution::Solution::total_n_queens(
+                std::hint::black_box(n),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::ai_solution::Solution::total_n_queens(std::hint::black_box(n)));
+            std::hint::black_box(crate::ai_solution::Solution::total_n_queens(
+                std::hint::black_box(n),
+            ));
         }
         let ai_duration = start.elapsed();
 

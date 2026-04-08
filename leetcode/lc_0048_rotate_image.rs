@@ -112,10 +112,7 @@ mod tests {
                 fn test_3x3() {
                     let mut matrix = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
                     <$solution>::rotate(&mut matrix);
-                    assert_eq!(
-                        matrix,
-                        vec![vec![7, 4, 1], vec![8, 5, 2], vec![9, 6, 3]]
-                    );
+                    assert_eq!(matrix, vec![vec![7, 4, 1], vec![8, 5, 2], vec![9, 6, 3]]);
                 }
 
                 #[test]

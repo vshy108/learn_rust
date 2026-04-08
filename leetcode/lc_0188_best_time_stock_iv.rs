@@ -27,7 +27,9 @@ mod my_solution {
         /// Return max profit with at most k transactions.
         pub fn max_profit(k: i32, prices: Vec<i32>) -> i32 {
             let n = prices.len();
-            if n < 2 { return 0; }
+            if n < 2 {
+                return 0;
+            }
             let k = k as usize;
             // If k >= n/2, unlimited transactions
             if k >= n / 2 {
@@ -72,10 +74,7 @@ mod ai_solution {
 
             // If k >= n/2, unlimited transactions
             if k >= n / 2 {
-                return prices
-                    .windows(2)
-                    .map(|w| (w[1] - w[0]).max(0))
-                    .sum();
+                return prices.windows(2).map(|w| (w[1] - w[0]).max(0)).sum();
             }
 
             // buy[j]  = max profit holding stock after j-th buy
@@ -121,10 +120,7 @@ mod tests {
 
                 #[test]
                 fn test_k_one() {
-                    assert_eq!(
-                        <$solution>::max_profit(1, vec![7, 1, 5, 3, 6, 4]),
-                        5,
-                    );
+                    assert_eq!(<$solution>::max_profit(1, vec![7, 1, 5, 3, 6, 4]), 5,);
                 }
 
                 #[test]

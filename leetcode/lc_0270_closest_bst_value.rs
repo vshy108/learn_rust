@@ -39,7 +39,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -90,10 +94,7 @@ mod my_solution {
     pub struct Solution;
 
     impl Solution {
-        pub fn closest_value(
-            root: Option<Rc<RefCell<TreeNode>>>,
-            target: f64,
-        ) -> i32 {
+        pub fn closest_value(root: Option<Rc<RefCell<TreeNode>>>, target: f64) -> i32 {
             let mut ans = 0;
             let mut diff = f64::INFINITY;
             let mut cur = root;
@@ -134,10 +135,7 @@ mod ai_solution {
     pub struct Solution;
 
     impl Solution {
-        pub fn closest_value(
-            root: Option<Rc<RefCell<TreeNode>>>,
-            target: f64,
-        ) -> i32 {
+        pub fn closest_value(root: Option<Rc<RefCell<TreeNode>>>, target: f64) -> i32 {
             // Find floor: largest value <= target
             let floor = Self::find_floor(&root, target);
             // Find ceiling: smallest value >= target
@@ -159,10 +157,7 @@ mod ai_solution {
         }
 
         /// Walk down BST collecting the largest value <= target.
-        fn find_floor(
-            root: &Option<Rc<RefCell<TreeNode>>>,
-            target: f64,
-        ) -> Option<i32> {
+        fn find_floor(root: &Option<Rc<RefCell<TreeNode>>>, target: f64) -> Option<i32> {
             let mut result = None;
             let mut cur = root.clone();
             while let Some(node) = cur {
@@ -178,10 +173,7 @@ mod ai_solution {
         }
 
         /// Walk down BST collecting the smallest value >= target.
-        fn find_ceil(
-            root: &Option<Rc<RefCell<TreeNode>>>,
-            target: f64,
-        ) -> Option<i32> {
+        fn find_ceil(root: &Option<Rc<RefCell<TreeNode>>>, target: f64) -> Option<i32> {
             let mut result = None;
             let mut cur = root.clone();
             while let Some(node) = cur {
@@ -291,12 +283,7 @@ mod tests {
     );
 
     // Skewed tree (left only)
-    test_closest!(
-        test_left_skewed,
-        [Some(5), Some(3), None, Some(1)],
-        2.0,
-        1
-    );
+    test_closest!(test_left_skewed, [Some(5), Some(3), None, Some(1)], 2.0, 1);
 
     // Target smaller than all nodes
     test_closest!(
@@ -323,7 +310,12 @@ mod tests {
     // Large value nodes
     test_closest!(
         test_large_values,
-        [Some(1_000_000_000), Some(500_000_000), None, Some(250_000_000)],
+        [
+            Some(1_000_000_000),
+            Some(500_000_000),
+            None,
+            Some(250_000_000)
+        ],
         600_000_000.0,
         500_000_000
     );
@@ -339,7 +331,15 @@ mod tests {
     // Perfectly balanced large tree — 9.0 equidistant from 8 and 10, pick 8
     test_closest!(
         test_balanced_seven_nodes,
-        [Some(8), Some(4), Some(12), Some(2), Some(6), Some(10), Some(14)],
+        [
+            Some(8),
+            Some(4),
+            Some(12),
+            Some(2),
+            Some(6),
+            Some(10),
+            Some(14)
+        ],
         9.0,
         8
     );
@@ -373,31 +373,19 @@ mod bench {
 
         // Warm up
         for _ in 0..1_000 {
-            std::hint::black_box(my_solution::Solution::closest_value(
-                root.clone(),
-                target,
-            ));
-            std::hint::black_box(ai_solution::Solution::closest_value(
-                root.clone(),
-                target,
-            ));
+            std::hint::black_box(my_solution::Solution::closest_value(root.clone(), target));
+            std::hint::black_box(ai_solution::Solution::closest_value(root.clone(), target));
         }
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(my_solution::Solution::closest_value(
-                root.clone(),
-                target,
-            ));
+            std::hint::black_box(my_solution::Solution::closest_value(root.clone(), target));
         }
         let my_dur = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(ai_solution::Solution::closest_value(
-                root.clone(),
-                target,
-            ));
+            std::hint::black_box(ai_solution::Solution::closest_value(root.clone(), target));
         }
         let ai_dur = start.elapsed();
 

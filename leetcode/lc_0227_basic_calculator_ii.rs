@@ -52,9 +52,7 @@ mod my_solution {
 
                 // Process when we hit an operator or the end of the string.
                 // Skip spaces that are not at the end.
-                if (ch == b'+' || ch == b'-' || ch == b'*' || ch == b'/')
-                    || i == bytes.len() - 1
-                {
+                if (ch == b'+' || ch == b'-' || ch == b'*' || ch == b'/') || i == bytes.len() - 1 {
                     match prev_op {
                         b'+' => stack.push(num),
                         b'-' => stack.push(-num),
@@ -110,9 +108,7 @@ mod ai_solution {
                     num = num * 10 + (ch - b'0') as i32;
                 }
 
-                if (ch == b'+' || ch == b'-' || ch == b'*' || ch == b'/')
-                    || i == bytes.len() - 1
-                {
+                if (ch == b'+' || ch == b'-' || ch == b'*' || ch == b'/') || i == bytes.len() - 1 {
                     match prev_op {
                         b'+' => {
                             // Flush previous term, start a new positive term

@@ -32,12 +32,22 @@ mod my_solution {
             let mut count = 0;
 
             fn dfs(grid: &mut Vec<Vec<char>>, r: usize, c: usize, m: usize, n: usize) {
-                if r >= m || c >= n || grid[r][c] == '0' { return; }
+                if r >= m || c >= n || grid[r][c] == '0' {
+                    return;
+                }
                 grid[r][c] = '0';
-                if r > 0 { dfs(grid, r - 1, c, m, n); }
-                if r + 1 < m { dfs(grid, r + 1, c, m, n); }
-                if c > 0 { dfs(grid, r, c - 1, m, n); }
-                if c + 1 < n { dfs(grid, r, c + 1, m, n); }
+                if r > 0 {
+                    dfs(grid, r - 1, c, m, n);
+                }
+                if r + 1 < m {
+                    dfs(grid, r + 1, c, m, n);
+                }
+                if c > 0 {
+                    dfs(grid, r, c - 1, m, n);
+                }
+                if c + 1 < n {
+                    dfs(grid, r, c + 1, m, n);
+                }
             }
 
             for i in 0..m {
@@ -80,11 +90,7 @@ mod ai_solution {
                             for (dr, dc) in [(0, 1), (0, -1_i32), (1, 0), (-1_i32, 0)] {
                                 let nr = r as i32 + dr;
                                 let nc = c as i32 + dc;
-                                if nr >= 0
-                                    && nr < m as i32
-                                    && nc >= 0
-                                    && nc < n as i32
-                                {
+                                if nr >= 0 && nr < m as i32 && nc >= 0 && nc < n as i32 {
                                     let (nr, nc) = (nr as usize, nc as usize);
                                     if grid[nr][nc] == '1' {
                                         grid[nr][nc] = '0';

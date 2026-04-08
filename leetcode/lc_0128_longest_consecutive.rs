@@ -59,7 +59,9 @@ mod ai_solution {
     impl Solution {
         /// Return longest consecutive using sort + linear scan.
         pub fn longest_consecutive(mut nums: Vec<i32>) -> i32 {
-            if nums.is_empty() { return 0; }
+            if nums.is_empty() {
+                return 0;
+            }
             nums.sort_unstable();
             nums.dedup();
 
@@ -101,9 +103,7 @@ mod tests {
                 #[test]
                 fn test_example2() {
                     assert_eq!(
-                        <$solution>::longest_consecutive(
-                            vec![0, 3, 7, 2, 5, 8, 4, 6, 0, 1],
-                        ),
+                        <$solution>::longest_consecutive(vec![0, 3, 7, 2, 5, 8, 4, 6, 0, 1],),
                         9,
                     );
                 }
@@ -120,18 +120,12 @@ mod tests {
 
                 #[test]
                 fn test_duplicates() {
-                    assert_eq!(
-                        <$solution>::longest_consecutive(vec![1, 2, 0, 1]),
-                        3,
-                    );
+                    assert_eq!(<$solution>::longest_consecutive(vec![1, 2, 0, 1]), 3,);
                 }
 
                 #[test]
                 fn test_negatives() {
-                    assert_eq!(
-                        <$solution>::longest_consecutive(vec![-1, -2, 0, 1]),
-                        4,
-                    );
+                    assert_eq!(<$solution>::longest_consecutive(vec![-1, -2, 0, 1]), 4,);
                 }
             }
         };

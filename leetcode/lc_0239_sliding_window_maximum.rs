@@ -128,27 +128,19 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     assert_eq!(
-                        <$solution>::max_sliding_window(
-                            vec![1, 3, -1, -3, 5, 3, 6, 7], 3,
-                        ),
+                        <$solution>::max_sliding_window(vec![1, 3, -1, -3, 5, 3, 6, 7], 3,),
                         vec![3, 3, 5, 5, 6, 7],
                     );
                 }
 
                 #[test]
                 fn test_single_element() {
-                    assert_eq!(
-                        <$solution>::max_sliding_window(vec![1], 1),
-                        vec![1],
-                    );
+                    assert_eq!(<$solution>::max_sliding_window(vec![1], 1), vec![1],);
                 }
 
                 #[test]
                 fn test_k_equals_n() {
-                    assert_eq!(
-                        <$solution>::max_sliding_window(vec![1, 3, 2], 3),
-                        vec![3],
-                    );
+                    assert_eq!(<$solution>::max_sliding_window(vec![1, 3, 2], 3), vec![3],);
                 }
 
                 #[test]

@@ -30,11 +30,7 @@ mod my_solution {
 
     impl Solution {
         /// Return length of shortest transformation sequence.
-        pub fn ladder_length(
-            begin_word: String,
-            end_word: String,
-            word_list: Vec<String>,
-        ) -> i32 {
+        pub fn ladder_length(begin_word: String, end_word: String, word_list: Vec<String>) -> i32 {
             let mut word_set: HashSet<String> = word_list.into_iter().collect();
             if !word_set.contains(&end_word) {
                 return 0;
@@ -47,11 +43,12 @@ mod my_solution {
                 let bytes = word.into_bytes();
                 for i in 0..bytes.len() {
                     for c in b'a'..=b'z' {
-                        if c == bytes[i] { continue; }
+                        if c == bytes[i] {
+                            continue;
+                        }
                         let mut next = bytes.clone();
                         next[i] = c;
-                        let next_word = String::from_utf8(next)
-                            .expect("valid ascii");
+                        let next_word = String::from_utf8(next).expect("valid ascii");
                         if next_word == end_word {
                             return depth + 1;
                         }
@@ -77,11 +74,7 @@ mod ai_solution {
 
     impl Solution {
         /// Return shortest sequence length using bidirectional BFS.
-        pub fn ladder_length(
-            begin_word: String,
-            end_word: String,
-            word_list: Vec<String>,
-        ) -> i32 {
+        pub fn ladder_length(begin_word: String, end_word: String, word_list: Vec<String>) -> i32 {
             let mut word_set: HashSet<String> = word_list.into_iter().collect();
             if !word_set.contains(&end_word) {
                 return 0;
@@ -105,11 +98,12 @@ mod ai_solution {
                     let bytes = word.as_bytes();
                     for i in 0..bytes.len() {
                         for c in b'a'..=b'z' {
-                            if c == bytes[i] { continue; }
+                            if c == bytes[i] {
+                                continue;
+                            }
                             let mut next = bytes.to_vec();
                             next[i] = c;
-                            let next_word = String::from_utf8(next)
-                                .expect("valid ascii");
+                            let next_word = String::from_utf8(next).expect("valid ascii");
                             if back.contains(&next_word) {
                                 return depth;
                             }
@@ -128,7 +122,9 @@ mod ai_solution {
 
 fn main() {
     let words: Vec<String> = vec!["hot", "dot", "dog", "lot", "log", "cog"]
-        .into_iter().map(String::from).collect();
+        .into_iter()
+        .map(String::from)
+        .collect();
     let my = my_solution::Solution::ladder_length("hit".into(), "cog".into(), words.clone());
     let ai = ai_solution::Solution::ladder_length("hit".into(), "cog".into(), words);
     println!("ladder length: my={my}, ai={ai}");
@@ -184,9 +180,7 @@ mod tests {
                 #[test]
                 fn test_longer_chain() {
                     let words = to_words(&["hot", "dot", "lot", "dof", "lof", "cog", "cof"]);
-                    let result = <$solution>::ladder_length(
-                        "hit".into(), "cog".into(), words,
-                    );
+                    let result = <$solution>::ladder_length("hit".into(), "cog".into(), words);
                     assert!(result > 0);
                 }
             }
@@ -200,7 +194,9 @@ mod tests {
     fn bench_comparison() {
         let iterations = 10_000;
         let words: Vec<String> = vec!["hot", "dot", "dog", "lot", "log", "cog"]
-            .into_iter().map(String::from).collect();
+            .into_iter()
+            .map(String::from)
+            .collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {

@@ -122,10 +122,22 @@ mod ai_solution {
 }
 
 fn main() {
-    println!("my n=2: {:?}", my_solution::Solution::find_strobogrammatic(2));
-    println!("my n=1: {:?}", my_solution::Solution::find_strobogrammatic(1));
-    println!("ai n=2: {:?}", ai_solution::Solution::find_strobogrammatic(2));
-    println!("ai n=1: {:?}", ai_solution::Solution::find_strobogrammatic(1));
+    println!(
+        "my n=2: {:?}",
+        my_solution::Solution::find_strobogrammatic(2)
+    );
+    println!(
+        "my n=1: {:?}",
+        my_solution::Solution::find_strobogrammatic(1)
+    );
+    println!(
+        "ai n=2: {:?}",
+        ai_solution::Solution::find_strobogrammatic(2)
+    );
+    println!(
+        "ai n=1: {:?}",
+        ai_solution::Solution::find_strobogrammatic(1)
+    );
 }
 
 #[cfg(test)]
@@ -157,10 +169,15 @@ mod tests {
                 fn test_n3() {
                     let result = sorted(Sol::find_strobogrammatic(3));
                     // 3-digit: center must be 0,1,8; outer pairs: 11,69,88,96
-                    let expected = sorted(vec![
-                        "101", "111", "181", "609", "619", "689",
-                        "808", "818", "888", "906", "916", "986",
-                    ].into_iter().map(String::from).collect());
+                    let expected = sorted(
+                        vec![
+                            "101", "111", "181", "609", "619", "689", "808", "818", "888", "906",
+                            "916", "986",
+                        ]
+                        .into_iter()
+                        .map(String::from)
+                        .collect(),
+                    );
                     assert_eq!(result, expected);
                 }
 
@@ -181,7 +198,11 @@ mod tests {
                             let bv = (b[j] - b'0') as i8;
                             assert_eq!(d[a], bv, "not strobogrammatic: {s}");
                             i += 1;
-                            if j > 0 { j -= 1; } else { break; }
+                            if j > 0 {
+                                j -= 1;
+                            } else {
+                                break;
+                            }
                         }
                     }
                     // n=4 should produce 4*4 = 16 results? No:

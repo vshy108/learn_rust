@@ -93,27 +93,27 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(usize, &[(usize, usize, usize)]) -> Vec<i32>) {
-    // Example: n=3, moves produce [0,0,0,0,0,0,1]
-    let moves = vec![
-        (0, 0, 1),
-        (0, 2, 2),
-        (2, 2, 1),
-        (1, 1, 2),
-        (2, 0, 1),
-        (1, 0, 2),
-        (2, 1, 1), // player 1 wins (row 2 complete)
-    ];
-    assert_eq!(f(3, &moves), vec![0, 0, 0, 0, 0, 0, 1]);
-
-    // Diagonal win
-    let moves = vec![(0, 0, 1), (1, 0, 2), (1, 1, 1), (2, 0, 2), (2, 2, 1)];
-    assert_eq!(f(3, &moves), vec![0, 0, 0, 0, 1]);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(usize, &[(usize, usize, usize)]) -> Vec<i32>) {
+        // Example: n=3, moves produce [0,0,0,0,0,0,1]
+        let moves = vec![
+            (0, 0, 1),
+            (0, 2, 2),
+            (2, 2, 1),
+            (1, 1, 2),
+            (2, 0, 1),
+            (1, 0, 2),
+            (2, 1, 1), // player 1 wins (row 2 complete)
+        ];
+        assert_eq!(f(3, &moves), vec![0, 0, 0, 0, 0, 0, 1]);
+
+        // Diagonal win
+        let moves = vec![(0, 0, 1), (1, 0, 2), (1, 1, 1), (2, 0, 2), (2, 2, 1)];
+        assert_eq!(f(3, &moves), vec![0, 0, 0, 0, 1]);
+    }
 
     #[test]
     fn test_my_solution() {

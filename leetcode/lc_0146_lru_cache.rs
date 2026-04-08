@@ -99,8 +99,18 @@ mod ai_solution {
         /// Create a new LRU cache.
         pub fn new(capacity: i32) -> Self {
             // Use sentinel head (idx 0) and tail (idx 1) to simplify edge cases
-            let head_node = DllNode { key: 0, val: 0, prev: 0, next: 1 };
-            let tail_node = DllNode { key: 0, val: 0, prev: 0, next: 1 };
+            let head_node = DllNode {
+                key: 0,
+                val: 0,
+                prev: 0,
+                next: 1,
+            };
+            let tail_node = DllNode {
+                key: 0,
+                val: 0,
+                prev: 0,
+                next: 1,
+            };
             let mut cache = LRUCache {
                 capacity: capacity as usize,
                 map: HashMap::new(),
@@ -140,14 +150,20 @@ mod ai_solution {
                     self.map.remove(&lru_key);
                     // Reuse the slot
                     self.nodes[lru_idx] = DllNode {
-                        key, val: value, prev: 0, next: 0,
+                        key,
+                        val: value,
+                        prev: 0,
+                        next: 0,
                     };
                     self.map.insert(key, lru_idx);
                     self.add_before_tail(lru_idx);
                 } else {
                     let idx = self.nodes.len();
                     self.nodes.push(DllNode {
-                        key, val: value, prev: 0, next: 0,
+                        key,
+                        val: value,
+                        prev: 0,
+                        next: 0,
                     });
                     self.map.insert(key, idx);
                     self.add_before_tail(idx);

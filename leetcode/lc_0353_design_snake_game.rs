@@ -27,12 +27,7 @@ mod my_solution {
     use std::collections::{HashSet, VecDeque};
 
     /// Simulate the snake game. Returns the result of each move.
-    pub fn play(
-        width: usize,
-        height: usize,
-        food: &[[usize; 2]],
-        moves: &[u8],
-    ) -> Vec<i32> {
+    pub fn play(width: usize, height: usize, food: &[[usize; 2]], moves: &[u8]) -> Vec<i32> {
         let mut q: VecDeque<usize> = VecDeque::new();
         let mut vis: HashSet<usize> = HashSet::new();
         q.push_back(0); // start at (0,0) encoded as 0
@@ -96,12 +91,7 @@ mod my_solution {
 /// - Space: O(snake_length)
 mod ai_solution {
     /// Simulate the snake game. Returns the result of each move.
-    pub fn play(
-        width: usize,
-        height: usize,
-        food: &[[usize; 2]],
-        moves: &[u8],
-    ) -> Vec<i32> {
+    pub fn play(width: usize, height: usize, food: &[[usize; 2]], moves: &[u8]) -> Vec<i32> {
         let mut snake: Vec<usize> = vec![0]; // head at index 0
         let mut score = 0usize;
         let mut food_idx = 0;
@@ -147,16 +137,16 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(usize, usize, &[[usize; 2]], &[u8]) -> Vec<i32>) {
-    // Example: width=3, height=2, food=[[1,2],[0,1]]
-    // Moves: R, D, R, U, L, U
-    let result = f(3, 2, &[[1, 2], [0, 1]], b"RDRULU");
-    assert_eq!(result, vec![0, 0, 1, 1, 2, -1]);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(usize, usize, &[[usize; 2]], &[u8]) -> Vec<i32>) {
+        // Example: width=3, height=2, food=[[1,2],[0,1]]
+        // Moves: R, D, R, U, L, U
+        let result = f(3, 2, &[[1, 2], [0, 1]], b"RDRULU");
+        assert_eq!(result, vec![0, 0, 1, 1, 2, -1]);
+    }
 
     #[test]
     fn test_my_solution() {

@@ -44,10 +44,7 @@ mod my_solution {
                             dp[i][j] = 1;
                         } else {
                             // Take the min of the three neighbors and add 1
-                            dp[i][j] = dp[i - 1][j]
-                                .min(dp[i][j - 1])
-                                .min(dp[i - 1][j - 1])
-                                + 1;
+                            dp[i][j] = dp[i - 1][j].min(dp[i][j - 1]).min(dp[i - 1][j - 1]) + 1;
                         }
                         max_side = max_side.max(dp[i][j]);
                     }
@@ -146,12 +143,7 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    let matrix = to_char_matrix(&[
-                        "10100",
-                        "10111",
-                        "11111",
-                        "10010",
-                    ]);
+                    let matrix = to_char_matrix(&["10100", "10111", "11111", "10010"]);
                     assert_eq!(<$solution>::maximal_square(matrix), 4);
                 }
 

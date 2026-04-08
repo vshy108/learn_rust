@@ -157,27 +157,19 @@ mod bench {
 
         // Warm up
         for _ in 0..1_000 {
-            std::hint::black_box(
-                my_solution::Solution::h_index(citations.clone()),
-            );
-            std::hint::black_box(
-                ai_solution::Solution::h_index(citations.clone()),
-            );
+            std::hint::black_box(my_solution::Solution::h_index(citations.clone()));
+            std::hint::black_box(ai_solution::Solution::h_index(citations.clone()));
         }
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                my_solution::Solution::h_index(citations.clone()),
-            );
+            std::hint::black_box(my_solution::Solution::h_index(citations.clone()));
         }
         let my_dur = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                ai_solution::Solution::h_index(citations.clone()),
-            );
+            std::hint::black_box(ai_solution::Solution::h_index(citations.clone()));
         }
         let ai_dur = start.elapsed();
 

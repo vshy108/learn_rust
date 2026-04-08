@@ -121,7 +121,10 @@ mod ai_solution {
 
         /// Return the next smallest number.
         pub fn next(&mut self) -> i32 {
-            let node = self.stack.pop().expect("next() called when has_next() is false");
+            let node = self
+                .stack
+                .pop()
+                .expect("next() called when has_next() is false");
             let borrowed = node.borrow();
             let val = borrowed.val;
             // Push the left spine of the right subtree

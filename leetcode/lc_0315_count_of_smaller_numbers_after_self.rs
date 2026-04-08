@@ -50,9 +50,7 @@ mod my_solution {
             sorted.dedup();
 
             // Binary search to find rank of each value
-            let rank = |v: i32| -> usize {
-                sorted.partition_point(|&x| x < v) + 1
-            };
+            let rank = |v: i32| -> usize { sorted.partition_point(|&x| x < v) + 1 };
 
             let m = sorted.len();
             let mut bit = vec![0i32; m + 1];
@@ -113,11 +111,8 @@ mod ai_solution {
             let n = nums.len();
             let mut ans = vec![0i32; n];
             // (value, original_index)
-            let mut pairs: Vec<(i32, usize)> = nums
-                .iter()
-                .enumerate()
-                .map(|(i, &v)| (v, i))
-                .collect();
+            let mut pairs: Vec<(i32, usize)> =
+                nums.iter().enumerate().map(|(i, &v)| (v, i)).collect();
             let mut tmp = vec![(0i32, 0usize); n];
             merge_sort(&mut pairs, &mut tmp, &mut ans, 0, n);
             ans
@@ -231,13 +226,17 @@ fn main() {
     let iterations = 100_000;
     let start = Instant::now();
     for _ in 0..iterations {
-        black_box(my_solution::Solution::count_smaller(black_box(nums.clone())));
+        black_box(my_solution::Solution::count_smaller(black_box(
+            nums.clone(),
+        )));
     }
     let my_dur = start.elapsed();
 
     let start = Instant::now();
     for _ in 0..iterations {
-        black_box(ai_solution::Solution::count_smaller(black_box(nums.clone())));
+        black_box(ai_solution::Solution::count_smaller(black_box(
+            nums.clone(),
+        )));
     }
     let ai_dur = start.elapsed();
 

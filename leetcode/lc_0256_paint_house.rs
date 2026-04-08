@@ -94,11 +94,7 @@ mod tests {
                 #[test]
                 fn test_example_1() {
                     assert_eq!(
-                        Sol::min_cost(vec![
-                            vec![17, 2, 17],
-                            vec![16, 16, 5],
-                            vec![14, 3, 19],
-                        ]),
+                        Sol::min_cost(vec![vec![17, 2, 17], vec![16, 16, 5], vec![14, 3, 19],]),
                         10
                     );
                 }
@@ -138,11 +134,7 @@ mod tests {
                 fn test_large_descending() {
                     // Costs favor later colors more and more
                     assert_eq!(
-                        Sol::min_cost(vec![
-                            vec![10, 1, 10],
-                            vec![10, 10, 1],
-                            vec![1, 10, 10],
-                        ]),
+                        Sol::min_cost(vec![vec![10, 1, 10], vec![10, 10, 1], vec![1, 10, 10],]),
                         3,
                     );
                 }

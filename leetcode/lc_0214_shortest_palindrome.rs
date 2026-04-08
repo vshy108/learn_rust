@@ -147,42 +147,27 @@ mod tests {
 
                 #[test]
                 fn test_empty() {
-                    assert_eq!(
-                        <$solution>::shortest_palindrome("".to_string()),
-                        ""
-                    );
+                    assert_eq!(<$solution>::shortest_palindrome("".to_string()), "");
                 }
 
                 #[test]
                 fn test_single_char() {
-                    assert_eq!(
-                        <$solution>::shortest_palindrome("a".to_string()),
-                        "a"
-                    );
+                    assert_eq!(<$solution>::shortest_palindrome("a".to_string()), "a");
                 }
 
                 #[test]
                 fn test_already_palindrome() {
-                    assert_eq!(
-                        <$solution>::shortest_palindrome("aba".to_string()),
-                        "aba"
-                    );
+                    assert_eq!(<$solution>::shortest_palindrome("aba".to_string()), "aba");
                 }
 
                 #[test]
                 fn test_two_chars() {
-                    assert_eq!(
-                        <$solution>::shortest_palindrome("ab".to_string()),
-                        "bab"
-                    );
+                    assert_eq!(<$solution>::shortest_palindrome("ab".to_string()), "bab");
                 }
 
                 #[test]
                 fn test_repeated_char() {
-                    assert_eq!(
-                        <$solution>::shortest_palindrome("aaaa".to_string()),
-                        "aaaa"
-                    );
+                    assert_eq!(<$solution>::shortest_palindrome("aaaa".to_string()), "aaaa");
                 }
             }
         };

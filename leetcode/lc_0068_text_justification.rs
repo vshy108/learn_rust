@@ -153,8 +153,18 @@ mod ai_solution {
 }
 
 fn main() {
-    let words: Vec<String> = ["This", "is", "an", "example", "of", "text", "justification."]
-        .iter().map(|s| s.to_string()).collect();
+    let words: Vec<String> = [
+        "This",
+        "is",
+        "an",
+        "example",
+        "of",
+        "text",
+        "justification.",
+    ]
+    .iter()
+    .map(|s| s.to_string())
+    .collect();
     let my = my_solution::Solution::full_justify(words.clone(), 16);
     let ai = ai_solution::Solution::full_justify(words, 16);
     for (m, a) in my.iter().zip(ai.iter()) {
@@ -175,24 +185,31 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    let words = to_strings(&["This", "is", "an", "example", "of", "text", "justification."]);
-                    let result = <$solution>::full_justify(words, 16);
-                    assert_eq!(result, vec![
-                        "This    is    an",
-                        "example  of text",
-                        "justification.  ",
+                    let words = to_strings(&[
+                        "This",
+                        "is",
+                        "an",
+                        "example",
+                        "of",
+                        "text",
+                        "justification.",
                     ]);
+                    let result = <$solution>::full_justify(words, 16);
+                    assert_eq!(
+                        result,
+                        vec!["This    is    an", "example  of text", "justification.  ",]
+                    );
                 }
 
                 #[test]
                 fn test_example2() {
-                    let words = to_strings(&["What", "must", "be", "acknowledgment", "shall", "be"]);
+                    let words =
+                        to_strings(&["What", "must", "be", "acknowledgment", "shall", "be"]);
                     let result = <$solution>::full_justify(words, 16);
-                    assert_eq!(result, vec![
-                        "What   must   be",
-                        "acknowledgment  ",
-                        "shall be        ",
-                    ]);
+                    assert_eq!(
+                        result,
+                        vec!["What   must   be", "acknowledgment  ", "shall be        ",]
+                    );
                 }
 
                 #[test]
@@ -218,14 +235,31 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let words: Vec<String> = ["This", "is", "an", "example", "of", "text", "justification.",
-            "More", "words", "here", "to", "test", "the", "algorithm"]
-            .iter().map(|s| s.to_string()).collect();
+        let words: Vec<String> = [
+            "This",
+            "is",
+            "an",
+            "example",
+            "of",
+            "text",
+            "justification.",
+            "More",
+            "words",
+            "here",
+            "to",
+            "test",
+            "the",
+            "algorithm",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             std::hint::black_box(crate::my_solution::Solution::full_justify(
-                std::hint::black_box(words.clone()), 16,
+                std::hint::black_box(words.clone()),
+                16,
             ));
         }
         let my_duration = start.elapsed();
@@ -233,7 +267,8 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             std::hint::black_box(crate::ai_solution::Solution::full_justify(
-                std::hint::black_box(words.clone()), 16,
+                std::hint::black_box(words.clone()),
+                16,
             ));
         }
         let ai_duration = start.elapsed();

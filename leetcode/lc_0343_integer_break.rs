@@ -28,7 +28,7 @@ mod my_solution {
         match n % 3 {
             0 => 3i32.pow(n as u32 / 3),
             1 => 3i32.pow(n as u32 / 3 - 1) * 4, // replace 3+1 with 2+2
-            _ => 3i32.pow(n as u32 / 3) * 2, // remainder 2
+            _ => 3i32.pow(n as u32 / 3) * 2,     // remainder 2
         }
     }
 }
@@ -56,17 +56,17 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(i32) -> i32) {
-    assert_eq!(f(2), 1);   // 1*1
-    assert_eq!(f(10), 36); // 3+3+4 => 3*3*4
-    assert_eq!(f(3), 2);   // 1+2 => 2
-    assert_eq!(f(4), 4);   // 2+2 => 4
-    assert_eq!(f(58), 1549681956);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(i32) -> i32) {
+        assert_eq!(f(2), 1); // 1*1
+        assert_eq!(f(10), 36); // 3+3+4 => 3*3*4
+        assert_eq!(f(3), 2); // 1+2 => 2
+        assert_eq!(f(4), 4); // 2+2 => 4
+        assert_eq!(f(58), 1549681956);
+    }
 
     #[test]
     fn test_my_solution() {

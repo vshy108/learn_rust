@@ -195,26 +195,17 @@ mod tests {
 
                 #[test]
                 fn test_complex() {
-                    assert_eq!(
-                        Solution::longest_valid_parentheses("()(()".into()),
-                        2
-                    );
+                    assert_eq!(Solution::longest_valid_parentheses("()(()".into()), 2);
                 }
 
                 #[test]
                 fn test_long_valid() {
-                    assert_eq!(
-                        Solution::longest_valid_parentheses("(()())".into()),
-                        6
-                    );
+                    assert_eq!(Solution::longest_valid_parentheses("(()())".into()), 6);
                 }
 
                 #[test]
                 fn test_leading_close() {
-                    assert_eq!(
-                        Solution::longest_valid_parentheses(")()()((".into()),
-                        4
-                    );
+                    assert_eq!(Solution::longest_valid_parentheses(")()()((".into()), 4);
                 }
             }
         };

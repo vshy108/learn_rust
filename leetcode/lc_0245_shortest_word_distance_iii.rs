@@ -161,11 +161,7 @@ fn main() {
     );
     println!(
         "ai (same): {}",
-        ai_solution::Solution::shortest_word_distance(
-            words,
-            "makes".into(),
-            "makes".into()
-        )
+        ai_solution::Solution::shortest_word_distance(words, "makes".into(), "makes".into())
     );
 }
 
@@ -263,9 +259,9 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let words: Vec<String> = vec![
-            "practice", "makes", "perfect", "coding", "makes", "the",
-            "sky", "is", "blue", "practice", "more", "coding", "every",
-            "day", "makes", "you", "better", "at", "coding", "practice",
+            "practice", "makes", "perfect", "coding", "makes", "the", "sky", "is", "blue",
+            "practice", "more", "coding", "every", "day", "makes", "you", "better", "at", "coding",
+            "practice",
         ]
         .into_iter()
         .map(String::from)
@@ -274,10 +270,14 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             std::hint::black_box(crate::my_solution::Solution::shortest_word_distance(
-                words.clone(), "makes".into(), "coding".into(),
+                words.clone(),
+                "makes".into(),
+                "coding".into(),
             ));
             std::hint::black_box(crate::my_solution::Solution::shortest_word_distance(
-                words.clone(), "makes".into(), "makes".into(),
+                words.clone(),
+                "makes".into(),
+                "makes".into(),
             ));
         }
         let my_dur = start.elapsed();
@@ -285,10 +285,14 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             std::hint::black_box(crate::ai_solution::Solution::shortest_word_distance(
-                words.clone(), "makes".into(), "coding".into(),
+                words.clone(),
+                "makes".into(),
+                "coding".into(),
             ));
             std::hint::black_box(crate::ai_solution::Solution::shortest_word_distance(
-                words.clone(), "makes".into(), "makes".into(),
+                words.clone(),
+                "makes".into(),
+                "makes".into(),
             ));
         }
         let ai_dur = start.elapsed();

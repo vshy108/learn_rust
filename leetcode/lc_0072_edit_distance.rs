@@ -56,8 +56,8 @@ mod my_solution {
                         dp[i][j] = dp[i - 1][j - 1]; // chars match, no op
                     } else {
                         dp[i][j] = 1 + dp[i - 1][j - 1] // replace
-                            .min(dp[i - 1][j])           // delete
-                            .min(dp[i][j - 1]);           // insert
+                            .min(dp[i - 1][j]) // delete
+                            .min(dp[i][j - 1]); // insert
                     }
                 }
             }

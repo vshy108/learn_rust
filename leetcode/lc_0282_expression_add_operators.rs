@@ -84,29 +84,13 @@ mod my_solution {
                     // Try '+'
                     path.push('+');
                     path.push_str(&num_str);
-                    Self::dfs(
-                        digits,
-                        target,
-                        i + 1,
-                        num_val,
-                        curr + num_val,
-                        path,
-                        ans,
-                    );
+                    Self::dfs(digits, target, i + 1, num_val, curr + num_val, path, ans);
                     path.truncate(path_len);
 
                     // Try '-'
                     path.push('-');
                     path.push_str(&num_str);
-                    Self::dfs(
-                        digits,
-                        target,
-                        i + 1,
-                        -num_val,
-                        curr - num_val,
-                        path,
-                        ans,
-                    );
+                    Self::dfs(digits, target, i + 1, -num_val, curr - num_val, path, ans);
                     path.truncate(path_len);
 
                     // Try '*' — undo the last operand, apply multiplication
@@ -161,10 +145,7 @@ mod ai_solution {
             if pos == digits.len() {
                 if curr == target {
                     // Convert buffer to String only on success
-                    ans.push(
-                        String::from_utf8(buf.clone())
-                            .expect("valid ASCII"),
-                    );
+                    ans.push(String::from_utf8(buf.clone()).expect("valid ASCII"));
                 }
                 return;
             }
@@ -183,37 +164,19 @@ mod ai_solution {
 
                 if pos == 0 {
                     buf.extend_from_slice(&num_bytes);
-                    Self::dfs(
-                        digits, target, i + 1, num_val, num_val, buf, ans,
-                    );
+                    Self::dfs(digits, target, i + 1, num_val, num_val, buf, ans);
                     buf.truncate(buf_len);
                 } else {
                     // '+'
                     buf.push(b'+');
                     buf.extend_from_slice(&num_bytes);
-                    Self::dfs(
-                        digits,
-                        target,
-                        i + 1,
-                        num_val,
-                        curr + num_val,
-                        buf,
-                        ans,
-                    );
+                    Self::dfs(digits, target, i + 1, num_val, curr + num_val, buf, ans);
                     buf.truncate(buf_len);
 
                     // '-'
                     buf.push(b'-');
                     buf.extend_from_slice(&num_bytes);
-                    Self::dfs(
-                        digits,
-                        target,
-                        i + 1,
-                        -num_val,
-                        curr - num_val,
-                        buf,
-                        ans,
-                    );
+                    Self::dfs(digits, target, i + 1, -num_val, curr - num_val, buf, ans);
                     buf.truncate(buf_len);
 
                     // '*'
@@ -258,25 +221,18 @@ mod tests {
         ($name:ident, $num:expr, $target:expr, $expected:expr) => {
             #[test]
             fn $name() {
-                let expected: HashSet<String> =
-                    $expected.iter().map(|s| s.to_string()).collect();
+                let expected: HashSet<String> = $expected.iter().map(|s| s.to_string()).collect();
 
                 let my_res: HashSet<String> =
-                    my_solution::Solution::add_operators(
-                        $num.to_string(),
-                        $target,
-                    )
-                    .into_iter()
-                    .collect();
+                    my_solution::Solution::add_operators($num.to_string(), $target)
+                        .into_iter()
+                        .collect();
                 assert_eq!(my_res, expected, "my_solution failed");
 
                 let ai_res: HashSet<String> =
-                    ai_solution::Solution::add_operators(
-                        $num.to_string(),
-                        $target,
-                    )
-                    .into_iter()
-                    .collect();
+                    ai_solution::Solution::add_operators($num.to_string(), $target)
+                        .into_iter()
+                        .collect();
                 assert_eq!(ai_res, expected, "ai_solution failed");
             }
         };
@@ -316,8 +272,7 @@ fn main() {
         target,
         my_solution::Solution::add_operators(num.clone(), target)
     );
-    let ai_result =
-        ai_solution::Solution::add_operators(num, target);
+    let ai_result = ai_solution::Solution::add_operators(num, target);
     println!("ai_solution: {:?}", ai_result);
 }
 
@@ -333,31 +288,19 @@ mod bench {
 
         // Warm up
         for _ in 0..10 {
-            std::hint::black_box(my_solution::Solution::add_operators(
-                num.clone(),
-                target,
-            ));
-            std::hint::black_box(ai_solution::Solution::add_operators(
-                num.clone(),
-                target,
-            ));
+            std::hint::black_box(my_solution::Solution::add_operators(num.clone(), target));
+            std::hint::black_box(ai_solution::Solution::add_operators(num.clone(), target));
         }
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(my_solution::Solution::add_operators(
-                num.clone(),
-                target,
-            ));
+            std::hint::black_box(my_solution::Solution::add_operators(num.clone(), target));
         }
         let my_dur = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(ai_solution::Solution::add_operators(
-                num.clone(),
-                target,
-            ));
+            std::hint::black_box(ai_solution::Solution::add_operators(num.clone(), target));
         }
         let ai_dur = start.elapsed();
 

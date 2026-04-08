@@ -136,8 +136,8 @@ mod tests {
 
     #[test]
     fn test_longer_zigzag() {
-        // [1, 5, 1, 5, 1, 5]: buy@0 sell@1(+4), cooldown@2, buy@3? sell@3(0), 
-        // buy@2(1) sell@3(5)=+4, cooldown@4, buy@? 
+        // [1, 5, 1, 5, 1, 5]: buy@0 sell@1(+4), cooldown@2, buy@3? sell@3(0),
+        // buy@2(1) sell@3(5)=+4, cooldown@4, buy@?
         // Optimal: buy@0 sell@1=+4, cooldown@2, buy@4(1) sell@5(5)=+4 => 8
         assert_eq!(MySolution::max_profit(vec![1, 5, 1, 5, 1, 5]), 8);
         assert_eq!(AiSolution::max_profit(vec![1, 5, 1, 5, 1, 5]), 8);
@@ -166,17 +166,17 @@ fn main() {
 
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::Solution::max_profit(
-            std::hint::black_box(prices.clone()),
-        ));
+        std::hint::black_box(my_solution::Solution::max_profit(std::hint::black_box(
+            prices.clone(),
+        )));
     }
     let my_time = start.elapsed();
 
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::Solution::max_profit(
-            std::hint::black_box(prices.clone()),
-        ));
+        std::hint::black_box(ai_solution::Solution::max_profit(std::hint::black_box(
+            prices.clone(),
+        )));
     }
     let ai_time = start.elapsed();
 

@@ -74,8 +74,14 @@ mod ai_solution {
 }
 
 fn main() {
-    println!("my: {}", my_solution::Solution::missing_number(vec![3, 0, 1]));
-    println!("ai: {}", ai_solution::Solution::missing_number(vec![9, 6, 4, 2, 3, 5, 7, 0, 1]));
+    println!(
+        "my: {}",
+        my_solution::Solution::missing_number(vec![3, 0, 1])
+    );
+    println!(
+        "ai: {}",
+        ai_solution::Solution::missing_number(vec![9, 6, 4, 2, 3, 5, 7, 0, 1])
+    );
 }
 
 #[cfg(test)]

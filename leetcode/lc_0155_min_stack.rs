@@ -30,7 +30,10 @@ mod my_solution {
     impl MinStack {
         /// Create an empty MinStack.
         pub fn new() -> Self {
-            MinStack { stack: Vec::new(), min_stack: Vec::new() }
+            MinStack {
+                stack: Vec::new(),
+                min_stack: Vec::new(),
+            }
         }
 
         /// Push element onto the stack.
@@ -75,9 +78,7 @@ mod ai_solution {
 
         /// Push element onto the stack.
         pub fn push(&mut self, val: i32) {
-            let min = self.stack.last()
-                .map(|&(_, m)| m.min(val))
-                .unwrap_or(val);
+            let min = self.stack.last().map(|&(_, m)| m.min(val)).unwrap_or(val);
             self.stack.push((val, min));
         }
 

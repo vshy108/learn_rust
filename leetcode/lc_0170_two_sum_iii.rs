@@ -151,17 +151,17 @@ mod tests {
                     ts.add(1);
                     ts.add(3);
                     ts.add(5);
-                    assert!(ts.find(4));   // 1 + 3
-                    assert!(!ts.find(7));  // no pair
+                    assert!(ts.find(4)); // 1 + 3
+                    assert!(!ts.find(7)); // no pair
                 }
 
                 #[test]
                 fn test_duplicate_needed() {
                     let mut ts = TwoSum::new();
                     ts.add(3);
-                    assert!(!ts.find(6));  // only one 3
+                    assert!(!ts.find(6)); // only one 3
                     ts.add(3);
-                    assert!(ts.find(6));   // 3 + 3
+                    assert!(ts.find(6)); // 3 + 3
                 }
 
                 #[test]

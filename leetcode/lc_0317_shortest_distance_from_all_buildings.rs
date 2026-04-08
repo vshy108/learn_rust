@@ -72,13 +72,8 @@ mod my_solution {
                                 for &(dr, dc) in &dirs {
                                     let nr = r as i32 + dr;
                                     let nc = c as i32 + dc;
-                                    if nr >= 0
-                                        && nr < m as i32
-                                        && nc >= 0
-                                        && nc < n as i32
-                                    {
-                                        let (x, y) =
-                                            (nr as usize, nc as usize);
+                                    if nr >= 0 && nr < m as i32 && nc >= 0 && nc < n as i32 {
+                                        let (x, y) = (nr as usize, nc as usize);
                                         if !vis[x][y] && grid[x][y] == 0 {
                                             vis[x][y] = true;
                                             cnt[x][y] += 1;
@@ -152,18 +147,11 @@ mod ai_solution {
                                 for &(dr, dc) in &dirs {
                                     let nr = r as i32 + dr;
                                     let nc = c as i32 + dc;
-                                    if nr >= 0
-                                        && nr < m as i32
-                                        && nc >= 0
-                                        && nc < n as i32
-                                    {
-                                        let (x, y) =
-                                            (nr as usize, nc as usize);
+                                    if nr >= 0 && nr < m as i32 && nc >= 0 && nc < n as i32 {
+                                        let (x, y) = (nr as usize, nc as usize);
                                         // Only visit empty cells hit by
                                         // all previous buildings
-                                        if grid[x][y] == 0
-                                            && hit[x][y] == building_count
-                                        {
+                                        if grid[x][y] == 0 && hit[x][y] == building_count {
                                             hit[x][y] += 1;
                                             dist[x][y] += d;
                                             queue.push_back((x, y));
@@ -221,10 +209,7 @@ mod tests {
         assert_eq!(solve(vec![vec![1]]), -1);
 
         // No path possible: building surrounded by obstacles
-        assert_eq!(
-            solve(vec![vec![1, 2, 0], vec![2, 2, 0], vec![0, 0, 1]]),
-            -1
-        );
+        assert_eq!(solve(vec![vec![1, 2, 0], vec![2, 2, 0], vec![0, 0, 1]]), -1);
 
         // Two buildings with empty between
         assert_eq!(solve(vec![vec![1, 0, 0, 1]]), 3); // (0,1): 1+2=3, (0,2): 2+1=3
@@ -266,17 +251,17 @@ fn main() {
     let iterations = 100_000;
     let start = Instant::now();
     for _ in 0..iterations {
-        black_box(my_solution::Solution::shortest_distance(
-            black_box(grid.clone()),
-        ));
+        black_box(my_solution::Solution::shortest_distance(black_box(
+            grid.clone(),
+        )));
     }
     let my_dur = start.elapsed();
 
     let start = Instant::now();
     for _ in 0..iterations {
-        black_box(ai_solution::Solution::shortest_distance(
-            black_box(grid.clone()),
-        ));
+        black_box(ai_solution::Solution::shortest_distance(black_box(
+            grid.clone(),
+        )));
     }
     let ai_dur = start.elapsed();
 

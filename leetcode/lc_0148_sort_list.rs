@@ -123,9 +123,7 @@ mod ai_solution {
             let mut tail = &mut dummy;
 
             while l1.is_some() && l2.is_some() {
-                if l1.as_ref().expect("checked").val
-                    <= l2.as_ref().expect("checked").val
-                {
+                if l1.as_ref().expect("checked").val <= l2.as_ref().expect("checked").val {
                     let next = l1.as_mut().expect("checked").next.take();
                     tail.next = l1;
                     l1 = next;
@@ -165,9 +163,7 @@ mod tests {
 
                 #[test]
                 fn test_example2() {
-                    let result = <$solution>::sort_list(
-                        build_list(&[-1, 5, 3, 4, 0]),
-                    );
+                    let result = <$solution>::sort_list(build_list(&[-1, 5, 3, 4, 0]));
                     assert_eq!(to_vec(&result), vec![-1, 0, 3, 4, 5]);
                 }
 
@@ -185,9 +181,7 @@ mod tests {
 
                 #[test]
                 fn test_duplicates() {
-                    let result = <$solution>::sort_list(
-                        build_list(&[3, 1, 2, 3, 1]),
-                    );
+                    let result = <$solution>::sort_list(build_list(&[3, 1, 2, 3, 1]));
                     assert_eq!(to_vec(&result), vec![1, 1, 2, 3, 3]);
                 }
             }

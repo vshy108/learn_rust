@@ -44,9 +44,17 @@ mod my_solution {
             let mut result = Vec::new();
             let mut queens: Vec<usize> = Vec::with_capacity(n);
             let mut cols = HashSet::new();
-            let mut diags = HashSet::new();       // row - col
-            let mut anti_diags = HashSet::new();  // row + col
-            Self::backtrack(n, 0, &mut queens, &mut cols, &mut diags, &mut anti_diags, &mut result);
+            let mut diags = HashSet::new(); // row - col
+            let mut anti_diags = HashSet::new(); // row + col
+            Self::backtrack(
+                n,
+                0,
+                &mut queens,
+                &mut cols,
+                &mut diags,
+                &mut anti_diags,
+                &mut result,
+            );
             result
         }
 
@@ -168,7 +176,11 @@ fn main() {
     for n in [1, 4] {
         let my = my_solution::Solution::solve_n_queens(n);
         let ai = ai_solution::Solution::solve_n_queens(n);
-        println!("n={n}: my has {} solutions, ai has {} solutions", my.len(), ai.len());
+        println!(
+            "n={n}: my has {} solutions, ai has {} solutions",
+            my.len(),
+            ai.len()
+        );
     }
 }
 
@@ -192,13 +204,15 @@ mod tests {
                 fn test_n4() {
                     let result = sorted(<$solution>::solve_n_queens(4));
                     assert_eq!(result.len(), 2);
-                    let expected = sorted(vec![
-                        vec![".Q..", "...Q", "Q...", "..Q."],
-                        vec!["..Q.", "Q...", "...Q", ".Q.."],
-                    ]
-                    .into_iter()
-                    .map(|b| b.into_iter().map(String::from).collect())
-                    .collect());
+                    let expected = sorted(
+                        vec![
+                            vec![".Q..", "...Q", "Q...", "..Q."],
+                            vec!["..Q.", "Q...", "...Q", ".Q.."],
+                        ]
+                        .into_iter()
+                        .map(|b| b.into_iter().map(String::from).collect())
+                        .collect(),
+                    );
                     assert_eq!(result, expected);
                 }
 
@@ -233,13 +247,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::my_solution::Solution::solve_n_queens(std::hint::black_box(n)));
+            std::hint::black_box(crate::my_solution::Solution::solve_n_queens(
+                std::hint::black_box(n),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::ai_solution::Solution::solve_n_queens(std::hint::black_box(n)));
+            std::hint::black_box(crate::ai_solution::Solution::solve_n_queens(
+                std::hint::black_box(n),
+            ));
         }
         let ai_duration = start.elapsed();
 

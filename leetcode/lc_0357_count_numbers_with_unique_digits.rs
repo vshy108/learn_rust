@@ -80,17 +80,17 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(i32) -> i32) {
-    assert_eq!(f(0), 1);
-    assert_eq!(f(1), 10);
-    assert_eq!(f(2), 91);
-    assert_eq!(f(3), 739);
-    assert_eq!(f(8), 2345851);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(i32) -> i32) {
+        assert_eq!(f(0), 1);
+        assert_eq!(f(1), 10);
+        assert_eq!(f(2), 91);
+        assert_eq!(f(3), 739);
+        assert_eq!(f(8), 2345851);
+    }
 
     #[test]
     fn test_my_solution() {
@@ -108,20 +108,28 @@ fn main() {
     let iterations = 100_000;
 
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::count_numbers_with_unique_digits(std::hint::black_box(n)));
+        std::hint::black_box(my_solution::count_numbers_with_unique_digits(
+            std::hint::black_box(n),
+        ));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::count_numbers_with_unique_digits(std::hint::black_box(n)));
+        std::hint::black_box(my_solution::count_numbers_with_unique_digits(
+            std::hint::black_box(n),
+        ));
     }
     let my_dur = start.elapsed();
 
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::count_numbers_with_unique_digits(std::hint::black_box(n)));
+        std::hint::black_box(ai_solution::count_numbers_with_unique_digits(
+            std::hint::black_box(n),
+        ));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::count_numbers_with_unique_digits(std::hint::black_box(n)));
+        std::hint::black_box(ai_solution::count_numbers_with_unique_digits(
+            std::hint::black_box(n),
+        ));
     }
     let ai_dur = start.elapsed();
 

@@ -28,7 +28,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -148,16 +152,23 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    let root = build_tree(&[
-                        Some(3), Some(9), Some(20), None, None, Some(15), Some(7),
-                    ]);
+                    let root =
+                        build_tree(&[Some(3), Some(9), Some(20), None, None, Some(15), Some(7)]);
                     assert_eq!(<$solution>::min_depth(root), 2);
                 }
 
                 #[test]
                 fn test_right_skew() {
                     let root = build_tree(&[
-                        Some(2), None, Some(3), None, Some(4), None, Some(5), None, Some(6),
+                        Some(2),
+                        None,
+                        Some(3),
+                        None,
+                        Some(4),
+                        None,
+                        Some(5),
+                        None,
+                        Some(6),
                     ]);
                     assert_eq!(<$solution>::min_depth(root), 5);
                 }
@@ -176,7 +187,13 @@ mod tests {
                 #[test]
                 fn test_balanced() {
                     let root = build_tree(&[
-                        Some(1), Some(2), Some(3), Some(4), Some(5), Some(6), Some(7),
+                        Some(1),
+                        Some(2),
+                        Some(3),
+                        Some(4),
+                        Some(5),
+                        Some(6),
+                        Some(7),
                     ]);
                     assert_eq!(<$solution>::min_depth(root), 3);
                 }

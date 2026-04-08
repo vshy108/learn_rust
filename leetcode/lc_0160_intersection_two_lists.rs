@@ -36,11 +36,7 @@ type Link = Option<Rc<RefCell<ListNode>>>;
 
 /// Build two lists that intersect at a given point.
 /// Returns (headA, headB).
-fn build_intersecting(
-    prefix_a: &[i32],
-    prefix_b: &[i32],
-    shared: &[i32],
-) -> (Link, Link) {
+fn build_intersecting(prefix_a: &[i32], prefix_b: &[i32], shared: &[i32]) -> (Link, Link) {
     // Build shared tail
     let mut shared_head: Link = None;
     for &v in shared.iter().rev() {
@@ -153,12 +149,16 @@ mod ai_solution {
                         b = next_b;
                     }
                     (None, Some(_)) => {
-                        if switched_a { return None; }
+                        if switched_a {
+                            return None;
+                        }
                         a = head_b.clone();
                         switched_a = true;
                     }
                     (Some(_), None) => {
-                        if switched_b { return None; }
+                        if switched_b {
+                            return None;
+                        }
                         b = head_a.clone();
                         switched_b = true;
                     }
@@ -191,47 +191,30 @@ mod tests {
 
                 #[test]
                 fn test_intersect() {
-                    let (a, b) = build_intersecting(
-                        &[4, 1], &[5, 6, 1], &[8, 4, 5],
-                    );
+                    let (a, b) = build_intersecting(&[4, 1], &[5, 6, 1], &[8, 4, 5]);
                     let result = <$solution>::get_intersection_node(&a, &b);
-                    assert_eq!(
-                        result.as_ref().map(|n| n.borrow().val),
-                        Some(8),
-                    );
+                    assert_eq!(result.as_ref().map(|n| n.borrow().val), Some(8),);
                 }
 
                 #[test]
                 fn test_no_intersection() {
-                    let (a, b) = build_intersecting(
-                        &[2, 6, 4], &[1, 5], &[],
-                    );
+                    let (a, b) = build_intersecting(&[2, 6, 4], &[1, 5], &[]);
                     let result = <$solution>::get_intersection_node(&a, &b);
                     assert!(result.is_none());
                 }
 
                 #[test]
                 fn test_intersect_at_start() {
-                    let (a, b) = build_intersecting(
-                        &[], &[], &[1, 2, 3],
-                    );
+                    let (a, b) = build_intersecting(&[], &[], &[1, 2, 3]);
                     let result = <$solution>::get_intersection_node(&a, &b);
-                    assert_eq!(
-                        result.as_ref().map(|n| n.borrow().val),
-                        Some(1),
-                    );
+                    assert_eq!(result.as_ref().map(|n| n.borrow().val), Some(1),);
                 }
 
                 #[test]
                 fn test_single_shared() {
-                    let (a, b) = build_intersecting(
-                        &[1], &[2], &[3],
-                    );
+                    let (a, b) = build_intersecting(&[1], &[2], &[3]);
                     let result = <$solution>::get_intersection_node(&a, &b);
-                    assert_eq!(
-                        result.as_ref().map(|n| n.borrow().val),
-                        Some(3),
-                    );
+                    assert_eq!(result.as_ref().map(|n| n.borrow().val), Some(3),);
                 }
             }
         };
@@ -250,23 +233,19 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::get_intersection_node(
-                    std::hint::black_box(&a),
-                    std::hint::black_box(&b),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::get_intersection_node(
+                std::hint::black_box(&a),
+                std::hint::black_box(&b),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::get_intersection_node(
-                    std::hint::black_box(&a),
-                    std::hint::black_box(&b),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::get_intersection_node(
+                std::hint::black_box(&a),
+                std::hint::black_box(&b),
+            ));
         }
         let ai_duration = start.elapsed();
 

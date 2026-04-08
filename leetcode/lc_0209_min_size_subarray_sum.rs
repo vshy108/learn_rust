@@ -39,7 +39,11 @@ mod my_solution {
                     left += 1;
                 }
             }
-            if min_len == usize::MAX { 0 } else { min_len as i32 }
+            if min_len == usize::MAX {
+                0
+            } else {
+                min_len as i32
+            }
         }
     }
 }
@@ -71,7 +75,11 @@ mod ai_solution {
                     left += 1;
                 }
             }
-            if min_len == usize::MAX { 0 } else { min_len as i32 }
+            if min_len == usize::MAX {
+                0
+            } else {
+                min_len as i32
+            }
         }
     }
 }
@@ -89,45 +97,30 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        <$solution>::min_sub_array_len(7, vec![2, 3, 1, 2, 4, 3]),
-                        2,
-                    );
+                    assert_eq!(<$solution>::min_sub_array_len(7, vec![2, 3, 1, 2, 4, 3]), 2,);
                 }
 
                 #[test]
                 fn test_exact() {
-                    assert_eq!(
-                        <$solution>::min_sub_array_len(4, vec![1, 4, 4]),
-                        1,
-                    );
+                    assert_eq!(<$solution>::min_sub_array_len(4, vec![1, 4, 4]), 1,);
                 }
 
                 #[test]
                 fn test_impossible() {
                     assert_eq!(
-                        <$solution>::min_sub_array_len(
-                            11,
-                            vec![1, 1, 1, 1, 1, 1, 1, 1],
-                        ),
+                        <$solution>::min_sub_array_len(11, vec![1, 1, 1, 1, 1, 1, 1, 1],),
                         0,
                     );
                 }
 
                 #[test]
                 fn test_whole_array() {
-                    assert_eq!(
-                        <$solution>::min_sub_array_len(15, vec![1, 2, 3, 4, 5]),
-                        5,
-                    );
+                    assert_eq!(<$solution>::min_sub_array_len(15, vec![1, 2, 3, 4, 5]), 5,);
                 }
 
                 #[test]
                 fn test_single_element() {
-                    assert_eq!(
-                        <$solution>::min_sub_array_len(5, vec![5]),
-                        1,
-                    );
+                    assert_eq!(<$solution>::min_sub_array_len(5, vec![5]), 1,);
                 }
             }
         };

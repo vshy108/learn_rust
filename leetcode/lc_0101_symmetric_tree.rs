@@ -28,7 +28,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -155,7 +159,15 @@ mod ai_solution {
 }
 
 fn main() {
-    let root = build_tree(&[Some(1), Some(2), Some(2), Some(3), Some(4), Some(4), Some(3)]);
+    let root = build_tree(&[
+        Some(1),
+        Some(2),
+        Some(2),
+        Some(3),
+        Some(4),
+        Some(4),
+        Some(3),
+    ]);
     let my = my_solution::Solution::is_symmetric(root.clone());
     let ai = ai_solution::Solution::is_symmetric(root);
     println!("symmetric: my={my}, ai={ai}");
@@ -173,16 +185,21 @@ mod tests {
                 #[test]
                 fn test_symmetric() {
                     let root = build_tree(&[
-                        Some(1), Some(2), Some(2), Some(3), Some(4), Some(4), Some(3),
+                        Some(1),
+                        Some(2),
+                        Some(2),
+                        Some(3),
+                        Some(4),
+                        Some(4),
+                        Some(3),
                     ]);
                     assert!(<$solution>::is_symmetric(root));
                 }
 
                 #[test]
                 fn test_not_symmetric() {
-                    let root = build_tree(&[
-                        Some(1), Some(2), Some(2), None, Some(3), None, Some(3),
-                    ]);
+                    let root =
+                        build_tree(&[Some(1), Some(2), Some(2), None, Some(3), None, Some(3)]);
                     assert!(!<$solution>::is_symmetric(root));
                 }
 
@@ -213,8 +230,21 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let vals = vec![
-            Some(1), Some(2), Some(2), Some(3), Some(4), Some(4), Some(3),
-            Some(5), Some(6), Some(6), Some(5), Some(5), Some(6), Some(6), Some(5),
+            Some(1),
+            Some(2),
+            Some(2),
+            Some(3),
+            Some(4),
+            Some(4),
+            Some(3),
+            Some(5),
+            Some(6),
+            Some(6),
+            Some(5),
+            Some(5),
+            Some(6),
+            Some(6),
+            Some(5),
         ];
 
         let start = std::time::Instant::now();

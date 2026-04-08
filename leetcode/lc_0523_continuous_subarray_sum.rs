@@ -130,8 +130,12 @@ mod ai_solution {
                 let mut freq = vec![false; k as usize];
                 for num in nums {
                     sum += num;
-                    if sum >= k { sum %= k; }
-                    if freq[sum as usize] { return true; }
+                    if sum >= k {
+                        sum %= k;
+                    }
+                    if freq[sum as usize] {
+                        return true;
+                    }
                     // Insert previous remainder: ensures subarray length >= 2
                     freq[prevsum] = true;
                     prevsum = sum as usize;
@@ -143,8 +147,12 @@ mod ai_solution {
                 let mut hmap = HashSet::new();
                 for num in nums {
                     sum += num;
-                    if sum >= k { sum %= k; }
-                    if hmap.contains(&sum) { return true; }
+                    if sum >= k {
+                        sum %= k;
+                    }
+                    if hmap.contains(&sum) {
+                        return true;
+                    }
                     // Insert previous remainder: ensures subarray length >= 2
                     hmap.insert(prevsum);
                     prevsum = sum;

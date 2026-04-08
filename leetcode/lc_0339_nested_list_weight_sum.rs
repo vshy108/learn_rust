@@ -79,25 +79,26 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[NestedInt]) -> i32) {
-    use NestedInt::{Int, List};
-    // Example 1: [[1,1],2,[1,1]] => 4*1*2 + 1*2*1 = 10
-    assert_eq!(
-        f(&[List(vec![Int(1), Int(1)]), Int(2), List(vec![Int(1), Int(1)])]),
-        10
-    );
-    // Example 2: [1,[4,[6]]] => 1*1 + 4*2 + 6*3 = 27
-    assert_eq!(
-        f(&[Int(1), List(vec![Int(4), List(vec![Int(6)])])]),
-        27
-    );
-    // Example 3: [0]
-    assert_eq!(f(&[Int(0)]), 0);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[NestedInt]) -> i32) {
+        use NestedInt::{Int, List};
+        // Example 1: [[1,1],2,[1,1]] => 4*1*2 + 1*2*1 = 10
+        assert_eq!(
+            f(&[
+                List(vec![Int(1), Int(1)]),
+                Int(2),
+                List(vec![Int(1), Int(1)])
+            ]),
+            10
+        );
+        // Example 2: [1,[4,[6]]] => 1*1 + 4*2 + 6*3 = 27
+        assert_eq!(f(&[Int(1), List(vec![Int(4), List(vec![Int(6)])])]), 27);
+        // Example 3: [0]
+        assert_eq!(f(&[Int(0)]), 0);
+    }
 
     #[test]
     fn test_my_solution() {
@@ -120,28 +121,20 @@ fn main() {
     let iterations = 100_000;
 
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::depth_sum(
-            std::hint::black_box(&nested),
-        ));
+        std::hint::black_box(my_solution::depth_sum(std::hint::black_box(&nested)));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::depth_sum(
-            std::hint::black_box(&nested),
-        ));
+        std::hint::black_box(my_solution::depth_sum(std::hint::black_box(&nested)));
     }
     let my_dur = start.elapsed();
 
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::depth_sum(
-            std::hint::black_box(&nested),
-        ));
+        std::hint::black_box(ai_solution::depth_sum(std::hint::black_box(&nested)));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::depth_sum(
-            std::hint::black_box(&nested),
-        ));
+        std::hint::black_box(ai_solution::depth_sum(std::hint::black_box(&nested)));
     }
     let ai_dur = start.elapsed();
 

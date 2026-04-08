@@ -57,14 +57,19 @@ mod my_solution {
             // Rotate the older elements behind the new one
             let rotations = self.queue.len() - 1;
             for _ in 0..rotations {
-                let front = self.queue.pop_front().expect("queue non-empty during rotation");
+                let front = self
+                    .queue
+                    .pop_front()
+                    .expect("queue non-empty during rotation");
                 self.queue.push_back(front);
             }
         }
 
         /// Remove and return the top element.
         pub fn pop(&mut self) -> i32 {
-            self.queue.pop_front().expect("pop called on non-empty stack")
+            self.queue
+                .pop_front()
+                .expect("pop called on non-empty stack")
         }
 
         /// Return the top element without removing it.
@@ -116,10 +121,15 @@ mod ai_solution {
         pub fn pop(&mut self) -> i32 {
             let rotations = self.queue.len() - 1;
             for _ in 0..rotations {
-                let front = self.queue.pop_front().expect("queue non-empty during rotation");
+                let front = self
+                    .queue
+                    .pop_front()
+                    .expect("queue non-empty during rotation");
                 self.queue.push_back(front);
             }
-            self.queue.pop_front().expect("pop called on non-empty stack")
+            self.queue
+                .pop_front()
+                .expect("pop called on non-empty stack")
         }
 
         /// Return the top element without removing it.

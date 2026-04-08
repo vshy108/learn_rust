@@ -127,9 +127,7 @@ mod ai_solution {
                 // Lower-bound prune: the smallest sum with nums[i] as first
                 // element is nums[i] + nums[i+1] + nums[i+2].
                 let min_sum = nums[i] + nums[i + 1] + nums[i + 2];
-                if min_sum > target
-                    && (min_sum - target).abs() >= (closest - target).abs()
-                {
+                if min_sum > target && (min_sum - target).abs() >= (closest - target).abs() {
                     // All sums with this i are >= min_sum, which is already
                     // farther from target than our current best. Since the
                     // array is sorted and i only increases, future min_sums
@@ -198,64 +196,46 @@ mod tests {
 
                 #[test]
                 fn test_basic() {
-                    assert_eq!(
-                        Solution::three_sum_closest(vec![-1, 2, 1, -4], 1),
-                        2
-                    );
+                    assert_eq!(Solution::three_sum_closest(vec![-1, 2, 1, -4], 1), 2);
                 }
 
                 #[test]
                 fn test_all_zeros() {
-                    assert_eq!(
-                        Solution::three_sum_closest(vec![0, 0, 0], 1),
-                        0
-                    );
+                    assert_eq!(Solution::three_sum_closest(vec![0, 0, 0], 1), 0);
                 }
 
                 #[test]
                 fn test_exact_match() {
-                    assert_eq!(
-                        Solution::three_sum_closest(vec![1, 1, 1, 0], 3),
-                        3
-                    );
+                    assert_eq!(Solution::three_sum_closest(vec![1, 1, 1, 0], 3), 3);
                 }
 
                 #[test]
                 fn test_negative_target() {
                     assert_eq!(
                         Solution::three_sum_closest(vec![-3, -2, -5, 3, -4], -1),
-                        -2  // -3 + -2 + 3 = -2
+                        -2 // -3 + -2 + 3 = -2
                     );
                 }
 
                 #[test]
                 fn test_minimum_length() {
-                    assert_eq!(
-                        Solution::three_sum_closest(vec![1, 2, 3], 6),
-                        6
-                    );
+                    assert_eq!(Solution::three_sum_closest(vec![1, 2, 3], 6), 6);
                 }
 
                 #[test]
                 fn test_large_target() {
                     // Target far above all sums — closest is the max sum.
                     assert_eq!(
-                        Solution::three_sum_closest(
-                            vec![1, 2, 3, 4, 5],
-                            100
-                        ),
-                        12  // 3 + 4 + 5
+                        Solution::three_sum_closest(vec![1, 2, 3, 4, 5], 100),
+                        12 // 3 + 4 + 5
                     );
                 }
 
                 #[test]
                 fn test_duplicates() {
                     assert_eq!(
-                        Solution::three_sum_closest(
-                            vec![1, 1, 1, 1],
-                            2
-                        ),
-                        3  // 1 + 1 + 1
+                        Solution::three_sum_closest(vec![1, 1, 1, 1], 2),
+                        3 // 1 + 1 + 1
                     );
                 }
             }

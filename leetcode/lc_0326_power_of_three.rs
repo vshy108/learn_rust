@@ -49,20 +49,20 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(i32) -> bool) {
-    assert!(f(27));       // 3^3
-    assert!(!f(0));       // 0 is not a power of 3
-    assert!(!f(-1));      // negative
-    assert!(f(1));        // 3^0 = 1
-    assert!(f(9));        // 3^2
-    assert!(!f(45));      // 45 = 9*5, not a power of 3
-    assert!(f(1_162_261_467)); // 3^19
-    assert!(!f(2));
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(i32) -> bool) {
+        assert!(f(27)); // 3^3
+        assert!(!f(0)); // 0 is not a power of 3
+        assert!(!f(-1)); // negative
+        assert!(f(1)); // 3^0 = 1
+        assert!(f(9)); // 3^2
+        assert!(!f(45)); // 45 = 9*5, not a power of 3
+        assert!(f(1_162_261_467)); // 3^19
+        assert!(!f(2));
+    }
 
     #[test]
     fn test_my_solution() {
@@ -81,31 +81,23 @@ fn main() {
 
     // Warm up
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::is_power_of_three(
-            std::hint::black_box(n),
-        ));
+        std::hint::black_box(my_solution::is_power_of_three(std::hint::black_box(n)));
     }
 
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::is_power_of_three(
-            std::hint::black_box(n),
-        ));
+        std::hint::black_box(my_solution::is_power_of_three(std::hint::black_box(n)));
     }
     let my_dur = start.elapsed();
 
     // Warm up
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::is_power_of_three(
-            std::hint::black_box(n),
-        ));
+        std::hint::black_box(ai_solution::is_power_of_three(std::hint::black_box(n)));
     }
 
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::is_power_of_three(
-            std::hint::black_box(n),
-        ));
+        std::hint::black_box(ai_solution::is_power_of_three(std::hint::black_box(n)));
     }
     let ai_dur = start.elapsed();
 

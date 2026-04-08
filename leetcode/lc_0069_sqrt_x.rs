@@ -146,17 +146,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::my_sqrt(std::hint::black_box(i32::MAX)),
-            );
+            std::hint::black_box(crate::my_solution::Solution::my_sqrt(std::hint::black_box(
+                i32::MAX,
+            )));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::my_sqrt(std::hint::black_box(i32::MAX)),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::my_sqrt(std::hint::black_box(
+                i32::MAX,
+            )));
         }
         let ai_duration = start.elapsed();
 

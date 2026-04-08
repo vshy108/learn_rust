@@ -66,12 +66,12 @@ mod my_solution {
                 // Double temp while it doesn't overflow past dvd.
                 // `temp >= (i32::MIN >> 1)` prevents overflow on doubling.
                 while temp >= (i32::MIN >> 1) && (temp + temp) >= dvd {
-                    temp += temp;       // double the divisor
+                    temp += temp; // double the divisor
                     multiple += multiple; // double the count (negative)
                 }
 
-                dvd -= temp;           // subtract the chunk
-                quotient += multiple;  // accumulate (negative count)
+                dvd -= temp; // subtract the chunk
+                quotient += multiple; // accumulate (negative count)
             }
 
             // quotient is negative; negate if result should be positive.
@@ -246,7 +246,10 @@ mod tests {
         }
         let ai_duration = start.elapsed();
 
-        println!("\n=== Benchmark ({iterations} iterations x {} cases) ===", cases.len());
+        println!(
+            "\n=== Benchmark ({iterations} iterations x {} cases) ===",
+            cases.len()
+        );
         println!(
             "  My solution: {:?} (avg {:?})",
             my_duration,

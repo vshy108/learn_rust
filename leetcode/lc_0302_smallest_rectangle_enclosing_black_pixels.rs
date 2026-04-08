@@ -114,11 +114,7 @@ mod ai_solution {
                 for (dr, dc) in [(0, 1), (0, -1), (1, 0), (-1, 0)] {
                     let nr = r as i32 + dr;
                     let nc = c as i32 + dc;
-                    if nr >= 0
-                        && nr < m as i32
-                        && nc >= 0
-                        && nc < n as i32
-                    {
+                    if nr >= 0 && nr < m as i32 && nc >= 0 && nc < n as i32 {
                         let (nr, nc) = (nr as usize, nc as usize);
                         if !visited[nr][nc] && image[nr][nc] == '1' {
                             visited[nr][nc] = true;

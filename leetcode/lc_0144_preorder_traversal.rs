@@ -27,14 +27,20 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
 type Node = Option<Rc<RefCell<TreeNode>>>;
 
 fn build_tree(vals: &[Option<i32>]) -> Node {
-    if vals.is_empty() || vals[0].is_none() { return None; }
+    if vals.is_empty() || vals[0].is_none() {
+        return None;
+    }
     let root = Rc::new(RefCell::new(TreeNode::new(vals[0].expect("checked"))));
     let mut queue = std::collections::VecDeque::new();
     queue.push_back(Rc::clone(&root));
@@ -141,17 +147,23 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     let root = build_tree(&[Some(1), None, Some(2), Some(3)]);
-                    assert_eq!(
-                        <$solution>::preorder_traversal(root),
-                        vec![1, 2, 3],
-                    );
+                    assert_eq!(<$solution>::preorder_traversal(root), vec![1, 2, 3],);
                 }
 
                 #[test]
                 fn test_example2() {
                     let root = build_tree(&[
-                        Some(1), Some(2), Some(3), Some(4), Some(5),
-                        None, Some(8), None, None, Some(6), Some(7),
+                        Some(1),
+                        Some(2),
+                        Some(3),
+                        Some(4),
+                        Some(5),
+                        None,
+                        Some(8),
+                        None,
+                        None,
+                        Some(6),
+                        Some(7),
                         Some(9),
                     ]);
                     assert_eq!(

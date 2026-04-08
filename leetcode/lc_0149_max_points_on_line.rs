@@ -31,7 +31,9 @@ mod my_solution {
         /// Return maximum points on a single line.
         pub fn max_points(points: Vec<Vec<i32>>) -> i32 {
             let n = points.len();
-            if n <= 2 { return n as i32; }
+            if n <= 2 {
+                return n as i32;
+            }
 
             let mut global_max = 2;
             for i in 0..n {
@@ -84,7 +86,9 @@ mod ai_solution {
         /// Return maximum points on a single line.
         pub fn max_points(points: Vec<Vec<i32>>) -> i32 {
             let n = points.len();
-            if n <= 2 { return n as i32; }
+            if n <= 2 {
+                return n as i32;
+            }
 
             let mut global_max = 2;
             for i in 0..n {
@@ -117,12 +121,8 @@ mod ai_solution {
 }
 
 fn main() {
-    let my = my_solution::Solution::max_points(
-        vec![vec![1, 1], vec![2, 2], vec![3, 3]],
-    );
-    let ai = ai_solution::Solution::max_points(
-        vec![vec![1, 1], vec![2, 2], vec![3, 3]],
-    );
+    let my = my_solution::Solution::max_points(vec![vec![1, 1], vec![2, 2], vec![3, 3]]);
+    let ai = ai_solution::Solution::max_points(vec![vec![1, 1], vec![2, 2], vec![3, 3]]);
     println!("max points: my={my}, ai={ai}");
 }
 
@@ -134,9 +134,7 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     assert_eq!(
-                        <$solution>::max_points(
-                            vec![vec![1, 1], vec![2, 2], vec![3, 3]],
-                        ),
+                        <$solution>::max_points(vec![vec![1, 1], vec![2, 2], vec![3, 3]],),
                         3,
                     );
                 }
@@ -145,8 +143,12 @@ mod tests {
                 fn test_example2() {
                     assert_eq!(
                         <$solution>::max_points(vec![
-                            vec![1, 1], vec![3, 2], vec![5, 3],
-                            vec![4, 1], vec![2, 3], vec![1, 4],
+                            vec![1, 1],
+                            vec![3, 2],
+                            vec![5, 3],
+                            vec![4, 1],
+                            vec![2, 3],
+                            vec![1, 4],
                         ]),
                         4,
                     );
@@ -154,28 +156,23 @@ mod tests {
 
                 #[test]
                 fn test_single_point() {
-                    assert_eq!(
-                        <$solution>::max_points(vec![vec![0, 0]]),
-                        1,
-                    );
+                    assert_eq!(<$solution>::max_points(vec![vec![0, 0]]), 1,);
                 }
 
                 #[test]
                 fn test_two_points() {
-                    assert_eq!(
-                        <$solution>::max_points(
-                            vec![vec![0, 0], vec![1, 1]],
-                        ),
-                        2,
-                    );
+                    assert_eq!(<$solution>::max_points(vec![vec![0, 0], vec![1, 1]],), 2,);
                 }
 
                 #[test]
                 fn test_vertical() {
                     assert_eq!(
-                        <$solution>::max_points(
-                            vec![vec![0, 0], vec![0, 1], vec![0, 2], vec![1, 0]],
-                        ),
+                        <$solution>::max_points(vec![
+                            vec![0, 0],
+                            vec![0, 1],
+                            vec![0, 2],
+                            vec![1, 0]
+                        ],),
                         3,
                     );
                 }
@@ -189,9 +186,7 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let points: Vec<Vec<i32>> = (0..30)
-            .map(|i| vec![i * 3 + 1, i * 2 + 7])
-            .collect();
+        let points: Vec<Vec<i32>> = (0..30).map(|i| vec![i * 3 + 1, i * 2 + 7]).collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {

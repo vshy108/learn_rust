@@ -55,10 +55,16 @@ mod ai_solution {
         /// Return peak index using unsigned binary search.
         pub fn find_peak_element(nums: Vec<i32>) -> i32 {
             let n = nums.len();
-            if n == 1 { return 0; }
+            if n == 1 {
+                return 0;
+            }
             // Check edges first
-            if nums[0] > nums[1] { return 0; }
-            if nums[n - 1] > nums[n - 2] { return (n - 1) as i32; }
+            if nums[0] > nums[1] {
+                return 0;
+            }
+            if nums[n - 1] > nums[n - 2] {
+                return (n - 1) as i32;
+            }
 
             let (mut lo, mut hi) = (1usize, n - 2);
             while lo <= hi {
@@ -112,10 +118,7 @@ mod tests {
 
                 #[test]
                 fn test_single() {
-                    assert_eq!(
-                        <$solution>::find_peak_element(vec![1]),
-                        0,
-                    );
+                    assert_eq!(<$solution>::find_peak_element(vec![1]), 0,);
                 }
 
                 #[test]

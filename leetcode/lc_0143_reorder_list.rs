@@ -61,7 +61,9 @@ mod my_solution {
         /// Reorder the list in-place.
         pub fn reorder_list(head: &mut Option<Box<ListNode>>) {
             let vals = to_vec(head);
-            if vals.len() <= 2 { return; }
+            if vals.len() <= 2 {
+                return;
+            }
 
             // Interleave front and back using two pointers
             let mut reordered = Vec::with_capacity(vals.len());
@@ -72,7 +74,9 @@ mod my_solution {
                     reordered.push(vals[r]);
                 }
                 l += 1;
-                if r == 0 { break; }
+                if r == 0 {
+                    break;
+                }
                 r -= 1;
             }
 
@@ -108,7 +112,9 @@ mod ai_solution {
                 }
                 count
             };
-            if len <= 2 { return; }
+            if len <= 2 {
+                return;
+            }
 
             // Split at the midpoint — keep first ceil(n/2) nodes in first half
             let mid = len / 2;
@@ -135,8 +141,7 @@ mod ai_solution {
                     reversed = r_node.next.take();
                     r_node.next = node.next.take();
                     node.next = Some(r_node);
-                    cur = node.next.as_mut()
-                        .and_then(|n| n.next.as_mut());
+                    cur = node.next.as_mut().and_then(|n| n.next.as_mut());
                 } else {
                     break;
                 }
@@ -213,9 +218,7 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let mut list = build_list(&vals);
-            crate::my_solution::Solution::reorder_list(
-                std::hint::black_box(&mut list),
-            );
+            crate::my_solution::Solution::reorder_list(std::hint::black_box(&mut list));
             std::hint::black_box(&list);
         }
         let my_duration = start.elapsed();
@@ -223,9 +226,7 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let mut list = build_list(&vals);
-            crate::ai_solution::Solution::reorder_list(
-                std::hint::black_box(&mut list),
-            );
+            crate::ai_solution::Solution::reorder_list(std::hint::black_box(&mut list));
             std::hint::black_box(&list);
         }
         let ai_duration = start.elapsed();

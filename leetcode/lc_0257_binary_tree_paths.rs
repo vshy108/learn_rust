@@ -37,7 +37,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -94,11 +98,7 @@ mod my_solution {
             ans
         }
 
-        fn dfs(
-            node: &Option<Rc<RefCell<TreeNode>>>,
-            t: &mut Vec<String>,
-            ans: &mut Vec<String>,
-        ) {
+        fn dfs(node: &Option<Rc<RefCell<TreeNode>>>, t: &mut Vec<String>, ans: &mut Vec<String>) {
             let Some(n) = node else { return };
             let n = n.borrow();
             t.push(n.val.to_string());
@@ -162,7 +162,10 @@ mod ai_solution {
 
 fn main() {
     let tree = build_tree(&[Some(1), Some(2), Some(3), None, Some(5)]);
-    println!("my: {:?}", my_solution::Solution::binary_tree_paths(tree.clone()));
+    println!(
+        "my: {:?}",
+        my_solution::Solution::binary_tree_paths(tree.clone())
+    );
     println!("ai: {:?}", ai_solution::Solution::binary_tree_paths(tree));
 }
 
@@ -209,14 +212,20 @@ mod tests {
                 fn test_full_tree() {
                     // Complete binary tree: 1, 2, 3, 4, 5, 6, 7
                     let tree = build_tree(&[
-                        Some(1), Some(2), Some(3),
-                        Some(4), Some(5), Some(6), Some(7),
+                        Some(1),
+                        Some(2),
+                        Some(3),
+                        Some(4),
+                        Some(5),
+                        Some(6),
+                        Some(7),
                     ]);
                     let result: HashSet<String> =
                         Sol::binary_tree_paths(tree).into_iter().collect();
-                    let expected: HashSet<String> = [
-                        "1->2->4", "1->2->5", "1->3->6", "1->3->7",
-                    ].iter().map(|s| s.to_string()).collect();
+                    let expected: HashSet<String> = ["1->2->4", "1->2->5", "1->3->6", "1->3->7"]
+                        .iter()
+                        .map(|s| s.to_string())
+                        .collect();
                     assert_eq!(result, expected);
                 }
 
@@ -225,8 +234,10 @@ mod tests {
                     let tree = build_tree(&[Some(-10), Some(5), Some(-3)]);
                     let result: HashSet<String> =
                         Sol::binary_tree_paths(tree).into_iter().collect();
-                    let expected: HashSet<String> =
-                        ["-10->5", "-10->-3"].iter().map(|s| s.to_string()).collect();
+                    let expected: HashSet<String> = ["-10->5", "-10->-3"]
+                        .iter()
+                        .map(|s| s.to_string())
+                        .collect();
                     assert_eq!(result, expected);
                 }
             }

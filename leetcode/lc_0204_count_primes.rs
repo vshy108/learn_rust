@@ -25,7 +25,9 @@ mod my_solution {
     impl Solution {
         /// Return the count of primes strictly less than n.
         pub fn count_primes(n: i32) -> i32 {
-            if n <= 2 { return 0; }
+            if n <= 2 {
+                return 0;
+            }
             let n = n as usize;
             let mut is_prime = vec![true; n];
             is_prime[0] = false;

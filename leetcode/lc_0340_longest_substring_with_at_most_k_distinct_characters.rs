@@ -90,17 +90,17 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&str, usize) -> usize) {
-    assert_eq!(f("eceba", 2), 3);    // "ece"
-    assert_eq!(f("aa", 1), 2);       // "aa"
-    assert_eq!(f("a", 0), 0);        // k=0 => nothing
-    assert_eq!(f("abcabcabc", 3), 9); // all 3 distinct
-    assert_eq!(f("aabbcc", 2), 4);   // "aabb" or "bbcc"
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&str, usize) -> usize) {
+        assert_eq!(f("eceba", 2), 3); // "ece"
+        assert_eq!(f("aa", 1), 2); // "aa"
+        assert_eq!(f("a", 0), 0); // k=0 => nothing
+        assert_eq!(f("abcabcabc", 3), 9); // all 3 distinct
+        assert_eq!(f("aabbcc", 2), 4); // "aabb" or "bbcc"
+    }
 
     #[test]
     fn test_my_solution() {
@@ -119,40 +119,32 @@ fn main() {
     let iterations = 100_000;
 
     for _ in 0..1000 {
-        std::hint::black_box(
-            my_solution::length_of_longest_substring_k_distinct(
-                std::hint::black_box(s),
-                std::hint::black_box(k),
-            ),
-        );
+        std::hint::black_box(my_solution::length_of_longest_substring_k_distinct(
+            std::hint::black_box(s),
+            std::hint::black_box(k),
+        ));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(
-            my_solution::length_of_longest_substring_k_distinct(
-                std::hint::black_box(s),
-                std::hint::black_box(k),
-            ),
-        );
+        std::hint::black_box(my_solution::length_of_longest_substring_k_distinct(
+            std::hint::black_box(s),
+            std::hint::black_box(k),
+        ));
     }
     let my_dur = start.elapsed();
 
     for _ in 0..1000 {
-        std::hint::black_box(
-            ai_solution::length_of_longest_substring_k_distinct(
-                std::hint::black_box(s),
-                std::hint::black_box(k),
-            ),
-        );
+        std::hint::black_box(ai_solution::length_of_longest_substring_k_distinct(
+            std::hint::black_box(s),
+            std::hint::black_box(k),
+        ));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(
-            ai_solution::length_of_longest_substring_k_distinct(
-                std::hint::black_box(s),
-                std::hint::black_box(k),
-            ),
-        );
+        std::hint::black_box(ai_solution::length_of_longest_substring_k_distinct(
+            std::hint::black_box(s),
+            std::hint::black_box(k),
+        ));
     }
     let ai_dur = start.elapsed();
 

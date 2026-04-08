@@ -195,16 +195,20 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let inputs: Vec<String> = vec![
-            "69".into(), "88".into(), "962".into(), "10801".into(),
-            "818".into(), "96196".into(),
+            "69".into(),
+            "88".into(),
+            "962".into(),
+            "10801".into(),
+            "818".into(),
+            "96196".into(),
         ];
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             for num in &inputs {
-                std::hint::black_box(
-                    crate::my_solution::Solution::is_strobogrammatic(num.clone()),
-                );
+                std::hint::black_box(crate::my_solution::Solution::is_strobogrammatic(
+                    num.clone(),
+                ));
             }
         }
         let my_dur = start.elapsed();
@@ -212,9 +216,9 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             for num in &inputs {
-                std::hint::black_box(
-                    crate::ai_solution::Solution::is_strobogrammatic(num.clone()),
-                );
+                std::hint::black_box(crate::ai_solution::Solution::is_strobogrammatic(
+                    num.clone(),
+                ));
             }
         }
         let ai_dur = start.elapsed();

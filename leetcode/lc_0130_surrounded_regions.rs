@@ -34,9 +34,7 @@ mod my_solution {
             // Mark border-connected 'O's as 'S' (safe)
             for r in 0..rows {
                 for c in 0..cols {
-                    if (r == 0 || r == rows - 1 || c == 0 || c == cols - 1)
-                        && board[r][c] == 'O'
-                    {
+                    if (r == 0 || r == rows - 1 || c == 0 || c == cols - 1) && board[r][c] == 'O' {
                         Self::dfs(board, r, c, rows, cols);
                     }
                 }
@@ -54,21 +52,23 @@ mod my_solution {
             }
         }
 
-        fn dfs(
-            board: &mut Vec<Vec<char>>,
-            r: usize,
-            c: usize,
-            rows: usize,
-            cols: usize,
-        ) {
+        fn dfs(board: &mut Vec<Vec<char>>, r: usize, c: usize, rows: usize, cols: usize) {
             if r >= rows || c >= cols || board[r][c] != 'O' {
                 return;
             }
             board[r][c] = 'S';
-            if r > 0 { Self::dfs(board, r - 1, c, rows, cols); }
-            if r + 1 < rows { Self::dfs(board, r + 1, c, rows, cols); }
-            if c > 0 { Self::dfs(board, r, c - 1, rows, cols); }
-            if c + 1 < cols { Self::dfs(board, r, c + 1, rows, cols); }
+            if r > 0 {
+                Self::dfs(board, r - 1, c, rows, cols);
+            }
+            if r + 1 < rows {
+                Self::dfs(board, r + 1, c, rows, cols);
+            }
+            if c > 0 {
+                Self::dfs(board, r, c - 1, rows, cols);
+            }
+            if c + 1 < cols {
+                Self::dfs(board, r, c + 1, rows, cols);
+            }
         }
     }
 }
@@ -94,9 +94,7 @@ mod ai_solution {
             // Enqueue border 'O' cells
             for r in 0..rows {
                 for c in 0..cols {
-                    if (r == 0 || r == rows - 1 || c == 0 || c == cols - 1)
-                        && board[r][c] == 'O'
-                    {
+                    if (r == 0 || r == rows - 1 || c == 0 || c == cols - 1) && board[r][c] == 'O' {
                         board[r][c] = 'S';
                         queue.push_back((r, c));
                     }
@@ -109,11 +107,7 @@ mod ai_solution {
                 for (dr, dc) in &dirs {
                     let nr = r as isize + dr;
                     let nc = c as isize + dc;
-                    if nr >= 0
-                        && nr < rows as isize
-                        && nc >= 0
-                        && nc < cols as isize
-                    {
+                    if nr >= 0 && nr < rows as isize && nc >= 0 && nc < cols as isize {
                         let (nr, nc) = (nr as usize, nc as usize);
                         if board[nr][nc] == 'O' {
                             board[nr][nc] = 'S';
@@ -171,12 +165,15 @@ mod tests {
                         vec!['X', 'O', 'X', 'X'],
                     ];
                     <$solution>::solve(&mut board);
-                    assert_eq!(board, vec![
-                        vec!['X', 'X', 'X', 'X'],
-                        vec!['X', 'X', 'X', 'X'],
-                        vec!['X', 'X', 'X', 'X'],
-                        vec!['X', 'O', 'X', 'X'],
-                    ]);
+                    assert_eq!(
+                        board,
+                        vec![
+                            vec!['X', 'X', 'X', 'X'],
+                            vec!['X', 'X', 'X', 'X'],
+                            vec!['X', 'X', 'X', 'X'],
+                            vec!['X', 'O', 'X', 'X'],
+                        ]
+                    );
                 }
 
                 #[test]
@@ -188,16 +185,10 @@ mod tests {
 
                 #[test]
                 fn test_all_o_border() {
-                    let mut board = vec![
-                        vec!['O', 'O'],
-                        vec!['O', 'O'],
-                    ];
+                    let mut board = vec![vec!['O', 'O'], vec!['O', 'O']];
                     <$solution>::solve(&mut board);
                     // All on border -> none captured
-                    assert_eq!(board, vec![
-                        vec!['O', 'O'],
-                        vec!['O', 'O'],
-                    ]);
+                    assert_eq!(board, vec![vec!['O', 'O'], vec!['O', 'O'],]);
                 }
 
                 #[test]
@@ -209,11 +200,14 @@ mod tests {
                     ];
                     <$solution>::solve(&mut board);
                     // All O's connect to border -> none captured
-                    assert_eq!(board, vec![
-                        vec!['X', 'O', 'X'],
-                        vec!['O', 'O', 'X'],
-                        vec!['X', 'X', 'X'],
-                    ]);
+                    assert_eq!(
+                        board,
+                        vec![
+                            vec!['X', 'O', 'X'],
+                            vec!['O', 'O', 'X'],
+                            vec!['X', 'X', 'X'],
+                        ]
+                    );
                 }
             }
         };
@@ -240,18 +234,18 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let mut board = make_board();
-            std::hint::black_box(crate::my_solution::Solution::solve(
-                std::hint::black_box(&mut board),
-            ));
+            std::hint::black_box(crate::my_solution::Solution::solve(std::hint::black_box(
+                &mut board,
+            )));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let mut board = make_board();
-            std::hint::black_box(crate::ai_solution::Solution::solve(
-                std::hint::black_box(&mut board),
-            ));
+            std::hint::black_box(crate::ai_solution::Solution::solve(std::hint::black_box(
+                &mut board,
+            )));
         }
         let ai_duration = start.elapsed();
 

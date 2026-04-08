@@ -107,10 +107,7 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_example1() {
-                    assert!(<$solution>::is_anagram(
-                        "anagram".into(),
-                        "nagaram".into()
-                    ));
+                    assert!(<$solution>::is_anagram("anagram".into(), "nagaram".into()));
                 }
 
                 #[test]

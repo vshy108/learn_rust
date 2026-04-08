@@ -117,7 +117,10 @@ fn main() {
     let mut list2 = build_list(&[4, 5, 1, 9]);
     let node2 = list2.as_mut().unwrap().next.as_mut().unwrap();
     ai_solution::Solution::delete_node(node2);
-    println!("After deleting 5: {:?} (expected [4, 1, 9])", to_vec(&list2));
+    println!(
+        "After deleting 5: {:?} (expected [4, 1, 9])",
+        to_vec(&list2)
+    );
 }
 
 #[cfg(test)]

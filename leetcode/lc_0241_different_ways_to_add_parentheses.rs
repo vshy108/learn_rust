@@ -135,7 +135,10 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [("2-1-1", vec![0, 2]), ("2*3-4*5", vec![-34, -14, -10, -10, 10])];
+    let cases = [
+        ("2-1-1", vec![0, 2]),
+        ("2*3-4*5", vec![-34, -14, -10, -10, 10]),
+    ];
     for (expr, expected) in &cases {
         let mut my = my_solution::Solution::diff_ways_to_compute(expr.to_string());
         let mut ai = ai_solution::Solution::diff_ways_to_compute(expr.to_string());
@@ -175,18 +178,12 @@ mod tests {
 
                 #[test]
                 fn test_single_number() {
-                    assert_eq!(
-                        <$solution>::diff_ways_to_compute("11".into()),
-                        vec![11],
-                    );
+                    assert_eq!(<$solution>::diff_ways_to_compute("11".into()), vec![11],);
                 }
 
                 #[test]
                 fn test_two_numbers() {
-                    assert_eq!(
-                        <$solution>::diff_ways_to_compute("3+4".into()),
-                        vec![7],
-                    );
+                    assert_eq!(<$solution>::diff_ways_to_compute("3+4".into()), vec![7],);
                 }
             }
         };

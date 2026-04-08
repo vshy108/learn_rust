@@ -39,7 +39,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -226,17 +230,12 @@ mod tests {
             #[test]
             fn $name() {
                 let root = build_tree(&$vals);
-                let expected: HashSet<i32> =
-                    $expected.iter().copied().collect();
+                let expected: HashSet<i32> = $expected.iter().copied().collect();
 
                 let my_res: HashSet<i32> =
-                    my_solution::Solution::closest_k_values(
-                        root.clone(),
-                        $target,
-                        $k,
-                    )
-                    .into_iter()
-                    .collect();
+                    my_solution::Solution::closest_k_values(root.clone(), $target, $k)
+                        .into_iter()
+                        .collect();
                 assert_eq!(my_res, expected, "my_solution failed");
 
                 let ai_res: HashSet<i32> =
@@ -308,7 +307,15 @@ mod tests {
     // Balanced tree, k=3
     test_closest_k!(
         test_balanced,
-        [Some(8), Some(4), Some(12), Some(2), Some(6), Some(10), Some(14)],
+        [
+            Some(8),
+            Some(4),
+            Some(12),
+            Some(2),
+            Some(6),
+            Some(10),
+            Some(14)
+        ],
         7.0,
         3,
         [6, 8, 4]
@@ -333,18 +340,20 @@ mod tests {
     );
 
     // Two-node tree, k=1
-    test_closest_k!(
-        test_two_nodes_k1,
-        [Some(1), None, Some(2)],
-        1.6,
-        1,
-        [2]
-    );
+    test_closest_k!(test_two_nodes_k1, [Some(1), None, Some(2)], 1.6, 1, [2]);
 
     // Large k with balanced tree
     test_closest_k!(
         test_large_k,
-        [Some(8), Some(4), Some(12), Some(2), Some(6), Some(10), Some(14)],
+        [
+            Some(8),
+            Some(4),
+            Some(12),
+            Some(2),
+            Some(6),
+            Some(10),
+            Some(14)
+        ],
         9.0,
         5,
         [6, 8, 10, 12, 4]

@@ -34,15 +34,31 @@ mod my_solution {
 
     // Words for 0-19
     const LT20: [&str; 20] = [
-        "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
-        "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen",
-        "Sixteen", "Seventeen", "Eighteen", "Nineteen",
+        "",
+        "One",
+        "Two",
+        "Three",
+        "Four",
+        "Five",
+        "Six",
+        "Seven",
+        "Eight",
+        "Nine",
+        "Ten",
+        "Eleven",
+        "Twelve",
+        "Thirteen",
+        "Fourteen",
+        "Fifteen",
+        "Sixteen",
+        "Seventeen",
+        "Eighteen",
+        "Nineteen",
     ];
 
     // Words for tens: 0, 10, 20, ..., 90
     const TENS: [&str; 10] = [
-        "", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy",
-        "Eighty", "Ninety",
+        "", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety",
     ];
 
     // Scale labels from largest to smallest
@@ -114,14 +130,30 @@ mod ai_solution {
     pub struct Solution;
 
     const ONES: [&str; 20] = [
-        "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
-        "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen",
-        "Sixteen", "Seventeen", "Eighteen", "Nineteen",
+        "",
+        "One",
+        "Two",
+        "Three",
+        "Four",
+        "Five",
+        "Six",
+        "Seven",
+        "Eight",
+        "Nine",
+        "Ten",
+        "Eleven",
+        "Twelve",
+        "Thirteen",
+        "Fourteen",
+        "Fifteen",
+        "Sixteen",
+        "Seventeen",
+        "Eighteen",
+        "Nineteen",
     ];
 
     const TENS: [&str; 10] = [
-        "", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy",
-        "Eighty", "Ninety",
+        "", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety",
     ];
 
     const SCALES: [&str; 4] = ["", "Thousand", "Million", "Billion"];
@@ -141,10 +173,7 @@ mod ai_solution {
                 if chunk > 0 {
                     let chunk_str = Self::chunk_to_words(chunk);
                     if !SCALES[scale_idx].is_empty() {
-                        parts.push(format!(
-                            "{} {}",
-                            chunk_str, SCALES[scale_idx]
-                        ));
+                        parts.push(format!("{} {}", chunk_str, SCALES[scale_idx]));
                     } else {
                         parts.push(chunk_str);
                     }
@@ -232,16 +261,8 @@ mod tests {
         "Two Billion One Hundred Forty Seven Million Four Hundred Eighty Three Thousand Six Hundred Forty Seven"
     );
     test_ntw!(test_fifty, 50, "Fifty");
-    test_ntw!(
-        test_one_million_one,
-        1_000_001,
-        "One Million One"
-    );
-    test_ntw!(
-        test_gaps,
-        1_000_010,
-        "One Million Ten"
-    );
+    test_ntw!(test_one_million_one, 1_000_001, "One Million One");
+    test_ntw!(test_gaps, 1_000_010, "One Million Ten");
     test_ntw!(test_teens, 19, "Nineteen");
     test_ntw!(test_ninety_nine, 99, "Ninety Nine");
     test_ntw!(test_nine_ninety_nine, 999, "Nine Hundred Ninety Nine");
@@ -251,9 +272,10 @@ fn main() {
     println!("LeetCode 273: Integer to English Words");
     for num in [123, 12345, 1234567, 0, 2_147_483_647] {
         println!(
-            "  {} -> {:?}",
+            "  {} -> my:{:?}, ai:{:?}",
             num,
-            my_solution::Solution::number_to_words(num)
+            my_solution::Solution::number_to_words(num),
+            ai_solution::Solution::number_to_words(num),
         );
     }
 }

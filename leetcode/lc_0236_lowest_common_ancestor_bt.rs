@@ -33,7 +33,11 @@ pub struct TreeNode {
 impl TreeNode {
     /// Create a leaf node.
     pub fn new(val: i32) -> Self {
-        Self { val, left: None, right: None }
+        Self {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -52,11 +56,7 @@ mod my_solution {
 
     impl Solution {
         /// Return the value of the LCA of nodes with values `p` and `q`.
-        pub fn lowest_common_ancestor(
-            root: Option<Rc<RefCell<TreeNode>>>,
-            p: i32,
-            q: i32,
-        ) -> i32 {
+        pub fn lowest_common_ancestor(root: Option<Rc<RefCell<TreeNode>>>, p: i32, q: i32) -> i32 {
             Self::dfs(&root, p, q).expect("LCA must exist since p and q are in the tree")
         }
 
@@ -100,11 +100,7 @@ mod ai_solution {
 
     impl Solution {
         /// Return the value of the LCA of nodes with values `p` and `q`.
-        pub fn lowest_common_ancestor(
-            root: Option<Rc<RefCell<TreeNode>>>,
-            p: i32,
-            q: i32,
-        ) -> i32 {
+        pub fn lowest_common_ancestor(root: Option<Rc<RefCell<TreeNode>>>, p: i32, q: i32) -> i32 {
             // BFS to build parent map: child_val -> parent_val
             let mut parent: HashMap<i32, i32> = HashMap::new();
             let mut queue = VecDeque::new();
@@ -180,8 +176,17 @@ fn build_tree(values: &[Option<i32>]) -> Option<Rc<RefCell<TreeNode>>> {
 
 fn main() {
     let tree = build_tree(&[
-        Some(3), Some(5), Some(1), Some(6), Some(2),
-        Some(0), Some(8), None, None, Some(7), Some(4),
+        Some(3),
+        Some(5),
+        Some(1),
+        Some(6),
+        Some(2),
+        Some(0),
+        Some(8),
+        None,
+        None,
+        Some(7),
+        Some(4),
     ]);
 
     let my1 = my_solution::Solution::lowest_common_ancestor(tree.clone(), 5, 1);
@@ -199,8 +204,17 @@ mod tests {
 
     fn sample_tree() -> Option<Rc<RefCell<TreeNode>>> {
         build_tree(&[
-            Some(3), Some(5), Some(1), Some(6), Some(2),
-            Some(0), Some(8), None, None, Some(7), Some(4),
+            Some(3),
+            Some(5),
+            Some(1),
+            Some(6),
+            Some(2),
+            Some(0),
+            Some(8),
+            None,
+            None,
+            Some(7),
+            Some(4),
         ])
     }
 
@@ -211,43 +225,28 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        <$solution>::lowest_common_ancestor(sample_tree(), 5, 1),
-                        3,
-                    );
+                    assert_eq!(<$solution>::lowest_common_ancestor(sample_tree(), 5, 1), 3,);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        <$solution>::lowest_common_ancestor(sample_tree(), 5, 4),
-                        5,
-                    );
+                    assert_eq!(<$solution>::lowest_common_ancestor(sample_tree(), 5, 4), 5,);
                 }
 
                 #[test]
                 fn test_leaf_nodes() {
-                    assert_eq!(
-                        <$solution>::lowest_common_ancestor(sample_tree(), 6, 4),
-                        5,
-                    );
+                    assert_eq!(<$solution>::lowest_common_ancestor(sample_tree(), 6, 4), 5,);
                 }
 
                 #[test]
                 fn test_across_root() {
-                    assert_eq!(
-                        <$solution>::lowest_common_ancestor(sample_tree(), 7, 0),
-                        3,
-                    );
+                    assert_eq!(<$solution>::lowest_common_ancestor(sample_tree(), 7, 0), 3,);
                 }
 
                 #[test]
                 fn test_simple() {
                     let tree = build_tree(&[Some(1), Some(2)]);
-                    assert_eq!(
-                        <$solution>::lowest_common_ancestor(tree, 1, 2),
-                        1,
-                    );
+                    assert_eq!(<$solution>::lowest_common_ancestor(tree, 1, 2), 1,);
                 }
             }
         };
@@ -260,8 +259,17 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let tree_vals = vec![
-            Some(3), Some(5), Some(1), Some(6), Some(2),
-            Some(0), Some(8), None, None, Some(7), Some(4),
+            Some(3),
+            Some(5),
+            Some(1),
+            Some(6),
+            Some(2),
+            Some(0),
+            Some(8),
+            None,
+            None,
+            Some(7),
+            Some(4),
         ];
 
         let start = std::time::Instant::now();

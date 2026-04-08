@@ -77,9 +77,7 @@ mod ai_solution {
         let mut ans = 0i32;
 
         // Collect all valid node indices in reverse level-order (post-order)
-        let mut indices: Vec<usize> = (0..tree.len())
-            .filter(|&i| tree[i].is_some())
-            .collect();
+        let mut indices: Vec<usize> = (0..tree.len()).filter(|&i| tree[i].is_some()).collect();
         // Process from largest index to smallest (children before parents)
         indices.sort_unstable_by(|a, b| b.cmp(a));
 
@@ -111,31 +109,43 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[Option<i32>]) -> i32) {
-    // Example 1: [10,5,15,1,8,null,7]
-    // BST subtree rooted at 5: {1,5,8} size 3
-    assert_eq!(
-        f(&[Some(10), Some(5), Some(15), Some(1), Some(8), None, Some(7)]),
-        3
-    );
-    // Example 2: [4,2,7,2,3,5,null,2,null,None,None,None,None,1]
-    // Largest BST subtree has size 2
-    assert_eq!(
-        f(&[
-            Some(4), Some(2), Some(7), Some(2), Some(3), Some(5), None,
-            Some(2), None, None, None, None, None, Some(1),
-        ]),
-        2
-    );
-    // Empty tree
-    assert_eq!(f(&[]), 0);
-    // Single node
-    assert_eq!(f(&[Some(1)]), 1);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[Option<i32>]) -> i32) {
+        // Example 1: [10,5,15,1,8,null,7]
+        // BST subtree rooted at 5: {1,5,8} size 3
+        assert_eq!(
+            f(&[Some(10), Some(5), Some(15), Some(1), Some(8), None, Some(7)]),
+            3
+        );
+        // Example 2: [4,2,7,2,3,5,null,2,null,None,None,None,None,1]
+        // Largest BST subtree has size 2
+        assert_eq!(
+            f(&[
+                Some(4),
+                Some(2),
+                Some(7),
+                Some(2),
+                Some(3),
+                Some(5),
+                None,
+                Some(2),
+                None,
+                None,
+                None,
+                None,
+                None,
+                Some(1),
+            ]),
+            2
+        );
+        // Empty tree
+        assert_eq!(f(&[]), 0);
+        // Single node
+        assert_eq!(f(&[Some(1)]), 1);
+    }
 
     #[test]
     fn test_my_solution() {
@@ -153,28 +163,28 @@ fn main() {
     let iterations = 100_000;
 
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::largest_bst_subtree(
-            std::hint::black_box(&tree),
-        ));
+        std::hint::black_box(my_solution::largest_bst_subtree(std::hint::black_box(
+            &tree,
+        )));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::largest_bst_subtree(
-            std::hint::black_box(&tree),
-        ));
+        std::hint::black_box(my_solution::largest_bst_subtree(std::hint::black_box(
+            &tree,
+        )));
     }
     let my_dur = start.elapsed();
 
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::largest_bst_subtree(
-            std::hint::black_box(&tree),
-        ));
+        std::hint::black_box(ai_solution::largest_bst_subtree(std::hint::black_box(
+            &tree,
+        )));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::largest_bst_subtree(
-            std::hint::black_box(&tree),
-        ));
+        std::hint::black_box(ai_solution::largest_bst_subtree(std::hint::black_box(
+            &tree,
+        )));
     }
     let ai_dur = start.elapsed();
 

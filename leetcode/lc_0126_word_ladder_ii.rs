@@ -56,15 +56,21 @@ mod my_solution {
                     let word_bytes = word.as_bytes().to_vec();
                     for i in 0..word_bytes.len() {
                         for c in b'a'..=b'z' {
-                            if c == word_bytes[i] { continue; }
+                            if c == word_bytes[i] {
+                                continue;
+                            }
                             let mut next = word_bytes.clone();
                             next[i] = c;
-                            let next_word = String::from_utf8(next)
-                                .expect("valid ascii");
-                            if !word_set.contains(&next_word) { continue; }
-                            if next_word == end_word { found = true; }
+                            let next_word = String::from_utf8(next).expect("valid ascii");
+                            if !word_set.contains(&next_word) {
+                                continue;
+                            }
+                            if next_word == end_word {
+                                found = true;
+                            }
                             if !visited.contains(&next_word) {
-                                parents.entry(next_word.clone())
+                                parents
+                                    .entry(next_word.clone())
                                     .or_default()
                                     .push(word.clone());
                                 if level_visited.insert(next_word.clone()) {
@@ -78,7 +84,9 @@ mod my_solution {
                 visited.extend(level_visited);
             }
 
-            if !found { return Vec::new(); }
+            if !found {
+                return Vec::new();
+            }
 
             // DFS backtrack from end_word to begin_word using parents
             let mut result = Vec::new();
@@ -148,21 +156,20 @@ mod ai_solution {
                     let bytes = word.as_bytes();
                     for i in 0..bytes.len() {
                         for c in b'a'..=b'z' {
-                            if c == bytes[i] { continue; }
-                            let mut next = bytes.to_vec();
-                            next[i] = c;
-                            let next_word = String::from_utf8(next)
-                                .expect("valid ascii");
-                            if !word_set.contains(&next_word)
-                                || visited.contains(&next_word)
-                            {
+                            if c == bytes[i] {
                                 continue;
                             }
-                            if next_word == end_word { found = true; }
+                            let mut next = bytes.to_vec();
+                            next[i] = c;
+                            let next_word = String::from_utf8(next).expect("valid ascii");
+                            if !word_set.contains(&next_word) || visited.contains(&next_word) {
+                                continue;
+                            }
+                            if next_word == end_word {
+                                found = true;
+                            }
                             next_level.insert(next_word.clone());
-                            parents.entry(next_word)
-                                .or_default()
-                                .push(word.clone());
+                            parents.entry(next_word).or_default().push(word.clone());
                         }
                     }
                 }
@@ -170,7 +177,9 @@ mod ai_solution {
                 current_level = next_level;
             }
 
-            if !found { return Vec::new(); }
+            if !found {
+                return Vec::new();
+            }
 
             let mut result = Vec::new();
             let mut path = vec![end_word.clone()];
@@ -204,7 +213,9 @@ mod ai_solution {
 
 fn main() {
     let words: Vec<String> = vec!["hot", "dot", "dog", "lot", "log", "cog"]
-        .into_iter().map(String::from).collect();
+        .into_iter()
+        .map(String::from)
+        .collect();
     let my = my_solution::Solution::find_ladders("hit".into(), "cog".into(), words.clone());
     let ai = ai_solution::Solution::find_ladders("hit".into(), "cog".into(), words);
     println!("paths: my={my:?}, ai={ai:?}");
@@ -224,9 +235,7 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     let words = to_words(&["hot", "dot", "dog", "lot", "log", "cog"]);
-                    let mut result = <$solution>::find_ladders(
-                        "hit".into(), "cog".into(), words,
-                    );
+                    let mut result = <$solution>::find_ladders("hit".into(), "cog".into(), words);
                     result.sort();
                     let mut expected = vec![
                         to_words(&["hit", "hot", "dot", "dog", "cog"]),
@@ -239,27 +248,21 @@ mod tests {
                 #[test]
                 fn test_no_path() {
                     let words = to_words(&["hot", "dot", "dog", "lot", "log"]);
-                    let result = <$solution>::find_ladders(
-                        "hit".into(), "cog".into(), words,
-                    );
+                    let result = <$solution>::find_ladders("hit".into(), "cog".into(), words);
                     assert!(result.is_empty());
                 }
 
                 #[test]
                 fn test_end_not_in_list() {
                     let words = to_words(&["hot"]);
-                    let result = <$solution>::find_ladders(
-                        "hit".into(), "cog".into(), words,
-                    );
+                    let result = <$solution>::find_ladders("hit".into(), "cog".into(), words);
                     assert!(result.is_empty());
                 }
 
                 #[test]
                 fn test_direct() {
                     let words = to_words(&["hot"]);
-                    let result = <$solution>::find_ladders(
-                        "hit".into(), "hot".into(), words,
-                    );
+                    let result = <$solution>::find_ladders("hit".into(), "hot".into(), words);
                     assert_eq!(result, vec![to_words(&["hit", "hot"])]);
                 }
             }

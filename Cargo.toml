@@ -1543,6 +1543,78 @@ path = "leetcode/lc_0359_logger_rate_limiter.rs"
 name = "lc_0360_sort_transformed_array"
 path = "leetcode/lc_0360_sort_transformed_array.rs"
 
+[[example]]
+name = "lc_0361_bomb_enemy"
+path = "leetcode/lc_0361_bomb_enemy.rs"
+
+[[example]]
+name = "lc_0362_design_hit_counter"
+path = "leetcode/lc_0362_design_hit_counter.rs"
+
+[[example]]
+name = "lc_0363_max_sum_of_rectangle_no_larger_than_k"
+path = "leetcode/lc_0363_max_sum_of_rectangle_no_larger_than_k.rs"
+
+[[example]]
+name = "lc_0364_nested_list_weight_sum_ii"
+path = "leetcode/lc_0364_nested_list_weight_sum_ii.rs"
+
+[[example]]
+name = "lc_0365_water_and_jug_problem"
+path = "leetcode/lc_0365_water_and_jug_problem.rs"
+
+[[example]]
+name = "lc_0366_find_leaves_of_binary_tree"
+path = "leetcode/lc_0366_find_leaves_of_binary_tree.rs"
+
+[[example]]
+name = "lc_0367_valid_perfect_square"
+path = "leetcode/lc_0367_valid_perfect_square.rs"
+
+[[example]]
+name = "lc_0368_largest_divisible_subset"
+path = "leetcode/lc_0368_largest_divisible_subset.rs"
+
+[[example]]
+name = "lc_0369_plus_one_linked_list"
+path = "leetcode/lc_0369_plus_one_linked_list.rs"
+
+[[example]]
+name = "lc_0370_range_addition"
+path = "leetcode/lc_0370_range_addition.rs"
+
+[[example]]
+name = "lc_0371_sum_of_two_integers"
+path = "leetcode/lc_0371_sum_of_two_integers.rs"
+
+[[example]]
+name = "lc_0372_super_pow"
+path = "leetcode/lc_0372_super_pow.rs"
+
+[[example]]
+name = "lc_0373_find_k_pairs_with_smallest_sums"
+path = "leetcode/lc_0373_find_k_pairs_with_smallest_sums.rs"
+
+[[example]]
+name = "lc_0375_guess_number_higher_or_lower_ii"
+path = "leetcode/lc_0375_guess_number_higher_or_lower_ii.rs"
+
+[[example]]
+name = "lc_0376_wiggle_subsequence"
+path = "leetcode/lc_0376_wiggle_subsequence.rs"
+
+[[example]]
+name = "lc_0377_combination_sum_iv"
+path = "leetcode/lc_0377_combination_sum_iv.rs"
+
+[[example]]
+name = "lc_0378_kth_smallest_element_in_a_sorted_matrix"
+path = "leetcode/lc_0378_kth_smallest_element_in_a_sorted_matrix.rs"
+
+[[example]]
+name = "lc_0379_design_phone_directory"
+path = "leetcode/lc_0379_design_phone_directory.rs"
+
 [dev-dependencies]
 mockall = "0.14"
 pretty_assertions = "1"
@@ -1572,6 +1644,7 @@ iter_nth = "allow"
 let_and_return = "allow"
 manual_contains = "allow"
 manual_is_multiple_of = "allow"
+manual_range_contains = "allow"
 manual_range_patterns = "allow"
 match_like_matches_macro = "allow"
 needless_lifetimes = "allow"
@@ -1589,6 +1662,7 @@ reversed_empty_ranges = "allow"
 single_char_add_str = "allow"
 single_match = "allow"
 suspicious_open_options = "allow"
+type_complexity = "allow"
 unnecessary_fold = "allow"
 unnecessary_lazy_evaluations = "allow"
 unnecessary_literal_unwrap = "allow"

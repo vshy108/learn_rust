@@ -120,17 +120,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::my_solution::Solution::get_row(
-                std::hint::black_box(30),
-            ));
+            std::hint::black_box(crate::my_solution::Solution::get_row(std::hint::black_box(
+                30,
+            )));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::ai_solution::Solution::get_row(
-                std::hint::black_box(30),
-            ));
+            std::hint::black_box(crate::ai_solution::Solution::get_row(std::hint::black_box(
+                30,
+            )));
         }
         let ai_duration = start.elapsed();
 

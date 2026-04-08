@@ -154,8 +154,14 @@ mod ai_solution {
 }
 
 fn main() {
-    println!("my 'aabb': {:?}", my_solution::Solution::generate_palindromes("aabb".into()));
-    println!("ai 'abc': {:?}", ai_solution::Solution::generate_palindromes("abc".into()));
+    println!(
+        "my 'aabb': {:?}",
+        my_solution::Solution::generate_palindromes("aabb".into())
+    );
+    println!(
+        "ai 'abc': {:?}",
+        ai_solution::Solution::generate_palindromes("abc".into())
+    );
 }
 
 #[cfg(test)]
@@ -198,17 +204,13 @@ mod tests {
                 #[test]
                 fn test_odd_center() {
                     let result = to_set(Sol::generate_palindromes("aab".into()));
-                    let expected: HashSet<String> =
-                        ["aba"].iter().map(|s| s.to_string()).collect();
+                    let expected: HashSet<String> = ["aba"].iter().map(|s| s.to_string()).collect();
                     assert_eq!(result, expected);
                 }
 
                 #[test]
                 fn test_all_same() {
-                    assert_eq!(
-                        Sol::generate_palindromes("aaaa".into()),
-                        vec!["aaaa"]
-                    );
+                    assert_eq!(Sol::generate_palindromes("aaaa".into()), vec!["aaaa"]);
                 }
 
                 #[test]

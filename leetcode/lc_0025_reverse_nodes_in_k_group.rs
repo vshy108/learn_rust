@@ -80,10 +80,7 @@ mod my_solution {
         ///
         /// # Returns
         /// Head of the modified list.
-        pub fn reverse_k_group(
-            head: Option<Box<ListNode>>,
-            k: i32,
-        ) -> Option<Box<ListNode>> {
+        pub fn reverse_k_group(head: Option<Box<ListNode>>, k: i32) -> Option<Box<ListNode>> {
             let k = k as usize;
 
             // First, check if there are at least k nodes remaining.
@@ -147,10 +144,7 @@ mod ai_solution {
         ///
         /// # Returns
         /// Head of the modified list.
-        pub fn reverse_k_group(
-            head: Option<Box<ListNode>>,
-            k: i32,
-        ) -> Option<Box<ListNode>> {
+        pub fn reverse_k_group(head: Option<Box<ListNode>>, k: i32) -> Option<Box<ListNode>> {
             let k = k as usize;
             if k <= 1 {
                 return head;
@@ -186,10 +180,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases: &[(&[i32], i32)] = &[
-        (&[1, 2, 3, 4, 5], 2),
-        (&[1, 2, 3, 4, 5], 3),
-    ];
+    let cases: &[(&[i32], i32)] = &[(&[1, 2, 3, 4, 5], 2), (&[1, 2, 3, 4, 5], 3)];
     for (vals, k) in cases {
         let my = list_to_vec(my_solution::Solution::reverse_k_group(build_list(vals), *k));
         let ai = list_to_vec(ai_solution::Solution::reverse_k_group(build_list(vals), *k));
@@ -202,62 +193,48 @@ mod tests {
     macro_rules! test_reverse_k_group {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use $solution as Solution;
                 use crate::{build_list, list_to_vec};
+                use $solution as Solution;
 
                 #[test]
                 fn test_k2() {
-                    let result = list_to_vec(Solution::reverse_k_group(
-                        build_list(&[1, 2, 3, 4, 5]),
-                        2,
-                    ));
+                    let result =
+                        list_to_vec(Solution::reverse_k_group(build_list(&[1, 2, 3, 4, 5]), 2));
                     assert_eq!(result, vec![2, 1, 4, 3, 5]);
                 }
 
                 #[test]
                 fn test_k3() {
-                    let result = list_to_vec(Solution::reverse_k_group(
-                        build_list(&[1, 2, 3, 4, 5]),
-                        3,
-                    ));
+                    let result =
+                        list_to_vec(Solution::reverse_k_group(build_list(&[1, 2, 3, 4, 5]), 3));
                     assert_eq!(result, vec![3, 2, 1, 4, 5]);
                 }
 
                 #[test]
                 fn test_k1() {
                     // k=1 means no reversal.
-                    let result = list_to_vec(Solution::reverse_k_group(
-                        build_list(&[1, 2, 3]),
-                        1,
-                    ));
+                    let result = list_to_vec(Solution::reverse_k_group(build_list(&[1, 2, 3]), 1));
                     assert_eq!(result, vec![1, 2, 3]);
                 }
 
                 #[test]
                 fn test_k_equals_length() {
                     // Entire list reversed.
-                    let result = list_to_vec(Solution::reverse_k_group(
-                        build_list(&[1, 2, 3, 4]),
-                        4,
-                    ));
+                    let result =
+                        list_to_vec(Solution::reverse_k_group(build_list(&[1, 2, 3, 4]), 4));
                     assert_eq!(result, vec![4, 3, 2, 1]);
                 }
 
                 #[test]
                 fn test_single_node() {
-                    let result = list_to_vec(Solution::reverse_k_group(
-                        build_list(&[1]),
-                        1,
-                    ));
+                    let result = list_to_vec(Solution::reverse_k_group(build_list(&[1]), 1));
                     assert_eq!(result, vec![1]);
                 }
 
                 #[test]
                 fn test_two_full_groups() {
-                    let result = list_to_vec(Solution::reverse_k_group(
-                        build_list(&[1, 2, 3, 4]),
-                        2,
-                    ));
+                    let result =
+                        list_to_vec(Solution::reverse_k_group(build_list(&[1, 2, 3, 4]), 2));
                     assert_eq!(result, vec![2, 1, 4, 3]);
                 }
 
@@ -279,8 +256,8 @@ mod tests {
 
     #[test]
     fn bench_comparison() {
-        use std::time::Instant;
         use crate::build_list;
+        use std::time::Instant;
 
         let iterations = 100_000;
         let vals: Vec<i32> = (0..100).collect();

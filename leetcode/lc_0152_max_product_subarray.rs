@@ -83,18 +83,12 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        <$solution>::max_product(vec![2, 3, -2, 4]),
-                        6,
-                    );
+                    assert_eq!(<$solution>::max_product(vec![2, 3, -2, 4]), 6,);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        <$solution>::max_product(vec![-2, 0, -1]),
-                        0,
-                    );
+                    assert_eq!(<$solution>::max_product(vec![-2, 0, -1]), 0,);
                 }
 
                 #[test]
@@ -104,26 +98,17 @@ mod tests {
 
                 #[test]
                 fn test_two_negatives() {
-                    assert_eq!(
-                        <$solution>::max_product(vec![-2, -3]),
-                        6,
-                    );
+                    assert_eq!(<$solution>::max_product(vec![-2, -3]), 6,);
                 }
 
                 #[test]
                 fn test_zeros_and_negatives() {
-                    assert_eq!(
-                        <$solution>::max_product(vec![-2, 0, -3, 4]),
-                        4,
-                    );
+                    assert_eq!(<$solution>::max_product(vec![-2, 0, -3, 4]), 4,);
                 }
 
                 #[test]
                 fn test_all_positive() {
-                    assert_eq!(
-                        <$solution>::max_product(vec![1, 2, 3, 4]),
-                        24,
-                    );
+                    assert_eq!(<$solution>::max_product(vec![1, 2, 3, 4]), 24,);
                 }
             }
         };
@@ -137,7 +122,7 @@ mod tests {
         let iterations = 100_000;
         let nums: Vec<i32> = (0..100)
             .map(|i| match i % 7 {
-                0 => 0,  // zeros break product chains, avoiding overflow
+                0 => 0, // zeros break product chains, avoiding overflow
                 3 => -2,
                 _ => 2,
             })

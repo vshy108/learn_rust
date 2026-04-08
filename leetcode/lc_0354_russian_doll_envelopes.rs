@@ -62,9 +62,7 @@ mod ai_solution {
         let mut ans = 1;
         for i in 1..n {
             for j in 0..i {
-                if envelopes[j][0] < envelopes[i][0]
-                    && envelopes[j][1] < envelopes[i][1]
-                {
+                if envelopes[j][0] < envelopes[i][0] && envelopes[j][1] < envelopes[i][1] {
                     dp[i] = dp[i].max(dp[j] + 1);
                 }
             }
@@ -74,20 +72,20 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&mut [[i32; 2]]) -> i32) {
-    let mut e1 = vec![[5, 4], [6, 4], [6, 7], [2, 3]];
-    assert_eq!(f(&mut e1), 3); // [2,3] => [5,4] => [6,7]
-
-    let mut e2 = vec![[1, 1], [1, 1], [1, 1]];
-    assert_eq!(f(&mut e2), 1);
-
-    let mut e3 = vec![[1, 2], [2, 3], [3, 4], [4, 5]];
-    assert_eq!(f(&mut e3), 4);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&mut [[i32; 2]]) -> i32) {
+        let mut e1 = vec![[5, 4], [6, 4], [6, 7], [2, 3]];
+        assert_eq!(f(&mut e1), 3); // [2,3] => [5,4] => [6,7]
+
+        let mut e2 = vec![[1, 1], [1, 1], [1, 1]];
+        assert_eq!(f(&mut e2), 1);
+
+        let mut e3 = vec![[1, 2], [2, 3], [3, 4], [4, 5]];
+        assert_eq!(f(&mut e3), 4);
+    }
 
     #[test]
     fn test_my_solution() {

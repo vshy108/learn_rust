@@ -96,34 +96,34 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[Vec<String>]) -> Vec<String>) {
-    let make = |v: Vec<[&str; 2]>| -> Vec<Vec<String>> {
-        v.into_iter()
-            .map(|[a, b]| vec![a.to_string(), b.to_string()])
-            .collect()
-    };
-    // Example 1
-    let tickets = make(vec![
-        ["MUC", "LHR"], ["JFK", "MUC"], ["SFO", "SJC"], ["LHR", "SFO"],
-    ]);
-    assert_eq!(
-        f(&tickets),
-        vec!["JFK", "MUC", "LHR", "SFO", "SJC"]
-    );
-    // Example 2
-    let tickets = make(vec![
-        ["JFK", "SFO"], ["JFK", "ATL"], ["SFO", "ATL"],
-        ["ATL", "JFK"], ["ATL", "SFO"],
-    ]);
-    assert_eq!(
-        f(&tickets),
-        vec!["JFK", "ATL", "JFK", "SFO", "ATL", "SFO"]
-    );
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[Vec<String>]) -> Vec<String>) {
+        let make = |v: Vec<[&str; 2]>| -> Vec<Vec<String>> {
+            v.into_iter()
+                .map(|[a, b]| vec![a.to_string(), b.to_string()])
+                .collect()
+        };
+        // Example 1
+        let tickets = make(vec![
+            ["MUC", "LHR"],
+            ["JFK", "MUC"],
+            ["SFO", "SJC"],
+            ["LHR", "SFO"],
+        ]);
+        assert_eq!(f(&tickets), vec!["JFK", "MUC", "LHR", "SFO", "SJC"]);
+        // Example 2
+        let tickets = make(vec![
+            ["JFK", "SFO"],
+            ["JFK", "ATL"],
+            ["SFO", "ATL"],
+            ["ATL", "JFK"],
+            ["ATL", "SFO"],
+        ]);
+        assert_eq!(f(&tickets), vec!["JFK", "ATL", "JFK", "SFO", "ATL", "SFO"]);
+    }
 
     #[test]
     fn test_my_solution() {
@@ -146,28 +146,20 @@ fn main() {
     let iterations = 100_000;
 
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::find_itinerary(
-            std::hint::black_box(&tickets),
-        ));
+        std::hint::black_box(my_solution::find_itinerary(std::hint::black_box(&tickets)));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::find_itinerary(
-            std::hint::black_box(&tickets),
-        ));
+        std::hint::black_box(my_solution::find_itinerary(std::hint::black_box(&tickets)));
     }
     let my_dur = start.elapsed();
 
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::find_itinerary(
-            std::hint::black_box(&tickets),
-        ));
+        std::hint::black_box(ai_solution::find_itinerary(std::hint::black_box(&tickets)));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::find_itinerary(
-            std::hint::black_box(&tickets),
-        ));
+        std::hint::black_box(ai_solution::find_itinerary(std::hint::black_box(&tickets)));
     }
     let ai_dur = start.elapsed();
 

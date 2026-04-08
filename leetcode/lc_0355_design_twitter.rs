@@ -19,10 +19,10 @@
 /// Operations for the simulation
 #[derive(Debug, Clone)]
 enum Op {
-    Post(i32, i32),       // userId, tweetId
-    Feed(i32),            // userId -> Vec<i32>
-    Follow(i32, i32),     // followerId, followeeId
-    Unfollow(i32, i32),   // followerId, followeeId
+    Post(i32, i32),     // userId, tweetId
+    Feed(i32),          // userId -> Vec<i32>
+    Follow(i32, i32),   // followerId, followeeId
+    Unfollow(i32, i32), // followerId, followeeId
 }
 
 /// ## My Solution — HashMap + global timestamp, sorted merge
@@ -162,25 +162,25 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[Op]) -> Vec<Vec<i32>>) {
-    let ops = vec![
-        Op::Post(1, 5),
-        Op::Feed(1),          // [5]
-        Op::Follow(1, 2),
-        Op::Post(2, 6),
-        Op::Feed(1),          // [6, 5]
-        Op::Unfollow(1, 2),
-        Op::Feed(1),          // [5]
-    ];
-    let result = f(&ops);
-    assert_eq!(result[0], vec![5]);
-    assert_eq!(result[1], vec![6, 5]);
-    assert_eq!(result[2], vec![5]);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[Op]) -> Vec<Vec<i32>>) {
+        let ops = vec![
+            Op::Post(1, 5),
+            Op::Feed(1), // [5]
+            Op::Follow(1, 2),
+            Op::Post(2, 6),
+            Op::Feed(1), // [6, 5]
+            Op::Unfollow(1, 2),
+            Op::Feed(1), // [5]
+        ];
+        let result = f(&ops);
+        assert_eq!(result[0], vec![5]);
+        assert_eq!(result[1], vec![6, 5]);
+        assert_eq!(result[2], vec![5]);
+    }
 
     #[test]
     fn test_my_solution() {

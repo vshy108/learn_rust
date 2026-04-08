@@ -28,7 +28,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -87,8 +91,7 @@ mod my_solution {
                 None => 0,
                 Some(node) => {
                     let node = node.borrow();
-                    1 + Self::max_depth(node.left.clone())
-                        .max(Self::max_depth(node.right.clone()))
+                    1 + Self::max_depth(node.left.clone()).max(Self::max_depth(node.right.clone()))
                 }
             }
         }
@@ -157,9 +160,8 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    let root = build_tree(&[
-                        Some(3), Some(9), Some(20), None, None, Some(15), Some(7),
-                    ]);
+                    let root =
+                        build_tree(&[Some(3), Some(9), Some(20), None, None, Some(15), Some(7)]);
                     assert_eq!(<$solution>::max_depth(root), 3);
                 }
 

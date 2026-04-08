@@ -142,17 +142,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::plus_one(std::hint::black_box(digits.clone())),
-            );
+            std::hint::black_box(crate::my_solution::Solution::plus_one(
+                std::hint::black_box(digits.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::plus_one(std::hint::black_box(digits.clone())),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::plus_one(
+                std::hint::black_box(digits.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

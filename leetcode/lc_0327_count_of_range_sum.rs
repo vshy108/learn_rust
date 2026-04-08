@@ -145,9 +145,7 @@ mod ai_solution {
         };
 
         // Binary search helper to map value -> 1-indexed rank
-        let rank = |v: i64| -> usize {
-            vals.partition_point(|&x| x < v) + 1
-        };
+        let rank = |v: i64| -> usize { vals.partition_point(|&x| x < v) + 1 };
 
         let mut ans = 0i32;
         for &p in &prefix {
@@ -162,18 +160,18 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[i32], i32, i32) -> i32) {
-    // Example 1: ranges [0,0]=-2, [2,2]=-1, [0,2]=2 => 3
-    assert_eq!(f(&[-2, 5, -1], -2, 2), 3);
-    // Example 2: single element
-    assert_eq!(f(&[0], 0, 0), 1);
-    // All negative
-    assert_eq!(f(&[-1, -2, -3], -6, -1), 6);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[i32], i32, i32) -> i32) {
+        // Example 1: ranges [0,0]=-2, [2,2]=-1, [0,2]=2 => 3
+        assert_eq!(f(&[-2, 5, -1], -2, 2), 3);
+        // Example 2: single element
+        assert_eq!(f(&[0], 0, 0), 1);
+        // All negative
+        assert_eq!(f(&[-1, -2, -3], -6, -1), 6);
+    }
 
     #[test]
     fn test_my_solution() {

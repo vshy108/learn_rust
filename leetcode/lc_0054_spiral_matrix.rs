@@ -129,14 +129,8 @@ mod ai_solution {
 
 fn main() {
     let m1 = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
-    println!(
-        "my:{:?}",
-        my_solution::Solution::spiral_order(m1.clone()),
-    );
-    println!(
-        "ai:{:?}",
-        ai_solution::Solution::spiral_order(m1),
-    );
+    println!("my:{:?}", my_solution::Solution::spiral_order(m1.clone()),);
+    println!("ai:{:?}", ai_solution::Solution::spiral_order(m1),);
 }
 
 #[cfg(test)]
@@ -155,11 +149,7 @@ mod tests {
 
                 #[test]
                 fn test_3x4() {
-                    let matrix = vec![
-                        vec![1, 2, 3, 4],
-                        vec![5, 6, 7, 8],
-                        vec![9, 10, 11, 12],
-                    ];
+                    let matrix = vec![vec![1, 2, 3, 4], vec![5, 6, 7, 8], vec![9, 10, 11, 12]];
                     assert_eq!(
                         <$solution>::spiral_order(matrix),
                         vec![1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
@@ -210,17 +200,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::spiral_order(std::hint::black_box(matrix.clone())),
-            );
+            std::hint::black_box(crate::my_solution::Solution::spiral_order(
+                std::hint::black_box(matrix.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::spiral_order(std::hint::black_box(matrix.clone())),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::spiral_order(
+                std::hint::black_box(matrix.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

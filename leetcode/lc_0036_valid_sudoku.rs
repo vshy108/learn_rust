@@ -58,10 +58,7 @@ mod my_solution {
                     // Box index: (r/3)*3 + c/3 maps each 3x3 block to 0..8.
                     let box_idx = (r / 3) * 3 + c / 3;
 
-                    if !rows[r].insert(ch)
-                        || !cols[c].insert(ch)
-                        || !boxes[box_idx].insert(ch)
-                    {
+                    if !rows[r].insert(ch) || !cols[c].insert(ch) || !boxes[box_idx].insert(ch) {
                         return false;
                     }
                 }

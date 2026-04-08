@@ -81,26 +81,17 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        <$solution>::find_min(vec![1, 3, 5]),
-                        1,
-                    );
+                    assert_eq!(<$solution>::find_min(vec![1, 3, 5]), 1,);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        <$solution>::find_min(vec![2, 2, 2, 0, 1]),
-                        0,
-                    );
+                    assert_eq!(<$solution>::find_min(vec![2, 2, 2, 0, 1]), 0,);
                 }
 
                 #[test]
                 fn test_all_same() {
-                    assert_eq!(
-                        <$solution>::find_min(vec![3, 3, 3, 3]),
-                        3,
-                    );
+                    assert_eq!(<$solution>::find_min(vec![3, 3, 3, 3]), 3,);
                 }
 
                 #[test]
@@ -110,18 +101,12 @@ mod tests {
 
                 #[test]
                 fn test_duplicates_at_boundary() {
-                    assert_eq!(
-                        <$solution>::find_min(vec![3, 3, 1, 3]),
-                        1,
-                    );
+                    assert_eq!(<$solution>::find_min(vec![3, 3, 1, 3]), 1,);
                 }
 
                 #[test]
                 fn test_not_rotated() {
-                    assert_eq!(
-                        <$solution>::find_min(vec![1, 1, 2, 2, 3]),
-                        1,
-                    );
+                    assert_eq!(<$solution>::find_min(vec![1, 1, 2, 2, 3]), 1,);
                 }
             }
         };

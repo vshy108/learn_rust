@@ -41,23 +41,23 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&mut [u8])) {
-    let mut s1 = b"hello".to_vec();
-    f(&mut s1);
-    assert_eq!(&s1, b"olleh");
-
-    let mut s2 = b"Hannah".to_vec();
-    f(&mut s2);
-    assert_eq!(&s2, b"hannaH");
-
-    let mut s3 = b"a".to_vec();
-    f(&mut s3);
-    assert_eq!(&s3, b"a");
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&mut [u8])) {
+        let mut s1 = b"hello".to_vec();
+        f(&mut s1);
+        assert_eq!(&s1, b"olleh");
+
+        let mut s2 = b"Hannah".to_vec();
+        f(&mut s2);
+        assert_eq!(&s2, b"hannaH");
+
+        let mut s3 = b"a".to_vec();
+        f(&mut s3);
+        assert_eq!(&s3, b"a");
+    }
 
     #[test]
     fn test_my_solution() {

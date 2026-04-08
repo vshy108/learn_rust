@@ -44,9 +44,7 @@ mod my_solution {
                         stack.push(result);
                     }
                     num => {
-                        stack.push(
-                            num.parse::<i32>().expect("valid integer token"),
-                        );
+                        stack.push(num.parse::<i32>().expect("valid integer token"));
                     }
                 }
             }
@@ -82,9 +80,7 @@ mod ai_solution {
                         _ => unreachable!(),
                     });
                 } else {
-                    stack.push(
-                        token.parse::<i32>().expect("valid integer"),
-                    );
+                    stack.push(token.parse::<i32>().expect("valid integer"));
                 }
             }
             stack[0]
@@ -94,7 +90,9 @@ mod ai_solution {
 
 fn main() {
     let tokens: Vec<String> = ["2", "1", "+", "3", "*"]
-        .iter().map(|s| s.to_string()).collect();
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
     let my = my_solution::Solution::eval_rpn(tokens.clone());
     let ai = ai_solution::Solution::eval_rpn(tokens);
     println!("eval RPN: my={my}, ai={ai}");
@@ -113,26 +111,19 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        <$solution>::eval_rpn(s(&["2", "1", "+", "3", "*"])),
-                        9,
-                    );
+                    assert_eq!(<$solution>::eval_rpn(s(&["2", "1", "+", "3", "*"])), 9,);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        <$solution>::eval_rpn(s(&["4", "13", "5", "/", "+"])),
-                        6,
-                    );
+                    assert_eq!(<$solution>::eval_rpn(s(&["4", "13", "5", "/", "+"])), 6,);
                 }
 
                 #[test]
                 fn test_example3() {
                     assert_eq!(
                         <$solution>::eval_rpn(s(&[
-                            "10", "6", "9", "3", "+", "-11", "*",
-                            "/", "*", "17", "+", "5", "+",
+                            "10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+",
                         ])),
                         22,
                     );
@@ -146,10 +137,7 @@ mod tests {
                 #[test]
                 fn test_negative_division() {
                     // -1 / 2 should truncate toward zero = 0
-                    assert_eq!(
-                        <$solution>::eval_rpn(s(&["-1", "2", "/"])),
-                        0,
-                    );
+                    assert_eq!(<$solution>::eval_rpn(s(&["-1", "2", "/"])), 0,);
                 }
             }
         };
@@ -162,8 +150,7 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let tokens = s(&[
-            "10", "6", "9", "3", "+", "-11", "*",
-            "/", "*", "17", "+", "5", "+",
+            "10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+",
         ]);
 
         let start = std::time::Instant::now();

@@ -118,11 +118,23 @@ mod ai_solution {
 fn main() {
     let my = my_solution::Solution::word_break(
         "catsanddog".into(),
-        vec!["cat".into(), "cats".into(), "and".into(), "sand".into(), "dog".into()],
+        vec![
+            "cat".into(),
+            "cats".into(),
+            "and".into(),
+            "sand".into(),
+            "dog".into(),
+        ],
     );
     let ai = ai_solution::Solution::word_break(
         "catsanddog".into(),
-        vec!["cat".into(), "cats".into(), "and".into(), "sand".into(), "dog".into()],
+        vec![
+            "cat".into(),
+            "cats".into(),
+            "and".into(),
+            "sand".into(),
+            "dog".into(),
+        ],
     );
     println!("my: {my:?}");
     println!("ai: {ai:?}");
@@ -143,14 +155,14 @@ mod tests {
                     let result = sorted(<$solution>::word_break(
                         "catsanddog".into(),
                         vec![
-                            "cat".into(), "cats".into(), "and".into(),
-                            "sand".into(), "dog".into(),
+                            "cat".into(),
+                            "cats".into(),
+                            "and".into(),
+                            "sand".into(),
+                            "dog".into(),
                         ],
                     ));
-                    let expected = sorted(vec![
-                        "cats and dog".into(),
-                        "cat sand dog".into(),
-                    ]);
+                    let expected = sorted(vec!["cats and dog".into(), "cat sand dog".into()]);
                     assert_eq!(result, expected);
                 }
 
@@ -159,8 +171,11 @@ mod tests {
                     let result = sorted(<$solution>::word_break(
                         "pineapplepenapple".into(),
                         vec![
-                            "apple".into(), "pen".into(), "applepen".into(),
-                            "pine".into(), "pineapple".into(),
+                            "apple".into(),
+                            "pen".into(),
+                            "applepen".into(),
+                            "pine".into(),
+                            "pineapple".into(),
                         ],
                     ));
                     let expected = sorted(vec![
@@ -176,8 +191,11 @@ mod tests {
                     let result = <$solution>::word_break(
                         "catsandog".into(),
                         vec![
-                            "cats".into(), "dog".into(), "sand".into(),
-                            "and".into(), "cat".into(),
+                            "cats".into(),
+                            "dog".into(),
+                            "sand".into(),
+                            "and".into(),
+                            "cat".into(),
                         ],
                     );
                     assert!(result.is_empty());
@@ -185,9 +203,7 @@ mod tests {
 
                 #[test]
                 fn test_single_word() {
-                    let result = <$solution>::word_break(
-                        "a".into(), vec!["a".into()],
-                    );
+                    let result = <$solution>::word_break("a".into(), vec!["a".into()]);
                     assert_eq!(result, vec!["a".to_string()]);
                 }
             }
@@ -202,8 +218,11 @@ mod tests {
         let iterations = 100_000;
         let s = "catsanddog".to_string();
         let dict = vec![
-            "cat".into(), "cats".into(), "and".into(),
-            "sand".into(), "dog".into(),
+            "cat".into(),
+            "cats".into(),
+            "and".into(),
+            "sand".into(),
+            "dog".into(),
         ];
 
         let start = std::time::Instant::now();

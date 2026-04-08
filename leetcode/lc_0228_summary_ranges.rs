@@ -137,10 +137,7 @@ mod tests {
 
                 #[test]
                 fn test_single() {
-                    assert_eq!(
-                        <$solution>::summary_ranges(vec![5]),
-                        vec!["5"],
-                    );
+                    assert_eq!(<$solution>::summary_ranges(vec![5]), vec!["5"],);
                 }
 
                 #[test]
@@ -176,7 +173,9 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let nums: Vec<i32> = vec![0, 1, 2, 4, 5, 7, 10, 11, 12, 13, 20, 22, 23, 25, 26, 27, 28, 30];
+        let nums: Vec<i32> = vec![
+            0, 1, 2, 4, 5, 7, 10, 11, 12, 13, 20, 22, 23, 25, 26, 27, 28, 30,
+        ];
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {

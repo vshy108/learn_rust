@@ -14,7 +14,6 @@
 /// sumRegion iterates rows [row1, row2] and queries each BIT for [col1, col2].
 mod my_solution {
     pub struct NumMatrix {
-        m: usize,
         n: usize,
         trees: Vec<Vec<i32>>,
         data: Vec<Vec<i32>>,
@@ -36,7 +35,6 @@ mod my_solution {
                 }
             }
             Self {
-                m,
                 n,
                 trees,
                 data: matrix,
@@ -59,8 +57,7 @@ mod my_solution {
             let (r2, c2) = (row2 as usize, col2 as usize);
             let mut s = 0;
             for r in r1..=r2 {
-                s += self.prefix(&self.trees[r], c2 + 1)
-                    - self.prefix(&self.trees[r], c1);
+                s += self.prefix(&self.trees[r], c2 + 1) - self.prefix(&self.trees[r], c1);
             }
             s
         }
@@ -260,10 +257,18 @@ fn main() {
     ];
     let mut my = my_solution::NumMatrix::new(m.clone());
     let mut ai = ai_solution::NumMatrix::new(m.clone());
-    println!("sumRegion(2,1,4,3): My={}, AI={}", my.sum_region(2, 1, 4, 3), ai.sum_region(2, 1, 4, 3));
+    println!(
+        "sumRegion(2,1,4,3): My={}, AI={}",
+        my.sum_region(2, 1, 4, 3),
+        ai.sum_region(2, 1, 4, 3)
+    );
     my.update(3, 2, 2);
     ai.update(3, 2, 2);
-    println!("After update(3,2,2), sumRegion(2,1,4,3): My={}, AI={}", my.sum_region(2, 1, 4, 3), ai.sum_region(2, 1, 4, 3));
+    println!(
+        "After update(3,2,2), sumRegion(2,1,4,3): My={}, AI={}",
+        my.sum_region(2, 1, 4, 3),
+        ai.sum_region(2, 1, 4, 3)
+    );
 
     // Benchmark
     let iterations = 100_000;

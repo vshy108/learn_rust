@@ -84,14 +84,10 @@ mod ai_solution {
 }
 
 fn main() {
-    let my = my_solution::Solution::word_break(
-        "leetcode".into(),
-        vec!["leet".into(), "code".into()],
-    );
-    let ai = ai_solution::Solution::word_break(
-        "leetcode".into(),
-        vec!["leet".into(), "code".into()],
-    );
+    let my =
+        my_solution::Solution::word_break("leetcode".into(), vec!["leet".into(), "code".into()]);
+    let ai =
+        ai_solution::Solution::word_break("leetcode".into(), vec!["leet".into(), "code".into()]);
     println!("word break: my={my}, ai={ai}");
 }
 
@@ -121,23 +117,25 @@ mod tests {
                     assert!(!<$solution>::word_break(
                         "catsandog".into(),
                         vec![
-                            "cats".into(), "dog".into(), "sand".into(),
-                            "and".into(), "cat".into(),
+                            "cats".into(),
+                            "dog".into(),
+                            "sand".into(),
+                            "and".into(),
+                            "cat".into(),
                         ],
                     ));
                 }
 
                 #[test]
                 fn test_single_char() {
-                    assert!(<$solution>::word_break(
-                        "a".into(), vec!["a".into()],
-                    ));
+                    assert!(<$solution>::word_break("a".into(), vec!["a".into()],));
                 }
 
                 #[test]
                 fn test_reuse() {
                     assert!(<$solution>::word_break(
-                        "aaaa".into(), vec!["a".into(), "aa".into()],
+                        "aaaa".into(),
+                        vec!["a".into(), "aa".into()],
                     ));
                 }
             }
@@ -152,8 +150,11 @@ mod tests {
         let iterations = 100_000;
         let s = "aaaaaaaaaaaaaaaaaab".to_string();
         let dict: Vec<String> = vec![
-            "a".into(), "aa".into(), "aaa".into(),
-            "aaaa".into(), "aaaaa".into(),
+            "a".into(),
+            "aa".into(),
+            "aaa".into(),
+            "aaaa".into(),
+            "aaaaa".into(),
         ];
 
         let start = std::time::Instant::now();

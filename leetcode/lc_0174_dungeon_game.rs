@@ -100,11 +100,7 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_example() {
-                    let dungeon = vec![
-                        vec![-2, -3, 3],
-                        vec![-5, -10, 1],
-                        vec![10, 30, -5],
-                    ];
+                    let dungeon = vec![vec![-2, -3, 3], vec![-5, -10, 1], vec![10, 30, -5]];
                     assert_eq!(<$solution>::calculate_minimum_hp(dungeon), 7);
                 }
 
@@ -136,7 +132,11 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let dungeon: Vec<Vec<i32>> = (0..20)
-            .map(|i| (0..20).map(|j| ((i * 7 + j * 3) % 21) as i32 - 10).collect())
+            .map(|i| {
+                (0..20)
+                    .map(|j| ((i * 7 + j * 3) % 21) as i32 - 10)
+                    .collect()
+            })
             .collect();
 
         let start = std::time::Instant::now();

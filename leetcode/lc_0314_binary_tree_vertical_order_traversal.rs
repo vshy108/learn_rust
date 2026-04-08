@@ -20,7 +20,6 @@
 /// Constraints:
 ///   - Number of nodes in [0, 100]
 ///   - -100 <= Node.val <= 100
-
 use std::cell::RefCell;
 use std::rc::Rc;
 
@@ -96,9 +95,7 @@ mod my_solution {
         ///
         /// # Returns
         /// Vertical order traversal as vec of vecs
-        pub fn vertical_order(
-            root: Option<Rc<RefCell<TreeNode>>>,
-        ) -> Vec<Vec<i32>> {
+        pub fn vertical_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
             if root.is_none() {
                 return vec![];
             }
@@ -146,9 +143,7 @@ mod ai_solution {
         ///
         /// # Returns
         /// Vertical order traversal as vec of vecs
-        pub fn vertical_order(
-            root: Option<Rc<RefCell<TreeNode>>>,
-        ) -> Vec<Vec<i32>> {
+        pub fn vertical_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
             let mut d: BTreeMap<i32, Vec<(i32, i32)>> = BTreeMap::new();
             dfs(&root, 0, 0, &mut d);
 
@@ -180,25 +175,26 @@ mod ai_solution {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use super::ai_solution::Solution as AiSolution;
     use super::my_solution::Solution as MySolution;
+    use super::*;
 
     type SolveFn = fn(Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>>;
 
     fn run_tests(solve: SolveFn) {
         // Example 1: [3,9,20,null,null,15,7]
-        let root = build_tree(&[
-            Some(3), Some(9), Some(20), None, None, Some(15), Some(7),
-        ]);
-        assert_eq!(
-            solve(root),
-            vec![vec![9], vec![3, 15], vec![20], vec![7]]
-        );
+        let root = build_tree(&[Some(3), Some(9), Some(20), None, None, Some(15), Some(7)]);
+        assert_eq!(solve(root), vec![vec![9], vec![3, 15], vec![20], vec![7]]);
 
         // Example 2: [3,9,8,4,0,1,7]
         let root = build_tree(&[
-            Some(3), Some(9), Some(8), Some(4), Some(0), Some(1), Some(7),
+            Some(3),
+            Some(9),
+            Some(8),
+            Some(4),
+            Some(0),
+            Some(1),
+            Some(7),
         ]);
         assert_eq!(
             solve(root),
@@ -236,9 +232,7 @@ fn main() {
     use std::hint::black_box;
     use std::time::Instant;
 
-    let root = build_tree(&[
-        Some(3), Some(9), Some(20), None, None, Some(15), Some(7),
-    ]);
+    let root = build_tree(&[Some(3), Some(9), Some(20), None, None, Some(15), Some(7)]);
     println!("Input: root = [3,9,20,null,null,15,7]");
     println!(
         "Output (my): {:?}",
@@ -252,17 +246,17 @@ fn main() {
     let iterations = 100_000;
     let start = Instant::now();
     for _ in 0..iterations {
-        black_box(my_solution::Solution::vertical_order(
-            black_box(root.clone()),
-        ));
+        black_box(my_solution::Solution::vertical_order(black_box(
+            root.clone(),
+        )));
     }
     let my_dur = start.elapsed();
 
     let start = Instant::now();
     for _ in 0..iterations {
-        black_box(ai_solution::Solution::vertical_order(
-            black_box(root.clone()),
-        ));
+        black_box(ai_solution::Solution::vertical_order(black_box(
+            root.clone(),
+        )));
     }
     let ai_dur = start.elapsed();
 

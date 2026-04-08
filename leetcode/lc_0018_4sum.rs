@@ -68,19 +68,15 @@ mod my_solution {
                 }
 
                 // Lower-bound prune: smallest possible sum with nums[i].
-                let min_sum = nums[i] as i64
-                    + nums[i + 1] as i64
-                    + nums[i + 2] as i64
-                    + nums[i + 3] as i64;
+                let min_sum =
+                    nums[i] as i64 + nums[i + 1] as i64 + nums[i + 2] as i64 + nums[i + 3] as i64;
                 if min_sum > target {
                     break;
                 }
 
                 // Upper-bound prune: largest possible sum with nums[i].
-                let max_sum = nums[i] as i64
-                    + nums[n - 3] as i64
-                    + nums[n - 2] as i64
-                    + nums[n - 1] as i64;
+                let max_sum =
+                    nums[i] as i64 + nums[n - 3] as i64 + nums[n - 2] as i64 + nums[n - 1] as i64;
                 if max_sum < target {
                     continue;
                 }
@@ -92,19 +88,15 @@ mod my_solution {
                     }
 
                     // Inner lower-bound prune.
-                    let min_sum = nums[i] as i64
-                        + nums[j] as i64
-                        + nums[j + 1] as i64
-                        + nums[j + 2] as i64;
+                    let min_sum =
+                        nums[i] as i64 + nums[j] as i64 + nums[j + 1] as i64 + nums[j + 2] as i64;
                     if min_sum > target {
                         break;
                     }
 
                     // Inner upper-bound prune.
-                    let max_sum = nums[i] as i64
-                        + nums[j] as i64
-                        + nums[n - 2] as i64
-                        + nums[n - 1] as i64;
+                    let max_sum =
+                        nums[i] as i64 + nums[j] as i64 + nums[n - 2] as i64 + nums[n - 1] as i64;
                     if max_sum < target {
                         continue;
                     }
@@ -117,9 +109,7 @@ mod my_solution {
                         let sum = nums[left] as i64 + nums[right] as i64;
 
                         if sum == remainder {
-                            result.push(vec![
-                                nums[i], nums[j], nums[left], nums[right],
-                            ]);
+                            result.push(vec![nums[i], nums[j], nums[left], nums[right]]);
                             // Skip duplicates on both sides.
                             while left < right && nums[left] == nums[left + 1] {
                                 left += 1;
@@ -178,14 +168,14 @@ mod ai_solution {
             let mut i = 0;
             while i < n - 3 {
                 // Lower-bound prune.
-                let lo = nums[i] as i64 + nums[i + 1] as i64
-                    + nums[i + 2] as i64 + nums[i + 3] as i64;
+                let lo =
+                    nums[i] as i64 + nums[i + 1] as i64 + nums[i + 2] as i64 + nums[i + 3] as i64;
                 if lo > target {
                     break;
                 }
                 // Upper-bound prune.
-                let hi = nums[i] as i64 + nums[n - 3] as i64
-                    + nums[n - 2] as i64 + nums[n - 1] as i64;
+                let hi =
+                    nums[i] as i64 + nums[n - 3] as i64 + nums[n - 2] as i64 + nums[n - 1] as i64;
                 if hi < target {
                     i += 1;
                     while i < n - 3 && nums[i] == nums[i - 1] {
@@ -197,14 +187,14 @@ mod ai_solution {
                 let mut j = i + 1;
                 while j < n - 2 {
                     // Inner lower-bound prune.
-                    let lo = nums[i] as i64 + nums[j] as i64
-                        + nums[j + 1] as i64 + nums[j + 2] as i64;
+                    let lo =
+                        nums[i] as i64 + nums[j] as i64 + nums[j + 1] as i64 + nums[j + 2] as i64;
                     if lo > target {
                         break;
                     }
                     // Inner upper-bound prune.
-                    let hi = nums[i] as i64 + nums[j] as i64
-                        + nums[n - 2] as i64 + nums[n - 1] as i64;
+                    let hi =
+                        nums[i] as i64 + nums[j] as i64 + nums[n - 2] as i64 + nums[n - 1] as i64;
                     if hi < target {
                         j += 1;
                         while j < n - 2 && nums[j] == nums[j - 1] {
@@ -220,9 +210,7 @@ mod ai_solution {
                     while lo_ptr < hi_ptr {
                         let s = nums[lo_ptr] as i64 + nums[hi_ptr] as i64;
                         if s == need {
-                            result.push(vec![
-                                nums[i], nums[j], nums[lo_ptr], nums[hi_ptr],
-                            ]);
+                            result.push(vec![nums[i], nums[j], nums[lo_ptr], nums[hi_ptr]]);
                             let lv = nums[lo_ptr];
                             let rv = nums[hi_ptr];
                             while lo_ptr < hi_ptr && nums[lo_ptr] == lv {
@@ -287,9 +275,7 @@ mod tests {
 
                 #[test]
                 fn test_basic() {
-                    let result = Solution::four_sum(
-                        vec![1, 0, -1, 0, -2, 2], 0,
-                    );
+                    let result = Solution::four_sum(vec![1, 0, -1, 0, -2, 2], 0);
                     assert_eq!(
                         normalize(result),
                         normalize(vec![
@@ -302,9 +288,7 @@ mod tests {
 
                 #[test]
                 fn test_all_same() {
-                    let result = Solution::four_sum(
-                        vec![2, 2, 2, 2, 2], 8,
-                    );
+                    let result = Solution::four_sum(vec![2, 2, 2, 2, 2], 8);
                     assert_eq!(result, vec![vec![2, 2, 2, 2]]);
                 }
 
@@ -316,9 +300,7 @@ mod tests {
 
                 #[test]
                 fn test_no_solution() {
-                    let result = Solution::four_sum(
-                        vec![1, 2, 3, 4], 100,
-                    );
+                    let result = Solution::four_sum(vec![1, 2, 3, 4], 100);
                     assert!(result.is_empty());
                 }
 
@@ -327,16 +309,14 @@ mod tests {
                     // Tests i64 overflow protection: 10^9 * 4 > i32::MAX.
                     let result = Solution::four_sum(
                         vec![1000000000, 1000000000, 1000000000, 1000000000],
-                        -294967296,  // not reachable
+                        -294967296, // not reachable
                     );
                     assert!(result.is_empty());
                 }
 
                 #[test]
                 fn test_negative_target() {
-                    let result = Solution::four_sum(
-                        vec![-3, -2, -1, 0, 0, 1, 2, 3], -2,
-                    );
+                    let result = Solution::four_sum(vec![-3, -2, -1, 0, 0, 1, 2, 3], -2);
                     // Expected: [-3,-2,0,3], [-3,-2,1,2], [-3,-1,0,2],
                     //           [-3,0,0,1], [-2,-1,0,1]
                     assert_eq!(normalize(result).len(), 5);
@@ -344,9 +324,7 @@ mod tests {
 
                 #[test]
                 fn test_exact_four() {
-                    let result = Solution::four_sum(
-                        vec![0, 0, 0, 0], 0,
-                    );
+                    let result = Solution::four_sum(vec![0, 0, 0, 0], 0);
                     assert_eq!(result, vec![vec![0, 0, 0, 0]]);
                 }
             }

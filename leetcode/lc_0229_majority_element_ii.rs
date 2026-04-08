@@ -148,10 +148,7 @@ mod tests {
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        sorted(<$solution>::majority_element(vec![1])),
-                        vec![1],
-                    );
+                    assert_eq!(sorted(<$solution>::majority_element(vec![1])), vec![1],);
                 }
 
                 #[test]

@@ -95,10 +95,7 @@ mod ai_solution {
         ///
         /// # Returns
         /// Partitioned list
-        pub fn partition(
-            mut head: Option<Box<ListNode>>,
-            x: i32,
-        ) -> Option<Box<ListNode>> {
+        pub fn partition(mut head: Option<Box<ListNode>>, x: i32) -> Option<Box<ListNode>> {
             let mut less_head = Box::new(ListNode::new(0));
             let mut geq_head = Box::new(ListNode::new(0));
             let mut less = &mut less_head;
@@ -181,13 +178,16 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let vals: Vec<i32> = (0..50).map(|i| if i % 2 == 0 { i } else { 50 - i }).collect();
+        let vals: Vec<i32> = (0..50)
+            .map(|i| if i % 2 == 0 { i } else { 50 - i })
+            .collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let list = build_list(&vals);
             std::hint::black_box(crate::my_solution::Solution::partition(
-                std::hint::black_box(list), 25,
+                std::hint::black_box(list),
+                25,
             ));
         }
         let my_duration = start.elapsed();
@@ -196,7 +196,8 @@ mod tests {
         for _ in 0..iterations {
             let list = build_list(&vals);
             std::hint::black_box(crate::ai_solution::Solution::partition(
-                std::hint::black_box(list), 25,
+                std::hint::black_box(list),
+                25,
             ));
         }
         let ai_duration = start.elapsed();

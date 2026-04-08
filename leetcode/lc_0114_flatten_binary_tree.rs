@@ -28,7 +28,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -150,15 +154,11 @@ mod ai_solution {
 }
 
 fn main() {
-    let mut root = build_tree(&[
-        Some(1), Some(2), Some(5), Some(3), Some(4), None, Some(6),
-    ]);
+    let mut root = build_tree(&[Some(1), Some(2), Some(5), Some(3), Some(4), None, Some(6)]);
     my_solution::Solution::flatten(&mut root);
     println!("my flatten: {:?}", collect_chain(&root));
 
-    let mut root = build_tree(&[
-        Some(1), Some(2), Some(5), Some(3), Some(4), None, Some(6),
-    ]);
+    let mut root = build_tree(&[Some(1), Some(2), Some(5), Some(3), Some(4), None, Some(6)]);
     ai_solution::Solution::flatten(&mut root);
     println!("ai flatten: {:?}", collect_chain(&root));
 }
@@ -174,9 +174,8 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    let mut root = build_tree(&[
-                        Some(1), Some(2), Some(5), Some(3), Some(4), None, Some(6),
-                    ]);
+                    let mut root =
+                        build_tree(&[Some(1), Some(2), Some(5), Some(3), Some(4), None, Some(6)]);
                     <$solution>::flatten(&mut root);
                     assert_eq!(collect_chain(&root), vec![1, 2, 3, 4, 5, 6]);
                 }
@@ -223,9 +222,7 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let mut root = build_tree(&vals);
-            crate::my_solution::Solution::flatten(
-                std::hint::black_box(&mut root),
-            );
+            crate::my_solution::Solution::flatten(std::hint::black_box(&mut root));
             std::hint::black_box(&root);
         }
         let my_duration = start.elapsed();
@@ -233,9 +230,7 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let mut root = build_tree(&vals);
-            crate::ai_solution::Solution::flatten(
-                std::hint::black_box(&mut root),
-            );
+            crate::ai_solution::Solution::flatten(std::hint::black_box(&mut root));
             std::hint::black_box(&root);
         }
         let ai_duration = start.elapsed();

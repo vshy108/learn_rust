@@ -27,14 +27,20 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
 type Node = Option<Rc<RefCell<TreeNode>>>;
 
 fn build_tree(vals: &[Option<i32>]) -> Node {
-    if vals.is_empty() || vals[0].is_none() { return None; }
+    if vals.is_empty() || vals[0].is_none() {
+        return None;
+    }
     let root = Rc::new(RefCell::new(TreeNode::new(vals[0].expect("checked"))));
     let mut queue = std::collections::VecDeque::new();
     queue.push_back(Rc::clone(&root));
@@ -143,27 +149,18 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     let root = build_tree(&[Some(1), None, Some(2), Some(3)]);
-                    assert_eq!(
-                        <$solution>::postorder_traversal(root),
-                        vec![3, 2, 1],
-                    );
+                    assert_eq!(<$solution>::postorder_traversal(root), vec![3, 2, 1],);
                 }
 
                 #[test]
                 fn test_complete() {
                     let root = build_tree(&[Some(1), Some(2), Some(3)]);
-                    assert_eq!(
-                        <$solution>::postorder_traversal(root),
-                        vec![2, 3, 1],
-                    );
+                    assert_eq!(<$solution>::postorder_traversal(root), vec![2, 3, 1],);
                 }
 
                 #[test]
                 fn test_empty() {
-                    assert_eq!(
-                        <$solution>::postorder_traversal(None),
-                        Vec::<i32>::new(),
-                    );
+                    assert_eq!(<$solution>::postorder_traversal(None), Vec::<i32>::new(),);
                 }
 
                 #[test]
@@ -175,10 +172,7 @@ mod tests {
                 #[test]
                 fn test_left_skewed() {
                     let root = build_tree(&[Some(1), Some(2), None, Some(3)]);
-                    assert_eq!(
-                        <$solution>::postorder_traversal(root),
-                        vec![3, 2, 1],
-                    );
+                    assert_eq!(<$solution>::postorder_traversal(root), vec![3, 2, 1],);
                 }
             }
         };
@@ -195,21 +189,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::postorder_traversal(
-                    std::hint::black_box(root.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::postorder_traversal(
+                std::hint::black_box(root.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::postorder_traversal(
-                    std::hint::black_box(root.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::postorder_traversal(
+                std::hint::black_box(root.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

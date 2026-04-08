@@ -122,12 +122,10 @@ fn main() {
         ("aabcc", "dbbca", "aadbbbaccc", false),
     ];
     for (s1, s2, s3, expected) in cases {
-        let my = my_solution::Solution::is_interleave(
-            s1.to_string(), s2.to_string(), s3.to_string(),
-        );
-        let ai = ai_solution::Solution::is_interleave(
-            s1.to_string(), s2.to_string(), s3.to_string(),
-        );
+        let my =
+            my_solution::Solution::is_interleave(s1.to_string(), s2.to_string(), s3.to_string());
+        let ai =
+            ai_solution::Solution::is_interleave(s1.to_string(), s2.to_string(), s3.to_string());
         println!("{s1}+{s2}={s3}? my={my}, ai={ai} (expected={expected})");
     }
 }

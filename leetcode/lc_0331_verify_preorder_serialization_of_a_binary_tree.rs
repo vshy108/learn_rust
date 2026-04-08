@@ -68,17 +68,17 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&str) -> bool) {
-    assert!(f("9,3,4,#,#,1,#,#,2,#,6,#,#"));
-    assert!(!f("1,#"));
-    assert!(!f("9,#,#,1"));
-    assert!(f("#")); // single null = empty tree
-    assert!(!f("1,#,#,#")); // extra null
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&str) -> bool) {
+        assert!(f("9,3,4,#,#,1,#,#,2,#,6,#,#"));
+        assert!(!f("1,#"));
+        assert!(!f("9,#,#,1"));
+        assert!(f("#")); // single null = empty tree
+        assert!(!f("1,#,#,#")); // extra null
+    }
 
     #[test]
     fn test_my_solution() {
@@ -96,28 +96,28 @@ fn main() {
     let iterations = 100_000;
 
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::is_valid_serialization(
-            std::hint::black_box(preorder),
-        ));
+        std::hint::black_box(my_solution::is_valid_serialization(std::hint::black_box(
+            preorder,
+        )));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::is_valid_serialization(
-            std::hint::black_box(preorder),
-        ));
+        std::hint::black_box(my_solution::is_valid_serialization(std::hint::black_box(
+            preorder,
+        )));
     }
     let my_dur = start.elapsed();
 
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::is_valid_serialization(
-            std::hint::black_box(preorder),
-        ));
+        std::hint::black_box(ai_solution::is_valid_serialization(std::hint::black_box(
+            preorder,
+        )));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::is_valid_serialization(
-            std::hint::black_box(preorder),
-        ));
+        std::hint::black_box(ai_solution::is_valid_serialization(std::hint::black_box(
+            preorder,
+        )));
     }
     let ai_dur = start.elapsed();
 

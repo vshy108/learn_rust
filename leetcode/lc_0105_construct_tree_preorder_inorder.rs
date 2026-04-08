@@ -31,7 +31,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -96,7 +100,9 @@ mod my_solution {
             }
             let root_val = preorder[0];
             // Find root position in inorder — splits into left/right subtrees
-            let mid = inorder.iter().position(|&x| x == root_val)
+            let mid = inorder
+                .iter()
+                .position(|&x| x == root_val)
                 .expect("value must exist in inorder");
             let mut node = TreeNode::new(root_val);
             node.left = Self::build(&preorder[1..=mid], &inorder[..mid]);
@@ -125,9 +131,8 @@ mod ai_solution {
         /// # Returns
         /// Root of the constructed binary tree
         pub fn build_tree(preorder: Vec<i32>, inorder: Vec<i32>) -> Node {
-            let map: HashMap<i32, usize> = inorder.iter().enumerate()
-                .map(|(i, &v)| (v, i))
-                .collect();
+            let map: HashMap<i32, usize> =
+                inorder.iter().enumerate().map(|(i, &v)| (v, i)).collect();
             let mut pre_idx = 0;
             Self::build(&preorder, &mut pre_idx, 0, inorder.len(), &map)
         }

@@ -159,8 +159,16 @@ fn main() {
     let nums = vec![-2, 0, 3, -5, 2, -1];
     let my = my_solution::NumArray::new(nums.clone());
     let ai = ai_solution::NumArray::new(nums);
-    println!("sum_range(0,2): My={}, AI={}", my.sum_range(0, 2), ai.sum_range(0, 2));
-    println!("sum_range(2,5): My={}, AI={}", my.sum_range(2, 5), ai.sum_range(2, 5));
+    println!(
+        "sum_range(0,2): My={}, AI={}",
+        my.sum_range(0, 2),
+        ai.sum_range(0, 2)
+    );
+    println!(
+        "sum_range(2,5): My={}, AI={}",
+        my.sum_range(2, 5),
+        ai.sum_range(2, 5)
+    );
 
     // Benchmark
     let iterations = 100_000;

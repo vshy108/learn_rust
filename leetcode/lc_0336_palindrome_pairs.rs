@@ -133,26 +133,27 @@ mod ai_solution {
     }
 }
 
+#[cfg(test)]
 fn sorted(mut v: Vec<[usize; 2]>) -> Vec<[usize; 2]> {
     v.sort_unstable();
     v
 }
 
-fn run_tests(f: fn(&[&str]) -> Vec<[usize; 2]>) {
-    // Example 1
-    let result = sorted(f(&["abcd", "dcba", "lls", "s", "sssll"]));
-    assert_eq!(result, sorted(vec![[0, 1], [1, 0], [3, 2], [2, 4]]));
-    // Example 2
-    let result = sorted(f(&["bat", "tab", "cat"]));
-    assert_eq!(result, sorted(vec![[0, 1], [1, 0]]));
-    // Example 3: empty string
-    let result = sorted(f(&["a", ""]));
-    assert_eq!(result, sorted(vec![[0, 1], [1, 0]]));
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[&str]) -> Vec<[usize; 2]>) {
+        // Example 1
+        let result = sorted(f(&["abcd", "dcba", "lls", "s", "sssll"]));
+        assert_eq!(result, sorted(vec![[0, 1], [1, 0], [3, 2], [2, 4]]));
+        // Example 2
+        let result = sorted(f(&["bat", "tab", "cat"]));
+        assert_eq!(result, sorted(vec![[0, 1], [1, 0]]));
+        // Example 3: empty string
+        let result = sorted(f(&["a", ""]));
+        assert_eq!(result, sorted(vec![[0, 1], [1, 0]]));
+    }
 
     #[test]
     fn test_my_solution() {
@@ -170,28 +171,20 @@ fn main() {
     let iterations = 100_000;
 
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::palindrome_pairs(
-            std::hint::black_box(&words),
-        ));
+        std::hint::black_box(my_solution::palindrome_pairs(std::hint::black_box(&words)));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::palindrome_pairs(
-            std::hint::black_box(&words),
-        ));
+        std::hint::black_box(my_solution::palindrome_pairs(std::hint::black_box(&words)));
     }
     let my_dur = start.elapsed();
 
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::palindrome_pairs(
-            std::hint::black_box(&words),
-        ));
+        std::hint::black_box(ai_solution::palindrome_pairs(std::hint::black_box(&words)));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::palindrome_pairs(
-            std::hint::black_box(&words),
-        ));
+        std::hint::black_box(ai_solution::palindrome_pairs(std::hint::black_box(&words)));
     }
     let ai_dur = start.elapsed();
 

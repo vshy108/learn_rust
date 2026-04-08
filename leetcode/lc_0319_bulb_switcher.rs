@@ -86,9 +86,9 @@ mod tests {
         assert_eq!(solve(3), 1);
         assert_eq!(solve(0), 0);
         assert_eq!(solve(1), 1);
-        assert_eq!(solve(4), 2);   // sqrt(4)=2
-        assert_eq!(solve(9), 3);   // sqrt(9)=3
-        assert_eq!(solve(10), 3);  // sqrt(10)≈3.16 -> 3
+        assert_eq!(solve(4), 2); // sqrt(4)=2
+        assert_eq!(solve(9), 3); // sqrt(9)=3
+        assert_eq!(solve(10), 3); // sqrt(10)≈3.16 -> 3
         assert_eq!(solve(100), 10);
         assert_eq!(solve(2), 1);
         assert_eq!(solve(1_000_000_000), 31622);

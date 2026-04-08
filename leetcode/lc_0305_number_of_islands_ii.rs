@@ -150,7 +150,10 @@ mod tests {
     #[test]
     fn test_example1() {
         let positions = vec![vec![0, 0], vec![0, 1], vec![1, 2], vec![2, 1]];
-        assert_eq!(MySolution::num_islands2(3, 3, positions.clone()), vec![1, 1, 2, 3]);
+        assert_eq!(
+            MySolution::num_islands2(3, 3, positions.clone()),
+            vec![1, 1, 2, 3]
+        );
         assert_eq!(AiSolution::num_islands2(3, 3, positions), vec![1, 1, 2, 3]);
     }
 
@@ -164,7 +167,10 @@ mod tests {
     #[test]
     fn test_duplicate_position() {
         let positions = vec![vec![0, 0], vec![0, 0]];
-        assert_eq!(MySolution::num_islands2(2, 2, positions.clone()), vec![1, 1]);
+        assert_eq!(
+            MySolution::num_islands2(2, 2, positions.clone()),
+            vec![1, 1]
+        );
         assert_eq!(AiSolution::num_islands2(2, 2, positions), vec![1, 1]);
     }
 
@@ -172,39 +178,55 @@ mod tests {
     fn test_merge_two_islands() {
         // Two separate islands then a bridge
         let positions = vec![vec![0, 0], vec![0, 2], vec![0, 1]];
-        assert_eq!(MySolution::num_islands2(1, 3, positions.clone()), vec![1, 2, 1]);
+        assert_eq!(
+            MySolution::num_islands2(1, 3, positions.clone()),
+            vec![1, 2, 1]
+        );
         assert_eq!(AiSolution::num_islands2(1, 3, positions), vec![1, 2, 1]);
     }
 
     #[test]
     fn test_fill_row() {
         let positions = vec![vec![0, 0], vec![0, 1], vec![0, 2]];
-        assert_eq!(MySolution::num_islands2(1, 3, positions.clone()), vec![1, 1, 1]);
+        assert_eq!(
+            MySolution::num_islands2(1, 3, positions.clone()),
+            vec![1, 1, 1]
+        );
         assert_eq!(AiSolution::num_islands2(1, 3, positions), vec![1, 1, 1]);
     }
 
     #[test]
     fn test_fill_col() {
         let positions = vec![vec![0, 0], vec![1, 0], vec![2, 0]];
-        assert_eq!(MySolution::num_islands2(3, 1, positions.clone()), vec![1, 1, 1]);
+        assert_eq!(
+            MySolution::num_islands2(3, 1, positions.clone()),
+            vec![1, 1, 1]
+        );
         assert_eq!(AiSolution::num_islands2(3, 1, positions), vec![1, 1, 1]);
     }
 
     #[test]
     fn test_corners() {
         let positions = vec![vec![0, 0], vec![0, 2], vec![2, 0], vec![2, 2]];
-        assert_eq!(MySolution::num_islands2(3, 3, positions.clone()), vec![1, 2, 3, 4]);
+        assert_eq!(
+            MySolution::num_islands2(3, 3, positions.clone()),
+            vec![1, 2, 3, 4]
+        );
         assert_eq!(AiSolution::num_islands2(3, 3, positions), vec![1, 2, 3, 4]);
     }
 
     #[test]
     fn test_merge_four() {
         // Four corners then center merges all
-        let positions = vec![
-            vec![0, 1], vec![1, 0], vec![1, 2], vec![2, 1], vec![1, 1],
-        ];
-        assert_eq!(MySolution::num_islands2(3, 3, positions.clone()), vec![1, 2, 3, 4, 1]);
-        assert_eq!(AiSolution::num_islands2(3, 3, positions), vec![1, 2, 3, 4, 1]);
+        let positions = vec![vec![0, 1], vec![1, 0], vec![1, 2], vec![2, 1], vec![1, 1]];
+        assert_eq!(
+            MySolution::num_islands2(3, 3, positions.clone()),
+            vec![1, 2, 3, 4, 1]
+        );
+        assert_eq!(
+            AiSolution::num_islands2(3, 3, positions),
+            vec![1, 2, 3, 4, 1]
+        );
     }
 
     #[test]
@@ -217,7 +239,10 @@ mod tests {
     #[test]
     fn test_l_shape_merge() {
         let positions = vec![vec![0, 0], vec![1, 0], vec![1, 1]];
-        assert_eq!(MySolution::num_islands2(2, 2, positions.clone()), vec![1, 1, 1]);
+        assert_eq!(
+            MySolution::num_islands2(2, 2, positions.clone()),
+            vec![1, 1, 1]
+        );
         assert_eq!(AiSolution::num_islands2(2, 2, positions), vec![1, 1, 1]);
     }
 }

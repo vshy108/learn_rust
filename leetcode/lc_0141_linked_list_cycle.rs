@@ -39,15 +39,15 @@ fn build_cyclic_list(vals: &[i32], pos: i32) -> Link {
     if vals.is_empty() {
         return None;
     }
-    let nodes: Vec<Rc<RefCell<ListNode>>> = vals.iter()
+    let nodes: Vec<Rc<RefCell<ListNode>>> = vals
+        .iter()
         .map(|&v| Rc::new(RefCell::new(ListNode::new(v))))
         .collect();
     for i in 0..nodes.len() - 1 {
         nodes[i].borrow_mut().next = Some(Rc::clone(&nodes[i + 1]));
     }
     if pos >= 0 {
-        nodes.last().expect("non-empty").borrow_mut().next =
-            Some(Rc::clone(&nodes[pos as usize]));
+        nodes.last().expect("non-empty").borrow_mut().next = Some(Rc::clone(&nodes[pos as usize]));
     }
     Some(Rc::clone(&nodes[0]))
 }

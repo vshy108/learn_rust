@@ -178,17 +178,19 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::my_pow(std::hint::black_box(x), std::hint::black_box(n)),
-            );
+            std::hint::black_box(crate::my_solution::Solution::my_pow(
+                std::hint::black_box(x),
+                std::hint::black_box(n),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::my_pow(std::hint::black_box(x), std::hint::black_box(n)),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::my_pow(
+                std::hint::black_box(x),
+                std::hint::black_box(n),
+            ));
         }
         let ai_duration = start.elapsed();
 

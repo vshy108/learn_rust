@@ -119,9 +119,9 @@ mod ai_solution {
         pub fn is_unique(&self, word: &str) -> bool {
             let a = abbr(word);
             match self.d.get(&a) {
-                None => true, // no word in dict has this abbreviation
+                None => true,               // no word in dict has this abbreviation
                 Some(Some(w)) => w == word, // only one unique word, must match
-                Some(None) => false, // conflict: multiple different words
+                Some(None) => false,        // conflict: multiple different words
             }
         }
     }
@@ -254,9 +254,14 @@ mod tests {
 fn main() {
     println!("LeetCode 288: Unique Word Abbreviation");
     let dict = vec!["deer", "door", "cake", "card"];
-    let vwa = my_solution::ValidWordAbbr::new(&dict);
+    let my_vwa = my_solution::ValidWordAbbr::new(&dict);
+    let ai_vwa = ai_solution::ValidWordAbbr::new(&dict);
     for word in &["dear", "cart", "cane", "make", "cake"] {
-        println!("is_unique(\"{word}\") = {}", vwa.is_unique(word));
+        println!(
+            "is_unique(\"{word}\") = my:{}, ai:{}",
+            my_vwa.is_unique(word),
+            ai_vwa.is_unique(word),
+        );
     }
 }
 
@@ -267,12 +272,10 @@ mod bench {
     #[test]
     fn bench_solutions() {
         let dict: Vec<&str> = vec![
-            "deer", "door", "cake", "card", "hello", "world", "apple",
-            "apply", "grape", "graph", "liver", "lover", "river", "rider",
+            "deer", "door", "cake", "card", "hello", "world", "apple", "apply", "grape", "graph",
+            "liver", "lover", "river", "rider",
         ];
-        let queries = vec![
-            "dear", "cart", "cane", "make", "cake", "hello", "grope",
-        ];
+        let queries = vec!["dear", "cart", "cane", "make", "cake", "hello", "grope"];
         let iterations = 100_000;
 
         let my = my_solution::ValidWordAbbr::new(&dict);

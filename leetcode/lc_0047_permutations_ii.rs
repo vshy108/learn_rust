@@ -158,11 +158,7 @@ mod tests {
                 #[test]
                 fn test_with_duplicates() {
                     let result = sorted(<$solution>::permute_unique(vec![1, 1, 2]));
-                    let expected = sorted(vec![
-                        vec![1, 1, 2],
-                        vec![1, 2, 1],
-                        vec![2, 1, 1],
-                    ]);
+                    let expected = sorted(vec![vec![1, 1, 2], vec![1, 2, 1], vec![2, 1, 1]]);
                     assert_eq!(result, expected);
                 }
 
@@ -199,11 +195,7 @@ mod tests {
                 #[test]
                 fn test_negative_numbers() {
                     let result = sorted(<$solution>::permute_unique(vec![-1, -1, 2]));
-                    let expected = sorted(vec![
-                        vec![-1, -1, 2],
-                        vec![-1, 2, -1],
-                        vec![2, -1, -1],
-                    ]);
+                    let expected = sorted(vec![vec![-1, -1, 2], vec![-1, 2, -1], vec![2, -1, -1]]);
                     assert_eq!(result, expected);
                 }
             }
@@ -220,17 +212,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::permute_unique(std::hint::black_box(nums.clone())),
-            );
+            std::hint::black_box(crate::my_solution::Solution::permute_unique(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::permute_unique(std::hint::black_box(nums.clone())),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::permute_unique(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

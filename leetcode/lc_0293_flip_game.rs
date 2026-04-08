@@ -33,9 +33,7 @@ mod my_solution {
     use super::Solution;
 
     impl Solution {
-        pub fn generate_possible_next_moves_my(
-            current_state: &str,
-        ) -> Vec<String> {
+        pub fn generate_possible_next_moves_my(current_state: &str) -> Vec<String> {
             let mut s: Vec<u8> = current_state.bytes().collect();
             let mut ans = Vec::new();
             for i in 0..s.len().saturating_sub(1) {
@@ -64,9 +62,7 @@ mod ai_solution {
     use super::Solution;
 
     impl Solution {
-        pub fn generate_possible_next_moves_ai(
-            current_state: &str,
-        ) -> Vec<String> {
+        pub fn generate_possible_next_moves_ai(current_state: &str) -> Vec<String> {
             let s = current_state.as_bytes();
             let mut ans = Vec::new();
             for i in 0..s.len().saturating_sub(1) {
@@ -91,17 +87,14 @@ mod tests {
         ($name:ident, $input:expr, $expected:expr) => {
             #[test]
             fn $name() {
-                let mut expected: Vec<String> =
-                    $expected.iter().map(|s| s.to_string()).collect();
+                let mut expected: Vec<String> = $expected.iter().map(|s| s.to_string()).collect();
                 expected.sort();
 
-                let mut my_res =
-                    Solution::generate_possible_next_moves_my($input);
+                let mut my_res = Solution::generate_possible_next_moves_my($input);
                 my_res.sort();
                 assert_eq!(my_res, expected, "my_solution failed");
 
-                let mut ai_res =
-                    Solution::generate_possible_next_moves_ai($input);
+                let mut ai_res = Solution::generate_possible_next_moves_ai($input);
                 ai_res.sort();
                 assert_eq!(ai_res, expected, "ai_solution failed");
             }
@@ -115,11 +108,7 @@ mod tests {
     test_flip!(test_no_move, "+-+-", Vec::<&str>::new());
 
     // All plusses
-    test_flip!(
-        test_all_plus_3,
-        "+++",
-        vec!["--+", "+--"]
-    );
+    test_flip!(test_all_plus_3, "+++", vec!["--+", "+--"]);
 
     // Single pair
     test_flip!(test_single_pair, "++", vec!["--"]);
@@ -131,11 +120,7 @@ mod tests {
     test_flip!(test_mixed, "-++--", vec!["-----"]);
 
     // Longer string
-    test_flip!(
-        test_longer,
-        "++--++",
-        vec!["----++", "++----"]
-    );
+    test_flip!(test_longer, "++--++", vec!["----++", "++----"]);
 
     // Two characters, no move
     test_flip!(test_two_minus, "--", Vec::<&str>::new());
@@ -168,27 +153,19 @@ mod bench {
 
         // Warm up
         for _ in 0..1_000 {
-            std::hint::black_box(
-                Solution::generate_possible_next_moves_my(&state),
-            );
-            std::hint::black_box(
-                Solution::generate_possible_next_moves_ai(&state),
-            );
+            std::hint::black_box(Solution::generate_possible_next_moves_my(&state));
+            std::hint::black_box(Solution::generate_possible_next_moves_ai(&state));
         }
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                Solution::generate_possible_next_moves_my(&state),
-            );
+            std::hint::black_box(Solution::generate_possible_next_moves_my(&state));
         }
         let my_dur = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                Solution::generate_possible_next_moves_ai(&state),
-            );
+            std::hint::black_box(Solution::generate_possible_next_moves_ai(&state));
         }
         let ai_dur = start.elapsed();
 

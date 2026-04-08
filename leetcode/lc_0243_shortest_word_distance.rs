@@ -45,11 +45,7 @@ mod my_solution {
 
     impl Solution {
         /// Return the shortest distance between word1 and word2 in wordsDict.
-        pub fn shortest_distance(
-            words_dict: Vec<String>,
-            word1: String,
-            word2: String,
-        ) -> i32 {
+        pub fn shortest_distance(words_dict: Vec<String>, word1: String, word2: String) -> i32 {
             // i, j track the last-seen index of word1, word2 respectively
             // -1 means "not yet seen"
             let mut i: i32 = -1;
@@ -85,11 +81,7 @@ mod ai_solution {
 
     impl Solution {
         /// Return the shortest distance between word1 and word2 in wordsDict.
-        pub fn shortest_distance(
-            words_dict: Vec<String>,
-            word1: String,
-            word2: String,
-        ) -> i32 {
+        pub fn shortest_distance(words_dict: Vec<String>, word1: String, word2: String) -> i32 {
             // Collect indices for each word
             let mut idx1 = Vec::new();
             let mut idx2 = Vec::new();
@@ -125,11 +117,7 @@ fn main() {
         .collect();
     println!(
         "my: {}",
-        my_solution::Solution::shortest_distance(
-            words.clone(),
-            "coding".into(),
-            "practice".into()
-        )
+        my_solution::Solution::shortest_distance(words.clone(), "coding".into(), "practice".into())
     );
     println!(
         "ai: {}",
@@ -169,55 +157,37 @@ mod tests {
                 #[test]
                 fn test_adjacent() {
                     let words = make(&["a", "b"]);
-                    assert_eq!(
-                        Sol::shortest_distance(words, "a".into(), "b".into()),
-                        1
-                    );
+                    assert_eq!(Sol::shortest_distance(words, "a".into(), "b".into()), 1);
                 }
 
                 #[test]
                 fn test_far_apart() {
                     let words = make(&["a", "c", "c", "c", "b"]);
-                    assert_eq!(
-                        Sol::shortest_distance(words, "a".into(), "b".into()),
-                        4
-                    );
+                    assert_eq!(Sol::shortest_distance(words, "a".into(), "b".into()), 4);
                 }
 
                 #[test]
                 fn test_multiple_occurrences() {
                     let words = make(&["a", "b", "c", "a", "d", "b"]);
-                    assert_eq!(
-                        Sol::shortest_distance(words, "a".into(), "b".into()),
-                        1
-                    );
+                    assert_eq!(Sol::shortest_distance(words, "a".into(), "b".into()), 1);
                 }
 
                 #[test]
                 fn test_reversed_args() {
                     let words = make(&["a", "b", "c", "a", "d", "b"]);
-                    assert_eq!(
-                        Sol::shortest_distance(words, "b".into(), "a".into()),
-                        1
-                    );
+                    assert_eq!(Sol::shortest_distance(words, "b".into(), "a".into()), 1);
                 }
 
                 #[test]
                 fn test_only_two_words() {
                     let words = make(&["x", "y"]);
-                    assert_eq!(
-                        Sol::shortest_distance(words, "x".into(), "y".into()),
-                        1
-                    );
+                    assert_eq!(Sol::shortest_distance(words, "x".into(), "y".into()), 1);
                 }
 
                 #[test]
                 fn test_closest_at_end() {
                     let words = make(&["a", "x", "x", "x", "b", "x", "a"]);
-                    assert_eq!(
-                        Sol::shortest_distance(words, "a".into(), "b".into()),
-                        2
-                    );
+                    assert_eq!(Sol::shortest_distance(words, "a".into(), "b".into()), 2);
                 }
             }
         };
@@ -230,9 +200,9 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let words: Vec<String> = vec![
-            "practice", "makes", "perfect", "coding", "makes", "the",
-            "sky", "is", "blue", "practice", "more", "coding", "every",
-            "day", "makes", "you", "better", "at", "coding", "practice",
+            "practice", "makes", "perfect", "coding", "makes", "the", "sky", "is", "blue",
+            "practice", "more", "coding", "every", "day", "makes", "you", "better", "at", "coding",
+            "practice",
         ]
         .into_iter()
         .map(String::from)

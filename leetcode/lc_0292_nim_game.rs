@@ -99,9 +99,10 @@ fn main() {
     println!("LeetCode 292: Nim Game");
     for n in [1, 2, 3, 4, 5, 8] {
         println!(
-            "can_win_nim({}) = {}",
+            "can_win_nim({}) = my:{}, ai:{}",
             n,
-            Solution::can_win_nim_my(n)
+            Solution::can_win_nim_my(n),
+            Solution::can_win_nim_ai(n),
         );
     }
 }

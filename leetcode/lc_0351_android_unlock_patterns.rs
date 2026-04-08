@@ -24,14 +24,22 @@ mod my_solution {
     pub fn number_of_patterns(m: i32, n: i32) -> i32 {
         // cross[i][j] = the dot that must be visited before jumping from i to j
         let mut cross = [[0u8; 10]; 10];
-        cross[1][3] = 2; cross[3][1] = 2;
-        cross[1][7] = 4; cross[7][1] = 4;
-        cross[1][9] = 5; cross[9][1] = 5;
-        cross[2][8] = 5; cross[8][2] = 5;
-        cross[3][7] = 5; cross[7][3] = 5;
-        cross[3][9] = 6; cross[9][3] = 6;
-        cross[4][6] = 5; cross[6][4] = 5;
-        cross[7][9] = 8; cross[9][7] = 8;
+        cross[1][3] = 2;
+        cross[3][1] = 2;
+        cross[1][7] = 4;
+        cross[7][1] = 4;
+        cross[1][9] = 5;
+        cross[9][1] = 5;
+        cross[2][8] = 5;
+        cross[8][2] = 5;
+        cross[3][7] = 5;
+        cross[7][3] = 5;
+        cross[3][9] = 6;
+        cross[9][3] = 6;
+        cross[4][6] = 5;
+        cross[6][4] = 5;
+        cross[7][9] = 8;
+        cross[9][7] = 8;
 
         let mut vis = [false; 10];
 
@@ -75,14 +83,22 @@ mod my_solution {
 mod ai_solution {
     pub fn number_of_patterns(m: i32, n: i32) -> i32 {
         let mut cross = [[0u8; 10]; 10];
-        cross[1][3] = 2; cross[3][1] = 2;
-        cross[1][7] = 4; cross[7][1] = 4;
-        cross[1][9] = 5; cross[9][1] = 5;
-        cross[2][8] = 5; cross[8][2] = 5;
-        cross[3][7] = 5; cross[7][3] = 5;
-        cross[3][9] = 6; cross[9][3] = 6;
-        cross[4][6] = 5; cross[6][4] = 5;
-        cross[7][9] = 8; cross[9][7] = 8;
+        cross[1][3] = 2;
+        cross[3][1] = 2;
+        cross[1][7] = 4;
+        cross[7][1] = 4;
+        cross[1][9] = 5;
+        cross[9][1] = 5;
+        cross[2][8] = 5;
+        cross[8][2] = 5;
+        cross[3][7] = 5;
+        cross[7][3] = 5;
+        cross[3][9] = 6;
+        cross[9][3] = 6;
+        cross[4][6] = 5;
+        cross[6][4] = 5;
+        cross[7][9] = 8;
+        cross[9][7] = 8;
 
         let mut vis = [false; 10];
         let mut total = 0;
@@ -117,16 +133,16 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(i32, i32) -> i32) {
-    assert_eq!(f(1, 1), 9);
-    assert_eq!(f(1, 2), 65);
-    assert_eq!(f(2, 2), 56); // 65 - 9
-    assert_eq!(f(1, 9), 389497);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(i32, i32) -> i32) {
+        assert_eq!(f(1, 1), 9);
+        assert_eq!(f(1, 2), 65);
+        assert_eq!(f(2, 2), 56); // 65 - 9
+        assert_eq!(f(1, 9), 389497);
+    }
 
     #[test]
     fn test_my_solution() {

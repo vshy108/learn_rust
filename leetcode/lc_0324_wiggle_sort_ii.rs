@@ -30,8 +30,8 @@ mod my_solution {
             arr.sort_unstable();
             let n = arr.len();
             // i starts at the middle, j at the end — both go backwards
-            let mut i = (n - 1) / 2;  // last index of lower half
-            let mut j = n - 1;        // last index of upper half
+            let mut i = (n - 1) / 2; // last index of lower half
+            let mut j = n - 1; // last index of upper half
 
             for k in 0..n {
                 if k % 2 == 0 {

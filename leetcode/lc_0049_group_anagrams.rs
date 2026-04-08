@@ -171,25 +171,27 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let strs: Vec<String> = ["eat", "tea", "tan", "ate", "nat", "bat", "listen", "silent",
-            "hello", "world", "abc", "bca", "cab", "xyz", "zyx"]
-            .iter()
-            .map(|s| s.to_string())
-            .collect();
+        let strs: Vec<String> = [
+            "eat", "tea", "tan", "ate", "nat", "bat", "listen", "silent", "hello", "world", "abc",
+            "bca", "cab", "xyz", "zyx",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::group_anagrams(std::hint::black_box(strs.clone())),
-            );
+            std::hint::black_box(crate::my_solution::Solution::group_anagrams(
+                std::hint::black_box(strs.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::group_anagrams(std::hint::black_box(strs.clone())),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::group_anagrams(
+                std::hint::black_box(strs.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

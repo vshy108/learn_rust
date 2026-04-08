@@ -29,8 +29,8 @@
 /// Time: O(n * m * log(n*m)) where m = primes.len()
 /// Space: O(n * m) for the heap
 mod my_solution {
-    use std::collections::BinaryHeap;
     use std::cmp::Reverse;
+    use std::collections::BinaryHeap;
 
     pub struct Solution;
 

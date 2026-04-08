@@ -81,7 +81,7 @@ mod ai_solution {
             let (r_rob, r_skip) = if right < n { dp[right] } else { (0, 0) };
 
             dp[idx] = (
-                val + l_skip + r_skip,             // rob this node
+                val + l_skip + r_skip,                 // rob this node
                 l_rob.max(l_skip) + r_rob.max(r_skip), // skip this node
             );
         }
@@ -90,18 +90,24 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[Option<i32>]) -> i32) {
-    // Example 1: [3,2,3,null,3,null,1] => 3+3+1=7
-    assert_eq!(f(&[Some(3), Some(2), Some(3), None, Some(3), None, Some(1)]), 7);
-    // Example 2: [3,4,5,1,3,null,1] => 4+5=9
-    assert_eq!(f(&[Some(3), Some(4), Some(5), Some(1), Some(3), None, Some(1)]), 9);
-    // Single node
-    assert_eq!(f(&[Some(5)]), 5);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[Option<i32>]) -> i32) {
+        // Example 1: [3,2,3,null,3,null,1] => 3+3+1=7
+        assert_eq!(
+            f(&[Some(3), Some(2), Some(3), None, Some(3), None, Some(1)]),
+            7
+        );
+        // Example 2: [3,4,5,1,3,null,1] => 4+5=9
+        assert_eq!(
+            f(&[Some(3), Some(4), Some(5), Some(1), Some(3), None, Some(1)]),
+            9
+        );
+        // Single node
+        assert_eq!(f(&[Some(5)]), 5);
+    }
 
     #[test]
     fn test_my_solution() {

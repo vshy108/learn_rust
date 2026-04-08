@@ -188,17 +188,17 @@ fn main() {
     let iterations = 100_000;
     let start = Instant::now();
     for _ in 0..iterations {
-        black_box(my_solution::Solution::remove_duplicate_letters(
-            black_box(s.clone()),
-        ));
+        black_box(my_solution::Solution::remove_duplicate_letters(black_box(
+            s.clone(),
+        )));
     }
     let my_dur = start.elapsed();
 
     let start = Instant::now();
     for _ in 0..iterations {
-        black_box(ai_solution::Solution::remove_duplicate_letters(
-            black_box(s.clone()),
-        ));
+        black_box(ai_solution::Solution::remove_duplicate_letters(black_box(
+            s.clone(),
+        )));
     }
     let ai_dur = start.elapsed();
 

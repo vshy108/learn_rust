@@ -41,11 +41,19 @@ mod my_solution {
             dp[0][0] = 1;
             // Fill first row
             for j in 1..n {
-                dp[0][j] = if obstacle_grid[0][j] == 1 { 0 } else { dp[0][j - 1] };
+                dp[0][j] = if obstacle_grid[0][j] == 1 {
+                    0
+                } else {
+                    dp[0][j - 1]
+                };
             }
             // Fill first column
             for i in 1..m {
-                dp[i][0] = if obstacle_grid[i][0] == 1 { 0 } else { dp[i - 1][0] };
+                dp[i][0] = if obstacle_grid[i][0] == 1 {
+                    0
+                } else {
+                    dp[i - 1][0]
+                };
             }
             for i in 1..m {
                 for j in 1..n {
@@ -153,26 +161,32 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let grid: Vec<Vec<i32>> = (0..50)
-            .map(|i| (0..50).map(|j| if (i + j) % 7 == 0 && (i, j) != (0, 0) { 1 } else { 0 }).collect())
+            .map(|i| {
+                (0..50)
+                    .map(|j| {
+                        if (i + j) % 7 == 0 && (i, j) != (0, 0) {
+                            1
+                        } else {
+                            0
+                        }
+                    })
+                    .collect()
+            })
             .collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::unique_paths_with_obstacles(
-                    std::hint::black_box(grid.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::unique_paths_with_obstacles(
+                std::hint::black_box(grid.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::unique_paths_with_obstacles(
-                    std::hint::black_box(grid.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::unique_paths_with_obstacles(
+                std::hint::black_box(grid.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

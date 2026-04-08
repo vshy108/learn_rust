@@ -76,25 +76,29 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[NestedInt]) -> Vec<i32>) {
-    use NestedInt::{Int, List};
-    // Example 1: [[1,1],2,[1,1]] => [1,1,2,1,1]
-    assert_eq!(
-        f(&[List(vec![Int(1), Int(1)]), Int(2), List(vec![Int(1), Int(1)])]),
-        vec![1, 1, 2, 1, 1]
-    );
-    // Example 2: [1,[4,[6]]] => [1,4,6]
-    assert_eq!(
-        f(&[Int(1), List(vec![Int(4), List(vec![Int(6)])])]),
-        vec![1, 4, 6]
-    );
-    // Empty nested list
-    assert_eq!(f(&[List(vec![])]), Vec::<i32>::new());
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[NestedInt]) -> Vec<i32>) {
+        use NestedInt::{Int, List};
+        // Example 1: [[1,1],2,[1,1]] => [1,1,2,1,1]
+        assert_eq!(
+            f(&[
+                List(vec![Int(1), Int(1)]),
+                Int(2),
+                List(vec![Int(1), Int(1)])
+            ]),
+            vec![1, 1, 2, 1, 1]
+        );
+        // Example 2: [1,[4,[6]]] => [1,4,6]
+        assert_eq!(
+            f(&[Int(1), List(vec![Int(4), List(vec![Int(6)])])]),
+            vec![1, 4, 6]
+        );
+        // Empty nested list
+        assert_eq!(f(&[List(vec![])]), Vec::<i32>::new());
+    }
 
     #[test]
     fn test_my_solution() {

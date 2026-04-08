@@ -167,7 +167,10 @@ fn main() {
         for &q in &[1, 2, 1] {
             let mut buf = Vec::new();
             let result = sol.read(&mut reader, &mut buf, q);
-            println!("my: read({q}) = {result}, buf={:?}", String::from_utf8_lossy(&buf));
+            println!(
+                "my: read({q}) = {result}, buf={:?}",
+                String::from_utf8_lossy(&buf)
+            );
         }
     }
     println!("---");
@@ -177,7 +180,10 @@ fn main() {
         for &q in &[1, 2, 1] {
             let mut buf = Vec::new();
             let result = sol.read(&mut reader, &mut buf, q);
-            println!("ai: read({q}) = {result}, buf={:?}", String::from_utf8_lossy(&buf));
+            println!(
+                "ai: read({q}) = {result}, buf={:?}",
+                String::from_utf8_lossy(&buf)
+            );
         }
     }
 }

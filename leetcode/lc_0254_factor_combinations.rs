@@ -126,8 +126,8 @@ mod tests {
     macro_rules! test_factor_combinations {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use $solution as Sol;
                 use super::normalize;
+                use $solution as Sol;
 
                 #[test]
                 fn test_n_1() {
@@ -137,11 +137,7 @@ mod tests {
                 #[test]
                 fn test_n_12() {
                     let result = normalize(Sol::get_factors(12));
-                    let expected = normalize(vec![
-                        vec![2, 6],
-                        vec![3, 4],
-                        vec![2, 2, 3],
-                    ]);
+                    let expected = normalize(vec![vec![2, 6], vec![3, 4], vec![2, 2, 3]]);
                     assert_eq!(result, expected);
                 }
 
@@ -165,10 +161,7 @@ mod tests {
                 #[test]
                 fn test_n_8() {
                     let result = normalize(Sol::get_factors(8));
-                    let expected = normalize(vec![
-                        vec![2, 4],
-                        vec![2, 2, 2],
-                    ]);
+                    let expected = normalize(vec![vec![2, 4], vec![2, 2, 2]]);
                     assert_eq!(result, expected);
                 }
 

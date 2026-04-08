@@ -76,7 +76,9 @@ mod ai_solution {
                 } else if nums[lo] <= nums[mid] {
                     // Left half is sorted
                     if nums[lo] <= target && target < nums[mid] {
-                        if mid == 0 { break; }
+                        if mid == 0 {
+                            break;
+                        }
                         hi = mid - 1;
                     } else {
                         lo = mid + 1;
@@ -86,7 +88,9 @@ mod ai_solution {
                     if nums[mid] < target && target <= nums[hi] {
                         lo = mid + 1;
                     } else {
-                        if mid == 0 { break; }
+                        if mid == 0 {
+                            break;
+                        }
                         hi = mid - 1;
                     }
                 }
@@ -168,7 +172,8 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             std::hint::black_box(crate::my_solution::Solution::search(
-                std::hint::black_box(nums.clone()), 75,
+                std::hint::black_box(nums.clone()),
+                75,
             ));
         }
         let my_duration = start.elapsed();
@@ -176,7 +181,8 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             std::hint::black_box(crate::ai_solution::Solution::search(
-                std::hint::black_box(nums.clone()), 75,
+                std::hint::black_box(nums.clone()),
+                75,
             ));
         }
         let ai_duration = start.elapsed();

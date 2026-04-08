@@ -139,10 +139,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases: Vec<(Vec<i32>, bool)> = vec![
-        (vec![1, 2, 2, 1], true),
-        (vec![1, 2], false),
-    ];
+    let cases: Vec<(Vec<i32>, bool)> = vec![(vec![1, 2, 2, 1], true), (vec![1, 2], false)];
 
     for (vals, expected) in &cases {
         let my = my_solution::Solution::is_palindrome(build_list(vals));

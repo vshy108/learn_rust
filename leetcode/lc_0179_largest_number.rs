@@ -84,10 +84,7 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        <$solution>::largest_number(vec![10, 2]),
-                        "210",
-                    );
+                    assert_eq!(<$solution>::largest_number(vec![10, 2]), "210",);
                 }
 
                 #[test]
@@ -100,26 +97,17 @@ mod tests {
 
                 #[test]
                 fn test_all_zeros() {
-                    assert_eq!(
-                        <$solution>::largest_number(vec![0, 0]),
-                        "0",
-                    );
+                    assert_eq!(<$solution>::largest_number(vec![0, 0]), "0",);
                 }
 
                 #[test]
                 fn test_single() {
-                    assert_eq!(
-                        <$solution>::largest_number(vec![1]),
-                        "1",
-                    );
+                    assert_eq!(<$solution>::largest_number(vec![1]), "1",);
                 }
 
                 #[test]
                 fn test_same_prefix() {
-                    assert_eq!(
-                        <$solution>::largest_number(vec![12, 121]),
-                        "12121",
-                    );
+                    assert_eq!(<$solution>::largest_number(vec![12, 121]), "12121",);
                 }
             }
         };

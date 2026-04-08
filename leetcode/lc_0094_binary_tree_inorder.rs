@@ -27,7 +27,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -161,27 +165,18 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     let root = build_tree(&[Some(1), None, Some(2), Some(3)]);
-                    assert_eq!(
-                        <$solution>::inorder_traversal(root),
-                        vec![1, 3, 2],
-                    );
+                    assert_eq!(<$solution>::inorder_traversal(root), vec![1, 3, 2],);
                 }
 
                 #[test]
                 fn test_empty() {
-                    assert_eq!(
-                        <$solution>::inorder_traversal(None),
-                        Vec::<i32>::new(),
-                    );
+                    assert_eq!(<$solution>::inorder_traversal(None), Vec::<i32>::new(),);
                 }
 
                 #[test]
                 fn test_single() {
                     let root = build_tree(&[Some(1)]);
-                    assert_eq!(
-                        <$solution>::inorder_traversal(root),
-                        vec![1],
-                    );
+                    assert_eq!(<$solution>::inorder_traversal(root), vec![1],);
                 }
 
                 #[test]
@@ -190,10 +185,7 @@ mod tests {
                     //          / \
                     //         1   3
                     let root = build_tree(&[Some(2), Some(1), Some(3)]);
-                    assert_eq!(
-                        <$solution>::inorder_traversal(root),
-                        vec![1, 2, 3],
-                    );
+                    assert_eq!(<$solution>::inorder_traversal(root), vec![1, 2, 3],);
                 }
             }
         };

@@ -50,9 +50,7 @@ mod my_solution {
                 }
             }
 
-            let cows: i32 = (0..10)
-                .map(|i| cnt_s[i].min(cnt_g[i]))
-                .sum();
+            let cows: i32 = (0..10).map(|i| cnt_s[i].min(cnt_g[i])).sum();
 
             format!("{bulls}A{cows}B")
         }

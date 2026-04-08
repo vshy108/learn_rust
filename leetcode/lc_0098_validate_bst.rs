@@ -28,7 +28,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -130,8 +134,7 @@ mod ai_solution {
                     if val <= min || val >= max {
                         return false;
                     }
-                    Self::validate(&n.left, min, val)
-                        && Self::validate(&n.right, val, max)
+                    Self::validate(&n.left, min, val) && Self::validate(&n.right, val, max)
                 }
             }
         }
@@ -141,11 +144,13 @@ mod ai_solution {
 fn main() {
     let valid = build_tree(&[Some(2), Some(1), Some(3)]);
     let invalid = build_tree(&[Some(5), Some(1), Some(4), None, None, Some(3), Some(6)]);
-    println!("valid tree: my={}, ai={}",
+    println!(
+        "valid tree: my={}, ai={}",
         my_solution::Solution::is_valid_bst(valid.clone()),
         ai_solution::Solution::is_valid_bst(valid),
     );
-    println!("invalid tree: my={}, ai={}",
+    println!(
+        "invalid tree: my={}, ai={}",
         my_solution::Solution::is_valid_bst(invalid.clone()),
         ai_solution::Solution::is_valid_bst(invalid),
     );
@@ -168,9 +173,8 @@ mod tests {
 
                 #[test]
                 fn test_invalid() {
-                    let root = build_tree(&[
-                        Some(5), Some(1), Some(4), None, None, Some(3), Some(6),
-                    ]);
+                    let root =
+                        build_tree(&[Some(5), Some(1), Some(4), None, None, Some(3), Some(6)]);
                     assert!(!<$solution>::is_valid_bst(root));
                 }
 

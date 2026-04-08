@@ -46,9 +46,15 @@ mod my_solution {
                 let next5 = dp[p5] * 5;
                 dp[i] = next2.min(next3).min(next5);
                 // Advance all pointers that matched (avoids duplicates)
-                if dp[i] == next2 { p2 += 1; }
-                if dp[i] == next3 { p3 += 1; }
-                if dp[i] == next5 { p5 += 1; }
+                if dp[i] == next2 {
+                    p2 += 1;
+                }
+                if dp[i] == next3 {
+                    p3 += 1;
+                }
+                if dp[i] == next5 {
+                    p5 += 1;
+                }
             }
             dp[n - 1]
         }
@@ -63,8 +69,8 @@ mod my_solution {
 /// Time: O(n log n)
 /// Space: O(n)
 mod ai_solution {
-    use std::collections::{BinaryHeap, HashSet};
     use std::cmp::Reverse;
+    use std::collections::{BinaryHeap, HashSet};
 
     pub struct Solution;
 

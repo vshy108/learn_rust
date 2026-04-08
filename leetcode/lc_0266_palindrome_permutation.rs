@@ -72,8 +72,14 @@ mod ai_solution {
 }
 
 fn main() {
-    println!("my 'aab': {}", my_solution::Solution::can_permute_palindrome("aab".into()));
-    println!("ai 'code': {}", ai_solution::Solution::can_permute_palindrome("code".into()));
+    println!(
+        "my 'aab': {}",
+        my_solution::Solution::can_permute_palindrome("aab".into())
+    );
+    println!(
+        "ai 'code': {}",
+        ai_solution::Solution::can_permute_palindrome("code".into())
+    );
 }
 
 #[cfg(test)]

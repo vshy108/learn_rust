@@ -75,22 +75,22 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[i32], i32) -> i32) {
-    // Example 1: patch 2 => covers [1,6]
-    assert_eq!(f(&[1, 3], 6), 1);
-    // Example 2: patch [2,4] => covers [1,20]
-    assert_eq!(f(&[1, 5, 10], 20), 2);
-    // Example 3: already covers [1,5]
-    assert_eq!(f(&[1, 2, 2], 5), 0);
-    // Edge: empty-like scenario — need to cover [1,1]
-    assert_eq!(f(&[2], 1), 1);
-    // Large n with small nums
-    assert_eq!(f(&[1, 2, 31, 33], 2_147_483_647), 28);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[i32], i32) -> i32) {
+        // Example 1: patch 2 => covers [1,6]
+        assert_eq!(f(&[1, 3], 6), 1);
+        // Example 2: patch [2,4] => covers [1,20]
+        assert_eq!(f(&[1, 5, 10], 20), 2);
+        // Example 3: already covers [1,5]
+        assert_eq!(f(&[1, 2, 2], 5), 0);
+        // Edge: empty-like scenario — need to cover [1,1]
+        assert_eq!(f(&[2], 1), 1);
+        // Large n with small nums
+        assert_eq!(f(&[1, 2, 31, 33], 2_147_483_647), 28);
+    }
 
     #[test]
     fn test_my_solution() {

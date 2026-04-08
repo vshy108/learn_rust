@@ -30,7 +30,11 @@ pub struct TreeNode {
 impl TreeNode {
     /// Create a leaf node.
     pub fn new(val: i32) -> Self {
-        Self { val, left: None, right: None }
+        Self {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -151,7 +155,14 @@ fn main() {
 
     // Example 2: [5,3,6,2,4,null,null,1], k=3 => 3
     let tree2 = build_tree(&[
-        Some(5), Some(3), Some(6), Some(2), Some(4), None, None, Some(1),
+        Some(5),
+        Some(3),
+        Some(6),
+        Some(2),
+        Some(4),
+        None,
+        None,
+        Some(1),
     ]);
     let my2 = my_solution::Solution::kth_smallest(tree2.clone(), 3);
     let ai2 = ai_solution::Solution::kth_smallest(tree2, 3);
@@ -176,7 +187,14 @@ mod tests {
                 #[test]
                 fn test_example2() {
                     let tree = build_tree(&[
-                        Some(5), Some(3), Some(6), Some(2), Some(4), None, None, Some(1),
+                        Some(5),
+                        Some(3),
+                        Some(6),
+                        Some(2),
+                        Some(4),
+                        None,
+                        None,
+                        Some(1),
                     ]);
                     assert_eq!(<$solution>::kth_smallest(tree, 3), 3);
                 }
@@ -198,7 +216,14 @@ mod tests {
                 fn test_left_skewed() {
                     // Tree: 5 -> 4 -> 3 -> 2 -> 1
                     let tree = build_tree(&[
-                        Some(5), Some(4), None, Some(3), None, Some(2), None, Some(1),
+                        Some(5),
+                        Some(4),
+                        None,
+                        Some(3),
+                        None,
+                        Some(2),
+                        None,
+                        Some(1),
                     ]);
                     assert_eq!(<$solution>::kth_smallest(tree, 2), 2);
                 }
@@ -214,8 +239,21 @@ mod tests {
         let iterations = 100_000;
         // Build a balanced BST with 15 nodes
         let tree_vals = vec![
-            Some(8), Some(4), Some(12), Some(2), Some(6), Some(10), Some(14),
-            Some(1), Some(3), Some(5), Some(7), Some(9), Some(11), Some(13), Some(15),
+            Some(8),
+            Some(4),
+            Some(12),
+            Some(2),
+            Some(6),
+            Some(10),
+            Some(14),
+            Some(1),
+            Some(3),
+            Some(5),
+            Some(7),
+            Some(9),
+            Some(11),
+            Some(13),
+            Some(15),
         ];
 
         let start = std::time::Instant::now();

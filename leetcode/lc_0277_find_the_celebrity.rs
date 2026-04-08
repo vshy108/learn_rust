@@ -59,9 +59,7 @@ mod my_solution {
             for i in 0..n {
                 if i != candidate {
                     // Celebrity must not know i, and i must know celebrity
-                    if knows(graph, candidate, i)
-                        || !knows(graph, i, candidate)
-                    {
+                    if knows(graph, candidate, i) || !knows(graph, i, candidate) {
                         return -1;
                     }
                 }
@@ -101,9 +99,7 @@ mod ai_solution {
             let candidate = lo;
             for i in 0..n {
                 if i != candidate {
-                    if knows(graph, candidate, i)
-                        || !knows(graph, i, candidate)
-                    {
+                    if knows(graph, candidate, i) || !knows(graph, i, candidate) {
                         return -1;
                     }
                 }
@@ -145,18 +141,10 @@ mod tests {
     }
 
     // Example 1: person 1 is celebrity
-    test_celebrity!(
-        test_example_1,
-        [&[1, 1, 0][..], &[0, 1, 0], &[1, 1, 1]],
-        1
-    );
+    test_celebrity!(test_example_1, [&[1, 1, 0][..], &[0, 1, 0], &[1, 1, 1]], 1);
 
     // Example 2: no celebrity
-    test_celebrity!(
-        test_example_2,
-        [&[1, 0, 1][..], &[1, 1, 0], &[0, 1, 1]],
-        -1
-    );
+    test_celebrity!(test_example_2, [&[1, 0, 1][..], &[1, 1, 0], &[0, 1, 1]], -1);
 
     // 2 people, person 1 is celebrity
     test_celebrity!(test_two_people_celebrity, [&[1, 1][..], &[0, 1]], 1);
@@ -187,25 +175,13 @@ mod tests {
     );
 
     // Person 0 is celebrity
-    test_celebrity!(
-        test_celeb_0,
-        [&[1, 0, 0][..], &[1, 1, 0], &[1, 0, 1]],
-        0
-    );
+    test_celebrity!(test_celeb_0, [&[1, 0, 0][..], &[1, 1, 0], &[1, 0, 1]], 0);
 
     // Person n-1 is celebrity
-    test_celebrity!(
-        test_celeb_last,
-        [&[1, 0, 1][..], &[0, 1, 1], &[0, 0, 1]],
-        2
-    );
+    test_celebrity!(test_celeb_last, [&[1, 0, 1][..], &[0, 1, 1], &[0, 0, 1]], 2);
 
     // No one knows anyone (diagonal only) → no celebrity
-    test_celebrity!(
-        test_isolated,
-        [&[1, 0, 0][..], &[0, 1, 0], &[0, 0, 1]],
-        -1
-    );
+    test_celebrity!(test_isolated, [&[1, 0, 0][..], &[0, 1, 0], &[0, 0, 1]], -1);
 
     // 5-person graph, person 3 is celebrity
     test_celebrity!(
@@ -266,27 +242,19 @@ mod bench {
 
         // Warm up
         for _ in 0..1_000 {
-            std::hint::black_box(my_solution::Solution::find_celebrity(
-                &graph, n,
-            ));
-            std::hint::black_box(ai_solution::Solution::find_celebrity(
-                &graph, n,
-            ));
+            std::hint::black_box(my_solution::Solution::find_celebrity(&graph, n));
+            std::hint::black_box(ai_solution::Solution::find_celebrity(&graph, n));
         }
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(my_solution::Solution::find_celebrity(
-                &graph, n,
-            ));
+            std::hint::black_box(my_solution::Solution::find_celebrity(&graph, n));
         }
         let my_dur = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(ai_solution::Solution::find_celebrity(
-                &graph, n,
-            ));
+            std::hint::black_box(ai_solution::Solution::find_celebrity(&graph, n));
         }
         let ai_dur = start.elapsed();
 

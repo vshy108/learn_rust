@@ -25,7 +25,8 @@ mod my_solution {
     impl Solution {
         /// Check if a string is a valid palindrome (alphanumeric only, case-insensitive).
         pub fn is_palindrome(s: String) -> bool {
-            let filtered: Vec<u8> = s.bytes()
+            let filtered: Vec<u8> = s
+                .bytes()
                 .filter(|b| b.is_ascii_alphanumeric())
                 .map(|b| b.to_ascii_lowercase())
                 .collect();
@@ -69,12 +70,8 @@ mod ai_solution {
 }
 
 fn main() {
-    let my = my_solution::Solution::is_palindrome(
-        "A man, a plan, a canal: Panama".into(),
-    );
-    let ai = ai_solution::Solution::is_palindrome(
-        "A man, a plan, a canal: Panama".into(),
-    );
+    let my = my_solution::Solution::is_palindrome("A man, a plan, a canal: Panama".into());
+    let ai = ai_solution::Solution::is_palindrome("A man, a plan, a canal: Panama".into());
     println!("palindrome: my={my}, ai={ai}");
 }
 

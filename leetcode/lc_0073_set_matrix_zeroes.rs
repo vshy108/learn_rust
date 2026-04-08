@@ -122,19 +122,11 @@ mod tests {
 
                 #[test]
                 fn test_corners() {
-                    let mut m = vec![
-                        vec![0, 1, 2, 0],
-                        vec![3, 4, 5, 2],
-                        vec![1, 3, 1, 5],
-                    ];
+                    let mut m = vec![vec![0, 1, 2, 0], vec![3, 4, 5, 2], vec![1, 3, 1, 5]];
                     <$solution>::set_zeroes(&mut m);
                     assert_eq!(
                         m,
-                        vec![
-                            vec![0, 0, 0, 0],
-                            vec![0, 4, 5, 0],
-                            vec![0, 3, 1, 0],
-                        ]
+                        vec![vec![0, 0, 0, 0], vec![0, 4, 5, 0], vec![0, 3, 1, 0],]
                     );
                 }
 
@@ -169,7 +161,11 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let template: Vec<Vec<i32>> = (0..20)
-            .map(|i| (0..20).map(|j| if (i + j) % 7 == 0 { 0 } else { 1 }).collect())
+            .map(|i| {
+                (0..20)
+                    .map(|j| if (i + j) % 7 == 0 { 0 } else { 1 })
+                    .collect()
+            })
             .collect();
 
         let start = std::time::Instant::now();

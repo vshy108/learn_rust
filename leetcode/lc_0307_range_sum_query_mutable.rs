@@ -123,14 +123,7 @@ mod ai_solution {
             Self::query(&self.tree, 1, 0, self.n - 1, left as usize, right as usize)
         }
 
-        fn query(
-            tree: &[i32],
-            node: usize,
-            start: usize,
-            end: usize,
-            l: usize,
-            r: usize,
-        ) -> i32 {
+        fn query(tree: &[i32], node: usize, start: usize, end: usize, l: usize, r: usize) -> i32 {
             if l > end || r < start {
                 return 0;
             }
@@ -247,10 +240,18 @@ fn main() {
 
     let mut my = my_solution::NumArray::new(vec![1, 3, 5]);
     let mut ai = ai_solution::NumArray::new(vec![1, 3, 5]);
-    println!("sumRange(0,2): My={}, AI={}", my.sum_range(0, 2), ai.sum_range(0, 2));
+    println!(
+        "sumRange(0,2): My={}, AI={}",
+        my.sum_range(0, 2),
+        ai.sum_range(0, 2)
+    );
     my.update(1, 2);
     ai.update(1, 2);
-    println!("After update(1,2), sumRange(0,2): My={}, AI={}", my.sum_range(0, 2), ai.sum_range(0, 2));
+    println!(
+        "After update(1,2), sumRange(0,2): My={}, AI={}",
+        my.sum_range(0, 2),
+        ai.sum_range(0, 2)
+    );
 
     // Benchmark
     let iterations = 100_000;

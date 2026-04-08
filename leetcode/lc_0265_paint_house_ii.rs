@@ -125,10 +125,7 @@ mod tests {
 
                 #[test]
                 fn test_example_1() {
-                    assert_eq!(
-                        Sol::min_cost_ii(vec![vec![1, 5, 3], vec![2, 9, 4]]),
-                        5
-                    );
+                    assert_eq!(Sol::min_cost_ii(vec![vec![1, 5, 3], vec![2, 9, 4]]), 5);
                 }
 
                 #[test]
@@ -164,10 +161,7 @@ mod tests {
 
                 #[test]
                 fn test_all_same_cost() {
-                    assert_eq!(
-                        Sol::min_cost_ii(vec![vec![5, 5, 5], vec![5, 5, 5]]),
-                        10
-                    );
+                    assert_eq!(Sol::min_cost_ii(vec![vec![5, 5, 5], vec![5, 5, 5]]), 10);
                 }
             }
         };

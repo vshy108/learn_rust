@@ -134,26 +134,20 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[Vec<i32>]) -> i32) {
-    // Example 1: longest path [1,2,6,9] length 4
-    assert_eq!(
-        f(&[vec![9, 9, 4], vec![6, 6, 8], vec![2, 1, 1]]),
-        4
-    );
-    // Example 2: longest path [3,4,5,6] length 4
-    assert_eq!(
-        f(&[vec![3, 4, 5], vec![3, 2, 6], vec![2, 2, 1]]),
-        4
-    );
-    // Single cell
-    assert_eq!(f(&[vec![1]]), 1);
-    // Uniform — no increasing path beyond length 1
-    assert_eq!(f(&[vec![7, 7], vec![7, 7]]), 1);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[Vec<i32>]) -> i32) {
+        // Example 1: longest path [1,2,6,9] length 4
+        assert_eq!(f(&[vec![9, 9, 4], vec![6, 6, 8], vec![2, 1, 1]]), 4);
+        // Example 2: longest path [3,4,5,6] length 4
+        assert_eq!(f(&[vec![3, 4, 5], vec![3, 2, 6], vec![2, 2, 1]]), 4);
+        // Single cell
+        assert_eq!(f(&[vec![1]]), 1);
+        // Uniform — no increasing path beyond length 1
+        assert_eq!(f(&[vec![7, 7], vec![7, 7]]), 1);
+    }
 
     #[test]
     fn test_my_solution() {
@@ -172,31 +166,31 @@ fn main() {
 
     // Warm up
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::longest_increasing_path(
-            std::hint::black_box(&matrix),
-        ));
+        std::hint::black_box(my_solution::longest_increasing_path(std::hint::black_box(
+            &matrix,
+        )));
     }
 
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::longest_increasing_path(
-            std::hint::black_box(&matrix),
-        ));
+        std::hint::black_box(my_solution::longest_increasing_path(std::hint::black_box(
+            &matrix,
+        )));
     }
     let my_dur = start.elapsed();
 
     // Warm up
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::longest_increasing_path(
-            std::hint::black_box(&matrix),
-        ));
+        std::hint::black_box(ai_solution::longest_increasing_path(std::hint::black_box(
+            &matrix,
+        )));
     }
 
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::longest_increasing_path(
-            std::hint::black_box(&matrix),
-        ));
+        std::hint::black_box(ai_solution::longest_increasing_path(std::hint::black_box(
+            &matrix,
+        )));
     }
     let ai_dur = start.elapsed();
 

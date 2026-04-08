@@ -59,7 +59,9 @@ mod my_solution {
         fn is_palindrome(s: &[u8]) -> bool {
             let (mut l, mut r) = (0, s.len().saturating_sub(1));
             while l < r {
-                if s[l] != s[r] { return false; }
+                if s[l] != s[r] {
+                    return false;
+                }
                 l += 1;
                 r -= 1;
             }
@@ -84,8 +86,7 @@ mod ai_solution {
             let mut is_pal = vec![vec![false; n]; n];
             for i in (0..n).rev() {
                 for j in i..n {
-                    is_pal[i][j] = bytes[i] == bytes[j]
-                        && (j - i < 2 || is_pal[i + 1][j - 1]);
+                    is_pal[i][j] = bytes[i] == bytes[j] && (j - i < 2 || is_pal[i + 1][j - 1]);
                 }
             }
 
@@ -163,9 +164,10 @@ mod tests {
                 #[test]
                 fn test_no_multi_char_palindrome() {
                     let result = <$solution>::partition("abc".into());
-                    assert_eq!(result, vec![vec![
-                        "a".to_string(), "b".to_string(), "c".to_string(),
-                    ]]);
+                    assert_eq!(
+                        result,
+                        vec![vec!["a".to_string(), "b".to_string(), "c".to_string(),]]
+                    );
                 }
             }
         };

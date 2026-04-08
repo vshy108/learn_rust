@@ -77,22 +77,22 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[i32]) -> Vec<i32>) {
-    // Example 1: [1,2,3,4,5] => odds=[1,3,5], evens=[2,4]
-    assert_eq!(f(&[1, 2, 3, 4, 5]), vec![1, 3, 5, 2, 4]);
-    // Example 2
-    assert_eq!(f(&[2, 1, 3, 5, 6, 4, 7]), vec![2, 3, 6, 7, 1, 5, 4]);
-    // Empty
-    assert_eq!(f(&[]), Vec::<i32>::new());
-    // Single element
-    assert_eq!(f(&[42]), vec![42]);
-    // Two elements
-    assert_eq!(f(&[1, 2]), vec![1, 2]);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[i32]) -> Vec<i32>) {
+        // Example 1: [1,2,3,4,5] => odds=[1,3,5], evens=[2,4]
+        assert_eq!(f(&[1, 2, 3, 4, 5]), vec![1, 3, 5, 2, 4]);
+        // Example 2
+        assert_eq!(f(&[2, 1, 3, 5, 6, 4, 7]), vec![2, 3, 6, 7, 1, 5, 4]);
+        // Empty
+        assert_eq!(f(&[]), Vec::<i32>::new());
+        // Single element
+        assert_eq!(f(&[42]), vec![42]);
+        // Two elements
+        assert_eq!(f(&[1, 2]), vec![1, 2]);
+    }
 
     #[test]
     fn test_my_solution() {
@@ -111,31 +111,23 @@ fn main() {
 
     // Warm up
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::odd_even_list(
-            std::hint::black_box(&head),
-        ));
+        std::hint::black_box(my_solution::odd_even_list(std::hint::black_box(&head)));
     }
 
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::odd_even_list(
-            std::hint::black_box(&head),
-        ));
+        std::hint::black_box(my_solution::odd_even_list(std::hint::black_box(&head)));
     }
     let my_dur = start.elapsed();
 
     // Warm up
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::odd_even_list(
-            std::hint::black_box(&head),
-        ));
+        std::hint::black_box(ai_solution::odd_even_list(std::hint::black_box(&head)));
     }
 
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::odd_even_list(
-            std::hint::black_box(&head),
-        ));
+        std::hint::black_box(ai_solution::odd_even_list(std::hint::black_box(&head)));
     }
     let ai_dur = start.elapsed();
 

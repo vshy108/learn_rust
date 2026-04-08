@@ -29,7 +29,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -121,11 +125,15 @@ mod ai_solution {
             while let Some((node, visited)) = stack.pop() {
                 if visited {
                     let nb = node.borrow();
-                    let left_gain = nb.left.as_ref()
+                    let left_gain = nb
+                        .left
+                        .as_ref()
                         .map(|l| *gains.get(&Rc::as_ptr(l)).unwrap_or(&0))
                         .unwrap_or(0)
                         .max(0);
-                    let right_gain = nb.right.as_ref()
+                    let right_gain = nb
+                        .right
+                        .as_ref()
                         .map(|r| *gains.get(&Rc::as_ptr(r)).unwrap_or(&0))
                         .unwrap_or(0)
                         .max(0);
@@ -171,9 +179,8 @@ mod tests {
 
                 #[test]
                 fn test_example2() {
-                    let root = build_tree(&[
-                        Some(-10), Some(9), Some(20), None, None, Some(15), Some(7),
-                    ]);
+                    let root =
+                        build_tree(&[Some(-10), Some(9), Some(20), None, None, Some(15), Some(7)]);
                     assert_eq!(<$solution>::max_path_sum(root), 42);
                 }
 

@@ -76,21 +76,21 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[(i32, &str)]) -> Vec<bool>) {
-    let entries = vec![
-        (1, "foo"),
-        (2, "bar"),
-        (3, "foo"),   // false: 3 < 11
-        (8, "bar"),   // false: 8 < 12
-        (10, "foo"),  // false: 10 < 11
-        (11, "foo"),  // true: 11 >= 11
-    ];
-    assert_eq!(f(&entries), vec![true, true, false, false, false, true]);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[(i32, &str)]) -> Vec<bool>) {
+        let entries = vec![
+            (1, "foo"),
+            (2, "bar"),
+            (3, "foo"),  // false: 3 < 11
+            (8, "bar"),  // false: 8 < 12
+            (10, "foo"), // false: 10 < 11
+            (11, "foo"), // true: 11 >= 11
+        ];
+        assert_eq!(f(&entries), vec![true, true, false, false, false, true]);
+    }
 
     #[test]
     fn test_my_solution() {

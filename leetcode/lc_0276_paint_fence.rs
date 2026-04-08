@@ -43,8 +43,8 @@ mod my_solution {
     impl Solution {
         pub fn num_ways(n: i32, k: i32) -> i32 {
             let k = k as i64;
-            let mut f = k;       // ways with last two different
-            let mut g = 0i64;    // ways with last two same
+            let mut f = k; // ways with last two different
+            let mut g = 0i64; // ways with last two same
             for _ in 1..n {
                 let ff = (f + g) * (k - 1);
                 g = f;
@@ -77,8 +77,8 @@ mod ai_solution {
                 return k;
             }
             let k = k as i64;
-            let mut prev2 = k;          // total[1] = k
-            let mut prev1 = k * k;      // total[2] = k^2
+            let mut prev2 = k; // total[1] = k
+            let mut prev1 = k * k; // total[2] = k^2
             for _ in 3..=n {
                 let cur = (k - 1) * (prev1 + prev2);
                 prev2 = prev1;
@@ -144,10 +144,11 @@ fn main() {
     println!("LeetCode 276: Paint Fence");
     for (n, k) in [(3, 2), (1, 1), (7, 2)] {
         println!(
-            "  num_ways({}, {}) = {}",
+            "  num_ways({}, {}) = my:{}, ai:{}",
             n,
             k,
-            my_solution::Solution::num_ways(n, k)
+            my_solution::Solution::num_ways(n, k),
+            ai_solution::Solution::num_ways(n, k),
         );
     }
 }

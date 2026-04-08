@@ -39,7 +39,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -89,10 +93,7 @@ mod my_solution {
     pub struct Solution;
 
     impl Solution {
-        pub fn inorder_successor(
-            root: Option<Rc<RefCell<TreeNode>>>,
-            p_val: i32,
-        ) -> Option<i32> {
+        pub fn inorder_successor(root: Option<Rc<RefCell<TreeNode>>>, p_val: i32) -> Option<i32> {
             let mut ans: Option<i32> = None;
             let mut cur = root;
             while let Some(node) = cur {
@@ -123,10 +124,7 @@ mod ai_solution {
     pub struct Solution;
 
     impl Solution {
-        pub fn inorder_successor(
-            root: Option<Rc<RefCell<TreeNode>>>,
-            p_val: i32,
-        ) -> Option<i32> {
+        pub fn inorder_successor(root: Option<Rc<RefCell<TreeNode>>>, p_val: i32) -> Option<i32> {
             let Some(node) = root else { return None };
             let node_ref = node.borrow();
             if node_ref.val <= p_val {
@@ -135,8 +133,7 @@ mod ai_solution {
             } else {
                 // This node could be the successor, but check left subtree
                 // for a potentially smaller successor
-                Self::inorder_successor(node_ref.left.clone(), p_val)
-                    .or(Some(node_ref.val))
+                Self::inorder_successor(node_ref.left.clone(), p_val).or(Some(node_ref.val))
             }
         }
     }
@@ -166,17 +163,21 @@ mod tests {
     }
 
     // Example 1: [2,1,3], p=1 -> 2
-    test_successor!(
-        test_example_1,
-        [Some(2), Some(1), Some(3)],
-        1,
-        Some(2)
-    );
+    test_successor!(test_example_1, [Some(2), Some(1), Some(3)], 1, Some(2));
 
     // Example 2: [5,3,6,2,4,null,null,1], p=6 -> null
     test_successor!(
         test_example_2,
-        [Some(5), Some(3), Some(6), Some(2), Some(4), None, None, Some(1)],
+        [
+            Some(5),
+            Some(3),
+            Some(6),
+            Some(2),
+            Some(4),
+            None,
+            None,
+            Some(1)
+        ],
         6,
         None
     );
@@ -206,12 +207,7 @@ mod tests {
     );
 
     // Rightmost node (max value), no successor
-    test_successor!(
-        test_rightmost,
-        [Some(5), Some(3), Some(8)],
-        8,
-        None
-    );
+    test_successor!(test_rightmost, [Some(5), Some(3), Some(8)], 8, None);
 
     // Single node, p is that node
     test_successor!(test_single_node, [Some(1)], 1, None);
@@ -235,7 +231,15 @@ mod tests {
     // Large balanced tree
     test_successor!(
         test_balanced,
-        [Some(8), Some(4), Some(12), Some(2), Some(6), Some(10), Some(14)],
+        [
+            Some(8),
+            Some(4),
+            Some(12),
+            Some(2),
+            Some(6),
+            Some(10),
+            Some(14)
+        ],
         6,
         Some(8)
     );
@@ -243,7 +247,15 @@ mod tests {
     // Successor of root
     test_successor!(
         test_root_successor,
-        [Some(8), Some(4), Some(12), Some(2), Some(6), Some(10), Some(14)],
+        [
+            Some(8),
+            Some(4),
+            Some(12),
+            Some(2),
+            Some(6),
+            Some(10),
+            Some(14)
+        ],
         8,
         Some(10)
     );

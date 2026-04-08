@@ -118,7 +118,13 @@ fn main() {
     let cases = [
         (vec![vec![1, 3], vec![6, 9]], vec![2, 5]),
         (
-            vec![vec![1, 2], vec![3, 5], vec![6, 7], vec![8, 10], vec![12, 16]],
+            vec![
+                vec![1, 2],
+                vec![3, 5],
+                vec![6, 7],
+                vec![8, 10],
+                vec![12, 16],
+            ],
             vec![4, 8],
         ),
     ];
@@ -139,10 +145,7 @@ mod tests {
                 #[test]
                 fn test_basic() {
                     assert_eq!(
-                        <$solution>::insert(
-                            vec![vec![1, 3], vec![6, 9]],
-                            vec![2, 5]
-                        ),
+                        <$solution>::insert(vec![vec![1, 3], vec![6, 9]], vec![2, 5]),
                         vec![vec![1, 5], vec![6, 9]]
                     );
                 }
@@ -151,7 +154,13 @@ mod tests {
                 fn test_merge_multiple() {
                     assert_eq!(
                         <$solution>::insert(
-                            vec![vec![1, 2], vec![3, 5], vec![6, 7], vec![8, 10], vec![12, 16]],
+                            vec![
+                                vec![1, 2],
+                                vec![3, 5],
+                                vec![6, 7],
+                                vec![8, 10],
+                                vec![12, 16]
+                            ],
                             vec![4, 8]
                         ),
                         vec![vec![1, 2], vec![3, 10], vec![12, 16]]
@@ -160,10 +169,7 @@ mod tests {
 
                 #[test]
                 fn test_empty() {
-                    assert_eq!(
-                        <$solution>::insert(vec![], vec![5, 7]),
-                        vec![vec![5, 7]]
-                    );
+                    assert_eq!(<$solution>::insert(vec![], vec![5, 7]), vec![vec![5, 7]]);
                 }
 
                 #[test]
@@ -185,10 +191,7 @@ mod tests {
                 #[test]
                 fn test_total_merge() {
                     assert_eq!(
-                        <$solution>::insert(
-                            vec![vec![1, 5], vec![6, 8]],
-                            vec![0, 10]
-                        ),
+                        <$solution>::insert(vec![vec![1, 5], vec![6, 8]], vec![0, 10]),
                         vec![vec![0, 10]]
                     );
                 }
@@ -202,9 +205,7 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let intervals: Vec<Vec<i32>> = (0..100)
-            .map(|i| vec![i * 5, i * 5 + 2])
-            .collect();
+        let intervals: Vec<Vec<i32>> = (0..100).map(|i| vec![i * 5, i * 5 + 2]).collect();
         let new_interval = vec![250, 350];
 
         let start = std::time::Instant::now();

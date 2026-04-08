@@ -76,18 +76,12 @@ mod tests {
 
                 #[test]
                 fn test_negative() {
-                    assert_eq!(
-                        <$solution>::single_number(vec![-1, -1, -2]),
-                        -2,
-                    );
+                    assert_eq!(<$solution>::single_number(vec![-1, -1, -2]), -2,);
                 }
 
                 #[test]
                 fn test_zero() {
-                    assert_eq!(
-                        <$solution>::single_number(vec![0, 1, 0]),
-                        1,
-                    );
+                    assert_eq!(<$solution>::single_number(vec![0, 1, 0]), 1,);
                 }
             }
         };

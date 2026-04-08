@@ -29,14 +29,24 @@ mod my_solution {
         /// Compare two version strings and return -1, 0, or 1.
         pub fn compare_version(version1: String, version2: String) -> i32 {
             // Split, parse, and compare revision by revision
-            let v1: Vec<i32> = version1.split('.').map(|s| s.parse().expect("digit")).collect();
-            let v2: Vec<i32> = version2.split('.').map(|s| s.parse().expect("digit")).collect();
+            let v1: Vec<i32> = version1
+                .split('.')
+                .map(|s| s.parse().expect("digit"))
+                .collect();
+            let v2: Vec<i32> = version2
+                .split('.')
+                .map(|s| s.parse().expect("digit"))
+                .collect();
             let max_len = v1.len().max(v2.len());
             for i in 0..max_len {
                 let r1 = if i < v1.len() { v1[i] } else { 0 };
                 let r2 = if i < v2.len() { v2[i] } else { 0 };
-                if r1 < r2 { return -1; }
-                if r1 > r2 { return 1; }
+                if r1 < r2 {
+                    return -1;
+                }
+                if r1 > r2 {
+                    return 1;
+                }
             }
             0
         }
@@ -53,8 +63,14 @@ mod ai_solution {
     impl Solution {
         /// Compare two version strings, ignoring leading zeros.
         pub fn compare_version(version1: String, version2: String) -> i32 {
-            let v1: Vec<i32> = version1.split('.').map(|s| s.parse().expect("digit")).collect();
-            let v2: Vec<i32> = version2.split('.').map(|s| s.parse().expect("digit")).collect();
+            let v1: Vec<i32> = version1
+                .split('.')
+                .map(|s| s.parse().expect("digit"))
+                .collect();
+            let v2: Vec<i32> = version2
+                .split('.')
+                .map(|s| s.parse().expect("digit"))
+                .collect();
             let max_len = v1.len().max(v2.len());
 
             for i in 0..max_len {
@@ -93,18 +109,12 @@ mod tests {
 
                 #[test]
                 fn test_less() {
-                    assert_eq!(
-                        <$solution>::compare_version("1.0".into(), "1.1".into()),
-                        -1,
-                    );
+                    assert_eq!(<$solution>::compare_version("1.0".into(), "1.1".into()), -1,);
                 }
 
                 #[test]
                 fn test_trailing_zeros() {
-                    assert_eq!(
-                        <$solution>::compare_version("1.0.0".into(), "1".into()),
-                        0,
-                    );
+                    assert_eq!(<$solution>::compare_version("1.0.0".into(), "1".into()), 0,);
                 }
 
                 #[test]

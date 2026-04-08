@@ -49,20 +49,20 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(i32) -> bool) {
-    assert!(f(16));       // 4^2
-    assert!(!f(5));
-    assert!(f(1));        // 4^0
-    assert!(f(4));
-    assert!(!f(0));
-    assert!(!f(-4));
-    assert!(!f(8));       // 2^3, not a power of 4
-    assert!(f(1073741824)); // 4^15 = 2^30
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(i32) -> bool) {
+        assert!(f(16)); // 4^2
+        assert!(!f(5));
+        assert!(f(1)); // 4^0
+        assert!(f(4));
+        assert!(!f(0));
+        assert!(!f(-4));
+        assert!(!f(8)); // 2^3, not a power of 4
+        assert!(f(1073741824)); // 4^15 = 2^30
+    }
 
     #[test]
     fn test_my_solution() {

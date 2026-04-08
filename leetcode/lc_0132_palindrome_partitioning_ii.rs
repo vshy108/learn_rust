@@ -31,8 +31,7 @@ mod my_solution {
             let mut is_pal = vec![vec![false; n]; n];
             for i in (0..n).rev() {
                 for j in i..n {
-                    is_pal[i][j] = bytes[i] == bytes[j]
-                        && (j - i < 2 || is_pal[i + 1][j - 1]);
+                    is_pal[i][j] = bytes[i] == bytes[j] && (j - i < 2 || is_pal[i + 1][j - 1]);
                 }
             }
 
@@ -85,7 +84,9 @@ mod ai_solution {
             while right < bytes.len() && bytes[left] == bytes[right] {
                 // s[left..=right] is a palindrome
                 cuts[right + 1] = cuts[right + 1].min(cuts[left] + 1);
-                if left == 0 { break; }
+                if left == 0 {
+                    break;
+                }
                 left -= 1;
                 right += 1;
             }
@@ -147,17 +148,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::my_solution::Solution::min_cut(
-                std::hint::black_box(s.clone()),
-            ));
+            std::hint::black_box(crate::my_solution::Solution::min_cut(std::hint::black_box(
+                s.clone(),
+            )));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::ai_solution::Solution::min_cut(
-                std::hint::black_box(s.clone()),
-            ));
+            std::hint::black_box(crate::ai_solution::Solution::min_cut(std::hint::black_box(
+                s.clone(),
+            )));
         }
         let ai_duration = start.elapsed();
 

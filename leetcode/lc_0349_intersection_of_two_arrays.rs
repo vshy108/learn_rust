@@ -55,22 +55,22 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[i32], &[i32]) -> Vec<i32>) {
-    let mut r = f(&[1, 2, 2, 1], &[2, 2]);
-    r.sort();
-    assert_eq!(r, vec![2]);
-
-    let mut r = f(&[4, 9, 5], &[9, 4, 9, 8, 4]);
-    r.sort();
-    assert_eq!(r, vec![4, 9]);
-
-    // No intersection
-    assert_eq!(f(&[1, 2], &[3, 4]), Vec::<i32>::new());
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[i32], &[i32]) -> Vec<i32>) {
+        let mut r = f(&[1, 2, 2, 1], &[2, 2]);
+        r.sort();
+        assert_eq!(r, vec![2]);
+
+        let mut r = f(&[4, 9, 5], &[9, 4, 9, 8, 4]);
+        r.sort();
+        assert_eq!(r, vec![4, 9]);
+
+        // No intersection
+        assert_eq!(f(&[1, 2], &[3, 4]), Vec::<i32>::new());
+    }
 
     #[test]
     fn test_my_solution() {

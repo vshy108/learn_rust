@@ -56,9 +56,7 @@ mod my_solution {
             for i in (0..n).rev() {
                 for j in i + 2..n + 2 {
                     for k in i + 1..j {
-                        f[i][j] = f[i][j].max(
-                            f[i][k] + f[k][j] + arr[i] * arr[k] * arr[j],
-                        );
+                        f[i][j] = f[i][j].max(f[i][k] + f[k][j] + arr[i] * arr[k] * arr[j]);
                     }
                 }
             }
@@ -163,8 +161,14 @@ fn main() {
 
     let nums = vec![3, 1, 5, 8];
     println!("Input: nums = {:?}", nums);
-    println!("Output (my): {}", my_solution::Solution::max_coins(nums.clone()));
-    println!("Output (ai): {}", ai_solution::Solution::max_coins(nums.clone()));
+    println!(
+        "Output (my): {}",
+        my_solution::Solution::max_coins(nums.clone())
+    );
+    println!(
+        "Output (ai): {}",
+        ai_solution::Solution::max_coins(nums.clone())
+    );
 
     let iterations = 100_000;
     let start = Instant::now();

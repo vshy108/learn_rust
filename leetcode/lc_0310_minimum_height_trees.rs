@@ -142,15 +142,24 @@ mod tests {
     #[test]
     fn test_example1() {
         let edges = vec![vec![1, 0], vec![1, 2], vec![1, 3]];
-        assert_eq!(sorted(MySolution::find_min_height_trees(4, edges.clone())), vec![1]);
+        assert_eq!(
+            sorted(MySolution::find_min_height_trees(4, edges.clone())),
+            vec![1]
+        );
         assert_eq!(sorted(AiSolution::find_min_height_trees(4, edges)), vec![1]);
     }
 
     #[test]
     fn test_example2() {
         let edges = vec![vec![3, 0], vec![3, 1], vec![3, 2], vec![3, 4], vec![5, 4]];
-        assert_eq!(sorted(MySolution::find_min_height_trees(6, edges.clone())), vec![3, 4]);
-        assert_eq!(sorted(AiSolution::find_min_height_trees(6, edges)), vec![3, 4]);
+        assert_eq!(
+            sorted(MySolution::find_min_height_trees(6, edges.clone())),
+            vec![3, 4]
+        );
+        assert_eq!(
+            sorted(AiSolution::find_min_height_trees(6, edges)),
+            vec![3, 4]
+        );
     }
 
     #[test]
@@ -162,15 +171,24 @@ mod tests {
     #[test]
     fn test_two_nodes() {
         let edges = vec![vec![0, 1]];
-        assert_eq!(sorted(MySolution::find_min_height_trees(2, edges.clone())), vec![0, 1]);
-        assert_eq!(sorted(AiSolution::find_min_height_trees(2, edges)), vec![0, 1]);
+        assert_eq!(
+            sorted(MySolution::find_min_height_trees(2, edges.clone())),
+            vec![0, 1]
+        );
+        assert_eq!(
+            sorted(AiSolution::find_min_height_trees(2, edges)),
+            vec![0, 1]
+        );
     }
 
     #[test]
     fn test_line_odd() {
         // 0-1-2-3-4: center is 2
         let edges = vec![vec![0, 1], vec![1, 2], vec![2, 3], vec![3, 4]];
-        assert_eq!(sorted(MySolution::find_min_height_trees(5, edges.clone())), vec![2]);
+        assert_eq!(
+            sorted(MySolution::find_min_height_trees(5, edges.clone())),
+            vec![2]
+        );
         assert_eq!(sorted(AiSolution::find_min_height_trees(5, edges)), vec![2]);
     }
 
@@ -178,22 +196,34 @@ mod tests {
     fn test_line_even() {
         // 0-1-2-3: center is 1, 2
         let edges = vec![vec![0, 1], vec![1, 2], vec![2, 3]];
-        assert_eq!(sorted(MySolution::find_min_height_trees(4, edges.clone())), vec![1, 2]);
-        assert_eq!(sorted(AiSolution::find_min_height_trees(4, edges)), vec![1, 2]);
+        assert_eq!(
+            sorted(MySolution::find_min_height_trees(4, edges.clone())),
+            vec![1, 2]
+        );
+        assert_eq!(
+            sorted(AiSolution::find_min_height_trees(4, edges)),
+            vec![1, 2]
+        );
     }
 
     #[test]
     fn test_star() {
         // 0 connected to 1,2,3,4,5: center is 0
         let edges = vec![vec![0, 1], vec![0, 2], vec![0, 3], vec![0, 4], vec![0, 5]];
-        assert_eq!(sorted(MySolution::find_min_height_trees(6, edges.clone())), vec![0]);
+        assert_eq!(
+            sorted(MySolution::find_min_height_trees(6, edges.clone())),
+            vec![0]
+        );
         assert_eq!(sorted(AiSolution::find_min_height_trees(6, edges)), vec![0]);
     }
 
     #[test]
     fn test_three_nodes_line() {
         let edges = vec![vec![0, 1], vec![1, 2]];
-        assert_eq!(sorted(MySolution::find_min_height_trees(3, edges.clone())), vec![1]);
+        assert_eq!(
+            sorted(MySolution::find_min_height_trees(3, edges.clone())),
+            vec![1]
+        );
         assert_eq!(sorted(AiSolution::find_min_height_trees(3, edges)), vec![1]);
     }
 
@@ -206,8 +236,14 @@ mod tests {
         //             3   4
         let edges = vec![vec![0, 1], vec![0, 2], vec![1, 3], vec![1, 4]];
         // Height from 0=2, from 1=2, from 2=3, from 3=3, from 4=3 -> root 0 or 1
-        assert_eq!(sorted(MySolution::find_min_height_trees(5, edges.clone())), vec![0, 1]);
-        assert_eq!(sorted(AiSolution::find_min_height_trees(5, edges)), vec![0, 1]);
+        assert_eq!(
+            sorted(MySolution::find_min_height_trees(5, edges.clone())),
+            vec![0, 1]
+        );
+        assert_eq!(
+            sorted(AiSolution::find_min_height_trees(5, edges)),
+            vec![0, 1]
+        );
     }
 }
 

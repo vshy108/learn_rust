@@ -110,7 +110,7 @@ mod ai_solution {
 
             for &sc in s {
                 let mut prev = dp[0]; // dp[i-1][j-1] for j=1 (i.e., dp[i-1][0])
-                dp[0] = false;        // empty pattern can't match non-empty s
+                dp[0] = false; // empty pattern can't match non-empty s
 
                 for j in 1..=n {
                     let temp = dp[j]; // save dp[i-1][j] before overwriting

@@ -111,10 +111,7 @@ mod ai_solution {
                 }
                 Some(p) => {
                     // Step 2: find rightmost element > nums[p].
-                    let swap_idx = nums
-                        .iter()
-                        .rposition(|&x| x > nums[p])
-                        .unwrap(); // guaranteed to exist since nums[p+1] > nums[p]
+                    let swap_idx = nums.iter().rposition(|&x| x > nums[p]).unwrap(); // guaranteed to exist since nums[p+1] > nums[p]
 
                     // Step 3: swap.
                     nums.swap(p, swap_idx);
@@ -128,12 +125,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases: Vec<Vec<i32>> = vec![
-        vec![1, 2, 3],
-        vec![3, 2, 1],
-        vec![1, 1, 5],
-        vec![1, 3, 2],
-    ];
+    let cases: Vec<Vec<i32>> = vec![vec![1, 2, 3], vec![3, 2, 1], vec![1, 1, 5], vec![1, 3, 2]];
     for nums in cases {
         let mut my = nums.clone();
         let mut ai = nums.clone();
@@ -230,9 +222,7 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             let mut nums = base.clone();
-            crate::my_solution::Solution::next_permutation(
-                std::hint::black_box(&mut nums),
-            );
+            crate::my_solution::Solution::next_permutation(std::hint::black_box(&mut nums));
             std::hint::black_box(&nums);
         }
         let my_duration = start.elapsed();
@@ -240,9 +230,7 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             let mut nums = base.clone();
-            crate::ai_solution::Solution::next_permutation(
-                std::hint::black_box(&mut nums),
-            );
+            crate::ai_solution::Solution::next_permutation(std::hint::black_box(&mut nums));
             std::hint::black_box(&nums);
         }
         let ai_duration = start.elapsed();

@@ -120,6 +120,7 @@ mod ai_solution {
     }
 }
 
+#[cfg(test)]
 fn is_valid(s: &str, k: usize) -> bool {
     if k <= 1 {
         return true;
@@ -135,24 +136,24 @@ fn is_valid(s: &str, k: usize) -> bool {
     true
 }
 
-fn run_tests(f: fn(&str, usize) -> String) {
-    let r = f("aabbcc", 3);
-    assert_eq!(r.len(), 6);
-    assert!(is_valid(&r, 3), "invalid: {r}");
-
-    assert_eq!(f("aaabc", 3), "");
-
-    let r = f("aaadbbcc", 2);
-    assert_eq!(r.len(), 8);
-    assert!(is_valid(&r, 2), "invalid: {r}");
-
-    // k=0 means no constraint
-    assert_eq!(f("abc", 0), "abc");
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&str, usize) -> String) {
+        let r = f("aabbcc", 3);
+        assert_eq!(r.len(), 6);
+        assert!(is_valid(&r, 3), "invalid: {r}");
+
+        assert_eq!(f("aaabc", 3), "");
+
+        let r = f("aaadbbcc", 2);
+        assert_eq!(r.len(), 8);
+        assert!(is_valid(&r, 2), "invalid: {r}");
+
+        // k=0 means no constraint
+        assert_eq!(f("abc", 0), "abc");
+    }
 
     #[test]
     fn test_my_solution() {

@@ -104,10 +104,7 @@ mod tests {
     use super::my_solution::Solution as MySolution;
 
     fn run_tests(solve: fn(i32, Vec<Vec<i32>>) -> i32) {
-        assert_eq!(
-            solve(5, vec![vec![0, 1], vec![1, 2], vec![3, 4]]),
-            2
-        );
+        assert_eq!(solve(5, vec![vec![0, 1], vec![1, 2], vec![3, 4]]), 2);
         assert_eq!(
             solve(5, vec![vec![0, 1], vec![1, 2], vec![2, 3], vec![3, 4]]),
             1
@@ -151,14 +148,16 @@ fn main() {
     let start = Instant::now();
     for _ in 0..iterations {
         black_box(my_solution::Solution::count_components(
-            black_box(n), black_box(edges.clone()),
+            black_box(n),
+            black_box(edges.clone()),
         ));
     }
     let my_dur = start.elapsed();
     let start = Instant::now();
     for _ in 0..iterations {
         black_box(ai_solution::Solution::count_components(
-            black_box(n), black_box(edges.clone()),
+            black_box(n),
+            black_box(edges.clone()),
         ));
     }
     let ai_dur = start.elapsed();

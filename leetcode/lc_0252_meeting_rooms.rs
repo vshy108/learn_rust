@@ -145,9 +145,7 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let intervals: Vec<Vec<i32>> = (0..100)
-            .map(|i| vec![i * 10, i * 10 + 5])
-            .collect();
+        let intervals: Vec<Vec<i32>> = (0..100).map(|i| vec![i * 10, i * 10 + 5]).collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {

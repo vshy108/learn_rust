@@ -50,11 +50,7 @@ mod my_solution {
             Self::dfs_my(mask, n, &mut memo)
         }
 
-        fn dfs_my(
-            mask: u64,
-            n: usize,
-            memo: &mut HashMap<u64, bool>,
-        ) -> bool {
+        fn dfs_my(mask: u64, n: usize, memo: &mut HashMap<u64, bool>) -> bool {
             if let Some(&result) = memo.get(&mask) {
                 return result;
             }
@@ -201,9 +197,10 @@ fn main() {
     println!("LeetCode 294: Flip Game II");
     for state in ["++++", "+", "++", "+++", "+++++"] {
         println!(
-            "can_win(\"{}\") = {}",
+            "can_win(\"{}\") = my:{}, ai:{}",
             state,
-            Solution::can_win_my(state)
+            Solution::can_win_my(state),
+            Solution::can_win_ai(state),
         );
     }
 }

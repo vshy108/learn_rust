@@ -25,6 +25,7 @@
 
 /// Check whether an array satisfies the wiggle property:
 ///   nums[0] <= nums[1] >= nums[2] <= nums[3] ...
+#[cfg(test)]
 fn is_wiggle_sorted(nums: &[i32]) -> bool {
     for i in 1..nums.len() {
         if i % 2 == 1 && nums[i] < nums[i - 1] {
@@ -54,9 +55,7 @@ mod my_solution {
             for i in 1..nums.len() {
                 // Odd index → peak: nums[i] should be >= nums[i-1]
                 // Even index → valley: nums[i] should be <= nums[i-1]
-                if (i % 2 == 1 && nums[i] < nums[i - 1])
-                    || (i % 2 == 0 && nums[i] > nums[i - 1])
-                {
+                if (i % 2 == 1 && nums[i] < nums[i - 1]) || (i % 2 == 0 && nums[i] > nums[i - 1]) {
                     nums.swap(i, i - 1);
                 }
             }
@@ -155,10 +154,13 @@ mod tests {
 
 fn main() {
     println!("LeetCode 280: Wiggle Sort");
-    let mut nums = vec![3, 5, 2, 1, 6, 4];
-    println!("Input:  {:?}", nums);
-    my_solution::Solution::wiggle_sort(&mut nums);
-    println!("Output: {:?}", nums);
+    let mut my_nums = vec![3, 5, 2, 1, 6, 4];
+    let mut ai_nums = my_nums.clone();
+    my_solution::Solution::wiggle_sort(&mut my_nums);
+    ai_solution::Solution::wiggle_sort(&mut ai_nums);
+    println!("Input:  [3, 5, 2, 1, 6, 4]");
+    println!("My:     {:?}", my_nums);
+    println!("AI:     {:?}", ai_nums);
 }
 
 #[cfg(test)]
@@ -181,18 +183,14 @@ mod bench {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let mut nums = base.clone();
-            std::hint::black_box(my_solution::Solution::wiggle_sort(
-                &mut nums,
-            ));
+            std::hint::black_box(my_solution::Solution::wiggle_sort(&mut nums));
         }
         let my_dur = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let mut nums = base.clone();
-            std::hint::black_box(ai_solution::Solution::wiggle_sort(
-                &mut nums,
-            ));
+            std::hint::black_box(ai_solution::Solution::wiggle_sort(&mut nums));
         }
         let ai_dur = start.elapsed();
 

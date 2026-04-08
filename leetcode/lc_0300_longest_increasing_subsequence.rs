@@ -173,17 +173,17 @@ fn main() {
 
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::Solution::length_of_lis(
-            std::hint::black_box(test_nums.clone()),
-        ));
+        std::hint::black_box(my_solution::Solution::length_of_lis(std::hint::black_box(
+            test_nums.clone(),
+        )));
     }
     let my_time = start.elapsed();
 
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::Solution::length_of_lis(
-            std::hint::black_box(test_nums.clone()),
-        ));
+        std::hint::black_box(ai_solution::Solution::length_of_lis(std::hint::black_box(
+            test_nums.clone(),
+        )));
     }
     let ai_time = start.elapsed();
 

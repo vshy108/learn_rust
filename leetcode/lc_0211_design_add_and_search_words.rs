@@ -40,10 +40,7 @@ mod my_solution {
 
         /// Add a word to the dictionary.
         pub fn add_word(&mut self, word: String) {
-            self.words_by_len
-                .entry(word.len())
-                .or_default()
-                .push(word);
+            self.words_by_len.entry(word.len()).or_default().push(word);
         }
 
         /// Search with '.' wildcard support by brute-force comparison.
@@ -101,8 +98,7 @@ mod ai_solution {
             let mut node = &mut self.root;
             for b in word.bytes() {
                 let idx = (b - b'a') as usize;
-                node = node.children[idx]
-                    .get_or_insert_with(|| Box::new(TrieNode::new()));
+                node = node.children[idx].get_or_insert_with(|| Box::new(TrieNode::new()));
             }
             node.is_end = true;
         }
@@ -121,11 +117,9 @@ mod ai_solution {
             let ch = pattern[0];
             if ch == b'.' {
                 // Wildcard: try every existing child
-                node.children.iter().any(|child| {
-                    child
-                        .as_ref()
-                        .is_some_and(|c| Self::dfs(c, &pattern[1..]))
-                })
+                node.children
+                    .iter()
+                    .any(|child| child.as_ref().is_some_and(|c| Self::dfs(c, &pattern[1..])))
             } else {
                 let idx = (ch - b'a') as usize;
                 node.children[idx]
@@ -209,12 +203,10 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let words = vec![
-            "apple", "banana", "cherry", "date", "elder", "fig", "grape",
-            "hello", "world", "rust", "code", "test", "bench", "trie",
+            "apple", "banana", "cherry", "date", "elder", "fig", "grape", "hello", "world", "rust",
+            "code", "test", "bench", "trie",
         ];
-        let queries = vec![
-            "apple", "b.nana", "ch...y", "....", "hello", ".ust", "co.e",
-        ];
+        let queries = vec!["apple", "b.nana", "ch...y", "....", "hello", ".ust", "co.e"];
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {

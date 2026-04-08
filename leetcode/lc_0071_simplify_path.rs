@@ -67,7 +67,9 @@ mod ai_solution {
             for part in path.split('/') {
                 match part {
                     "" | "." => {}
-                    ".." => { stack.pop(); }
+                    ".." => {
+                        stack.pop();
+                    }
                     dir => stack.push(dir),
                 }
             }
@@ -80,8 +82,13 @@ mod ai_solution {
 }
 
 fn main() {
-    let paths = ["/home/", "/home//foo/", "/home/user/Documents/../Pictures",
-                 "/../", "/.../a/../b/c/../d/./"];
+    let paths = [
+        "/home/",
+        "/home//foo/",
+        "/home/user/Documents/../Pictures",
+        "/../",
+        "/.../a/../b/c/../d/./",
+    ];
     for p in paths {
         let my = my_solution::Solution::simplify_path(p.to_string());
         let ai = ai_solution::Solution::simplify_path(p.to_string());
@@ -96,10 +103,7 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_home() {
-                    assert_eq!(
-                        <$solution>::simplify_path("/home/".to_string()),
-                        "/home"
-                    );
+                    assert_eq!(<$solution>::simplify_path("/home/".to_string()), "/home");
                 }
 
                 #[test]
@@ -113,19 +117,14 @@ mod tests {
                 #[test]
                 fn test_dotdot() {
                     assert_eq!(
-                        <$solution>::simplify_path(
-                            "/home/user/Documents/../Pictures".to_string(),
-                        ),
+                        <$solution>::simplify_path("/home/user/Documents/../Pictures".to_string(),),
                         "/home/user/Pictures"
                     );
                 }
 
                 #[test]
                 fn test_root_dotdot() {
-                    assert_eq!(
-                        <$solution>::simplify_path("/../".to_string()),
-                        "/"
-                    );
+                    assert_eq!(<$solution>::simplify_path("/../".to_string()), "/");
                 }
 
                 #[test]

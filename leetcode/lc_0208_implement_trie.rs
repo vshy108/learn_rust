@@ -34,7 +34,10 @@ mod my_solution {
 
     impl TrieNode {
         fn new() -> Self {
-            TrieNode { children: HashMap::new(), is_end: false }
+            TrieNode {
+                children: HashMap::new(),
+                is_end: false,
+            }
         }
     }
 
@@ -45,14 +48,19 @@ mod my_solution {
     impl Trie {
         /// Create a new empty Trie.
         pub fn new() -> Self {
-            Trie { root: TrieNode::new() }
+            Trie {
+                root: TrieNode::new(),
+            }
         }
 
         /// Insert a word into the trie.
         pub fn insert(&mut self, word: String) {
             let mut node = &mut self.root;
             for b in word.bytes() {
-                node = node.children.entry(b).or_insert_with(|| Box::new(TrieNode::new()));
+                node = node
+                    .children
+                    .entry(b)
+                    .or_insert_with(|| Box::new(TrieNode::new()));
             }
             node.is_end = true;
         }
@@ -110,7 +118,9 @@ mod ai_solution {
     impl Trie {
         /// Create a new empty Trie.
         pub fn new() -> Self {
-            Trie { root: TrieNode::new() }
+            Trie {
+                root: TrieNode::new(),
+            }
         }
 
         /// Insert a word into the trie.

@@ -28,7 +28,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -123,9 +127,13 @@ mod ai_solution {
                 Some(n) => {
                     let n = n.borrow();
                     let lh = Self::check(&n.left);
-                    if lh < 0 { return -1; }
+                    if lh < 0 {
+                        return -1;
+                    }
                     let rh = Self::check(&n.right);
-                    if rh < 0 { return -1; }
+                    if rh < 0 {
+                        return -1;
+                    }
                     if (lh - rh).abs() > 1 {
                         return -1;
                     }
@@ -154,17 +162,23 @@ mod tests {
 
                 #[test]
                 fn test_balanced() {
-                    let root = build_tree(&[
-                        Some(3), Some(9), Some(20), None, None, Some(15), Some(7),
-                    ]);
+                    let root =
+                        build_tree(&[Some(3), Some(9), Some(20), None, None, Some(15), Some(7)]);
                     assert!(<$solution>::is_balanced(root));
                 }
 
                 #[test]
                 fn test_unbalanced() {
                     let root = build_tree(&[
-                        Some(1), Some(2), Some(2), Some(3), Some(3), None, None,
-                        Some(4), Some(4),
+                        Some(1),
+                        Some(2),
+                        Some(2),
+                        Some(3),
+                        Some(3),
+                        None,
+                        None,
+                        Some(4),
+                        Some(4),
                     ]);
                     assert!(!<$solution>::is_balanced(root));
                 }

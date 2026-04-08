@@ -61,10 +61,7 @@ mod my_solution {
 
     impl Solution {
         /// Remove all nodes with the given value.
-        pub fn remove_elements(
-            head: Option<Box<ListNode>>,
-            val: i32,
-        ) -> Option<Box<ListNode>> {
+        pub fn remove_elements(head: Option<Box<ListNode>>, val: i32) -> Option<Box<ListNode>> {
             // Recursive approach
             match head {
                 None => None,
@@ -92,10 +89,7 @@ mod ai_solution {
 
     impl Solution {
         /// Iterative approach using a dummy head node.
-        pub fn remove_elements(
-            head: Option<Box<ListNode>>,
-            val: i32,
-        ) -> Option<Box<ListNode>> {
+        pub fn remove_elements(head: Option<Box<ListNode>>, val: i32) -> Option<Box<ListNode>> {
             let mut dummy = Box::new(ListNode { val: 0, next: head });
             let mut current = &mut dummy;
 
@@ -159,19 +153,13 @@ mod tests {
                 #[test]
                 fn test_head_removal() {
                     let list = from_slice(&[1, 1, 2, 3]);
-                    assert_eq!(
-                        to_vec(<$solution>::remove_elements(list, 1)),
-                        vec![2, 3],
-                    );
+                    assert_eq!(to_vec(<$solution>::remove_elements(list, 1)), vec![2, 3],);
                 }
 
                 #[test]
                 fn test_no_removal() {
                     let list = from_slice(&[1, 2, 3]);
-                    assert_eq!(
-                        to_vec(<$solution>::remove_elements(list, 5)),
-                        vec![1, 2, 3],
-                    );
+                    assert_eq!(to_vec(<$solution>::remove_elements(list, 5)), vec![1, 2, 3],);
                 }
             }
         };
@@ -183,7 +171,9 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let vals: Vec<i32> = (0..100).map(|i| if i % 5 == 0 { 3 } else { i % 10 }).collect();
+        let vals: Vec<i32> = (0..100)
+            .map(|i| if i % 5 == 0 { 3 } else { i % 10 })
+            .collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {

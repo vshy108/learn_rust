@@ -42,11 +42,7 @@ mod my_solution {
     impl Solution {
         /// Return true if s and t are exactly one edit apart.
         pub fn is_one_edit_distance(s: String, t: String) -> bool {
-            let (s, t) = if s.len() >= t.len() {
-                (s, t)
-            } else {
-                (t, s)
-            };
+            let (s, t) = if s.len() >= t.len() { (s, t) } else { (t, s) };
             let (m, n) = (s.len(), t.len());
 
             if m - n > 1 {
@@ -154,7 +150,10 @@ mod tests {
 
                 #[test]
                 fn test_not_one_edit() {
-                    assert!(!<$solution>::is_one_edit_distance("cab".into(), "ad".into()));
+                    assert!(!<$solution>::is_one_edit_distance(
+                        "cab".into(),
+                        "ad".into()
+                    ));
                 }
 
                 #[test]
@@ -169,7 +168,10 @@ mod tests {
 
                 #[test]
                 fn test_replace() {
-                    assert!(<$solution>::is_one_edit_distance("abc".into(), "adc".into()));
+                    assert!(<$solution>::is_one_edit_distance(
+                        "abc".into(),
+                        "adc".into()
+                    ));
                 }
 
                 #[test]

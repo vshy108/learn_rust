@@ -89,15 +89,11 @@ mod ai_solution {
         ///
         /// # Returns
         /// Deduplicated list
-        pub fn delete_duplicates(
-            mut head: Option<Box<ListNode>>,
-        ) -> Option<Box<ListNode>> {
+        pub fn delete_duplicates(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
             let mut current = &mut head;
             while let Some(node) = current {
                 // Skip all next nodes with the same value
-                while node.next.is_some()
-                    && node.next.as_ref().expect("checked").val == node.val
-                {
+                while node.next.is_some() && node.next.as_ref().expect("checked").val == node.val {
                     node.next = node.next.as_mut().expect("checked").next.take();
                 }
                 current = &mut node.next;

@@ -178,11 +178,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        ("1 + 1", 2),
-        (" 2-1 + 2 ", 3),
-        ("(1+(4+5+2)-3)+(6+8)", 23),
-    ];
+    let cases = [("1 + 1", 2), (" 2-1 + 2 ", 3), ("(1+(4+5+2)-3)+(6+8)", 23)];
 
     for (expr, expected) in &cases {
         let my = my_solution::Solution::calculate(expr.to_string());
@@ -208,10 +204,7 @@ mod tests {
 
                 #[test]
                 fn test_example3() {
-                    assert_eq!(
-                        <$solution>::calculate("(1+(4+5+2)-3)+(6+8)".into()),
-                        23,
-                    );
+                    assert_eq!(<$solution>::calculate("(1+(4+5+2)-3)+(6+8)".into()), 23,);
                 }
 
                 #[test]
@@ -227,27 +220,18 @@ mod tests {
 
                 #[test]
                 fn test_nested_parens() {
-                    assert_eq!(
-                        <$solution>::calculate("((1+2)+(3+4))".into()),
-                        10,
-                    );
+                    assert_eq!(<$solution>::calculate("((1+2)+(3+4))".into()), 10,);
                 }
 
                 #[test]
                 fn test_minus_in_parens() {
                     // "-(3+2)" should evaluate to -5
-                    assert_eq!(
-                        <$solution>::calculate("1-(3+2)".into()),
-                        -4,
-                    );
+                    assert_eq!(<$solution>::calculate("1-(3+2)".into()), -4,);
                 }
 
                 #[test]
                 fn test_complex_nesting() {
-                    assert_eq!(
-                        <$solution>::calculate("1-(-(2+3))".into()),
-                        6,
-                    );
+                    assert_eq!(<$solution>::calculate("1-(-(2+3))".into()), 6,);
                 }
             }
         };

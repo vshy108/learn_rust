@@ -28,7 +28,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -227,9 +231,7 @@ mod tests {
                 #[test]
                 fn test_example2() {
                     // Tree: [3, 1, 4, null, null, 2] => 3 and 2 swapped
-                    let mut root = build_tree(&[
-                        Some(3), Some(1), Some(4), None, None, Some(2),
-                    ]);
+                    let mut root = build_tree(&[Some(3), Some(1), Some(4), None, None, Some(2)]);
                     <$solution>::recover_tree(&mut root);
                     let vals = inorder_vals(&root);
                     assert_eq!(vals, vec![1, 2, 3, 4]);
@@ -246,54 +248,61 @@ mod tests {
         let iterations = 100_000;
         // Build a valid BST [1..15] then swap two values
         let vals: Vec<Option<i32>> = vec![
-            Some(8), Some(4), Some(12),
-            Some(2), Some(6), Some(10), Some(14),
-            Some(1), Some(3), Some(5), Some(7),
-            Some(9), Some(11), Some(13), Some(15),
+            Some(8),
+            Some(4),
+            Some(12),
+            Some(2),
+            Some(6),
+            Some(10),
+            Some(14),
+            Some(1),
+            Some(3),
+            Some(5),
+            Some(7),
+            Some(9),
+            Some(11),
+            Some(13),
+            Some(15),
         ];
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let mut root = build_tree(&vals);
             // Swap nodes 3 and 13
-            fn swap_vals(
-                node: &super::Node,
-                a: i32, b: i32,
-            ) {
+            fn swap_vals(node: &super::Node, a: i32, b: i32) {
                 if let Some(n) = node {
                     let mut n = n.borrow_mut();
-                    if n.val == a { n.val = b; }
-                    else if n.val == b { n.val = a; }
+                    if n.val == a {
+                        n.val = b;
+                    } else if n.val == b {
+                        n.val = a;
+                    }
                     swap_vals(&n.left, a, b);
                     swap_vals(&n.right, a, b);
                 }
             }
             swap_vals(&root, 3, 13);
-            std::hint::black_box(
-                crate::my_solution::Solution::recover_tree(&mut root),
-            );
+            std::hint::black_box(crate::my_solution::Solution::recover_tree(&mut root));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let mut root = build_tree(&vals);
-            fn swap_vals2(
-                node: &super::Node,
-                a: i32, b: i32,
-            ) {
+            fn swap_vals2(node: &super::Node, a: i32, b: i32) {
                 if let Some(n) = node {
                     let mut n = n.borrow_mut();
-                    if n.val == a { n.val = b; }
-                    else if n.val == b { n.val = a; }
+                    if n.val == a {
+                        n.val = b;
+                    } else if n.val == b {
+                        n.val = a;
+                    }
                     swap_vals2(&n.left, a, b);
                     swap_vals2(&n.right, a, b);
                 }
             }
             swap_vals2(&root, 3, 13);
-            std::hint::black_box(
-                crate::ai_solution::Solution::recover_tree(&mut root),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::recover_tree(&mut root));
         }
         let ai_duration = start.elapsed();
 

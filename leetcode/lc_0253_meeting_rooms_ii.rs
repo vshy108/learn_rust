@@ -75,7 +75,7 @@ mod ai_solution {
         pub fn min_meeting_rooms(intervals: Vec<Vec<i32>>) -> i32 {
             let mut events: Vec<(i32, i32)> = Vec::with_capacity(intervals.len() * 2);
             for iv in &intervals {
-                events.push((iv[0], 1));  // meeting start -> +1
+                events.push((iv[0], 1)); // meeting start -> +1
                 events.push((iv[1], -1)); // meeting end   -> -1
             }
             // Sort by time; if tied, ends (-1) before starts (+1)
@@ -119,10 +119,7 @@ mod tests {
 
                 #[test]
                 fn test_example_2() {
-                    assert_eq!(
-                        Sol::min_meeting_rooms(vec![vec![7, 10], vec![2, 4]]),
-                        1
-                    );
+                    assert_eq!(Sol::min_meeting_rooms(vec![vec![7, 10], vec![2, 4]]), 1);
                 }
 
                 #[test]
@@ -149,11 +146,7 @@ mod tests {
                 #[test]
                 fn test_partial_overlap() {
                     assert_eq!(
-                        Sol::min_meeting_rooms(vec![
-                            vec![0, 10],
-                            vec![5, 15],
-                            vec![10, 20],
-                        ]),
+                        Sol::min_meeting_rooms(vec![vec![0, 10], vec![5, 15], vec![10, 20],]),
                         2
                     );
                 }
@@ -169,10 +162,7 @@ mod tests {
                 #[test]
                 fn test_same_end_new_start() {
                     // Meeting ends at 5, new one starts at 5 -> reuse room
-                    assert_eq!(
-                        Sol::min_meeting_rooms(vec![vec![1, 5], vec![5, 10]]),
-                        1
-                    );
+                    assert_eq!(Sol::min_meeting_rooms(vec![vec![1, 5], vec![5, 10]]), 1);
                 }
             }
         };
@@ -184,9 +174,7 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let intervals: Vec<Vec<i32>> = (0..100)
-            .map(|i| vec![i * 5, i * 5 + 20])
-            .collect();
+        let intervals: Vec<Vec<i32>> = (0..100).map(|i| vec![i * 5, i * 5 + 20]).collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {

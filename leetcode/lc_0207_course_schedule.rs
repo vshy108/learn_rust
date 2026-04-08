@@ -37,8 +37,12 @@ mod my_solution {
             fn has_cycle(node: usize, adj: &[Vec<usize>], state: &mut [u8]) -> bool {
                 state[node] = 1;
                 for &next in &adj[node] {
-                    if state[next] == 1 { return true; }
-                    if state[next] == 0 && has_cycle(next, adj, state) { return true; }
+                    if state[next] == 1 {
+                        return true;
+                    }
+                    if state[next] == 0 && has_cycle(next, adj, state) {
+                        return true;
+                    }
                 }
                 state[node] = 2;
                 false
@@ -115,10 +119,7 @@ mod tests {
 
                 #[test]
                 fn test_cycle() {
-                    assert!(!<$solution>::can_finish(
-                        2,
-                        vec![vec![1, 0], vec![0, 1]],
-                    ));
+                    assert!(!<$solution>::can_finish(2, vec![vec![1, 0], vec![0, 1]],));
                 }
 
                 #[test]

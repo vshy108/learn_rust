@@ -115,8 +115,12 @@ mod tests {
                 fn test_three() {
                     let result = sorted(Solution::permute(vec![1, 2, 3]));
                     let expected = sorted(vec![
-                        vec![1, 2, 3], vec![1, 3, 2], vec![2, 1, 3],
-                        vec![2, 3, 1], vec![3, 1, 2], vec![3, 2, 1],
+                        vec![1, 2, 3],
+                        vec![1, 3, 2],
+                        vec![2, 1, 3],
+                        vec![2, 3, 1],
+                        vec![3, 1, 2],
+                        vec![3, 2, 1],
                     ]);
                     assert_eq!(result, expected);
                 }
@@ -154,17 +158,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::my_solution::Solution::permute(
-                std::hint::black_box(nums.clone()),
-            ));
+            std::hint::black_box(crate::my_solution::Solution::permute(std::hint::black_box(
+                nums.clone(),
+            )));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(crate::ai_solution::Solution::permute(
-                std::hint::black_box(nums.clone()),
-            ));
+            std::hint::black_box(crate::ai_solution::Solution::permute(std::hint::black_box(
+                nums.clone(),
+            )));
         }
         let ai_duration = start.elapsed();
 

@@ -166,10 +166,7 @@ mod tests {
 
                 #[test]
                 fn test_line() {
-                    assert!(Sol::valid_tree(
-                        4,
-                        vec![vec![0, 1], vec![1, 2], vec![2, 3]]
-                    ));
+                    assert!(Sol::valid_tree(4, vec![vec![0, 1], vec![1, 2], vec![2, 3]]));
                 }
 
                 #[test]
@@ -184,10 +181,7 @@ mod tests {
                 #[test]
                 fn test_disconnected_forest() {
                     // Two separate components, no cycle but not connected
-                    assert!(!Sol::valid_tree(
-                        4,
-                        vec![vec![0, 1], vec![2, 3]]
-                    ));
+                    assert!(!Sol::valid_tree(4, vec![vec![0, 1], vec![2, 3]]));
                 }
 
                 #[test]

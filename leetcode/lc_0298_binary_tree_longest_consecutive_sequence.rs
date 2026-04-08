@@ -34,7 +34,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -130,12 +134,7 @@ mod ai_solution {
             ans
         }
 
-        fn dfs_ai(
-            node: &Node,
-            parent_val: i32,
-            streak: i32,
-            ans: &mut i32,
-        ) {
+        fn dfs_ai(node: &Node, parent_val: i32, streak: i32, ans: &mut i32) {
             let Some(n) = node else { return };
             let n = n.borrow();
             let new_streak = if n.val == parent_val + 1 {
@@ -176,7 +175,17 @@ mod tests {
     // Example 1: [1,null,3,2,4,null,null,null,5] -> 3
     test_lcs!(
         test_example_1,
-        [Some(1), None, Some(3), Some(2), Some(4), None, None, None, Some(5)],
+        [
+            Some(1),
+            None,
+            Some(3),
+            Some(2),
+            Some(4),
+            None,
+            None,
+            None,
+            Some(5)
+        ],
         3
     );
 
@@ -191,11 +200,7 @@ mod tests {
     test_lcs!(test_single, [Some(1)], 1);
 
     // All same values
-    test_lcs!(
-        test_same_values,
-        [Some(5), Some(5), Some(5)],
-        1
-    );
+    test_lcs!(test_same_values, [Some(5), Some(5), Some(5)], 1);
 
     // Straight line left: 1->2->3->4
     test_lcs!(
@@ -205,11 +210,7 @@ mod tests {
     );
 
     // Decreasing (not consecutive going down)
-    test_lcs!(
-        test_decreasing,
-        [Some(4), Some(3), None, Some(2)],
-        1
-    );
+    test_lcs!(test_decreasing, [Some(4), Some(3), None, Some(2)], 1);
 
     // Consecutive in right subtree only
     test_lcs!(
@@ -221,31 +222,38 @@ mod tests {
     // Two separate consecutive paths, pick longer
     test_lcs!(
         test_two_paths,
-        [Some(1), Some(2), Some(2), Some(3), None, Some(3), None, Some(4)],
+        [
+            Some(1),
+            Some(2),
+            Some(2),
+            Some(3),
+            None,
+            Some(3),
+            None,
+            Some(4)
+        ],
         4
     );
 
     // Negative values
-    test_lcs!(
-        test_negatives,
-        [Some(-3), Some(-2), None, Some(-1)],
-        3
-    );
+    test_lcs!(test_negatives, [Some(-3), Some(-2), None, Some(-1)], 3);
 }
 
 fn main() {
     println!("LeetCode 298: Binary Tree Longest Consecutive Sequence");
     let root = build_tree(&[
-        Some(1), None, Some(3), Some(2), Some(4), None, None, None, Some(5),
+        Some(1),
+        None,
+        Some(3),
+        Some(2),
+        Some(4),
+        None,
+        None,
+        None,
+        Some(5),
     ]);
-    println!(
-        "my_solution: {}",
-        Solution::longest_consecutive_my(&root)
-    );
-    println!(
-        "ai_solution: {}",
-        Solution::longest_consecutive_ai(&root)
-    );
+    println!("my_solution: {}", Solution::longest_consecutive_my(&root));
+    println!("ai_solution: {}", Solution::longest_consecutive_ai(&root));
 }
 
 #[cfg(test)]

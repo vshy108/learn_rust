@@ -136,8 +136,12 @@ mod tests {
                 fn test_4_2() {
                     let result = sorted(<$solution>::combine(4, 2));
                     let expected = sorted(vec![
-                        vec![1, 2], vec![1, 3], vec![1, 4],
-                        vec![2, 3], vec![2, 4], vec![3, 4],
+                        vec![1, 2],
+                        vec![1, 3],
+                        vec![1, 4],
+                        vec![2, 3],
+                        vec![2, 4],
+                        vec![3, 4],
                     ]);
                     assert_eq!(result, expected);
                 }

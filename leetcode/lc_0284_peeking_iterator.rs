@@ -39,7 +39,11 @@ mod my_solution {
 
     impl<I: Iterator<Item = i32>> PeekingIterator<I> {
         pub fn new(iter: I) -> Self {
-            Self { iter, has_peeked: false, peeked: 0 }
+            Self {
+                iter,
+                has_peeked: false,
+                peeked: 0,
+            }
         }
 
         /// Returns the next element without advancing the iterator.
@@ -232,11 +236,19 @@ mod tests {
 
 fn main() {
     println!("LeetCode 284: Peeking Iterator");
+    println!("-- my_solution --");
+    let mut it = my_solution::PeekingIterator::new(vec![1, 2, 3].into_iter());
+    println!("next()    = {}", it.next()); // 1
+    println!("peek()    = {}", it.peek()); // 2
+    println!("next()    = {}", it.next()); // 2
+    println!("next()    = {}", it.next()); // 3
+    println!("hasNext() = {}", it.has_next()); // false
+    println!("-- ai_solution --");
     let mut it = ai_solution::PeekingIterator::new(vec![1, 2, 3].into_iter());
-    println!("next()    = {}", it.next());     // 1
-    println!("peek()    = {}", it.peek());     // 2
-    println!("next()    = {}", it.next());     // 2
-    println!("next()    = {}", it.next());     // 3
+    println!("next()    = {}", it.next()); // 1
+    println!("peek()    = {}", it.peek()); // 2
+    println!("next()    = {}", it.next()); // 2
+    println!("next()    = {}", it.next()); // 3
     println!("hasNext() = {}", it.has_next()); // false
 }
 

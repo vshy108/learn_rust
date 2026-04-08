@@ -111,11 +111,7 @@ mod tests {
     // Zeros at end (already correct)
     test_move_zeroes!(test_zeros_end, [1, 2, 0], [1, 2, 0]);
     // Alternating
-    test_move_zeroes!(
-        test_alternating,
-        [0, 1, 0, 2, 0, 3],
-        [1, 2, 3, 0, 0, 0]
-    );
+    test_move_zeroes!(test_alternating, [0, 1, 0, 2, 0, 3], [1, 2, 3, 0, 0, 0]);
     // Negative numbers
     test_move_zeroes!(test_negatives, [0, -1, 0, 3, 0], [-1, 3, 0, 0, 0]);
     // Two elements
@@ -130,10 +126,13 @@ mod tests {
 
 fn main() {
     println!("LeetCode 283: Move Zeroes");
-    let mut nums = vec![0, 1, 0, 3, 12];
-    println!("Input:  {:?}", nums);
-    my_solution::Solution::move_zeroes(&mut nums);
-    println!("Output: {:?}", nums);
+    let mut my_nums = vec![0, 1, 0, 3, 12];
+    let mut ai_nums = my_nums.clone();
+    my_solution::Solution::move_zeroes(&mut my_nums);
+    ai_solution::Solution::move_zeroes(&mut ai_nums);
+    println!("Input:  [0, 1, 0, 3, 12]");
+    println!("My:     {:?}", my_nums);
+    println!("AI:     {:?}", ai_nums);
 }
 
 #[cfg(test)]

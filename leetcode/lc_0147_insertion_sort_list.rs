@@ -58,9 +58,7 @@ mod my_solution {
 
     impl Solution {
         /// Sort the linked list.
-        pub fn insertion_sort_list(
-            head: Option<Box<ListNode>>,
-        ) -> Option<Box<ListNode>> {
+        pub fn insertion_sort_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
             let mut vals = to_vec(&head);
             vals.sort_unstable();
             build_list(&vals)
@@ -79,9 +77,7 @@ mod ai_solution {
 
     impl Solution {
         /// Sort using actual insertion sort on linked list.
-        pub fn insertion_sort_list(
-            head: Option<Box<ListNode>>,
-        ) -> Option<Box<ListNode>> {
+        pub fn insertion_sort_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
             let mut sorted: Option<Box<ListNode>> = None;
             let mut current = head;
 
@@ -105,9 +101,7 @@ mod ai_solution {
 
             // Walk the sorted list to find insertion point
             let mut cur = head.as_mut().expect("non-empty");
-            while cur.next.is_some()
-                && cur.next.as_ref().expect("checked").val < node.val
-            {
+            while cur.next.is_some() && cur.next.as_ref().expect("checked").val < node.val {
                 cur = cur.next.as_mut().expect("checked");
             }
             node.next = cur.next.take();
@@ -118,12 +112,8 @@ mod ai_solution {
 }
 
 fn main() {
-    let my = my_solution::Solution::insertion_sort_list(
-        build_list(&[4, 2, 1, 3]),
-    );
-    let ai = ai_solution::Solution::insertion_sort_list(
-        build_list(&[4, 2, 1, 3]),
-    );
+    let my = my_solution::Solution::insertion_sort_list(build_list(&[4, 2, 1, 3]));
+    let ai = ai_solution::Solution::insertion_sort_list(build_list(&[4, 2, 1, 3]));
     println!("sorted: my={:?}, ai={:?}", to_vec(&my), to_vec(&ai));
 }
 
@@ -138,17 +128,13 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    let result = <$solution>::insertion_sort_list(
-                        build_list(&[4, 2, 1, 3]),
-                    );
+                    let result = <$solution>::insertion_sort_list(build_list(&[4, 2, 1, 3]));
                     assert_eq!(to_vec(&result), vec![1, 2, 3, 4]);
                 }
 
                 #[test]
                 fn test_example2() {
-                    let result = <$solution>::insertion_sort_list(
-                        build_list(&[-1, 5, 3, 4, 0]),
-                    );
+                    let result = <$solution>::insertion_sort_list(build_list(&[-1, 5, 3, 4, 0]));
                     assert_eq!(to_vec(&result), vec![-1, 0, 3, 4, 5]);
                 }
 
@@ -160,17 +146,13 @@ mod tests {
 
                 #[test]
                 fn test_single() {
-                    let result = <$solution>::insertion_sort_list(
-                        build_list(&[5]),
-                    );
+                    let result = <$solution>::insertion_sort_list(build_list(&[5]));
                     assert_eq!(to_vec(&result), vec![5]);
                 }
 
                 #[test]
                 fn test_already_sorted() {
-                    let result = <$solution>::insertion_sort_list(
-                        build_list(&[1, 2, 3, 4, 5]),
-                    );
+                    let result = <$solution>::insertion_sort_list(build_list(&[1, 2, 3, 4, 5]));
                     assert_eq!(to_vec(&result), vec![1, 2, 3, 4, 5]);
                 }
             }

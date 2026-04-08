@@ -147,36 +147,28 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     let list = build_list(&[1, 2, 3, 4, 5]);
-                    let result = list_to_vec(
-                        <$solution>::reverse_between(list, 2, 4),
-                    );
+                    let result = list_to_vec(<$solution>::reverse_between(list, 2, 4));
                     assert_eq!(result, vec![1, 4, 3, 2, 5]);
                 }
 
                 #[test]
                 fn test_single() {
                     let list = build_list(&[5]);
-                    let result = list_to_vec(
-                        <$solution>::reverse_between(list, 1, 1),
-                    );
+                    let result = list_to_vec(<$solution>::reverse_between(list, 1, 1));
                     assert_eq!(result, vec![5]);
                 }
 
                 #[test]
                 fn test_full_reverse() {
                     let list = build_list(&[1, 2, 3]);
-                    let result = list_to_vec(
-                        <$solution>::reverse_between(list, 1, 3),
-                    );
+                    let result = list_to_vec(<$solution>::reverse_between(list, 1, 3));
                     assert_eq!(result, vec![3, 2, 1]);
                 }
 
                 #[test]
                 fn test_first_two() {
                     let list = build_list(&[1, 2, 3, 4]);
-                    let result = list_to_vec(
-                        <$solution>::reverse_between(list, 1, 2),
-                    );
+                    let result = list_to_vec(<$solution>::reverse_between(list, 1, 2));
                     assert_eq!(result, vec![2, 1, 3, 4]);
                 }
             }
@@ -195,7 +187,9 @@ mod tests {
         for _ in 0..iterations {
             let list = build_list(&vals);
             std::hint::black_box(crate::my_solution::Solution::reverse_between(
-                std::hint::black_box(list), 10, 40,
+                std::hint::black_box(list),
+                10,
+                40,
             ));
         }
         let my_duration = start.elapsed();
@@ -204,7 +198,9 @@ mod tests {
         for _ in 0..iterations {
             let list = build_list(&vals);
             std::hint::black_box(crate::ai_solution::Solution::reverse_between(
-                std::hint::black_box(list), 10, 40,
+                std::hint::black_box(list),
+                10,
+                40,
             ));
         }
         let ai_duration = start.elapsed();

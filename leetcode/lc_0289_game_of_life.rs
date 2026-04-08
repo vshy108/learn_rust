@@ -144,18 +144,8 @@ mod tests {
 
     test_gol!(
         test_example_1,
-        vec![
-            vec![0, 1, 0],
-            vec![0, 0, 1],
-            vec![1, 1, 1],
-            vec![0, 0, 0],
-        ],
-        vec![
-            vec![0, 0, 0],
-            vec![1, 0, 1],
-            vec![0, 1, 1],
-            vec![0, 1, 0],
-        ]
+        vec![vec![0, 1, 0], vec![0, 0, 1], vec![1, 1, 1], vec![0, 0, 0],],
+        vec![vec![0, 0, 0], vec![1, 0, 1], vec![0, 1, 1], vec![0, 1, 0],]
     );
 
     test_gol!(
@@ -226,16 +216,8 @@ mod tests {
     // Over-population: center cell with 4+ neighbors
     test_gol!(
         test_overpopulation,
-        vec![
-            vec![1, 1, 1],
-            vec![1, 1, 1],
-            vec![1, 1, 1],
-        ],
-        vec![
-            vec![1, 0, 1],
-            vec![0, 0, 0],
-            vec![1, 0, 1],
-        ]
+        vec![vec![1, 1, 1], vec![1, 1, 1], vec![1, 1, 1],],
+        vec![vec![1, 0, 1], vec![0, 0, 0], vec![1, 0, 1],]
     );
 
     // 1x1 grid
@@ -245,15 +227,13 @@ mod tests {
 
 fn main() {
     println!("LeetCode 289: Game of Life");
-    let mut board = vec![
-        vec![0, 1, 0],
-        vec![0, 0, 1],
-        vec![1, 1, 1],
-        vec![0, 0, 0],
-    ];
-    println!("Before: {:?}", board);
-    Solution::game_of_life_my(&mut board);
-    println!("After: {:?}", board);
+    let mut my_board = vec![vec![0, 1, 0], vec![0, 0, 1], vec![1, 1, 1], vec![0, 0, 0]];
+    let mut ai_board = my_board.clone();
+    println!("Before: {:?}", my_board);
+    Solution::game_of_life_my(&mut my_board);
+    Solution::game_of_life_ai(&mut ai_board);
+    println!("My:    {:?}", my_board);
+    println!("AI:    {:?}", ai_board);
 }
 
 #[cfg(test)]

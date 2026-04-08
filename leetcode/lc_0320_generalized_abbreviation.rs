@@ -140,8 +140,8 @@ mod tests {
         let mut result = solve("word".to_string());
         result.sort();
         let mut expected = vec![
-            "4", "3d", "2r1", "2rd", "1o2", "1o1d", "1or1", "1ord",
-            "w3", "w2d", "w1r1", "w1rd", "wo2", "wo1d", "wor1", "word",
+            "4", "3d", "2r1", "2rd", "1o2", "1o1d", "1or1", "1ord", "w3", "w2d", "w1r1", "w1rd",
+            "wo2", "wo1d", "wor1", "word",
         ];
         expected.sort();
         assert_eq!(result, expected);
@@ -184,17 +184,17 @@ fn main() {
     let iterations = 100_000;
     let start = Instant::now();
     for _ in 0..iterations {
-        black_box(my_solution::Solution::generate_abbreviations(
-            black_box(word.clone()),
-        ));
+        black_box(my_solution::Solution::generate_abbreviations(black_box(
+            word.clone(),
+        )));
     }
     let my_dur = start.elapsed();
 
     let start = Instant::now();
     for _ in 0..iterations {
-        black_box(ai_solution::Solution::generate_abbreviations(
-            black_box(word.clone()),
-        ));
+        black_box(ai_solution::Solution::generate_abbreviations(black_box(
+            word.clone(),
+        )));
     }
     let ai_dur = start.elapsed();
 

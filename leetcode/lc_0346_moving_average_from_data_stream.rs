@@ -67,26 +67,27 @@ mod ai_solution {
     }
 }
 
+#[cfg(test)]
 fn approx_eq(a: &[f64], b: &[f64]) -> bool {
     a.len() == b.len() && a.iter().zip(b).all(|(x, y)| (x - y).abs() < 1e-4)
-}
-
-fn run_tests(f: fn(usize, &[i32]) -> Vec<f64>) {
-    // Example: size=3, vals=[1,10,3,5]
-    let result = f(3, &[1, 10, 3, 5]);
-    let expected = vec![1.0, 5.5, 4.66667, 6.0];
-    assert!(
-        approx_eq(&result, &expected),
-        "got {result:?}, expected {expected:?}"
-    );
-    // Single element window
-    let result = f(1, &[5, 10, 15]);
-    assert!(approx_eq(&result, &[5.0, 10.0, 15.0]));
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(usize, &[i32]) -> Vec<f64>) {
+        // Example: size=3, vals=[1,10,3,5]
+        let result = f(3, &[1, 10, 3, 5]);
+        let expected = vec![1.0, 5.5, 4.66667, 6.0];
+        assert!(
+            approx_eq(&result, &expected),
+            "got {result:?}, expected {expected:?}"
+        );
+        // Single element window
+        let result = f(1, &[5, 10, 15]);
+        assert!(approx_eq(&result, &[5.0, 10.0, 15.0]));
+    }
 
     #[test]
     fn test_my_solution() {
@@ -105,20 +106,32 @@ fn main() {
     let iterations = 100_000;
 
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::moving_average(size, std::hint::black_box(&vals)));
+        std::hint::black_box(my_solution::moving_average(
+            size,
+            std::hint::black_box(&vals),
+        ));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::moving_average(size, std::hint::black_box(&vals)));
+        std::hint::black_box(my_solution::moving_average(
+            size,
+            std::hint::black_box(&vals),
+        ));
     }
     let my_dur = start.elapsed();
 
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::moving_average(size, std::hint::black_box(&vals)));
+        std::hint::black_box(ai_solution::moving_average(
+            size,
+            std::hint::black_box(&vals),
+        ));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::moving_average(size, std::hint::black_box(&vals)));
+        std::hint::black_box(ai_solution::moving_average(
+            size,
+            std::hint::black_box(&vals),
+        ));
     }
     let ai_dur = start.elapsed();
 

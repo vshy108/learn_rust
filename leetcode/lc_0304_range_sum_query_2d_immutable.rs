@@ -25,8 +25,7 @@ mod my_solution {
             let mut s = vec![vec![0i32; n + 1]; m + 1];
             for i in 0..m {
                 for j in 0..n {
-                    s[i + 1][j + 1] =
-                        s[i + 1][j] + s[i][j + 1] - s[i][j] + matrix[i][j];
+                    s[i + 1][j + 1] = s[i + 1][j] + s[i][j + 1] - s[i][j] + matrix[i][j];
                 }
             }
             Self { s }
@@ -178,7 +177,11 @@ fn main() {
     ];
     let my = my_solution::NumMatrix::new(m.clone());
     let ai = ai_solution::NumMatrix::new(m.clone());
-    println!("sumRegion(2,1,4,3): My={}, AI={}", my.sum_region(2, 1, 4, 3), ai.sum_region(2, 1, 4, 3));
+    println!(
+        "sumRegion(2,1,4,3): My={}, AI={}",
+        my.sum_region(2, 1, 4, 3),
+        ai.sum_region(2, 1, 4, 3)
+    );
 
     // Benchmark
     let iterations = 100_000;

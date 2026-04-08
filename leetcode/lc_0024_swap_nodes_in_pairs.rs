@@ -143,8 +143,13 @@ mod ai_solution {
 
                 // Advance prev past the swapped pair (prev -> second -> first).
                 // Move to `first`, which is now at prev.next.next.
-                prev = prev.next.as_deref_mut().unwrap() // second
-                    .next.as_mut().unwrap();              // first
+                prev = prev
+                    .next
+                    .as_deref_mut()
+                    .unwrap() // second
+                    .next
+                    .as_mut()
+                    .unwrap(); // first
             }
 
             dummy.next
@@ -166,8 +171,8 @@ mod tests {
     macro_rules! test_swap_pairs {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use $solution as Solution;
                 use crate::{build_list, list_to_vec};
+                use $solution as Solution;
 
                 #[test]
                 fn test_four_nodes() {
@@ -219,8 +224,8 @@ mod tests {
 
     #[test]
     fn bench_comparison() {
-        use std::time::Instant;
         use crate::build_list;
+        use std::time::Instant;
 
         let iterations = 100_000;
         let vals: Vec<i32> = (0..100).collect();

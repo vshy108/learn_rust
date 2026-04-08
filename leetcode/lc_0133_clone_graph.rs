@@ -28,7 +28,10 @@ pub struct GraphNode {
 
 impl GraphNode {
     pub fn new(val: i32) -> Self {
-        GraphNode { val, neighbors: Vec::new() }
+        GraphNode {
+            val,
+            neighbors: Vec::new(),
+        }
     }
 }
 
@@ -62,9 +65,7 @@ fn to_adj_list(root: &Option<GNode>) -> Vec<Vec<i32>> {
         if visited.contains_key(&node_ref.val) {
             continue;
         }
-        let nbrs: Vec<i32> = node_ref.neighbors.iter()
-            .map(|n| n.borrow().val)
-            .collect();
+        let nbrs: Vec<i32> = node_ref.neighbors.iter().map(|n| n.borrow().val).collect();
         visited.insert(node_ref.val, nbrs);
         for n in &node_ref.neighbors {
             if !visited.contains_key(&n.borrow().val) {
@@ -93,10 +94,7 @@ mod my_solution {
             Self::dfs(&node, &mut visited)
         }
 
-        fn dfs(
-            node: &Option<GNode>,
-            visited: &mut HashMap<i32, GNode>,
-        ) -> Option<GNode> {
+        fn dfs(node: &Option<GNode>, visited: &mut HashMap<i32, GNode>) -> Option<GNode> {
             let node = node.as_ref()?;
             let node_ref = node.borrow();
             if let Some(cloned) = visited.get(&node_ref.val) {
@@ -129,9 +127,7 @@ mod ai_solution {
         pub fn clone_graph(node: Option<GNode>) -> Option<GNode> {
             let node = node?;
             let mut visited: HashMap<i32, GNode> = HashMap::new();
-            let root_clone = Rc::new(RefCell::new(
-                GraphNode::new(node.borrow().val),
-            ));
+            let root_clone = Rc::new(RefCell::new(GraphNode::new(node.borrow().val)));
             visited.insert(node.borrow().val, Rc::clone(&root_clone));
 
             let mut queue = VecDeque::new();
@@ -139,17 +135,13 @@ mod ai_solution {
 
             while let Some(cur) = queue.pop_front() {
                 let cur_ref = cur.borrow();
-                let cur_clone = Rc::clone(
-                    visited.get(&cur_ref.val).expect("visited"),
-                );
+                let cur_clone = Rc::clone(visited.get(&cur_ref.val).expect("visited"));
                 for nbr in &cur_ref.neighbors {
                     let nbr_val = nbr.borrow().val;
                     let nbr_clone = visited
                         .entry(nbr_val)
                         .or_insert_with(|| {
-                            let new = Rc::new(RefCell::new(
-                                GraphNode::new(nbr_val),
-                            ));
+                            let new = Rc::new(RefCell::new(GraphNode::new(nbr_val)));
                             queue.push_back(Rc::clone(nbr));
                             new
                         })

@@ -83,10 +83,7 @@ mod my_solution {
         ///
         /// # Returns
         /// The head of the modified list.
-        pub fn remove_nth_from_end(
-            head: Option<Box<ListNode>>,
-            n: i32,
-        ) -> Option<Box<ListNode>> {
+        pub fn remove_nth_from_end(head: Option<Box<ListNode>>, n: i32) -> Option<Box<ListNode>> {
             // First pass: count nodes.
             let mut len = 0;
             let mut current = &head;
@@ -143,10 +140,7 @@ mod ai_solution {
         ///
         /// # Returns
         /// The head of the modified list.
-        pub fn remove_nth_from_end(
-            head: Option<Box<ListNode>>,
-            n: i32,
-        ) -> Option<Box<ListNode>> {
+        pub fn remove_nth_from_end(head: Option<Box<ListNode>>, n: i32) -> Option<Box<ListNode>> {
             // Use a dummy node to simplify edge cases (removing the head).
             let mut dummy = Box::new(ListNode { val: 0, next: head });
             let n = n as usize;
@@ -180,12 +174,18 @@ fn main() {
 
     println!("--- My Solution ---");
     let result = my_solution::Solution::remove_nth_from_end(head.clone(), 2);
-    println!("remove_nth_from_end([1,2,3,4,5], 2) = {:?}", list_to_vec(result));
+    println!(
+        "remove_nth_from_end([1,2,3,4,5], 2) = {:?}",
+        list_to_vec(result)
+    );
 
     let head = build_list(&[1, 2, 3, 4, 5]);
     println!("--- AI Solution ---");
     let result = ai_solution::Solution::remove_nth_from_end(head, 2);
-    println!("remove_nth_from_end([1,2,3,4,5], 2) = {:?}", list_to_vec(result));
+    println!(
+        "remove_nth_from_end([1,2,3,4,5], 2) = {:?}",
+        list_to_vec(result)
+    );
 }
 
 #[cfg(test)]
@@ -195,8 +195,8 @@ mod tests {
     macro_rules! test_remove_nth {
         ($mod_name:ident, $solution:path) => {
             mod $mod_name {
-                use $solution as Solution;
                 use crate::{build_list, list_to_vec};
+                use $solution as Solution;
 
                 #[test]
                 fn test_remove_second_from_end() {

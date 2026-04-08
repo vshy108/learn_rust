@@ -147,17 +147,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::min_path_sum(std::hint::black_box(grid.clone())),
-            );
+            std::hint::black_box(crate::my_solution::Solution::min_path_sum(
+                std::hint::black_box(grid.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::min_path_sum(std::hint::black_box(grid.clone())),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::min_path_sum(
+                std::hint::black_box(grid.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

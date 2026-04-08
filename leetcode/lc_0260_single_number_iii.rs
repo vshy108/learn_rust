@@ -85,8 +85,14 @@ mod ai_solution {
 }
 
 fn main() {
-    println!("my: {:?}", my_solution::Solution::single_number(vec![1, 2, 1, 3, 2, 5]));
-    println!("ai: {:?}", ai_solution::Solution::single_number(vec![-1, 0]));
+    println!(
+        "my: {:?}",
+        my_solution::Solution::single_number(vec![1, 2, 1, 3, 2, 5])
+    );
+    println!(
+        "ai: {:?}",
+        ai_solution::Solution::single_number(vec![-1, 0])
+    );
 }
 
 #[cfg(test)]

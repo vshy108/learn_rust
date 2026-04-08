@@ -124,8 +124,12 @@ mod tests {
                 fn test_example1() {
                     let result = sorted(<$solution>::subsets_with_dup(vec![1, 2, 2]));
                     let expected = sorted(vec![
-                        vec![], vec![1], vec![2], vec![1, 2],
-                        vec![2, 2], vec![1, 2, 2],
+                        vec![],
+                        vec![1],
+                        vec![2],
+                        vec![1, 2],
+                        vec![2, 2],
+                        vec![1, 2, 2],
                     ]);
                     assert_eq!(result, expected);
                 }
@@ -140,9 +144,7 @@ mod tests {
                 #[test]
                 fn test_all_same() {
                     let result = sorted(<$solution>::subsets_with_dup(vec![1, 1, 1]));
-                    let expected = sorted(vec![
-                        vec![], vec![1], vec![1, 1], vec![1, 1, 1],
-                    ]);
+                    let expected = sorted(vec![vec![], vec![1], vec![1, 1], vec![1, 1, 1]]);
                     assert_eq!(result, expected);
                 }
             }

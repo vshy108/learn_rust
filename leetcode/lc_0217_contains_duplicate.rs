@@ -86,9 +86,9 @@ mod tests {
 
                 #[test]
                 fn test_example3() {
-                    assert!(<$solution>::contains_duplicate(
-                        vec![1, 1, 1, 3, 3, 4, 3, 2, 4, 2]
-                    ));
+                    assert!(<$solution>::contains_duplicate(vec![
+                        1, 1, 1, 3, 3, 4, 3, 2, 4, 2
+                    ]));
                 }
 
                 #[test]

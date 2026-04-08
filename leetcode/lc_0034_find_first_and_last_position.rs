@@ -153,66 +153,42 @@ mod tests {
 
                 #[test]
                 fn test_empty() {
-                    assert_eq!(
-                        Solution::search_range(vec![], 0),
-                        vec![-1, -1],
-                    );
+                    assert_eq!(Solution::search_range(vec![], 0), vec![-1, -1],);
                 }
 
                 #[test]
                 fn test_single_found() {
-                    assert_eq!(
-                        Solution::search_range(vec![5], 5),
-                        vec![0, 0],
-                    );
+                    assert_eq!(Solution::search_range(vec![5], 5), vec![0, 0],);
                 }
 
                 #[test]
                 fn test_single_not_found() {
-                    assert_eq!(
-                        Solution::search_range(vec![5], 3),
-                        vec![-1, -1],
-                    );
+                    assert_eq!(Solution::search_range(vec![5], 3), vec![-1, -1],);
                 }
 
                 #[test]
                 fn test_all_same() {
-                    assert_eq!(
-                        Solution::search_range(vec![2, 2, 2, 2], 2),
-                        vec![0, 3],
-                    );
+                    assert_eq!(Solution::search_range(vec![2, 2, 2, 2], 2), vec![0, 3],);
                 }
 
                 #[test]
                 fn test_first_element() {
-                    assert_eq!(
-                        Solution::search_range(vec![1, 2, 3, 4, 5], 1),
-                        vec![0, 0],
-                    );
+                    assert_eq!(Solution::search_range(vec![1, 2, 3, 4, 5], 1), vec![0, 0],);
                 }
 
                 #[test]
                 fn test_last_element() {
-                    assert_eq!(
-                        Solution::search_range(vec![1, 2, 3, 4, 5], 5),
-                        vec![4, 4],
-                    );
+                    assert_eq!(Solution::search_range(vec![1, 2, 3, 4, 5], 5), vec![4, 4],);
                 }
 
                 #[test]
                 fn test_target_smaller_than_all() {
-                    assert_eq!(
-                        Solution::search_range(vec![3, 4, 5], 1),
-                        vec![-1, -1],
-                    );
+                    assert_eq!(Solution::search_range(vec![3, 4, 5], 1), vec![-1, -1],);
                 }
 
                 #[test]
                 fn test_target_larger_than_all() {
-                    assert_eq!(
-                        Solution::search_range(vec![3, 4, 5], 10),
-                        vec![-1, -1],
-                    );
+                    assert_eq!(Solution::search_range(vec![3, 4, 5], 10), vec![-1, -1],);
                 }
             }
         };
@@ -227,7 +203,9 @@ mod tests {
 
         let iterations = 100_000;
         // Large sorted array with duplicates.
-        let mut nums: Vec<i32> = (0..10000).flat_map(|x| std::iter::repeat(x).take(3)).collect();
+        let mut nums: Vec<i32> = (0..10000)
+            .flat_map(|x| std::iter::repeat(x).take(3))
+            .collect();
         nums.sort_unstable();
         let target = 5000;
 

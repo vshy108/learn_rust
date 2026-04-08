@@ -242,16 +242,14 @@ mod tests {
 
                 #[test]
                 fn test_multiple_duplicates() {
-                    let result =
-                        Solution::three_sum(vec![-2, 0, 0, 2, 2]);
+                    let result = Solution::three_sum(vec![-2, 0, 0, 2, 2]);
                     assert_eq!(normalize(result), vec![vec![-2, 0, 2]]);
                 }
 
                 #[test]
                 fn test_large_range() {
                     // Mix of negatives and positives with one valid triplet.
-                    let result =
-                        Solution::three_sum(vec![-100000, 50000, 50000]);
+                    let result = Solution::three_sum(vec![-100000, 50000, 50000]);
                     assert_eq!(result, vec![vec![-100000, 50000, 50000]]);
                 }
 

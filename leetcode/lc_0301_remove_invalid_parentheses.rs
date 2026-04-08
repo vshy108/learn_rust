@@ -138,10 +138,7 @@ mod ai_solution {
                     if chars[i] != '(' && chars[i] != ')' {
                         continue;
                     }
-                    let next: String = chars[..i]
-                        .iter()
-                        .chain(chars[i + 1..].iter())
-                        .collect();
+                    let next: String = chars[..i].iter().chain(chars[i + 1..].iter()).collect();
                     if visited.insert(next.clone()) {
                         queue.push_back(next);
                     }
@@ -166,7 +163,10 @@ mod tests {
     fn test_example1() {
         let s = "()())()".to_string();
         let expected = sorted(vec!["(())()".into(), "()()()".into()]);
-        assert_eq!(sorted(MySolution::remove_invalid_parentheses(s.clone())), expected);
+        assert_eq!(
+            sorted(MySolution::remove_invalid_parentheses(s.clone())),
+            expected
+        );
         assert_eq!(sorted(AiSolution::remove_invalid_parentheses(s)), expected);
     }
 
@@ -174,7 +174,10 @@ mod tests {
     fn test_example2() {
         let s = "(a)())()".to_string();
         let expected = sorted(vec!["(a())()".into(), "(a)()()".into()]);
-        assert_eq!(sorted(MySolution::remove_invalid_parentheses(s.clone())), expected);
+        assert_eq!(
+            sorted(MySolution::remove_invalid_parentheses(s.clone())),
+            expected
+        );
         assert_eq!(sorted(AiSolution::remove_invalid_parentheses(s)), expected);
     }
 
@@ -182,7 +185,10 @@ mod tests {
     fn test_example3() {
         let s = ")(".to_string();
         let expected = vec!["".to_string()];
-        assert_eq!(sorted(MySolution::remove_invalid_parentheses(s.clone())), expected);
+        assert_eq!(
+            sorted(MySolution::remove_invalid_parentheses(s.clone())),
+            expected
+        );
         assert_eq!(sorted(AiSolution::remove_invalid_parentheses(s)), expected);
     }
 
@@ -190,7 +196,10 @@ mod tests {
     fn test_already_valid() {
         let s = "(a)(b)".to_string();
         let expected = vec!["(a)(b)".to_string()];
-        assert_eq!(sorted(MySolution::remove_invalid_parentheses(s.clone())), expected);
+        assert_eq!(
+            sorted(MySolution::remove_invalid_parentheses(s.clone())),
+            expected
+        );
         assert_eq!(sorted(AiSolution::remove_invalid_parentheses(s)), expected);
     }
 
@@ -198,7 +207,10 @@ mod tests {
     fn test_all_letters() {
         let s = "abc".to_string();
         let expected = vec!["abc".to_string()];
-        assert_eq!(sorted(MySolution::remove_invalid_parentheses(s.clone())), expected);
+        assert_eq!(
+            sorted(MySolution::remove_invalid_parentheses(s.clone())),
+            expected
+        );
         assert_eq!(sorted(AiSolution::remove_invalid_parentheses(s)), expected);
     }
 
@@ -206,7 +218,10 @@ mod tests {
     fn test_single_open() {
         let s = "(".to_string();
         let expected = vec!["".to_string()];
-        assert_eq!(sorted(MySolution::remove_invalid_parentheses(s.clone())), expected);
+        assert_eq!(
+            sorted(MySolution::remove_invalid_parentheses(s.clone())),
+            expected
+        );
         assert_eq!(sorted(AiSolution::remove_invalid_parentheses(s)), expected);
     }
 
@@ -214,7 +229,10 @@ mod tests {
     fn test_single_close() {
         let s = ")".to_string();
         let expected = vec!["".to_string()];
-        assert_eq!(sorted(MySolution::remove_invalid_parentheses(s.clone())), expected);
+        assert_eq!(
+            sorted(MySolution::remove_invalid_parentheses(s.clone())),
+            expected
+        );
         assert_eq!(sorted(AiSolution::remove_invalid_parentheses(s)), expected);
     }
 
@@ -222,7 +240,10 @@ mod tests {
     fn test_nested() {
         let s = "((a))".to_string();
         let expected = vec!["((a))".to_string()];
-        assert_eq!(sorted(MySolution::remove_invalid_parentheses(s.clone())), expected);
+        assert_eq!(
+            sorted(MySolution::remove_invalid_parentheses(s.clone())),
+            expected
+        );
         assert_eq!(sorted(AiSolution::remove_invalid_parentheses(s)), expected);
     }
 
@@ -230,10 +251,13 @@ mod tests {
     fn test_extra_open() {
         let s = "(a(b)".to_string();
         // Remove either '(' -> "a(b)" or "(ab)" — wait, "(ab)" isn't valid pairing
-        // "(a(b)" -> remove first '(' -> "a(b)" or remove second '(' -> "(ab)" 
+        // "(a(b)" -> remove first '(' -> "a(b)" or remove second '(' -> "(ab)"
         // "(ab)" has balanced parens: yes. "a(b)" also balanced.
         let expected = sorted(vec!["(ab)".into(), "a(b)".into()]);
-        assert_eq!(sorted(MySolution::remove_invalid_parentheses(s.clone())), expected);
+        assert_eq!(
+            sorted(MySolution::remove_invalid_parentheses(s.clone())),
+            expected
+        );
         assert_eq!(sorted(AiSolution::remove_invalid_parentheses(s)), expected);
     }
 
@@ -241,7 +265,10 @@ mod tests {
     fn test_multiple_removals() {
         let s = ")((".to_string();
         let expected = vec!["".to_string()];
-        assert_eq!(sorted(MySolution::remove_invalid_parentheses(s.clone())), expected);
+        assert_eq!(
+            sorted(MySolution::remove_invalid_parentheses(s.clone())),
+            expected
+        );
         assert_eq!(sorted(AiSolution::remove_invalid_parentheses(s)), expected);
     }
 
@@ -250,7 +277,10 @@ mod tests {
         // s.length >= 1 per constraints, but empty should work
         let s = "".to_string();
         let expected = vec!["".to_string()];
-        assert_eq!(sorted(MySolution::remove_invalid_parentheses(s.clone())), expected);
+        assert_eq!(
+            sorted(MySolution::remove_invalid_parentheses(s.clone())),
+            expected
+        );
         assert_eq!(sorted(AiSolution::remove_invalid_parentheses(s)), expected);
     }
 }
@@ -260,8 +290,14 @@ fn main() {
 
     let s = "()())()".to_string();
     println!("Input: \"{s}\"");
-    println!("  My: {:?}", my_solution::Solution::remove_invalid_parentheses(s.clone()));
-    println!("  AI: {:?}", ai_solution::Solution::remove_invalid_parentheses(s));
+    println!(
+        "  My: {:?}",
+        my_solution::Solution::remove_invalid_parentheses(s.clone())
+    );
+    println!(
+        "  AI: {:?}",
+        ai_solution::Solution::remove_invalid_parentheses(s)
+    );
 
     // Benchmark
     let iterations = 100_000;

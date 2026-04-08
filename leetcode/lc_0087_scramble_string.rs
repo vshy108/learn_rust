@@ -41,11 +41,7 @@ mod my_solution {
             Self::check(s1.as_bytes(), s2.as_bytes(), &mut memo)
         }
 
-        fn check(
-            s1: &[u8],
-            s2: &[u8],
-            memo: &mut HashMap<(Vec<u8>, Vec<u8>), bool>,
-        ) -> bool {
+        fn check(s1: &[u8], s2: &[u8], memo: &mut HashMap<(Vec<u8>, Vec<u8>), bool>) -> bool {
             if s1 == s2 {
                 return true;
             }
@@ -71,9 +67,7 @@ mod my_solution {
             let mut result = false;
             for i in 1..n {
                 // No swap: s1[..i] matches s2[..i] and s1[i..] matches s2[i..]
-                if Self::check(&s1[..i], &s2[..i], memo)
-                    && Self::check(&s1[i..], &s2[i..], memo)
-                {
+                if Self::check(&s1[..i], &s2[..i], memo) && Self::check(&s1[i..], &s2[i..], memo) {
                     result = true;
                     break;
                 }
@@ -185,10 +179,7 @@ mod tests {
 
                 #[test]
                 fn test_single_char() {
-                    assert!(<$solution>::is_scramble(
-                        "a".to_string(),
-                        "a".to_string(),
-                    ));
+                    assert!(<$solution>::is_scramble("a".to_string(), "a".to_string(),));
                 }
 
                 #[test]

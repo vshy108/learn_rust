@@ -103,33 +103,24 @@ mod tests {
                     let result = <$solution>::find_repeated_dna_sequences(
                         "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT".into(),
                     );
-                    assert_eq!(
-                        sorted(result),
-                        vec!["AAAAACCCCC", "CCCCCAAAAA"],
-                    );
+                    assert_eq!(sorted(result), vec!["AAAAACCCCC", "CCCCCAAAAA"],);
                 }
 
                 #[test]
                 fn test_all_same() {
-                    let result = <$solution>::find_repeated_dna_sequences(
-                        "AAAAAAAAAAAAA".into(),
-                    );
+                    let result = <$solution>::find_repeated_dna_sequences("AAAAAAAAAAAAA".into());
                     assert_eq!(result, vec!["AAAAAAAAAA"]);
                 }
 
                 #[test]
                 fn test_too_short() {
-                    let result = <$solution>::find_repeated_dna_sequences(
-                        "ACGT".into(),
-                    );
+                    let result = <$solution>::find_repeated_dna_sequences("ACGT".into());
                     assert!(result.is_empty());
                 }
 
                 #[test]
                 fn test_no_repeats() {
-                    let result = <$solution>::find_repeated_dna_sequences(
-                        "ACGTACGTACG".into(),
-                    );
+                    let result = <$solution>::find_repeated_dna_sequences("ACGTACGTACG".into());
                     assert!(result.is_empty());
                 }
             }

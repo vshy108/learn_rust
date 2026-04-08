@@ -151,10 +151,7 @@ mod tests {
                 #[test]
                 fn test_large() {
                     // f(1_000_000_000) is a well-known value
-                    assert_eq!(
-                        <$solution>::count_digit_one(1_000_000_000),
-                        900_000_001,
-                    );
+                    assert_eq!(<$solution>::count_digit_one(1_000_000_000), 900_000_001,);
                 }
             }
         };

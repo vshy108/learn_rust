@@ -79,9 +79,7 @@ mod tests {
             mod $mod_name {
                 #[test]
                 fn test_example1() {
-                    let tri = vec![
-                        vec![2], vec![3, 4], vec![6, 5, 7], vec![4, 1, 8, 3],
-                    ];
+                    let tri = vec![vec![2], vec![3, 4], vec![6, 5, 7], vec![4, 1, 8, 3]];
                     assert_eq!(<$solution>::minimum_total(tri), 11);
                 }
 
@@ -92,10 +90,7 @@ mod tests {
 
                 #[test]
                 fn test_two_rows() {
-                    assert_eq!(
-                        <$solution>::minimum_total(vec![vec![-1], vec![2, 3]]),
-                        1,
-                    );
+                    assert_eq!(<$solution>::minimum_total(vec![vec![-1], vec![2, 3]]), 1,);
                 }
 
                 #[test]

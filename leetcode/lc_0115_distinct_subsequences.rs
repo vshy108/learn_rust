@@ -29,7 +29,9 @@ mod my_solution {
             let t = t.as_bytes();
             let m = s.len();
             let n = t.len();
-            if n > m { return 0; }
+            if n > m {
+                return 0;
+            }
 
             // dp[i][j] = number of ways to match t[0..j] using s[0..i]
             let mut dp = vec![vec![0u64; n + 1]; m + 1];
@@ -64,7 +66,9 @@ mod ai_solution {
             let s = s.as_bytes();
             let t = t.as_bytes();
             let n = t.len();
-            if n > s.len() { return 0; }
+            if n > s.len() {
+                return 0;
+            }
 
             let mut dp = vec![0u64; n + 1];
             dp[0] = 1; // Empty t always matches
@@ -103,42 +107,27 @@ mod tests {
 
                 #[test]
                 fn test_babgbag() {
-                    assert_eq!(
-                        <$solution>::num_distinct("babgbag".into(), "bag".into()),
-                        5,
-                    );
+                    assert_eq!(<$solution>::num_distinct("babgbag".into(), "bag".into()), 5,);
                 }
 
                 #[test]
                 fn test_no_match() {
-                    assert_eq!(
-                        <$solution>::num_distinct("abc".into(), "def".into()),
-                        0,
-                    );
+                    assert_eq!(<$solution>::num_distinct("abc".into(), "def".into()), 0,);
                 }
 
                 #[test]
                 fn test_t_longer() {
-                    assert_eq!(
-                        <$solution>::num_distinct("a".into(), "ab".into()),
-                        0,
-                    );
+                    assert_eq!(<$solution>::num_distinct("a".into(), "ab".into()), 0,);
                 }
 
                 #[test]
                 fn test_single_char() {
-                    assert_eq!(
-                        <$solution>::num_distinct("aaa".into(), "a".into()),
-                        3,
-                    );
+                    assert_eq!(<$solution>::num_distinct("aaa".into(), "a".into()), 3,);
                 }
 
                 #[test]
                 fn test_equal() {
-                    assert_eq!(
-                        <$solution>::num_distinct("abc".into(), "abc".into()),
-                        1,
-                    );
+                    assert_eq!(<$solution>::num_distinct("abc".into(), "abc".into()), 1,);
                 }
             }
         };

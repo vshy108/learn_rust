@@ -33,7 +33,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -87,7 +91,9 @@ mod my_solution {
         /// Connect each node to its next right node using BFS.
         pub fn connect(root: &Node) -> NextMap {
             let mut next_map = NextMap::new();
-            let Some(r) = root.as_ref() else { return next_map };
+            let Some(r) = root.as_ref() else {
+                return next_map;
+            };
             let mut queue = VecDeque::new();
             queue.push_back(Rc::clone(r));
 
@@ -129,7 +135,9 @@ mod ai_solution {
         /// Connect nodes using the "already connected" level above.
         pub fn connect(root: &Node) -> NextMap {
             let mut next_map = NextMap::new();
-            let Some(r) = root.as_ref() else { return next_map };
+            let Some(r) = root.as_ref() else {
+                return next_map;
+            };
 
             // Process level by level using leftmost node
             let mut leftmost = Some(Rc::clone(r));
@@ -175,15 +183,24 @@ mod ai_solution {
         fn find_node(root: &Node, val: i32) -> Node {
             let Some(n) = root else { return None };
             let n_borrow = n.borrow();
-            if n_borrow.val == val { return Some(Rc::clone(n)); }
-            Self::find_node(&n_borrow.left, val)
-                .or_else(|| Self::find_node(&n_borrow.right, val))
+            if n_borrow.val == val {
+                return Some(Rc::clone(n));
+            }
+            Self::find_node(&n_borrow.left, val).or_else(|| Self::find_node(&n_borrow.right, val))
         }
     }
 }
 
 fn main() {
-    let root = build_tree(&[Some(1), Some(2), Some(3), Some(4), Some(5), Some(6), Some(7)]);
+    let root = build_tree(&[
+        Some(1),
+        Some(2),
+        Some(3),
+        Some(4),
+        Some(5),
+        Some(6),
+        Some(7),
+    ]);
     let my = my_solution::Solution::connect(&root);
     let ai = ai_solution::Solution::connect(&root);
     println!("my next: {my:?}");
@@ -202,8 +219,13 @@ mod tests {
                 #[test]
                 fn test_perfect_tree() {
                     let root = build_tree(&[
-                        Some(1), Some(2), Some(3),
-                        Some(4), Some(5), Some(6), Some(7),
+                        Some(1),
+                        Some(2),
+                        Some(3),
+                        Some(4),
+                        Some(5),
+                        Some(6),
+                        Some(7),
                     ]);
                     let next = <$solution>::connect(&root);
                     assert_eq!(next.get(&1).copied().flatten(), None);
@@ -251,18 +273,18 @@ mod tests {
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let root = build_tree(&vals);
-            std::hint::black_box(crate::my_solution::Solution::connect(
-                std::hint::black_box(&root),
-            ));
+            std::hint::black_box(crate::my_solution::Solution::connect(std::hint::black_box(
+                &root,
+            )));
         }
         let my_duration = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
             let root = build_tree(&vals);
-            std::hint::black_box(crate::ai_solution::Solution::connect(
-                std::hint::black_box(&root),
-            ));
+            std::hint::black_box(crate::ai_solution::Solution::connect(std::hint::black_box(
+                &root,
+            )));
         }
         let ai_duration = start.elapsed();
 

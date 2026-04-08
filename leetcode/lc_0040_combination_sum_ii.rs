@@ -153,25 +153,15 @@ mod tests {
 
                 #[test]
                 fn test_example_1() {
-                    let result = sorted(Solution::combination_sum2(
-                        vec![10, 1, 2, 7, 6, 1, 5],
-                        8,
-                    ));
-                    let expected = sorted(vec![
-                        vec![1, 1, 6],
-                        vec![1, 2, 5],
-                        vec![1, 7],
-                        vec![2, 6],
-                    ]);
+                    let result = sorted(Solution::combination_sum2(vec![10, 1, 2, 7, 6, 1, 5], 8));
+                    let expected =
+                        sorted(vec![vec![1, 1, 6], vec![1, 2, 5], vec![1, 7], vec![2, 6]]);
                     assert_eq!(result, expected);
                 }
 
                 #[test]
                 fn test_example_2() {
-                    let result = sorted(Solution::combination_sum2(
-                        vec![2, 5, 2, 1, 2],
-                        5,
-                    ));
+                    let result = sorted(Solution::combination_sum2(vec![2, 5, 2, 1, 2], 5));
                     let expected = sorted(vec![vec![1, 2, 2], vec![5]]);
                     assert_eq!(result, expected);
                 }
@@ -190,10 +180,7 @@ mod tests {
 
                 #[test]
                 fn test_all_ones() {
-                    let result = sorted(Solution::combination_sum2(
-                        vec![1, 1, 1, 1],
-                        2,
-                    ));
+                    let result = sorted(Solution::combination_sum2(vec![1, 1, 1, 1], 2));
                     // Only one unique combination: [1, 1].
                     assert_eq!(result, vec![vec![1, 1]]);
                 }

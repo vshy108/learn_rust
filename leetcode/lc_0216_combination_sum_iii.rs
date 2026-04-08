@@ -121,8 +121,7 @@ mod ai_solution {
     }
 }
 
-/// Helper to sort inner vecs for comparison (both solutions already
-/// produce sorted output, but this makes tests robust).
+#[cfg(test)]
 fn sorted_nested(mut v: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
     for inner in &mut v {
         inner.sort_unstable();
@@ -169,20 +168,14 @@ mod tests {
                 #[test]
                 fn test_impossible_too_small() {
                     // k=4, n=1 => impossible (min sum of 4 digits is 1+2+3+4=10)
-                    assert_eq!(
-                        <$solution>::combination_sum3(4, 1),
-                        Vec::<Vec<i32>>::new()
-                    );
+                    assert_eq!(<$solution>::combination_sum3(4, 1), Vec::<Vec<i32>>::new());
                 }
 
                 #[test]
                 fn test_max_pair() {
                     // k=2, n=18 => only possibility is [9, 9] but can't reuse => empty
                     // Actually max pair is [8, 9] = 17, so n=18 is empty
-                    assert_eq!(
-                        <$solution>::combination_sum3(2, 18),
-                        Vec::<Vec<i32>>::new()
-                    );
+                    assert_eq!(<$solution>::combination_sum3(2, 18), Vec::<Vec<i32>>::new());
                 }
 
                 #[test]

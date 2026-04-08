@@ -219,9 +219,9 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let words: Vec<String> = vec![
-            "practice", "makes", "perfect", "coding", "makes", "the",
-            "sky", "is", "blue", "practice", "more", "coding", "every",
-            "day", "makes", "you", "better", "at", "coding", "practice",
+            "practice", "makes", "perfect", "coding", "makes", "the", "sky", "is", "blue",
+            "practice", "more", "coding", "every", "day", "makes", "you", "better", "at", "coding",
+            "practice",
         ]
         .into_iter()
         .map(String::from)

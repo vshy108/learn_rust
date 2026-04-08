@@ -29,7 +29,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -182,8 +186,16 @@ mod tests {
     fn bench_comparison() {
         let iterations = 100_000;
         let root = build_tree(&[
-            Some(4), Some(9), Some(0), Some(5), Some(1),
-            Some(3), Some(7), Some(8), Some(2), Some(6),
+            Some(4),
+            Some(9),
+            Some(0),
+            Some(5),
+            Some(1),
+            Some(3),
+            Some(7),
+            Some(8),
+            Some(2),
+            Some(6),
         ]);
 
         let start = std::time::Instant::now();

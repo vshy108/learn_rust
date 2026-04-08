@@ -35,10 +35,7 @@ mod my_solution {
                 return true;
             }
             // Case 2: current line meets the line 4 steps back at a point
-            if i >= 4
-                && d[i - 1] == d[i - 3]
-                && d[i] + d[i - 4] >= d[i - 2]
-            {
+            if i >= 4 && d[i - 1] == d[i - 3] && d[i] + d[i - 4] >= d[i - 2] {
                 return true;
             }
             // Case 3: current line crosses the line 5 steps back
@@ -74,10 +71,7 @@ mod ai_solution {
                 return true;
             }
             // Fifth line meets first line
-            if i >= 4
-                && d[i - 1] == d[i - 3]
-                && d[i] + d[i - 4] >= d[i - 2]
-            {
+            if i >= 4 && d[i - 1] == d[i - 3] && d[i] + d[i - 4] >= d[i - 2] {
                 return true;
             }
             // Sixth line crosses first line
@@ -94,16 +88,16 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[i32]) -> bool) {
-    assert!(f(&[2, 1, 1, 2]));
-    assert!(!f(&[1, 2, 3, 4]));
-    assert!(f(&[1, 1, 1, 2, 1]));
-    assert!(!f(&[1, 1, 2, 3, 4]));
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[i32]) -> bool) {
+        assert!(f(&[2, 1, 1, 2]));
+        assert!(!f(&[1, 2, 3, 4]));
+        assert!(f(&[1, 1, 1, 2, 1]));
+        assert!(!f(&[1, 1, 2, 3, 4]));
+    }
 
     #[test]
     fn test_my_solution() {
@@ -121,28 +115,28 @@ fn main() {
     let iterations = 100_000;
 
     for _ in 0..1000 {
-        std::hint::black_box(my_solution::is_self_crossing(
-            std::hint::black_box(&distance),
-        ));
+        std::hint::black_box(my_solution::is_self_crossing(std::hint::black_box(
+            &distance,
+        )));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(my_solution::is_self_crossing(
-            std::hint::black_box(&distance),
-        ));
+        std::hint::black_box(my_solution::is_self_crossing(std::hint::black_box(
+            &distance,
+        )));
     }
     let my_dur = start.elapsed();
 
     for _ in 0..1000 {
-        std::hint::black_box(ai_solution::is_self_crossing(
-            std::hint::black_box(&distance),
-        ));
+        std::hint::black_box(ai_solution::is_self_crossing(std::hint::black_box(
+            &distance,
+        )));
     }
     let start = std::time::Instant::now();
     for _ in 0..iterations {
-        std::hint::black_box(ai_solution::is_self_crossing(
-            std::hint::black_box(&distance),
-        ));
+        std::hint::black_box(ai_solution::is_self_crossing(std::hint::black_box(
+            &distance,
+        )));
     }
     let ai_dur = start.elapsed();
 

@@ -29,7 +29,11 @@ pub struct TreeNode {
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
-        TreeNode { val, left: None, right: None }
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
     }
 }
 
@@ -84,12 +88,7 @@ mod my_solution {
             result
         }
 
-        fn dfs(
-            node: &Node,
-            remain: i32,
-            path: &mut Vec<i32>,
-            result: &mut Vec<Vec<i32>>,
-        ) {
+        fn dfs(node: &Node, remain: i32, path: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {
             if let Some(n) = node {
                 let n = n.borrow();
                 path.push(n.val);
@@ -147,8 +146,19 @@ mod ai_solution {
 
 fn main() {
     let root = build_tree(&[
-        Some(5), Some(4), Some(8), Some(11), None, Some(13), Some(4),
-        Some(7), Some(2), None, None, Some(5), Some(1),
+        Some(5),
+        Some(4),
+        Some(8),
+        Some(11),
+        None,
+        Some(13),
+        Some(4),
+        Some(7),
+        Some(2),
+        None,
+        None,
+        Some(5),
+        Some(1),
     ]);
     let my = my_solution::Solution::path_sum(root.clone(), 22);
     let ai = ai_solution::Solution::path_sum(root, 22);
@@ -167,32 +177,34 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     let root = build_tree(&[
-                        Some(5), Some(4), Some(8), Some(11), None, Some(13), Some(4),
-                        Some(7), Some(2), None, None, Some(5), Some(1),
+                        Some(5),
+                        Some(4),
+                        Some(8),
+                        Some(11),
+                        None,
+                        Some(13),
+                        Some(4),
+                        Some(7),
+                        Some(2),
+                        None,
+                        None,
+                        Some(5),
+                        Some(1),
                     ]);
                     let mut result = <$solution>::path_sum(root, 22);
                     result.sort();
-                    assert_eq!(
-                        result,
-                        vec![vec![5, 4, 11, 2], vec![5, 8, 4, 5]],
-                    );
+                    assert_eq!(result, vec![vec![5, 4, 11, 2], vec![5, 8, 4, 5]],);
                 }
 
                 #[test]
                 fn test_no_path() {
                     let root = build_tree(&[Some(1), Some(2), Some(3)]);
-                    assert_eq!(
-                        <$solution>::path_sum(root, 5),
-                        Vec::<Vec<i32>>::new(),
-                    );
+                    assert_eq!(<$solution>::path_sum(root, 5), Vec::<Vec<i32>>::new(),);
                 }
 
                 #[test]
                 fn test_empty() {
-                    assert_eq!(
-                        <$solution>::path_sum(None, 0),
-                        Vec::<Vec<i32>>::new(),
-                    );
+                    assert_eq!(<$solution>::path_sum(None, 0), Vec::<Vec<i32>>::new(),);
                 }
 
                 #[test]

@@ -115,11 +115,7 @@ mod ai_solution {
             for (dr, dc) in [(-1i32, 0i32), (1, 0), (0, -1), (0, 1)] {
                 let nr = r as i32 + dr;
                 let nc = c as i32 + dc;
-                if nr >= 0
-                    && nr < m as i32
-                    && nc >= 0
-                    && nc < n as i32
-                {
+                if nr >= 0 && nr < m as i32 && nc >= 0 && nc < n as i32 {
                     let (nr, nc) = (nr as usize, nc as usize);
                     if rooms[nr][nc] == INF {
                         rooms[nr][nc] = next_dist;
@@ -204,31 +200,15 @@ mod tests {
     // Unreachable room (surrounded by walls)
     test_walls!(
         test_unreachable,
-        vec![
-            vec![0, -1, INF],
-            vec![-1, -1, -1],
-            vec![INF, -1, INF],
-        ],
-        vec![
-            vec![0, -1, INF],
-            vec![-1, -1, -1],
-            vec![INF, -1, INF],
-        ]
+        vec![vec![0, -1, INF], vec![-1, -1, -1], vec![INF, -1, INF],],
+        vec![vec![0, -1, INF], vec![-1, -1, -1], vec![INF, -1, INF],]
     );
 
     // Multiple gates
     test_walls!(
         test_multiple_gates,
-        vec![
-            vec![INF, 0, INF],
-            vec![INF, INF, INF],
-            vec![INF, 0, INF],
-        ],
-        vec![
-            vec![1, 0, 1],
-            vec![2, 1, 2],
-            vec![1, 0, 1],
-        ]
+        vec![vec![INF, 0, INF], vec![INF, INF, INF], vec![INF, 0, INF],],
+        vec![vec![1, 0, 1], vec![2, 1, 2], vec![1, 0, 1],]
     );
 
     // 1 x n row
@@ -255,8 +235,11 @@ fn main() {
         vec![0, -1, INF, INF],
     ];
     println!("Before: {:?}", rooms);
+    let mut rooms2 = rooms.clone();
     my_solution::walls_and_gates(&mut rooms);
-    println!("After (my_solution): {:?}", rooms);
+    ai_solution::walls_and_gates(&mut rooms2);
+    println!("After (my): {:?}", rooms);
+    println!("After (ai): {:?}", rooms2);
 }
 
 #[cfg(test)]

@@ -149,7 +149,9 @@ mod ai_solution {
 }
 
 fn main() {
-    let valid = ["2", "0089", "-0.1", "+3.14", "4.", "-.9", "2e10", "-90E3", "3e+7", "53.5e93"];
+    let valid = [
+        "2", "0089", "-0.1", "+3.14", "4.", "-.9", "2e10", "-90E3", "3e+7", "53.5e93",
+    ];
     let invalid = ["abc", "1a", "1e", "e3", "99e2.5", "--6", "-+3", "95a54e53"];
     for s in &valid {
         println!(
@@ -197,7 +199,9 @@ mod tests {
                 fn test_invalid() {
                     for s in ["abc", "1a", "1e", "e3", "99e2.5", "--6", "-+3", ".", ""] {
                         // skip empty string since constraint says len >= 1
-                        if s.is_empty() { continue; }
+                        if s.is_empty() {
+                            continue;
+                        }
                         assert!(!<$solution>::is_number(s.into()), "expected false for {s}");
                     }
                 }
@@ -211,8 +215,12 @@ mod tests {
     #[test]
     fn bench_comparison() {
         let iterations = 100_000;
-        let cases: Vec<String> = ["2", "0089", "-0.1", "+3.14", "4.", "2e10", "abc", "1e", "99e2.5"]
-            .iter().map(|s| s.to_string()).collect();
+        let cases: Vec<String> = [
+            "2", "0089", "-0.1", "+3.14", "4.", "2e10", "abc", "1e", "99e2.5",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {

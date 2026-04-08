@@ -30,7 +30,11 @@ pub struct Node {
 
 impl Node {
     pub fn new(val: i32) -> Self {
-        Node { val, next: None, random: None }
+        Node {
+            val,
+            next: None,
+            random: None,
+        }
     }
 }
 
@@ -41,7 +45,8 @@ fn build_list(data: &[(i32, i32)]) -> Link {
     if data.is_empty() {
         return None;
     }
-    let nodes: Vec<Rc<RefCell<Node>>> = data.iter()
+    let nodes: Vec<Rc<RefCell<Node>>> = data
+        .iter()
         .map(|&(v, _)| Rc::new(RefCell::new(Node::new(v))))
         .collect();
     for i in 0..nodes.len() {
@@ -50,8 +55,7 @@ fn build_list(data: &[(i32, i32)]) -> Link {
         }
         let ri = data[i].1;
         if ri >= 0 {
-            nodes[i].borrow_mut().random =
-                Some(Rc::clone(&nodes[ri as usize]));
+            nodes[i].borrow_mut().random = Some(Rc::clone(&nodes[ri as usize]));
         }
     }
     Some(Rc::clone(&nodes[0]))
@@ -102,9 +106,7 @@ mod my_solution {
             let mut cur = head.clone();
             while let Some(node) = cur {
                 let ptr = Rc::as_ptr(&node) as usize;
-                let new_node = Rc::new(RefCell::new(
-                    Node::new(node.borrow().val),
-                ));
+                let new_node = Rc::new(RefCell::new(Node::new(node.borrow().val)));
                 map.insert(ptr, new_node);
                 cur = node.borrow().next.clone();
             }
@@ -128,9 +130,8 @@ mod my_solution {
                 cur = n.next.clone();
             }
 
-            map.get(
-                &map.keys().min().copied().unwrap_or(0),
-            ).map(Rc::clone)
+            map.get(&map.keys().min().copied().unwrap_or(0))
+                .map(Rc::clone)
                 // Return the head of the new list
                 .or_else(|| None)
         }
@@ -171,27 +172,22 @@ mod ai_solution {
                 let copy = n.next.clone().expect("interleaved copy exists");
                 if let Some(ref rand) = n.random {
                     // The copy of random is random->next
-                    let rand_copy = rand.borrow().next.clone()
-                        .expect("interleaved copy");
+                    let rand_copy = rand.borrow().next.clone().expect("interleaved copy");
                     copy.borrow_mut().random = Some(rand_copy);
                 }
                 cur = copy.borrow().next.clone();
             }
 
             // Step 3: separate the two lists
-            let new_head = head.as_ref()
-                .and_then(|h| h.borrow().next.clone());
+            let new_head = head.as_ref().and_then(|h| h.borrow().next.clone());
             let mut cur = head;
             while let Some(node) = cur {
-                let copy = node.borrow().next.clone()
-                    .expect("copy exists");
+                let copy = node.borrow().next.clone().expect("copy exists");
                 // Restore original next
                 node.borrow_mut().next = copy.borrow().next.clone();
                 // Set copy's next to the next copy
                 let next_orig = copy.borrow().next.clone();
-                copy.borrow_mut().next = next_orig
-                    .as_ref()
-                    .and_then(|n| n.borrow().next.clone());
+                copy.borrow_mut().next = next_orig.as_ref().and_then(|n| n.borrow().next.clone());
                 cur = node.borrow().next.clone();
             }
 
@@ -203,9 +199,13 @@ mod ai_solution {
 fn main() {
     let list = build_list(&[(7, -1), (13, 0), (11, 4), (10, 2), (1, 0)]);
     let my = my_solution::Solution::copy_random_list(list.clone());
-    let ai = ai_solution::Solution::copy_random_list(
-        build_list(&[(7, -1), (13, 0), (11, 4), (10, 2), (1, 0)]),
-    );
+    let ai = ai_solution::Solution::copy_random_list(build_list(&[
+        (7, -1),
+        (13, 0),
+        (11, 4),
+        (10, 2),
+        (1, 0),
+    ]));
     println!("my: {:?}", to_pairs(&my));
     println!("ai: {:?}", to_pairs(&ai));
 }

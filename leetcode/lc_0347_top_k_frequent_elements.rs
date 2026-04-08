@@ -78,21 +78,21 @@ mod ai_solution {
     }
 }
 
-fn run_tests(f: fn(&[i32], usize) -> Vec<i32>) {
-    let mut r = f(&[1, 1, 1, 2, 2, 3], 2);
-    r.sort();
-    assert_eq!(r, vec![1, 2]);
-
-    assert_eq!(f(&[1], 1), vec![1]);
-
-    let mut r = f(&[1, 2, 1, 2, 1, 2, 3, 1, 3, 2], 2);
-    r.sort();
-    assert_eq!(r, vec![1, 2]);
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn run_tests(f: fn(&[i32], usize) -> Vec<i32>) {
+        let mut r = f(&[1, 1, 1, 2, 2, 3], 2);
+        r.sort();
+        assert_eq!(r, vec![1, 2]);
+
+        assert_eq!(f(&[1], 1), vec![1]);
+
+        let mut r = f(&[1, 2, 1, 2, 1, 2, 3, 1, 3, 2], 2);
+        r.sort();
+        assert_eq!(r, vec![1, 2]);
+    }
 
     #[test]
     fn test_my_solution() {

@@ -44,6 +44,15 @@
 - [Checked & Saturating Arithmetic](#checked--saturating-arithmetic)
 - [Benchmarking Pattern](#benchmarking-pattern)
 - [LeetCode Algorithm Patterns](#leetcode-algorithm-patterns)
+- [BTreeMap & BTreeSet](#btreemap--btreeset)
+- [Trait Objects (dyn)](#trait-objects-dyn)
+- [Display Trait](#display-trait)
+- [Pattern Matching Advanced](#pattern-matching-advanced)
+- [Bit Manipulation](#bit-manipulation)
+- [Iterator: scan (Stateful Transform)](#iterator-scan-stateful-transform)
+- [Array Initialization: from_fn](#array-initialization-from_fn)
+- [LeetCode Data Structures](#leetcode-data-structures)
+- [LeetCode Algorithm Patterns (Extended)](#leetcode-algorithm-patterns-extended)
 
 ---
 
@@ -1514,4 +1523,483 @@ for (i, &num) in nums.iter().enumerate() {
 let mut seen = vec![false; k as usize];
 seen[val as usize] = true;           // O(1) direct index, no hashing
 // Only works when key range is small enough to allocate
+```
+
+## BTreeMap & BTreeSet
+
+```rust
+// BTreeMap<K, V> — sorted map (red-black tree), O(log n) operations
+use std::collections::BTreeMap;
+let mut map: BTreeMap<i32, usize> = BTreeMap::new();
+map.insert(5, 1);
+map.insert(2, 1);
+map.insert(8, 1);
+
+// Always iterated in sorted key order (unlike HashMap)
+for (k, v) in &map { }              // 2, 5, 8
+
+// Range queries — O(log n + k) where k = results
+map.range(3..7);                     // yields (5, 1)
+map.range(3..);                      // yields (5,1), (8,1) — from 3 upward
+map.range(..5);                      // yields (2,1) — below 5
+
+// First/last key — O(log n)
+map.keys().next();                   // Some(&2) — minimum key
+map.keys().next_back();              // Some(&8) — maximum key
+
+// BTreeMap as multiset (count-based) (LC 0218)
+*map.entry(height).or_insert(0) += 1;    // increment count
+let count = map.get_mut(&height).expect("exists");
+*count -= 1;
+if *count == 0 { map.remove(&height); }  // remove when count hits 0
+
+// BTreeSet<T> — sorted set, O(log n) operations
+use std::collections::BTreeSet;
+let mut set: BTreeSet<i32> = BTreeSet::new();
+set.insert(3);
+set.insert(1);
+set.insert(5);
+
+// Iterate in sorted order
+set.iter().rev().nth(1)              // second-largest element (LC 0176)
+
+// Collect for sorted dedup (LC 0176, 0177, 0178)
+let distinct: BTreeSet<i32> = values.iter().copied().collect();
+// Replaces: sort + dedup in one step
+
+// Range search — find first element >= target (LC 0220, 0363)
+set.range(target..).next()           // Option<&T> — like C++ lower_bound
+set.range(..target).next_back()      // largest element < target
+
+// When to use BTree vs Hash:
+//   BTreeMap — need sorted order, range queries, min/max key
+//   HashMap  — only need key lookup, ~2x faster for random access
+```
+
+## Trait Objects (dyn)
+
+```rust
+// dyn Trait — dynamic dispatch via vtable (runtime polymorphism)
+// Use when you need a collection of DIFFERENT types sharing a trait
+
+// &dyn Trait — borrowed trait object (fat pointer: data ptr + vtable ptr)
+fn log(logger: &dyn Logger) { logger.log("msg"); }
+
+// Box<dyn Trait> — owned trait object on the heap
+fn make_logger(verbose: bool) -> Box<dyn Logger> {
+    if verbose { Box::new(VerboseLogger) }
+    else { Box::new(QuietLogger) }
+}
+
+// Vec of mixed types sharing a trait
+let items: Vec<Box<dyn Draw>> = vec![
+    Box::new(Circle { r: 5.0 }),
+    Box::new(Square { side: 3.0 }),
+];
+for item in &items { item.draw(); }      // dynamic dispatch
+
+// dyn vs generics (impl Trait):
+//   impl Trait → static dispatch, monomorphized (faster, larger binary)
+//   dyn Trait  → dynamic dispatch, single code path (smaller binary, vtable cost)
+//   Use impl Trait by default; use dyn when you need heterogeneous collections
+//   or the concrete type isn't known until runtime
+
+// Common: Box<dyn Error> for mixed error types in main()
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let _n: i32 = "42".parse()?;     // ParseIntError
+    let _s = std::fs::read_to_string("f")?;  // io::Error
+    Ok(())
+}
+```
+
+## Display Trait
+
+```rust
+use std::fmt;
+
+// impl Display — custom {} formatting (user-facing output)
+struct Temperature { celsius: f64 }
+
+impl fmt::Display for Temperature {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{:.1}C", self.celsius)
+    }
+}
+println!("{}", Temperature { celsius: 36.6 });  // "36.6C"
+
+// Display for enums — match each variant
+impl fmt::Display for TrafficLight {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let name = match self {
+            TrafficLight::Red => "RED",
+            TrafficLight::Yellow => "YELLOW",
+            TrafficLight::Green => "GREEN",
+        };
+        write!(f, "{name}")
+    }
+}
+
+// Display vs Debug:
+//   Debug  ({:?}) — #[derive(Debug)], for developers, auto-generated
+//   Display ({})  — must impl manually, for end users
+//   Display auto-provides .to_string() via ToString trait
+```
+
+## Pattern Matching Advanced
+
+```rust
+// @ binding — bind a value while also testing a pattern
+match status_code {
+    c @ 400..=499 => println!("Client error: {c}"),
+    c @ 500..=599 => println!("Server error: {c}"),
+    _ => {}
+}
+
+// Match guard — add a condition with `if`
+match n {
+    n if n > 0 => "positive",
+    0 => "zero",
+    _ => "negative",
+}
+
+// Slice patterns — destructure arrays/slices
+match slice {
+    [] => println!("empty"),
+    [one] => println!("single: {one}"),
+    [first, rest @ ..] => {
+        // `first` is the first element, `rest` is the remaining slice
+        println!("first: {first}, rest has {} items", rest.len());
+    }
+}
+
+// Nested destructuring
+match point {
+    Point { x: 0, y } => println!("on y-axis at {y}"),
+    Point { x, y: 0 } => println!("on x-axis at {x}"),
+    Point { x, y } => println!("({x}, {y})"),
+}
+
+// Tuple + Option destructuring (common in linked list merge) (LC 0021)
+match (list1, list2) {
+    (None, None) => None,
+    (Some(n), None) | (None, Some(n)) => Some(n),
+    (Some(l), Some(r)) => { /* merge logic */ }
+}
+```
+
+## Bit Manipulation
+
+```rust
+// Bitwise operators
+a & b          // AND
+a | b          // OR
+a ^ b          // XOR — same bits cancel: a ^ a == 0, a ^ 0 == a
+!a             // NOT (bitwise complement)
+a << n         // left shift
+a >> n         // right shift
+
+// XOR to find single unique element (LC 0136)
+let single = nums.into_iter().fold(0, |acc, x| acc ^ x);
+// Every duplicate pair XORs to 0, leaving only the unique element
+
+// count_ones — popcount (number of set bits) (LC 0231, 0338, 0401)
+let n: i32 = 0b1011;
+n.count_ones()                       // 3 (u32 result)
+// Power of two check: n > 0 && n.count_ones() == 1
+
+// Gray code formula (LC 0089)
+let gray = i ^ (i >> 1);            // each consecutive pair differs by 1 bit
+
+// Bitmask as set — up to 64 elements (LC 0079, 0216)
+let mut mask: u64 = 0;
+mask |= 1u64 << idx;                // add element idx
+mask &= !(1u64 << idx);             // remove element idx
+mask ^= 1u64 << idx;                // toggle (add/remove)
+mask & (1u64 << idx) != 0           // contains element idx
+mask.count_ones()                    // set size
+
+// Enumerate all subsets of a bitmask (LC 0216)
+for mask in 0..(1u32 << n) {
+    if mask.count_ones() == k {
+        // process subset represented by `mask`
+    }
+}
+```
+
+## Iterator: scan (Stateful Transform)
+
+```rust
+// .scan(init, |state, item| Option<B>) — stateful map
+// Like .map() but carries mutable state between iterations.
+// Returns None to stop iteration early.
+
+// Prefix products without extra allocation (LC 0238)
+let prefix: Vec<i32> = nums
+    .iter()
+    .scan(1, |acc, &x| {
+        let prev = *acc;         // emit PREVIOUS accumulated value
+        *acc *= x;               // update accumulator
+        Some(prev)               // yield the prefix product before this element
+    })
+    .collect();
+// nums = [1, 2, 3, 4]  →  prefix = [1, 1, 2, 6]
+//   acc starts at 1, emits 1, then acc=1; emits 1, acc=2; emits 2, acc=6; emits 6
+
+// When to use scan vs fold:
+//   fold   — reduces to a single value (consumer)
+//   scan   — yields intermediate values (adaptor, lazy)
+//   map    — stateless transform
+//   scan   — stateful transform with accumulator
+```
+
+## Array Initialization: from_fn
+
+```rust
+// std::array::from_fn — initialize fixed-size arrays with a closure
+// Useful for arrays of non-Copy types (where [val; N] won't work)
+
+// Trie children: array of 26 Option<Box<TrieNode>> (LC 0208, 0211, 0212)
+struct TrieNode {
+    children: [Option<Box<TrieNode>>; 26],
+    is_end: bool,
+}
+impl TrieNode {
+    fn new() -> Self {
+        Self {
+            children: std::array::from_fn(|_| None),  // each slot is None
+            is_end: false,
+        }
+    }
+}
+
+// Why not [None; 26]?
+// [None; 26] works only if the element type implements Copy.
+// Option<Box<T>> does NOT implement Copy (Box is non-Copy).
+// std::array::from_fn calls the closure 26 times, creating each None independently.
+```
+
+## LeetCode Data Structures
+
+```rust
+// --- Trie (Prefix Tree) (LC 0208, 0211, 0212, 0421) ---
+// Two variants: HashMap children (flexible) or [Option<Box>; 26] (faster)
+
+// HashMap variant — supports any character set
+struct TrieNode {
+    children: HashMap<u8, Box<TrieNode>>,
+    is_end: bool,
+}
+
+// Array variant — fixed 26 lowercase letters, faster cache performance
+struct TrieNode {
+    children: [Option<Box<TrieNode>>; 26],
+    is_end: bool,
+}
+
+// Insert: walk/create nodes for each byte
+fn insert(&mut self, word: &str) {
+    let mut node = &mut self.root;
+    for &b in word.as_bytes() {
+        let idx = (b - b'a') as usize;
+        node = node.children[idx].get_or_insert_with(|| Box::new(TrieNode::new()));
+    }
+    node.is_end = true;
+}
+
+// Search: walk nodes, check is_end
+fn search(&self, word: &str) -> bool {
+    let mut node = &self.root;
+    for &b in word.as_bytes() {
+        let idx = (b - b'a') as usize;
+        match &node.children[idx] {
+            Some(child) => node = child,
+            None => return false,
+        }
+    }
+    node.is_end
+}
+
+// --- Linked List (LC 0002, 0019, 0021, 0206) ---
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ListNode {
+    pub val: i32,
+    pub next: Option<Box<ListNode>>,
+}
+impl ListNode {
+    pub fn new(val: i32) -> Self { ListNode { val, next: None } }
+}
+
+// Iterative traversal with dummy head (LC 0021)
+let mut dummy = ListNode::new(0);
+let mut tail = &mut dummy;
+// ... build list by setting tail.next, then advance tail
+// return dummy.next
+
+// Reverse a linked list (LC 0206)
+let mut prev: Option<Box<ListNode>> = None;
+let mut curr = head;
+while let Some(mut node) = curr {
+    curr = node.next.take();         // detach next
+    node.next = prev;                // point backward
+    prev = Some(node);               // advance prev
+}
+// prev is now the new head
+
+// Fast/slow pointer for cycle detection (LC 0141, 0142)
+// With Rc<RefCell<ListNode>> for shared ownership:
+let mut slow = head.clone();
+let mut fast = head.clone();
+loop {
+    slow = slow.and_then(|n| n.borrow().next.clone());
+    fast = fast
+        .and_then(|n| n.borrow().next.clone())
+        .and_then(|n| n.borrow().next.clone());
+    // if slow == fast → cycle found
+}
+
+// --- Binary Tree (LC 0094, 0100, 0102, 0104) ---
+use std::rc::Rc;
+use std::cell::RefCell;
+
+type TreeLink = Option<Rc<RefCell<TreeNode>>>;
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct TreeNode {
+    pub val: i32,
+    pub left: TreeLink,
+    pub right: TreeLink,
+}
+impl TreeNode {
+    pub fn new(val: i32) -> Self {
+        TreeNode { val, left: None, right: None }
+    }
+}
+// Access: node.borrow().val, node.borrow().left.clone()
+// Modify: node.borrow_mut().val = 5
+```
+
+## LeetCode Algorithm Patterns (Extended)
+
+```rust
+// --- Kadane's Algorithm (Maximum Subarray) (LC 0053) ---
+let mut max_sum = nums[0];
+let mut current = 0;
+for &num in &nums {
+    current += num;
+    max_sum = max_sum.max(current);
+    if current < 0 { current = 0; }     // reset — negative prefix hurts
+}
+
+// --- Monotonic Stack (LC 0084, 0085, 0239, 0316) ---
+// Maintain a stack where elements are in increasing (or decreasing) order.
+// When a new element violates the monotonic property, pop and process.
+let mut stack: Vec<usize> = Vec::new();    // stores indices
+for i in 0..=n {
+    let curr_h = if i < n { heights[i] } else { 0 };  // sentinel to flush
+    while let Some(&top) = stack.last() {
+        if heights[top] <= curr_h { break; }
+        stack.pop();
+        let h = heights[top];
+        let w = if stack.is_empty() {
+            i as i32
+        } else {
+            (i - stack.last().unwrap() - 1) as i32
+        };
+        max_area = max_area.max(h * w);
+    }
+    stack.push(i);
+}
+
+// --- Topological Sort (Kahn's BFS) (LC 0207, 0210, 0269) ---
+let n = num_courses as usize;
+let mut adj = vec![vec![]; n];
+let mut in_degree = vec![0usize; n];
+for e in &prerequisites {
+    adj[e[1] as usize].push(e[0] as usize);
+    in_degree[e[0] as usize] += 1;
+}
+// Seed queue with all nodes that have in_degree == 0
+let mut queue: VecDeque<usize> = (0..n).filter(|&i| in_degree[i] == 0).collect();
+let mut order = Vec::with_capacity(n);
+while let Some(node) = queue.pop_front() {
+    order.push(node);
+    for &next in &adj[node] {
+        in_degree[next] -= 1;
+        if in_degree[next] == 0 { queue.push_back(next); }
+    }
+}
+// If order.len() == n → valid ordering; otherwise cycle exists
+
+// --- Backtracking Template (LC 0039, 0046, 0078) ---
+fn backtrack(
+    candidates: &[i32],
+    remaining: i32,
+    start: usize,
+    current: &mut Vec<i32>,
+    result: &mut Vec<Vec<i32>>,
+) {
+    if remaining == 0 {
+        result.push(current.clone());    // found valid combination
+        return;
+    }
+    for i in start..candidates.len() {
+        if candidates[i] > remaining { break; }  // pruning (requires sorted input)
+        current.push(candidates[i]);
+        backtrack(candidates, remaining - candidates[i], i, current, result);
+        current.pop();                   // undo choice (backtrack)
+    }
+}
+
+// --- DP Space Optimization: 1D Rolling Array (LC 0062, 0072, 0221) ---
+// Replace 2D dp[m][n] with 1D dp[n], reusing the same row.
+// `prev` variable saves dp[i-1][j-1] before it gets overwritten.
+let mut dp = vec![0i32; n];
+for i in 0..m {
+    let mut prev = 0;                    // dp[i-1][j-1] (diagonal)
+    for j in 0..n {
+        let old = dp[j];                 // save before overwrite
+        dp[j] = /* recurrence using dp[j-1], dp[j] (above), prev (diagonal) */;
+        prev = old;                      // old dp[j] becomes next diagonal
+    }
+}
+
+// --- Graph Adjacency List (LC 0207, 0210, 0269, 0310) ---
+let n = num_nodes;
+let mut adj: Vec<Vec<usize>> = vec![vec![]; n];
+for edge in &edges {
+    adj[edge[0]].push(edge[1]);          // directed
+    adj[edge[1]].push(edge[0]);          // add this for undirected
+}
+
+// --- Interval Merge (LC 0056) ---
+intervals.sort_unstable_by_key(|i| i[0]);   // sort by start
+let mut merged: Vec<Vec<i32>> = Vec::new();
+for interval in intervals {
+    if let Some(last) = merged.last_mut() {
+        if interval[0] <= last[1] {
+            last[1] = last[1].max(interval[1]);  // extend overlap
+            continue;
+        }
+    }
+    merged.push(interval);
+}
+
+// --- Custom Ord for BinaryHeap (LC 0272) ---
+// BinaryHeap uses Ord trait. Implement Ord to customize ordering.
+#[derive(Eq, PartialEq)]
+struct HeapEntry { dist: i64, val: i32 }
+impl Ord for HeapEntry {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        other.dist.cmp(&self.dist)       // reverse for min-heap behavior
+    }
+}
+impl PartialOrd for HeapEntry {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+// --- Vec::swap for in-place rearrangement (LC 0031, 0041) ---
+nums.swap(i, j);                         // O(1), no temp variable needed
+// Common in: next permutation, cycle sort, first missing positive
 ```

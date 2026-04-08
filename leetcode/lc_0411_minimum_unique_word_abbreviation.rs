@@ -58,10 +58,7 @@ mod my_solution {
         /// # Returns
         ///
         /// Shortest abbreviation string that is unique
-        pub fn min_abbreviation(
-            target: String,
-            dictionary: Vec<String>,
-        ) -> String {
+        pub fn min_abbreviation(target: String, dictionary: Vec<String>) -> String {
             let m = target.len();
             let tb = target.as_bytes();
 
@@ -94,7 +91,7 @@ mod my_solution {
             // meaning at least one kept position distinguishes them
             let total = 1_u32 << m;
             let mut best_mask = total - 1; // worst case: keep all chars
-            let mut best_len = m;          // worst case length
+            let mut best_len = m; // worst case length
 
             for mask in 1..total {
                 let abbr_len = Self::abbreviation_length(mask, m);
@@ -178,10 +175,7 @@ mod ai_solution {
         /// # Returns
         ///
         /// Shortest abbreviation string that is unique
-        pub fn min_abbreviation(
-            target: String,
-            dictionary: Vec<String>,
-        ) -> String {
+        pub fn min_abbreviation(target: String, dictionary: Vec<String>) -> String {
             let m = target.len();
             let tb = target.as_bytes();
 
@@ -233,7 +227,7 @@ mod ai_solution {
         /// and packing the remaining bits to the right.
         fn next_combination(x: u32) -> u32 {
             let c = x & x.wrapping_neg(); // lowest set bit
-            let r = x + c;                // flip that bit group
+            let r = x + c; // flip that bit group
             // Pack remaining bits to the right
             (((r ^ x) >> 2) / c) | r
         }
@@ -332,15 +326,13 @@ mod tests {
     macro_rules! test_min_abbr {
         ($mod_name:ident, $sol_path:path) => {
             mod $mod_name {
-                use $sol_path as Solution;
                 use super::super::is_valid_abbreviation;
+                use $sol_path as Solution;
 
                 #[test]
                 fn test_example1() {
-                    let result = Solution::min_abbreviation(
-                        "apple".to_string(),
-                        vec!["blade".to_string()],
-                    );
+                    let result =
+                        Solution::min_abbreviation("apple".to_string(), vec!["blade".to_string()]);
                     assert!(
                         is_valid_abbreviation("apple", &["blade"], &result),
                         "Got \"{result}\" which is not a valid unique abbreviation",
@@ -360,11 +352,7 @@ mod tests {
                         ],
                     );
                     assert!(
-                        is_valid_abbreviation(
-                            "apple",
-                            &["blade", "plain", "amber"],
-                            &result,
-                        ),
+                        is_valid_abbreviation("apple", &["blade", "plain", "amber"], &result,),
                         "Got \"{result}\" which is not valid",
                     );
                     // Known valid answers: "1p3", "2p2", "3l1" (all length 3)
@@ -373,10 +361,7 @@ mod tests {
 
                 #[test]
                 fn test_empty_dict() {
-                    let result = Solution::min_abbreviation(
-                        "cat".to_string(),
-                        vec![],
-                    );
+                    let result = Solution::min_abbreviation("cat".to_string(), vec![]);
                     // No conflicts, shortest is just "3"
                     assert_eq!(result, "3");
                 }
@@ -393,10 +378,7 @@ mod tests {
 
                 #[test]
                 fn test_single_char() {
-                    let result = Solution::min_abbreviation(
-                        "a".to_string(),
-                        vec!["b".to_string()],
-                    );
+                    let result = Solution::min_abbreviation("a".to_string(), vec!["b".to_string()]);
                     // "a" itself or "1" — "1" is shorter but matches "b" too,
                     // so "a" is the answer
                     assert!(
@@ -426,31 +408,26 @@ mod tests {
 
         let iterations = 50_000_u32;
         let target = "apple".to_string();
-        let dict: Vec<String> =
-            vec!["blade", "plain", "amber"]
-                .into_iter()
-                .map(String::from)
-                .collect();
+        let dict: Vec<String> = vec!["blade", "plain", "amber"]
+            .into_iter()
+            .map(String::from)
+            .collect();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::min_abbreviation(
-                    std::hint::black_box(target.clone()),
-                    std::hint::black_box(dict.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::min_abbreviation(
+                std::hint::black_box(target.clone()),
+                std::hint::black_box(dict.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::min_abbreviation(
-                    std::hint::black_box(target.clone()),
-                    std::hint::black_box(dict.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::min_abbreviation(
+                std::hint::black_box(target.clone()),
+                std::hint::black_box(dict.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -462,12 +439,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

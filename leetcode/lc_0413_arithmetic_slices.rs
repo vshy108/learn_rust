@@ -124,15 +124,13 @@ fn main() {
 
     println!("--- My Solution ---");
     for (nums, expected) in &cases {
-        let result =
-            my_solution::Solution::number_of_arithmetic_slices(nums.clone());
+        let result = my_solution::Solution::number_of_arithmetic_slices(nums.clone());
         println!("  {nums:?} -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (nums, expected) in &cases {
-        let result =
-            ai_solution::Solution::number_of_arithmetic_slices(nums.clone());
+        let result = ai_solution::Solution::number_of_arithmetic_slices(nums.clone());
         println!("  {nums:?} -> {result} (expected {expected})");
     }
 }
@@ -146,20 +144,12 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        Solution::number_of_arithmetic_slices(
-                            vec![1, 2, 3, 4],
-                        ),
-                        3,
-                    );
+                    assert_eq!(Solution::number_of_arithmetic_slices(vec![1, 2, 3, 4],), 3,);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        Solution::number_of_arithmetic_slices(vec![1]),
-                        0,
-                    );
+                    assert_eq!(Solution::number_of_arithmetic_slices(vec![1]), 0,);
                 }
 
                 #[test]
@@ -167,40 +157,25 @@ mod tests {
                     // [1,2,3], [2,3,4], [3,4,5], [1,2,3,4], [2,3,4,5],
                     // [1,2,3,4,5] = 6
                     assert_eq!(
-                        Solution::number_of_arithmetic_slices(
-                            vec![1, 2, 3, 4, 5],
-                        ),
+                        Solution::number_of_arithmetic_slices(vec![1, 2, 3, 4, 5],),
                         6,
                     );
                 }
 
                 #[test]
                 fn test_no_arithmetic() {
-                    assert_eq!(
-                        Solution::number_of_arithmetic_slices(
-                            vec![1, 3, 2, 5],
-                        ),
-                        0,
-                    );
+                    assert_eq!(Solution::number_of_arithmetic_slices(vec![1, 3, 2, 5],), 0,);
                 }
 
                 #[test]
                 fn test_two_elements() {
-                    assert_eq!(
-                        Solution::number_of_arithmetic_slices(vec![1, 2]),
-                        0,
-                    );
+                    assert_eq!(Solution::number_of_arithmetic_slices(vec![1, 2]), 0,);
                 }
 
                 #[test]
                 fn test_constant_sequence() {
                     // [7,7,7] = 1 slice
-                    assert_eq!(
-                        Solution::number_of_arithmetic_slices(
-                            vec![7, 7, 7],
-                        ),
-                        1,
-                    );
+                    assert_eq!(Solution::number_of_arithmetic_slices(vec![7, 7, 7],), 1,);
                 }
             }
         };
@@ -219,21 +194,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::number_of_arithmetic_slices(
-                    std::hint::black_box(nums.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::number_of_arithmetic_slices(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::number_of_arithmetic_slices(
-                    std::hint::black_box(nums.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::number_of_arithmetic_slices(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -245,12 +216,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

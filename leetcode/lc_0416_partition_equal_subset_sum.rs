@@ -110,8 +110,7 @@ mod ai_solution {
                         shifted = bits[i - block_shift] << bit_shift;
                         // Add carry from the block below
                         if bit_shift > 0 && i > block_shift {
-                            shifted |=
-                                bits[i - block_shift - 1] >> (128 - bit_shift);
+                            shifted |= bits[i - block_shift - 1] >> (128 - bit_shift);
                         }
                     }
                     bits[i] |= shifted;
@@ -127,10 +126,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        (vec![1, 5, 11, 5], true),
-        (vec![1, 2, 3, 5], false),
-    ];
+    let cases = [(vec![1, 5, 11, 5], true), (vec![1, 2, 3, 5], false)];
 
     println!("--- My Solution ---");
     for (nums, expected) in &cases {
@@ -188,9 +184,7 @@ mod tests {
                 fn test_complex() {
                     // [1,2,3,4,5,6,7] sum=28, target=14
                     // {7,6,1} = 14
-                    assert!(Solution::can_partition(
-                        vec![1, 2, 3, 4, 5, 6, 7],
-                    ));
+                    assert!(Solution::can_partition(vec![1, 2, 3, 4, 5, 6, 7],));
                 }
             }
         };
@@ -209,21 +203,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::can_partition(
-                    std::hint::black_box(nums.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::can_partition(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::can_partition(
-                    std::hint::black_box(nums.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::can_partition(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -235,12 +225,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

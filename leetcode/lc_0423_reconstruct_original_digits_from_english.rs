@@ -116,15 +116,22 @@ mod ai_solution {
             // (digit, unique_char, letters_to_subtract)
             // Process in order: 0,2,4,6,8 -> 3,5,7 -> 1,9
             let order: [(usize, u8); 10] = [
-                (0, b'z'), (2, b'w'), (4, b'u'), (6, b'x'), (8, b'g'),
-                (3, b'h'), (5, b'f'), (7, b's'),
-                (1, b'o'), (9, b'i'),
+                (0, b'z'),
+                (2, b'w'),
+                (4, b'u'),
+                (6, b'x'),
+                (8, b'g'),
+                (3, b'h'),
+                (5, b'f'),
+                (7, b's'),
+                (1, b'o'),
+                (9, b'i'),
             ];
 
             // Word spellings for each digit
             let words: [&[u8]; 10] = [
-                b"zero", b"one", b"two", b"three", b"four",
-                b"five", b"six", b"seven", b"eight", b"nine",
+                b"zero", b"one", b"two", b"three", b"four", b"five", b"six", b"seven", b"eight",
+                b"nine",
             ];
 
             let mut cnt = [0_i32; 10];
@@ -150,22 +157,17 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        ("owoztneoer", "012"),
-        ("fviefuro", "45"),
-    ];
+    let cases = [("owoztneoer", "012"), ("fviefuro", "45")];
 
     println!("--- My Solution ---");
     for (s, expected) in &cases {
-        let result =
-            my_solution::Solution::original_digits(s.to_string());
+        let result = my_solution::Solution::original_digits(s.to_string());
         println!("  \"{s}\" -> \"{result}\" (expected \"{expected}\")");
     }
 
     println!("--- AI Solution ---");
     for (s, expected) in &cases {
-        let result =
-            ai_solution::Solution::original_digits(s.to_string());
+        let result = ai_solution::Solution::original_digits(s.to_string());
         println!("  \"{s}\" -> \"{result}\" (expected \"{expected}\")");
     }
 }
@@ -179,49 +181,30 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        Solution::original_digits(
-                            "owoztneoer".to_string(),
-                        ),
-                        "012",
-                    );
+                    assert_eq!(Solution::original_digits("owoztneoer".to_string(),), "012",);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        Solution::original_digits(
-                            "fviefuro".to_string(),
-                        ),
-                        "45",
-                    );
+                    assert_eq!(Solution::original_digits("fviefuro".to_string(),), "45",);
                 }
 
                 #[test]
                 fn test_single_zero() {
-                    assert_eq!(
-                        Solution::original_digits("zero".to_string()),
-                        "0",
-                    );
+                    assert_eq!(Solution::original_digits("zero".to_string()), "0",);
                 }
 
                 #[test]
                 fn test_all_digits() {
                     // "zeroonetwothreefourfivesixseveneightnine"
                     let s = "zeroonetwothreefourfivesixseveneightnine";
-                    assert_eq!(
-                        Solution::original_digits(s.to_string()),
-                        "0123456789",
-                    );
+                    assert_eq!(Solution::original_digits(s.to_string()), "0123456789",);
                 }
 
                 #[test]
                 fn test_repeated() {
                     // "oneone" -> "11"
-                    assert_eq!(
-                        Solution::original_digits("oneone".to_string()),
-                        "11",
-                    );
+                    assert_eq!(Solution::original_digits("oneone".to_string()), "11",);
                 }
             }
         };
@@ -240,21 +223,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::original_digits(
-                    std::hint::black_box(s.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::original_digits(
+                std::hint::black_box(s.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::original_digits(
-                    std::hint::black_box(s.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::original_digits(
+                std::hint::black_box(s.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -266,12 +245,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

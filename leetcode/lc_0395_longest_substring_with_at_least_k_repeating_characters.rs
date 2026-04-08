@@ -119,8 +119,8 @@ mod ai_solution {
             // Try each possible number of unique characters in the window
             for target_unique in 1..=26u32 {
                 let mut cnt = [0u32; 26];
-                let mut unique = 0u32;       // distinct chars in window
-                let mut at_least_k = 0u32;   // chars with count >= k
+                let mut unique = 0u32; // distinct chars in window
+                let mut at_least_k = 0u32; // chars with count >= k
                 let mut left = 0usize;
 
                 for right in 0..bytes.len() {
@@ -158,22 +158,17 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        ("aaabb", 3, 3),
-        ("ababbc", 2, 5),
-    ];
+    let cases = [("aaabb", 3, 3), ("ababbc", 2, 5)];
 
     println!("--- My Solution ---");
     for (s, k, expected) in &cases {
-        let result =
-            my_solution::Solution::longest_substring(s.to_string(), *k);
+        let result = my_solution::Solution::longest_substring(s.to_string(), *k);
         println!("  s={s:?}, k={k} -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (s, k, expected) in &cases {
-        let result =
-            ai_solution::Solution::longest_substring(s.to_string(), *k);
+        let result = ai_solution::Solution::longest_substring(s.to_string(), *k);
         println!("  s={s:?}, k={k} -> {result} (expected {expected})");
     }
 }
@@ -187,50 +182,32 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        Solution::longest_substring("aaabb".to_string(), 3),
-                        3
-                    );
+                    assert_eq!(Solution::longest_substring("aaabb".to_string(), 3), 3);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        Solution::longest_substring("ababbc".to_string(), 2),
-                        5
-                    );
+                    assert_eq!(Solution::longest_substring("ababbc".to_string(), 2), 5);
                 }
 
                 #[test]
                 fn test_all_same() {
-                    assert_eq!(
-                        Solution::longest_substring("aaaa".to_string(), 2),
-                        4
-                    );
+                    assert_eq!(Solution::longest_substring("aaaa".to_string(), 2), 4);
                 }
 
                 #[test]
                 fn test_no_valid() {
-                    assert_eq!(
-                        Solution::longest_substring("abcde".to_string(), 2),
-                        0
-                    );
+                    assert_eq!(Solution::longest_substring("abcde".to_string(), 2), 0);
                 }
 
                 #[test]
                 fn test_k_equals_1() {
-                    assert_eq!(
-                        Solution::longest_substring("abcde".to_string(), 1),
-                        5
-                    );
+                    assert_eq!(Solution::longest_substring("abcde".to_string(), 1), 5);
                 }
 
                 #[test]
                 fn test_single_char() {
-                    assert_eq!(
-                        Solution::longest_substring("a".to_string(), 1),
-                        1
-                    );
+                    assert_eq!(Solution::longest_substring("a".to_string(), 1), 1);
                 }
             }
         };
@@ -249,23 +226,19 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::longest_substring(
-                    std::hint::black_box(s.clone()),
-                    std::hint::black_box(k),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::longest_substring(
+                std::hint::black_box(s.clone()),
+                std::hint::black_box(k),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::longest_substring(
-                    std::hint::black_box(s.clone()),
-                    std::hint::black_box(k),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::longest_substring(
+                std::hint::black_box(s.clone()),
+                std::hint::black_box(k),
+            ));
         }
         let ai_duration = start.elapsed();
 

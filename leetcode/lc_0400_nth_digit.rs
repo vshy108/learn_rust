@@ -45,7 +45,7 @@ mod my_solution {
         /// The digit at position n
         pub fn find_nth_digit(n: i32) -> i32 {
             let mut n = n as i64;
-            let mut k: i64 = 1;  // current digit length
+            let mut k: i64 = 1; // current digit length
             let mut cnt: i64 = 9; // count of numbers with `k` digits
 
             // Skip past complete digit bands
@@ -169,10 +169,7 @@ mod tests {
 
                 #[test]
                 fn test_large() {
-                    assert_eq!(
-                        Solution::find_nth_digit(1_000_000_000),
-                        1
-                    );
+                    assert_eq!(Solution::find_nth_digit(1_000_000_000), 1);
                 }
             }
         };
@@ -190,21 +187,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::find_nth_digit(
-                    std::hint::black_box(n),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::find_nth_digit(
+                std::hint::black_box(n),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::find_nth_digit(
-                    std::hint::black_box(n),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::find_nth_digit(
+                std::hint::black_box(n),
+            ));
         }
         let ai_duration = start.elapsed();
 

@@ -110,28 +110,18 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        ("a", "b", false),
-        ("aa", "ab", false),
-        ("aa", "aab", true),
-    ];
+    let cases = [("a", "b", false), ("aa", "ab", false), ("aa", "aab", true)];
 
     println!("--- My Solution ---");
     for (note, mag, expected) in &cases {
-        let result =
-            my_solution::Solution::can_construct(note.to_string(), mag.to_string());
-        println!(
-            "  can_construct(\"{note}\", \"{mag}\") = {result} (expected {expected})"
-        );
+        let result = my_solution::Solution::can_construct(note.to_string(), mag.to_string());
+        println!("  can_construct(\"{note}\", \"{mag}\") = {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (note, mag, expected) in &cases {
-        let result =
-            ai_solution::Solution::can_construct(note.to_string(), mag.to_string());
-        println!(
-            "  can_construct(\"{note}\", \"{mag}\") = {result} (expected {expected})"
-        );
+        let result = ai_solution::Solution::can_construct(note.to_string(), mag.to_string());
+        println!("  can_construct(\"{note}\", \"{mag}\") = {result} (expected {expected})");
     }
 }
 
@@ -144,43 +134,28 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert!(!Solution::can_construct(
-                        "a".to_string(),
-                        "b".to_string()
-                    ));
+                    assert!(!Solution::can_construct("a".to_string(), "b".to_string()));
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert!(!Solution::can_construct(
-                        "aa".to_string(),
-                        "ab".to_string()
-                    ));
+                    assert!(!Solution::can_construct("aa".to_string(), "ab".to_string()));
                 }
 
                 #[test]
                 fn test_example3() {
-                    assert!(Solution::can_construct(
-                        "aa".to_string(),
-                        "aab".to_string()
-                    ));
+                    assert!(Solution::can_construct("aa".to_string(), "aab".to_string()));
                 }
 
                 #[test]
                 fn test_empty_ransom_note() {
                     // Empty ransom note can always be constructed
-                    assert!(Solution::can_construct(
-                        String::new(),
-                        "abc".to_string()
-                    ));
+                    assert!(Solution::can_construct(String::new(), "abc".to_string()));
                 }
 
                 #[test]
                 fn test_empty_both() {
-                    assert!(Solution::can_construct(
-                        String::new(),
-                        String::new()
-                    ));
+                    assert!(Solution::can_construct(String::new(), String::new()));
                 }
 
                 #[test]

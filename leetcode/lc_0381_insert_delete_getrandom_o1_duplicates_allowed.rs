@@ -138,11 +138,7 @@ mod my_solution {
             self.nums.pop();
 
             // Clean up empty sets
-            if self
-                .val_to_indices
-                .get(&val)
-                .is_some_and(|s| s.is_empty())
-            {
+            if self.val_to_indices.get(&val).is_some_and(|s| s.is_empty()) {
                 self.val_to_indices.remove(&val);
             }
             true
@@ -253,11 +249,7 @@ mod ai_solution {
             self.nums.pop();
 
             // Clean up empty entries
-            if self
-                .val_to_indices
-                .get(&val)
-                .is_some_and(|s| s.is_empty())
-            {
+            if self.val_to_indices.get(&val).is_some_and(|s| s.is_empty()) {
                 self.val_to_indices.remove(&val);
             }
             true
@@ -376,9 +368,9 @@ mod tests {
                 #[test]
                 fn test_example_sequence() {
                     let mut rc = RandomizedCollection::new();
-                    assert!(rc.insert(1));   // true: 1 not present
-                    assert!(!rc.insert(1));  // false: 1 already present
-                    assert!(rc.insert(2));   // true: 2 not present
+                    assert!(rc.insert(1)); // true: 1 not present
+                    assert!(!rc.insert(1)); // false: 1 already present
+                    assert!(rc.insert(2)); // true: 2 not present
                     let r = rc.get_random();
                     assert!(r == 1 || r == 2);
                     assert!(rc.remove(1));

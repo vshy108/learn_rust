@@ -54,8 +54,7 @@ mod my_solution {
             }
 
             // Min-heap of (height, row, col)
-            let mut heap: BinaryHeap<Reverse<(i32, usize, usize)>> =
-                BinaryHeap::new();
+            let mut heap: BinaryHeap<Reverse<(i32, usize, usize)>> = BinaryHeap::new();
             let mut visited = vec![vec![false; n]; m];
 
             // Push all border cells
@@ -82,11 +81,7 @@ mod my_solution {
                             // If neighbor is lower, trap water
                             water += (h - height_map[nr][nc]).max(0);
                             // Push neighbor with the effective water level
-                            heap.push(Reverse((
-                                h.max(height_map[nr][nc]),
-                                nr,
-                                nc,
-                            )));
+                            heap.push(Reverse((h.max(height_map[nr][nc]), nr, nc)));
                         }
                     }
                 }
@@ -127,8 +122,7 @@ mod ai_solution {
                 return 0;
             }
 
-            let mut heap: BinaryHeap<Reverse<(i32, usize)>> =
-                BinaryHeap::new();
+            let mut heap: BinaryHeap<Reverse<(i32, usize)>> = BinaryHeap::new();
             // Flat visited array for better cache performance
             let mut visited = vec![false; m * n];
 
@@ -152,7 +146,11 @@ mod ai_solution {
                 // Check 4 neighbors using conditional bounds
                 let neighbors = [
                     if r > 0 { Some((r - 1) * n + c) } else { None },
-                    if r + 1 < m { Some((r + 1) * n + c) } else { None },
+                    if r + 1 < m {
+                        Some((r + 1) * n + c)
+                    } else {
+                        None
+                    },
                     if c > 0 { Some(r * n + c - 1) } else { None },
                     if c + 1 < n { Some(r * n + c + 1) } else { None },
                 ];
@@ -238,31 +236,20 @@ mod tests {
 
                 #[test]
                 fn test_flat_surface() {
-                    let grid = vec![
-                        vec![5, 5, 5],
-                        vec![5, 5, 5],
-                        vec![5, 5, 5],
-                    ];
+                    let grid = vec![vec![5, 5, 5], vec![5, 5, 5], vec![5, 5, 5]];
                     assert_eq!(Solution::trap_rain_water(grid), 0);
                 }
 
                 #[test]
                 fn test_no_interior() {
                     // Only 2 rows, no interior cell
-                    let grid = vec![
-                        vec![1, 2, 3],
-                        vec![4, 5, 6],
-                    ];
+                    let grid = vec![vec![1, 2, 3], vec![4, 5, 6]];
                     assert_eq!(Solution::trap_rain_water(grid), 0);
                 }
 
                 #[test]
                 fn test_single_cell_pool() {
-                    let grid = vec![
-                        vec![5, 5, 5],
-                        vec![5, 1, 5],
-                        vec![5, 5, 5],
-                    ];
+                    let grid = vec![vec![5, 5, 5], vec![5, 1, 5], vec![5, 5, 5]];
                     // The center cell (height 1) can hold 4 units
                     assert_eq!(Solution::trap_rain_water(grid), 4);
                 }
@@ -291,21 +278,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::trap_rain_water(
-                    std::hint::black_box(grid.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::trap_rain_water(
+                std::hint::black_box(grid.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::trap_rain_water(
-                    std::hint::black_box(grid.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::trap_rain_water(
+                std::hint::black_box(grid.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

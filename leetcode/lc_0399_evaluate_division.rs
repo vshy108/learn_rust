@@ -73,11 +73,7 @@ mod my_solution {
         }
 
         /// BFS from `src` to `dst`, returning the product of edge weights.
-        fn bfs(
-            graph: &HashMap<&str, Vec<(&str, f64)>>,
-            src: &str,
-            dst: &str,
-        ) -> f64 {
+        fn bfs(graph: &HashMap<&str, Vec<(&str, f64)>>, src: &str, dst: &str) -> f64 {
             if !graph.contains_key(src) || !graph.contains_key(dst) {
                 return -1.0;
             }
@@ -140,8 +136,7 @@ mod ai_solution {
             let mut id_map: HashMap<String, usize> = HashMap::new();
             let mut next_id = 0usize;
 
-            let get_id = |name: &str, map: &mut HashMap<String, usize>,
-                              nxt: &mut usize| -> usize {
+            let get_id = |name: &str, map: &mut HashMap<String, usize>, nxt: &mut usize| -> usize {
                 if let Some(&id) = map.get(name) {
                     id
                 } else {
@@ -164,11 +159,7 @@ mod ai_solution {
             let mut weight: Vec<f64> = vec![1.0; n];
 
             // Find with path compression, updating weights
-            fn find(
-                x: usize,
-                parent: &mut [usize],
-                weight: &mut [f64],
-            ) -> usize {
+            fn find(x: usize, parent: &mut [usize], weight: &mut [f64]) -> usize {
                 if parent[x] != x {
                     let root = find(parent[x], parent, weight);
                     weight[x] *= weight[parent[x]];
@@ -178,13 +169,7 @@ mod ai_solution {
             }
 
             // Union a and b where a/b = val
-            fn union(
-                a: usize,
-                b: usize,
-                val: f64,
-                parent: &mut [usize],
-                weight: &mut [f64],
-            ) {
+            fn union(a: usize, b: usize, val: f64, parent: &mut [usize], weight: &mut [f64]) {
                 let pa = find(a, parent, weight);
                 let pb = find(b, parent, weight);
                 if pa == pb {
@@ -244,11 +229,8 @@ fn main() {
     ];
 
     println!("--- My Solution ---");
-    let result = my_solution::Solution::calc_equation(
-        equations.clone(),
-        values.clone(),
-        queries.clone(),
-    );
+    let result =
+        my_solution::Solution::calc_equation(equations.clone(), values.clone(), queries.clone());
     println!("  {result:?}");
 
     println!("--- AI Solution ---");
@@ -259,17 +241,14 @@ fn main() {
 #[cfg(test)]
 mod tests {
     fn approx_eq(a: &[f64], b: &[f64]) -> bool {
-        a.len() == b.len()
-            && a.iter()
-                .zip(b.iter())
-                .all(|(x, y)| (x - y).abs() < 1e-5)
+        a.len() == b.len() && a.iter().zip(b.iter()).all(|(x, y)| (x - y).abs() < 1e-5)
     }
 
     macro_rules! test_eval {
         ($mod_name:ident, $sol_path:path) => {
             mod $mod_name {
-                use $sol_path as Solution;
                 use super::approx_eq;
+                use $sol_path as Solution;
 
                 fn s(v: &str) -> String {
                     v.to_string()
@@ -288,10 +267,7 @@ mod tests {
                             vec![s("x"), s("x")],
                         ],
                     );
-                    assert!(approx_eq(
-                        &result,
-                        &[6.0, 0.5, -1.0, 1.0, -1.0]
-                    ));
+                    assert!(approx_eq(&result, &[6.0, 0.5, -1.0, 1.0, -1.0]));
                 }
 
                 #[test]
@@ -310,10 +286,7 @@ mod tests {
                             vec![s("cd"), s("bc")],
                         ],
                     );
-                    assert!(approx_eq(
-                        &result,
-                        &[3.75, 0.4, 5.0, 0.2]
-                    ));
+                    assert!(approx_eq(&result, &[3.75, 0.4, 5.0, 0.2]));
                 }
 
                 #[test]
@@ -328,10 +301,7 @@ mod tests {
                             vec![s("x"), s("y")],
                         ],
                     );
-                    assert!(approx_eq(
-                        &result,
-                        &[0.5, 2.0, -1.0, -1.0]
-                    ));
+                    assert!(approx_eq(&result, &[0.5, 2.0, -1.0, -1.0]));
                 }
             }
         };
@@ -361,25 +331,21 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::calc_equation(
-                    std::hint::black_box(equations.clone()),
-                    std::hint::black_box(values.clone()),
-                    std::hint::black_box(queries.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::calc_equation(
+                std::hint::black_box(equations.clone()),
+                std::hint::black_box(values.clone()),
+                std::hint::black_box(queries.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::calc_equation(
-                    std::hint::black_box(equations.clone()),
-                    std::hint::black_box(values.clone()),
-                    std::hint::black_box(queries.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::calc_equation(
+                std::hint::black_box(equations.clone()),
+                std::hint::black_box(values.clone()),
+                std::hint::black_box(queries.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

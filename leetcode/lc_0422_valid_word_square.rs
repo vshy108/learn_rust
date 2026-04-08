@@ -50,10 +50,7 @@ mod my_solution {
                 for (j, &c) in w.as_bytes().iter().enumerate() {
                     // Check bounds: j must be a valid row index,
                     // and i must be within that row's length
-                    if j >= m
-                        || i >= words[j].len()
-                        || c != words[j].as_bytes()[i]
-                    {
+                    if j >= m || i >= words[j].len() || c != words[j].as_bytes()[i] {
                         return false;
                     }
                 }
@@ -86,8 +83,7 @@ mod ai_solution {
         ///
         /// `true` if the k-th row and k-th column match for all k
         pub fn valid_word_square(words: Vec<String>) -> bool {
-            let grid: Vec<&[u8]> =
-                words.iter().map(|w| w.as_bytes()).collect();
+            let grid: Vec<&[u8]> = words.iter().map(|w| w.as_bytes()).collect();
             let m = grid.len();
 
             for i in 0..m {
@@ -120,17 +116,15 @@ fn main() {
 
     println!("--- My Solution ---");
     for (words, expected) in &cases {
-        let result = my_solution::Solution::valid_word_square(
-            words.iter().map(|s| s.to_string()).collect(),
-        );
+        let result =
+            my_solution::Solution::valid_word_square(words.iter().map(|s| s.to_string()).collect());
         println!("  {words:?} -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (words, expected) in &cases {
-        let result = ai_solution::Solution::valid_word_square(
-            words.iter().map(|s| s.to_string()).collect(),
-        );
+        let result =
+            ai_solution::Solution::valid_word_square(words.iter().map(|s| s.to_string()).collect());
         println!("  {words:?} -> {result} (expected {expected})");
     }
 }
@@ -144,53 +138,43 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert!(Solution::valid_word_square(
-                        vec![
-                            "abcd".to_string(),
-                            "bnrt".to_string(),
-                            "crmy".to_string(),
-                            "dtye".to_string(),
-                        ],
-                    ));
+                    assert!(Solution::valid_word_square(vec![
+                        "abcd".to_string(),
+                        "bnrt".to_string(),
+                        "crmy".to_string(),
+                        "dtye".to_string(),
+                    ],));
                 }
 
                 #[test]
                 fn test_example2_ragged() {
-                    assert!(Solution::valid_word_square(
-                        vec![
-                            "abcd".to_string(),
-                            "bnrt".to_string(),
-                            "crm".to_string(),
-                            "dt".to_string(),
-                        ],
-                    ));
+                    assert!(Solution::valid_word_square(vec![
+                        "abcd".to_string(),
+                        "bnrt".to_string(),
+                        "crm".to_string(),
+                        "dt".to_string(),
+                    ],));
                 }
 
                 #[test]
                 fn test_example3_false() {
-                    assert!(!Solution::valid_word_square(
-                        vec![
-                            "ball".to_string(),
-                            "area".to_string(),
-                            "read".to_string(),
-                            "lady".to_string(),
-                        ],
-                    ));
+                    assert!(!Solution::valid_word_square(vec![
+                        "ball".to_string(),
+                        "area".to_string(),
+                        "read".to_string(),
+                        "lady".to_string(),
+                    ],));
                 }
 
                 #[test]
                 fn test_single_word() {
-                    assert!(Solution::valid_word_square(
-                        vec!["a".to_string()],
-                    ));
+                    assert!(Solution::valid_word_square(vec!["a".to_string()],));
                 }
 
                 #[test]
                 fn test_asymmetric_lengths() {
                     // Row 0 has 2 chars but only 1 row exists -> col 1 length mismatch
-                    assert!(!Solution::valid_word_square(
-                        vec!["ab".to_string()],
-                    ));
+                    assert!(!Solution::valid_word_square(vec!["ab".to_string()],));
                 }
             }
         };
@@ -204,29 +188,24 @@ mod tests {
         use std::time::Instant;
 
         let iterations = 500_000_u32;
-        let words: Vec<String> =
-            vec!["abcd", "bnrt", "crmy", "dtye"]
-                .into_iter()
-                .map(String::from)
-                .collect();
+        let words: Vec<String> = vec!["abcd", "bnrt", "crmy", "dtye"]
+            .into_iter()
+            .map(String::from)
+            .collect();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::valid_word_square(
-                    std::hint::black_box(words.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::valid_word_square(
+                std::hint::black_box(words.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::valid_word_square(
-                    std::hint::black_box(words.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::valid_word_square(
+                std::hint::black_box(words.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -238,12 +217,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

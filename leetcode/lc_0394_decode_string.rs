@@ -63,9 +63,7 @@ mod my_solution {
                     current.clear();
                 } else if ch == ']' {
                     // Pop and repeat
-                    let repeat = count_stack
-                        .pop()
-                        .expect("matching '[' guarantees a count");
+                    let repeat = count_stack.pop().expect("matching '[' guarantees a count");
                     let mut prefix = string_stack
                         .pop()
                         .expect("matching '[' guarantees a saved string");
@@ -145,15 +143,13 @@ fn main() {
 
     println!("--- My Solution ---");
     for (input, expected) in &cases {
-        let result =
-            my_solution::Solution::decode_string(input.to_string());
+        let result = my_solution::Solution::decode_string(input.to_string());
         println!("  \"{input}\" -> \"{result}\" (expected \"{expected}\")");
     }
 
     println!("--- AI Solution ---");
     for (input, expected) in &cases {
-        let result =
-            ai_solution::Solution::decode_string(input.to_string());
+        let result = ai_solution::Solution::decode_string(input.to_string());
         println!("  \"{input}\" -> \"{result}\" (expected \"{expected}\")");
     }
 }
@@ -167,52 +163,35 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        Solution::decode_string("3[a]2[bc]".to_string()),
-                        "aaabcbc"
-                    );
+                    assert_eq!(Solution::decode_string("3[a]2[bc]".to_string()), "aaabcbc");
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        Solution::decode_string("3[a2[c]]".to_string()),
-                        "accaccacc"
-                    );
+                    assert_eq!(Solution::decode_string("3[a2[c]]".to_string()), "accaccacc");
                 }
 
                 #[test]
                 fn test_example3() {
                     assert_eq!(
-                        Solution::decode_string(
-                            "2[abc]3[cd]ef".to_string()
-                        ),
+                        Solution::decode_string("2[abc]3[cd]ef".to_string()),
                         "abcabccdcdcdef"
                     );
                 }
 
                 #[test]
                 fn test_no_brackets() {
-                    assert_eq!(
-                        Solution::decode_string("abc".to_string()),
-                        "abc"
-                    );
+                    assert_eq!(Solution::decode_string("abc".to_string()), "abc");
                 }
 
                 #[test]
                 fn test_single_repeat() {
-                    assert_eq!(
-                        Solution::decode_string("1[a]".to_string()),
-                        "a"
-                    );
+                    assert_eq!(Solution::decode_string("1[a]".to_string()), "a");
                 }
 
                 #[test]
                 fn test_large_repeat() {
-                    assert_eq!(
-                        Solution::decode_string("10[a]".to_string()),
-                        "aaaaaaaaaa"
-                    );
+                    assert_eq!(Solution::decode_string("10[a]".to_string()), "aaaaaaaaaa");
                 }
             }
         };
@@ -230,21 +209,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::decode_string(
-                    std::hint::black_box(input.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::decode_string(
+                std::hint::black_box(input.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::decode_string(
-                    std::hint::black_box(input.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::decode_string(
+                std::hint::black_box(input.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

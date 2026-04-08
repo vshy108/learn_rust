@@ -97,9 +97,7 @@ mod ai_solution {
             let mut a = num1.bytes().rev();
             let mut b = num2.bytes().rev();
             let mut carry = 0_u8;
-            let mut result = Vec::with_capacity(
-                num1.len().max(num2.len()) + 1,
-            );
+            let mut result = Vec::with_capacity(num1.len().max(num2.len()) + 1);
 
             loop {
                 let da = a.next();
@@ -107,9 +105,7 @@ mod ai_solution {
                 if da.is_none() && db.is_none() && carry == 0 {
                     break;
                 }
-                let sum = da.map_or(0, |c| c - b'0')
-                    + db.map_or(0, |c| c - b'0')
-                    + carry;
+                let sum = da.map_or(0, |c| c - b'0') + db.map_or(0, |c| c - b'0') + carry;
                 carry = sum / 10;
                 result.push(b'0' + sum % 10);
             }
@@ -121,27 +117,17 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        ("11", "123", "134"),
-        ("456", "77", "533"),
-        ("0", "0", "0"),
-    ];
+    let cases = [("11", "123", "134"), ("456", "77", "533"), ("0", "0", "0")];
 
     println!("--- My Solution ---");
     for (a, b, expected) in &cases {
-        let result = my_solution::Solution::add_strings(
-            a.to_string(),
-            b.to_string(),
-        );
+        let result = my_solution::Solution::add_strings(a.to_string(), b.to_string());
         println!("  \"{a}\" + \"{b}\" -> \"{result}\" (expected \"{expected}\")");
     }
 
     println!("--- AI Solution ---");
     for (a, b, expected) in &cases {
-        let result = ai_solution::Solution::add_strings(
-            a.to_string(),
-            b.to_string(),
-        );
+        let result = ai_solution::Solution::add_strings(a.to_string(), b.to_string());
         println!("  \"{a}\" + \"{b}\" -> \"{result}\" (expected \"{expected}\")");
     }
 }
@@ -156,10 +142,7 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     assert_eq!(
-                        Solution::add_strings(
-                            "11".to_string(),
-                            "123".to_string(),
-                        ),
+                        Solution::add_strings("11".to_string(), "123".to_string(),),
                         "134",
                     );
                 }
@@ -167,10 +150,7 @@ mod tests {
                 #[test]
                 fn test_example2() {
                     assert_eq!(
-                        Solution::add_strings(
-                            "456".to_string(),
-                            "77".to_string(),
-                        ),
+                        Solution::add_strings("456".to_string(), "77".to_string(),),
                         "533",
                     );
                 }
@@ -178,10 +158,7 @@ mod tests {
                 #[test]
                 fn test_both_zero() {
                     assert_eq!(
-                        Solution::add_strings(
-                            "0".to_string(),
-                            "0".to_string(),
-                        ),
+                        Solution::add_strings("0".to_string(), "0".to_string(),),
                         "0",
                     );
                 }
@@ -189,10 +166,7 @@ mod tests {
                 #[test]
                 fn test_carry_overflow() {
                     assert_eq!(
-                        Solution::add_strings(
-                            "999".to_string(),
-                            "1".to_string(),
-                        ),
+                        Solution::add_strings("999".to_string(), "1".to_string(),),
                         "1000",
                     );
                 }
@@ -200,10 +174,7 @@ mod tests {
                 #[test]
                 fn test_different_lengths() {
                     assert_eq!(
-                        Solution::add_strings(
-                            "1".to_string(),
-                            "99999".to_string(),
-                        ),
+                        Solution::add_strings("1".to_string(), "99999".to_string(),),
                         "100000",
                     );
                 }
@@ -211,10 +182,7 @@ mod tests {
                 #[test]
                 fn test_large_numbers() {
                     assert_eq!(
-                        Solution::add_strings(
-                            "9999999999".to_string(),
-                            "1".to_string(),
-                        ),
+                        Solution::add_strings("9999999999".to_string(), "1".to_string(),),
                         "10000000000",
                     );
                 }
@@ -235,23 +203,19 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::add_strings(
-                    std::hint::black_box(num1.clone()),
-                    std::hint::black_box(num2.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::add_strings(
+                std::hint::black_box(num1.clone()),
+                std::hint::black_box(num2.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::add_strings(
-                    std::hint::black_box(num1.clone()),
-                    std::hint::black_box(num2.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::add_strings(
+                std::hint::black_box(num1.clone()),
+                std::hint::black_box(num2.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -263,12 +227,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

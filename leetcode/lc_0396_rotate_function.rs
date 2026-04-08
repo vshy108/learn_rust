@@ -110,22 +110,17 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        (vec![4, 3, 2, 6], 26),
-        (vec![100], 0),
-    ];
+    let cases = [(vec![4, 3, 2, 6], 26), (vec![100], 0)];
 
     println!("--- My Solution ---");
     for (nums, expected) in &cases {
-        let result =
-            my_solution::Solution::max_rotate_function(nums.clone());
+        let result = my_solution::Solution::max_rotate_function(nums.clone());
         println!("  {nums:?} -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (nums, expected) in &cases {
-        let result =
-            ai_solution::Solution::max_rotate_function(nums.clone());
+        let result = ai_solution::Solution::max_rotate_function(nums.clone());
         println!("  {nums:?} -> {result} (expected {expected})");
     }
 }
@@ -139,27 +134,18 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        Solution::max_rotate_function(vec![4, 3, 2, 6]),
-                        26
-                    );
+                    assert_eq!(Solution::max_rotate_function(vec![4, 3, 2, 6]), 26);
                 }
 
                 #[test]
                 fn test_single() {
-                    assert_eq!(
-                        Solution::max_rotate_function(vec![100]),
-                        0
-                    );
+                    assert_eq!(Solution::max_rotate_function(vec![100]), 0);
                 }
 
                 #[test]
                 fn test_two_elements() {
                     // F(0) = 0*1 + 1*2 = 2, F(1) = 0*2 + 1*1 = 1
-                    assert_eq!(
-                        Solution::max_rotate_function(vec![1, 2]),
-                        2
-                    );
+                    assert_eq!(Solution::max_rotate_function(vec![1, 2]), 2);
                 }
 
                 #[test]
@@ -167,18 +153,12 @@ mod tests {
                     // F(0)= 0*(-1) + 1*2 + 2*(-3) = -4
                     // F(1)= 0*(-3) + 1*(-1) + 2*2 = 3
                     // F(2)= 0*2 + 1*(-3) + 2*(-1) = -5
-                    assert_eq!(
-                        Solution::max_rotate_function(vec![-1, 2, -3]),
-                        3
-                    );
+                    assert_eq!(Solution::max_rotate_function(vec![-1, 2, -3]), 3);
                 }
 
                 #[test]
                 fn test_all_zeros() {
-                    assert_eq!(
-                        Solution::max_rotate_function(vec![0, 0, 0]),
-                        0
-                    );
+                    assert_eq!(Solution::max_rotate_function(vec![0, 0, 0]), 0);
                 }
             }
         };
@@ -196,21 +176,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::max_rotate_function(
-                    std::hint::black_box(nums.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::max_rotate_function(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::max_rotate_function(
-                    std::hint::black_box(nums.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::max_rotate_function(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

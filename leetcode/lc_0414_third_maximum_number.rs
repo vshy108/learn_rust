@@ -97,21 +97,13 @@ mod ai_solution {
             nums.dedup();
 
             let n = nums.len();
-            if n >= 3 {
-                nums[n - 3]
-            } else {
-                nums[n - 1]
-            }
+            if n >= 3 { nums[n - 3] } else { nums[n - 1] }
         }
     }
 }
 
 fn main() {
-    let cases = [
-        (vec![3, 2, 1], 1),
-        (vec![1, 2], 2),
-        (vec![2, 2, 3, 1], 1),
-    ];
+    let cases = [(vec![3, 2, 1], 1), (vec![1, 2], 2), (vec![2, 2, 3, 1], 1)];
 
     println!("--- My Solution ---");
     for (nums, expected) in &cases {
@@ -161,20 +153,12 @@ mod tests {
                 #[test]
                 fn test_min_values() {
                     // Edge case: i32::MIN is a valid value
-                    assert_eq!(
-                        Solution::third_max(
-                            vec![1, 2, i32::MIN],
-                        ),
-                        i32::MIN,
-                    );
+                    assert_eq!(Solution::third_max(vec![1, 2, i32::MIN],), i32::MIN,);
                 }
 
                 #[test]
                 fn test_negative() {
-                    assert_eq!(
-                        Solution::third_max(vec![-1, -2, -3]),
-                        -3,
-                    );
+                    assert_eq!(Solution::third_max(vec![-1, -2, -3]), -3,);
                 }
             }
         };
@@ -192,21 +176,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::third_max(
-                    std::hint::black_box(nums.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::third_max(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::third_max(
-                    std::hint::black_box(nums.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::third_max(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -218,12 +198,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

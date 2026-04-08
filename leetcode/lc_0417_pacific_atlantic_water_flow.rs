@@ -47,9 +47,7 @@ mod my_solution {
         /// # Returns
         ///
         /// List of [row, col] coordinates
-        pub fn pacific_atlantic(
-            heights: Vec<Vec<i32>>,
-        ) -> Vec<Vec<i32>> {
+        pub fn pacific_atlantic(heights: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
             let m = heights.len();
             let n = heights[0].len();
             let mut pacific = vec![vec![false; n]; m];
@@ -100,22 +98,15 @@ mod my_solution {
             m: usize,
             n: usize,
         ) {
-            let dirs: [(i32, i32); 4] =
-                [(-1, 0), (1, 0), (0, -1), (0, 1)];
+            let dirs: [(i32, i32); 4] = [(-1, 0), (1, 0), (0, -1), (0, 1)];
 
             while let Some((r, c)) = queue.pop_front() {
                 for (dr, dc) in &dirs {
                     let nr = r as i32 + dr;
                     let nc = c as i32 + dc;
-                    if nr >= 0
-                        && nr < m as i32
-                        && nc >= 0
-                        && nc < n as i32
-                    {
+                    if nr >= 0 && nr < m as i32 && nc >= 0 && nc < n as i32 {
                         let (nr, nc) = (nr as usize, nc as usize);
-                        if !visited[nr][nc]
-                            && heights[nr][nc] >= heights[r][c]
-                        {
+                        if !visited[nr][nc] && heights[nr][nc] >= heights[r][c] {
                             visited[nr][nc] = true;
                             queue.push_back((nr, nc));
                         }
@@ -146,9 +137,7 @@ mod ai_solution {
         /// # Returns
         ///
         /// List of [row, col] coordinates
-        pub fn pacific_atlantic(
-            heights: Vec<Vec<i32>>,
-        ) -> Vec<Vec<i32>> {
+        pub fn pacific_atlantic(heights: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
             let m = heights.len();
             let n = heights[0].len();
             let mut pacific = vec![vec![false; n]; m];
@@ -195,16 +184,11 @@ mod ai_solution {
             }
             visited[r][c] = true;
 
-            let dirs: [(i32, i32); 4] =
-                [(-1, 0), (1, 0), (0, -1), (0, 1)];
+            let dirs: [(i32, i32); 4] = [(-1, 0), (1, 0), (0, -1), (0, 1)];
             for (dr, dc) in &dirs {
                 let nr = r as i32 + dr;
                 let nc = c as i32 + dc;
-                if nr >= 0
-                    && nr < m as i32
-                    && nc >= 0
-                    && nc < n as i32
-                {
+                if nr >= 0 && nr < m as i32 && nc >= 0 && nc < n as i32 {
                     let (nr, nc) = (nr as usize, nc as usize);
                     if heights[nr][nc] >= heights[r][c] {
                         Self::dfs(heights, visited, nr, nc, m, n);
@@ -226,8 +210,12 @@ fn main() {
                 vec![5, 1, 1, 2, 4],
             ],
             vec![
-                vec![0, 4], vec![1, 3], vec![1, 4],
-                vec![2, 2], vec![3, 0], vec![3, 1],
+                vec![0, 4],
+                vec![1, 3],
+                vec![1, 4],
+                vec![2, 2],
+                vec![3, 0],
+                vec![3, 1],
                 vec![4, 0],
             ],
         ),
@@ -236,16 +224,14 @@ fn main() {
 
     println!("--- My Solution ---");
     for (heights, expected) in &cases {
-        let result =
-            my_solution::Solution::pacific_atlantic(heights.clone());
+        let result = my_solution::Solution::pacific_atlantic(heights.clone());
         println!("  result: {result:?}");
         println!("  expected: {expected:?}");
     }
 
     println!("--- AI Solution ---");
     for (heights, expected) in &cases {
-        let result =
-            ai_solution::Solution::pacific_atlantic(heights.clone());
+        let result = ai_solution::Solution::pacific_atlantic(heights.clone());
         println!("  result: {result:?}");
         println!("  expected: {expected:?}");
     }
@@ -262,8 +248,8 @@ mod tests {
     macro_rules! test_pacific {
         ($mod_name:ident, $sol_path:path) => {
             mod $mod_name {
-                use $sol_path as Solution;
                 use super::sorted;
+                use $sol_path as Solution;
 
                 #[test]
                 fn test_example1() {
@@ -275,8 +261,12 @@ mod tests {
                         vec![5, 1, 1, 2, 4],
                     ];
                     let expected = vec![
-                        vec![0, 4], vec![1, 3], vec![1, 4],
-                        vec![2, 2], vec![3, 0], vec![3, 1],
+                        vec![0, 4],
+                        vec![1, 3],
+                        vec![1, 4],
+                        vec![2, 2],
+                        vec![3, 0],
+                        vec![3, 1],
                         vec![4, 0],
                     ];
                     assert_eq!(
@@ -287,20 +277,13 @@ mod tests {
 
                 #[test]
                 fn test_single_cell() {
-                    assert_eq!(
-                        Solution::pacific_atlantic(vec![vec![1]]),
-                        vec![vec![0, 0]],
-                    );
+                    assert_eq!(Solution::pacific_atlantic(vec![vec![1]]), vec![vec![0, 0]],);
                 }
 
                 #[test]
                 fn test_all_same() {
                     // All cells at same height -> every cell flows to both
-                    let heights = vec![
-                        vec![1, 1, 1],
-                        vec![1, 1, 1],
-                        vec![1, 1, 1],
-                    ];
+                    let heights = vec![vec![1, 1, 1], vec![1, 1, 1], vec![1, 1, 1]];
                     let result = Solution::pacific_atlantic(heights);
                     assert_eq!(result.len(), 9);
                 }
@@ -310,9 +293,7 @@ mod tests {
                     let heights = vec![vec![1, 2, 3]];
                     // All cells touch both oceans in single row
                     let result = sorted(Solution::pacific_atlantic(heights));
-                    let expected = sorted(vec![
-                        vec![0, 0], vec![0, 1], vec![0, 2],
-                    ]);
+                    let expected = sorted(vec![vec![0, 0], vec![0, 1], vec![0, 2]]);
                     assert_eq!(result, expected);
                 }
             }
@@ -341,21 +322,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::pacific_atlantic(
-                    std::hint::black_box(heights.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::pacific_atlantic(
+                std::hint::black_box(heights.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::pacific_atlantic(
-                    std::hint::black_box(heights.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::pacific_atlantic(
+                std::hint::black_box(heights.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -367,12 +344,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

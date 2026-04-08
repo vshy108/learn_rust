@@ -87,36 +87,24 @@ mod ai_solution {
         /// The extra character
         pub fn find_the_difference(s: String, t: String) -> char {
             // XOR all bytes — duplicates cancel, leaving the added char
-            let xor = s
-                .bytes()
-                .chain(t.bytes())
-                .fold(0u8, |acc, b| acc ^ b);
+            let xor = s.bytes().chain(t.bytes()).fold(0u8, |acc, b| acc ^ b);
             xor as char
         }
     }
 }
 
 fn main() {
-    let cases = [
-        ("abcd", "abcde", 'e'),
-        ("", "y", 'y'),
-    ];
+    let cases = [("abcd", "abcde", 'e'), ("", "y", 'y')];
 
     println!("--- My Solution ---");
     for (s, t, expected) in &cases {
-        let result = my_solution::Solution::find_the_difference(
-            s.to_string(),
-            t.to_string(),
-        );
+        let result = my_solution::Solution::find_the_difference(s.to_string(), t.to_string());
         println!("  s={s:?}, t={t:?} -> '{result}' (expected '{expected}')");
     }
 
     println!("--- AI Solution ---");
     for (s, t, expected) in &cases {
-        let result = ai_solution::Solution::find_the_difference(
-            s.to_string(),
-            t.to_string(),
-        );
+        let result = ai_solution::Solution::find_the_difference(s.to_string(), t.to_string());
         println!("  s={s:?}, t={t:?} -> '{result}' (expected '{expected}')");
     }
 }
@@ -131,10 +119,7 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     assert_eq!(
-                        Solution::find_the_difference(
-                            "abcd".to_string(),
-                            "abcde".to_string()
-                        ),
+                        Solution::find_the_difference("abcd".to_string(), "abcde".to_string()),
                         'e'
                     );
                 }
@@ -142,10 +127,7 @@ mod tests {
                 #[test]
                 fn test_example2() {
                     assert_eq!(
-                        Solution::find_the_difference(
-                            "".to_string(),
-                            "y".to_string()
-                        ),
+                        Solution::find_the_difference("".to_string(), "y".to_string()),
                         'y'
                     );
                 }
@@ -153,10 +135,7 @@ mod tests {
                 #[test]
                 fn test_duplicate_letters() {
                     assert_eq!(
-                        Solution::find_the_difference(
-                            "aab".to_string(),
-                            "aaba".to_string()
-                        ),
+                        Solution::find_the_difference("aab".to_string(), "aaba".to_string()),
                         'a'
                     );
                 }
@@ -164,10 +143,7 @@ mod tests {
                 #[test]
                 fn test_single_char() {
                     assert_eq!(
-                        Solution::find_the_difference(
-                            "a".to_string(),
-                            "aa".to_string()
-                        ),
+                        Solution::find_the_difference("a".to_string(), "aa".to_string()),
                         'a'
                     );
                 }
@@ -175,10 +151,7 @@ mod tests {
                 #[test]
                 fn test_added_at_front() {
                     assert_eq!(
-                        Solution::find_the_difference(
-                            "abc".to_string(),
-                            "zabc".to_string()
-                        ),
+                        Solution::find_the_difference("abc".to_string(), "zabc".to_string()),
                         'z'
                     );
                 }
@@ -200,23 +173,19 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::find_the_difference(
-                    std::hint::black_box(s.clone()),
-                    std::hint::black_box(t.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::find_the_difference(
+                std::hint::black_box(s.clone()),
+                std::hint::black_box(t.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::find_the_difference(
-                    std::hint::black_box(s.clone()),
-                    std::hint::black_box(t.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::find_the_difference(
+                std::hint::black_box(s.clone()),
+                std::hint::black_box(t.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

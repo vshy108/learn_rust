@@ -1,6 +1,12 @@
 # LeetCode File Generation Prompts
 
-> **Status**: All 72 problems completed. These prompts document the workflow used to scaffold and complete each file.
+> **Status**: Problems 1–500 completed. These prompts document the workflow used to scaffold and complete each file.
+
+## Key Principles
+
+1. **Every problem number must have a file** — no gaps. If a problem cannot have a full solution, create a skip file explaining why.
+2. **Every solvable problem must have `my_solution`** — never leave it as `todo!()`. Source it from doocs or generate it.
+3. **Premium problems are solvable** — fetch descriptions from doocs. Only skip SQL/Shell problems and problems with no available description.
 
 ## Cargo.toml Registration
 
@@ -48,6 +54,46 @@ Every completed file follows this header format (from `lc_0001_two_sum.rs`):
 > 7. **Register the example in `Cargo.toml`** as `[[example]]`.
 >
 > Leave both solution bodies as `todo!()`. Do NOT fill in any solution logic.
+
+## Prompt 2: Batch-create problem files (complete with solutions)
+
+> Create LeetCode files for problems **{start}** to **{end}**, following the full file pattern.
+>
+> ### `my_solution` sourcing priority (MUST have a working implementation):
+>
+> 1. **doocs Rust** — Check `https://github.com/doocs/leetcode/blob/main/solution/{RANGE}/{NNNN}.{Title}/Solution.rs`. If it exists, adapt it to our `pub struct Solution` + `impl Solution` pattern.
+> 2. **doocs other language** — If no Rust solution, check the README_EN.md for Python/Java/C++/Go solutions and translate the best one to idiomatic Rust. Add comment: `// Translated from {language} solution in doocs/leetcode`.
+> 3. **AI-generated** — If doocs has no usable solution, generate a basic working implementation. Add comment: `// AI-generated basic implementation`.
+>
+> ### `ai_solution` requirement:
+>
+> - Must use a **different algorithm or approach** from `my_solution` when possible.
+> - If both use the same algorithm, vary the implementation style (e.g. iterators vs loops, different data structures).
+>
+> ### Premium problems:
+>
+> - Fetch description from doocs README_EN.md: `https://github.com/doocs/leetcode/blob/main/solution/{RANGE}/{NNNN}.{Title}/README_EN.md`
+> - Follow the same `my_solution` sourcing priority above.
+> - If doocs README_EN.md is missing or has no description, create the file but note in the header: `// Note: Problem description unavailable on doocs — sourced from {alternative} or left as best-effort`.
+>
+> ### Skip files (non-solvable problems):
+>
+> Create a minimal file with `fn main()` only, stating the skip reason in the header:
+>
+> | Skip Reason | Example |
+> |-------------|---------|
+> | SQL/Shell problem | `// Skipped: This is a {SQL\|Shell} problem — not applicable for Rust` |
+> | Missing content | `// Skipped: Problem description not available on doocs or LeetCode` |
+>
+> **Note**: Tree/LL, design, and random problems are all solvable — define node types inline,
+> use `struct` + `impl` for stateful designs, and use the `rand` crate for randomness.
+>
+> ### For each solvable problem file:
+>
+> 1. Both `my_solution` and `ai_solution` must compile and pass tests.
+> 2. Register in `Cargo.toml` as `[[example]]`.
+> 3. Run `cargo test --release --example {name} bench -- --nocapture` and record results.
+> 4. Add benchmark header: `// First benchmark (500K iterations, {date}):` with My/AI/Ratio lines.
 
 ## Avoiding dead_code Warnings
 
@@ -103,7 +149,7 @@ impl HitCounterApi for my_solution::HitCounter { ... }
 If a struct field is stored but never read, remove it. The compiler warns on fields
 that are written during construction but never accessed afterward.
 
-## Prompt 2: Complete the file (after solving)
+## Prompt 3: Complete a file after manual solving
 
 > I've implemented `my_solution` in `leetcode/lc_{number}_{name}.rs`. Now:
 >
@@ -145,38 +191,32 @@ Premium (locked) problems are not accessible on leetcode.com without a subscript
 - **Range format**: `0000-0099`, `0100-0199`, `0200-0299`, etc.
 - **Title format**: spaces encoded as `%20` in URLs, e.g. `Two%20Sum`
 
-### Prompt 3: Premium problem — Rust-applicable (coding problem)
+### Premium problem workflow
 
-> Create a LeetCode problem file for **LeetCode {number}: {title} [{difficulty}] (Premium)**.
->
-> This is a premium problem. Fetch the problem description from:
-> `https://github.com/doocs/leetcode/blob/main/solution/{RANGE}/{NNNN}.{Title}/README_EN.md`
->
-> Check the solution directory for available languages:
-> `https://github.com/doocs/leetcode/tree/main/solution/{RANGE}/{NNNN}.{Title}`
->
-> **Workflow**:
-> 1. Fetch the `README_EN.md` for the problem description, examples, and constraints.
-> 2. If `Solution.rs` exists in the doocs repo, use it as `my_solution` (converted/adapted to match our file pattern with `pub struct Solution` + `impl Solution`).
-> 3. If no `Solution.rs` exists, translate the best available solution (prefer Python > Java > C++ > Go) into idiomatic Rust as `my_solution`. Add a comment: `// Translated from {language} solution in doocs/leetcode`.
-> 4. Generate a **different** `ai_solution` using an alternative algorithm or approach. Do NOT duplicate the same logic.
-> 5. Follow the same file structure as Prompt 1 (header, modules, main, tests, bench).
-> 6. Register in `Cargo.toml`, run tests, run benchmark, update header with results.
->
-> The doocs-sourced solution counts as "my solution" for benchmarking purposes.
+Premium problems follow the **same** Prompt 2 workflow as non-premium problems. The only difference is where the problem description comes from:
 
-### Prompt 4: Premium problem — NOT applicable for Rust (SQL/Shell)
+1. **Fetch description** from doocs README_EN.md.
+2. **Source `my_solution`** using the same priority: doocs Rust > doocs other language (translate) > AI-generated.
+3. **Generate `ai_solution`** with a different approach.
+4. If doocs README_EN.md is **missing or empty**: create the file anyway, but add to header:
+   ```
+   // Note: Premium problem — description unavailable on doocs.
+   // Problem description sourced from best-effort knowledge.
+   ```
+5. If the problem **cannot be solved** in our pattern (tree node type, design, random, SQL, Shell), create a skip file with the reason in the header (see skip reasons in Prompt 2).
 
-> Create a placeholder file for **LeetCode {number}: {title} [{difficulty}] (Premium)**.
+### Prompt 4: SQL/Shell problems (NOT applicable for Rust)
+
+> Create a placeholder file for **LeetCode {number}: {title} [{difficulty}]**.
 >
 > This problem is **not applicable for Rust** because it is a {SQL|Shell} problem.
 >
 > **File format**:
 > ```rust
-> // LeetCode {number}: {title} [{difficulty}] (Premium)
+> // LeetCode {number}: {title} [{difficulty}]
 > // https://leetcode.com/problems/{slug}/
 > //
-> // NOT APPLICABLE FOR RUST — this is a {SQL|Shell} problem.
+> // Skipped: This is a {SQL|Shell} problem — not applicable for Rust.
 > //
 > // Problem description (from doocs/leetcode):
 > // {brief 1-2 line description}
@@ -184,9 +224,7 @@ Premium (locked) problems are not accessible on leetcode.com without a subscript
 > // Reference: https://github.com/doocs/leetcode/blob/main/solution/{RANGE}/{NNNN}.{Title}/README_EN.md
 >
 > fn main() {
->     println!("LeetCode {number}: {title}");
->     println!("This is a {SQL|Shell} problem — not applicable for Rust.");
->     println!("See README_EN.md link in file header for the problem and solution.");
+>     println!("LeetCode {number}: {title} -- Skipped ({SQL|Shell} problem)");
 > }
 > ```
 >
@@ -194,7 +232,7 @@ Premium (locked) problems are not accessible on leetcode.com without a subscript
 
 ### Missing Premium Problems (1-242 range)
 
-**Coding problems (8)** — create with Prompt 3:
+**Coding problems (8)** — create with Prompt 2 (fetch from doocs):
 
 | # | Title | Difficulty | doocs Rust? |
 |---|-------|-----------|:-----------:|
@@ -234,3 +272,22 @@ All have descriptions on doocs. None have Rust solutions — translate from Pyth
 | 193 | Valid Phone Numbers | Shell |
 | 194 | Transpose File | Shell |
 | 195 | Tenth Line | Shell |
+
+## Skip Reasons Summary
+
+When a problem cannot have a full solution, create a file with just `fn main()` and explain in the header:
+
+| Reason | When to use |
+|--------|-------------|
+| **SQL problem** | Problem is a database query, not applicable for Rust |
+| **Shell problem** | Problem is a shell script, not applicable for Rust |
+| **Description unavailable** | doocs has no README_EN.md and problem is premium-locked |
+
+### Previously skipped categories — now solvable
+
+| Category | How to solve |
+|----------|-------------|
+| **Tree / Linked List** | Define `TreeNode` / `ListNode` inline in each solution module. Use `Option<Rc<RefCell<TreeNode>>>` or `Option<Box<ListNode>>`. |
+| **N-ary / Quad tree** | Define multi-child node types inline (e.g., `Vec<Option<Box<Node>>>`) |
+| **Design (stateful)** | Use a named struct (e.g., `LRUCache`) with `impl` block. `main()` must instantiate and call methods on both implementations. |
+| **Random / non-deterministic** | Use `rand` crate (already in workspace deps). For problems like `rand7() -> rand10()`, define the source fn and test statistical distribution. |

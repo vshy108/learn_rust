@@ -264,9 +264,7 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            let mut s = crate::my_solution::Solution::new(
-                std::hint::black_box(nums.clone()),
-            );
+            let mut s = crate::my_solution::Solution::new(std::hint::black_box(nums.clone()));
             std::hint::black_box(s.shuffle());
             std::hint::black_box(s.reset());
         }
@@ -274,9 +272,7 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            let mut s = crate::ai_solution::Solution::new(
-                std::hint::black_box(nums.clone()),
-            );
+            let mut s = crate::ai_solution::Solution::new(std::hint::black_box(nums.clone()));
             std::hint::black_box(s.shuffle());
             std::hint::black_box(s.reset());
         }

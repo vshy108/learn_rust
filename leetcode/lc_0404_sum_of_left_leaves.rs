@@ -80,17 +80,12 @@ mod my_solution {
         /// # Returns
         ///
         /// Sum of left leaf values
-        pub fn sum_of_left_leaves(
-            root: Option<Rc<RefCell<TreeNode>>>,
-        ) -> i32 {
+        pub fn sum_of_left_leaves(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
             Self::dfs(&root, false)
         }
 
         /// Recursive helper with is_left flag.
-        fn dfs(
-            node: &Option<Rc<RefCell<TreeNode>>>,
-            is_left: bool,
-        ) -> i32 {
+        fn dfs(node: &Option<Rc<RefCell<TreeNode>>>, is_left: bool) -> i32 {
             match node {
                 None => 0,
                 Some(n) => {
@@ -129,12 +124,9 @@ mod ai_solution {
         /// # Returns
         ///
         /// Sum of left leaf values
-        pub fn sum_of_left_leaves(
-            root: Option<Rc<RefCell<TreeNode>>>,
-        ) -> i32 {
+        pub fn sum_of_left_leaves(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
             let Some(root) = root else { return 0 };
-            let mut queue: VecDeque<(Rc<RefCell<TreeNode>>, bool)> =
-                VecDeque::new();
+            let mut queue: VecDeque<(Rc<RefCell<TreeNode>>, bool)> = VecDeque::new();
             queue.push_back((root, false));
             let mut sum = 0;
 
@@ -160,11 +152,7 @@ mod ai_solution {
 
 fn main() {
     // Build tree: [3, 9, 20, null, null, 15, 7]
-    let tree = node_with(
-        3,
-        node(9),
-        node_with(20, node(15), node(7)),
-    );
+    let tree = node_with(3, node(9), node_with(20, node(15), node(7)));
 
     println!("--- My Solution ---");
     let result = my_solution::Solution::sum_of_left_leaves(tree.clone());
@@ -189,70 +177,44 @@ mod tests {
     macro_rules! test_left_leaves {
         ($mod_name:ident, $sol_path:path) => {
             mod $mod_name {
-                use $sol_path as Solution;
                 use super::super::*;
+                use $sol_path as Solution;
 
                 #[test]
                 fn test_example1() {
-                    let tree = node_with(
-                        3,
-                        node(9),
-                        node_with(20, node(15), node(7)),
-                    );
-                    assert_eq!(
-                        Solution::sum_of_left_leaves(tree),
-                        24
-                    );
+                    let tree = node_with(3, node(9), node_with(20, node(15), node(7)));
+                    assert_eq!(Solution::sum_of_left_leaves(tree), 24);
                 }
 
                 #[test]
                 fn test_single_node() {
-                    assert_eq!(
-                        Solution::sum_of_left_leaves(node(1)),
-                        0
-                    );
+                    assert_eq!(Solution::sum_of_left_leaves(node(1)), 0);
                 }
 
                 #[test]
                 fn test_empty() {
-                    assert_eq!(
-                        Solution::sum_of_left_leaves(None),
-                        0
-                    );
+                    assert_eq!(Solution::sum_of_left_leaves(None), 0);
                 }
 
                 #[test]
                 fn test_only_left_child() {
                     // root=1, left=2 (leaf)
                     let tree = node_with(1, node(2), None);
-                    assert_eq!(
-                        Solution::sum_of_left_leaves(tree),
-                        2
-                    );
+                    assert_eq!(Solution::sum_of_left_leaves(tree), 2);
                 }
 
                 #[test]
                 fn test_only_right_child() {
                     // root=1, right=3 (leaf, but not left)
                     let tree = node_with(1, None, node(3));
-                    assert_eq!(
-                        Solution::sum_of_left_leaves(tree),
-                        0
-                    );
+                    assert_eq!(Solution::sum_of_left_leaves(tree), 0);
                 }
 
                 #[test]
                 fn test_deep_left() {
                     // 1 -> left: 2 -> left: 3 (leaf, left)
-                    let tree = node_with(
-                        1,
-                        node_with(2, node(3), None),
-                        None,
-                    );
-                    assert_eq!(
-                        Solution::sum_of_left_leaves(tree),
-                        3
-                    );
+                    let tree = node_with(1, node_with(2, node(3), None), None);
+                    assert_eq!(Solution::sum_of_left_leaves(tree), 3);
                 }
             }
         };
@@ -266,11 +228,7 @@ mod tests {
         if depth == 0 {
             return None;
         }
-        node_with(
-            depth as i32,
-            build_tree(depth - 1),
-            build_tree(depth - 1),
-        )
+        node_with(depth as i32, build_tree(depth - 1), build_tree(depth - 1))
     }
 
     #[test]
@@ -282,21 +240,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::sum_of_left_leaves(
-                    std::hint::black_box(tree.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::sum_of_left_leaves(
+                std::hint::black_box(tree.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::sum_of_left_leaves(
-                    std::hint::black_box(tree.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::sum_of_left_leaves(
+                std::hint::black_box(tree.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

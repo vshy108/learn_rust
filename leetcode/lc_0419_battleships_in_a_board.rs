@@ -126,15 +126,13 @@ fn main() {
 
     println!("--- My Solution ---");
     for (board, expected) in &cases {
-        let result =
-            my_solution::Solution::count_battleships(board.clone());
+        let result = my_solution::Solution::count_battleships(board.clone());
         println!("  result={result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (board, expected) in &cases {
-        let result =
-            ai_solution::Solution::count_battleships(board.clone());
+        let result = ai_solution::Solution::count_battleships(board.clone());
         println!("  result={result} (expected {expected})");
     }
 }
@@ -158,28 +156,17 @@ mod tests {
 
                 #[test]
                 fn test_empty() {
-                    assert_eq!(
-                        Solution::count_battleships(vec![vec!['.']]),
-                        0,
-                    );
+                    assert_eq!(Solution::count_battleships(vec![vec!['.']]), 0,);
                 }
 
                 #[test]
                 fn test_single_ship() {
-                    assert_eq!(
-                        Solution::count_battleships(vec![vec!['X']]),
-                        1,
-                    );
+                    assert_eq!(Solution::count_battleships(vec![vec!['X']]), 1,);
                 }
 
                 #[test]
                 fn test_horizontal_ship() {
-                    assert_eq!(
-                        Solution::count_battleships(
-                            vec![vec!['X', 'X', 'X']],
-                        ),
-                        1,
-                    );
+                    assert_eq!(Solution::count_battleships(vec![vec!['X', 'X', 'X']],), 1,);
                 }
 
                 #[test]
@@ -214,21 +201,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::count_battleships(
-                    std::hint::black_box(board.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::count_battleships(
+                std::hint::black_box(board.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::count_battleships(
-                    std::hint::black_box(board.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::count_battleships(
+                std::hint::black_box(board.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -240,12 +223,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

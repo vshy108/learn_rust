@@ -149,19 +149,15 @@ fn main() {
 
     println!("--- My Solution ---");
     for (word, abbr, expected) in &cases {
-        let result = my_solution::Solution::valid_word_abbreviation(
-            word.to_string(),
-            abbr.to_string(),
-        );
+        let result =
+            my_solution::Solution::valid_word_abbreviation(word.to_string(), abbr.to_string());
         println!("  \"{word}\", \"{abbr}\" -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (word, abbr, expected) in &cases {
-        let result = ai_solution::Solution::valid_word_abbreviation(
-            word.to_string(),
-            abbr.to_string(),
-        );
+        let result =
+            ai_solution::Solution::valid_word_abbreviation(word.to_string(), abbr.to_string());
         println!("  \"{word}\", \"{abbr}\" -> {result} (expected {expected})");
     }
 }
@@ -247,23 +243,19 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::valid_word_abbreviation(
-                    std::hint::black_box(word.clone()),
-                    std::hint::black_box(abbr.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::valid_word_abbreviation(
+                std::hint::black_box(word.clone()),
+                std::hint::black_box(abbr.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::valid_word_abbreviation(
-                    std::hint::black_box(word.clone()),
-                    std::hint::black_box(abbr.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::valid_word_abbreviation(
+                std::hint::black_box(word.clone()),
+                std::hint::black_box(abbr.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -275,12 +267,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

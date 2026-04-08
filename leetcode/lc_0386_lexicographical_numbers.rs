@@ -171,8 +171,7 @@ mod tests {
                     assert_eq!(result[0], 1);
                     assert_eq!(result[1], 10);
                     // Verify it's actually sorted lexicographically
-                    let strs: Vec<String> =
-                        result.iter().map(|x| x.to_string()).collect();
+                    let strs: Vec<String> = result.iter().map(|x| x.to_string()).collect();
                     let mut sorted = strs.clone();
                     sorted.sort();
                     assert_eq!(strs, sorted);

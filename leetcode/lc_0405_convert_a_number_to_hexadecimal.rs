@@ -189,11 +189,9 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for &n in &nums {
-                std::hint::black_box(
-                    crate::my_solution::Solution::to_hex(
-                        std::hint::black_box(n),
-                    ),
-                );
+                std::hint::black_box(crate::my_solution::Solution::to_hex(std::hint::black_box(
+                    n,
+                )));
             }
         }
         let my_duration = start.elapsed();
@@ -201,11 +199,9 @@ mod tests {
         let start = Instant::now();
         for _ in 0..iterations {
             for &n in &nums {
-                std::hint::black_box(
-                    crate::ai_solution::Solution::to_hex(
-                        std::hint::black_box(n),
-                    ),
-                );
+                std::hint::black_box(crate::ai_solution::Solution::to_hex(std::hint::black_box(
+                    n,
+                )));
             }
         }
         let ai_duration = start.elapsed();

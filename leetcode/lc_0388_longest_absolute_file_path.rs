@@ -170,15 +170,13 @@ fn main() {
 
     println!("--- My Solution ---");
     for (input, expected) in &cases {
-        let result =
-            my_solution::Solution::length_longest_path(input.to_string());
+        let result = my_solution::Solution::length_longest_path(input.to_string());
         println!("  -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (input, expected) in &cases {
-        let result =
-            ai_solution::Solution::length_longest_path(input.to_string());
+        let result = ai_solution::Solution::length_longest_path(input.to_string());
         println!("  -> {result} (expected {expected})");
     }
 }
@@ -273,21 +271,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::length_longest_path(
-                    std::hint::black_box(input.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::length_longest_path(
+                std::hint::black_box(input.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::length_longest_path(
-                    std::hint::black_box(input.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::length_longest_path(
+                std::hint::black_box(input.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

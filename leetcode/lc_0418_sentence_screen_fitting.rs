@@ -51,16 +51,11 @@ mod my_solution {
         /// # Returns
         ///
         /// Number of complete sentence repetitions that fit
-        pub fn words_typing(
-            sentence: Vec<String>,
-            rows: i32,
-            cols: i32,
-        ) -> i32 {
+        pub fn words_typing(sentence: Vec<String>, rows: i32, cols: i32) -> i32 {
             // Join words with spaces and add trailing space:
             // "hello world " — the space after the last word lets us
             // treat the sentence as a repeating circular buffer
-            let s: String =
-                sentence.join(" ") + " ";
+            let s: String = sentence.join(" ") + " ";
             let sb = s.as_bytes();
             let m = sb.len();
             let cols = cols as usize;
@@ -109,11 +104,7 @@ mod ai_solution {
         /// # Returns
         ///
         /// Number of complete sentence repetitions that fit
-        pub fn words_typing(
-            sentence: Vec<String>,
-            rows: i32,
-            cols: i32,
-        ) -> i32 {
+        pub fn words_typing(sentence: Vec<String>, rows: i32, cols: i32) -> i32 {
             let s: String = sentence.join(" ") + " ";
             let sb = s.as_bytes();
             let m = sb.len();
@@ -184,10 +175,7 @@ mod tests {
                 fn test_example1() {
                     assert_eq!(
                         Solution::words_typing(
-                            vec![
-                                "hello".to_string(),
-                                "world".to_string(),
-                            ],
+                            vec!["hello".to_string(), "world".to_string(),],
                             2,
                             8,
                         ),
@@ -199,11 +187,7 @@ mod tests {
                 fn test_example2() {
                     assert_eq!(
                         Solution::words_typing(
-                            vec![
-                                "a".to_string(),
-                                "bcd".to_string(),
-                                "e".to_string(),
-                            ],
+                            vec!["a".to_string(), "bcd".to_string(), "e".to_string(),],
                             3,
                             6,
                         ),
@@ -232,25 +216,14 @@ mod tests {
                 fn test_single_word() {
                     // "a " = 2 chars. cols=6 fits "a a a " = 3 per row.
                     // 3 rows * 3 = 9 sentences.
-                    assert_eq!(
-                        Solution::words_typing(
-                            vec!["a".to_string()],
-                            3,
-                            6,
-                        ),
-                        9,
-                    );
+                    assert_eq!(Solution::words_typing(vec!["a".to_string()], 3, 6,), 9,);
                 }
 
                 #[test]
                 fn test_exact_fit() {
                     // "a b" fits exactly in cols=3
                     assert_eq!(
-                        Solution::words_typing(
-                            vec!["a".to_string(), "b".to_string()],
-                            2,
-                            3,
-                        ),
+                        Solution::words_typing(vec!["a".to_string(), "b".to_string()], 2, 3,),
                         2,
                     );
                 }
@@ -266,35 +239,30 @@ mod tests {
         use std::time::Instant;
 
         let iterations = 100_000_u32;
-        let sentence: Vec<String> =
-            vec!["i", "had", "apple", "pie"]
-                .into_iter()
-                .map(String::from)
-                .collect();
+        let sentence: Vec<String> = vec!["i", "had", "apple", "pie"]
+            .into_iter()
+            .map(String::from)
+            .collect();
         let rows = 20000;
         let cols = 20000;
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::words_typing(
-                    std::hint::black_box(sentence.clone()),
-                    std::hint::black_box(rows),
-                    std::hint::black_box(cols),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::words_typing(
+                std::hint::black_box(sentence.clone()),
+                std::hint::black_box(rows),
+                std::hint::black_box(cols),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::words_typing(
-                    std::hint::black_box(sentence.clone()),
-                    std::hint::black_box(rows),
-                    std::hint::black_box(cols),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::words_typing(
+                std::hint::black_box(sentence.clone()),
+                std::hint::black_box(rows),
+                std::hint::black_box(cols),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -306,12 +274,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

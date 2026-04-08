@@ -170,10 +170,7 @@ mod tests {
                 #[test]
                 fn test_max_i32() {
                     // Edge case: n = 2^31 - 1 = 2147483647
-                    assert_eq!(
-                        Solution::integer_replacement(2_147_483_647),
-                        32
-                    );
+                    assert_eq!(Solution::integer_replacement(2_147_483_647), 32);
                 }
 
                 #[test]
@@ -196,21 +193,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::integer_replacement(
-                    std::hint::black_box(n),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::integer_replacement(
+                std::hint::black_box(n),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::integer_replacement(
-                    std::hint::black_box(n),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::integer_replacement(
+                std::hint::black_box(n),
+            ));
         }
         let ai_duration = start.elapsed();
 

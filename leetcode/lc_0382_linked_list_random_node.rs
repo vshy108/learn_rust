@@ -221,8 +221,8 @@ mod tests {
             // `mut` is unused, but ai_solution needs &mut self.
             #[allow(unused_mut)]
             mod $mod_name {
-                use $sol_path as Solution;
                 use crate::ListNode;
+                use $sol_path as Solution;
 
                 #[test]
                 fn test_single_node() {
@@ -263,10 +263,7 @@ mod tests {
                     let valid = [-5, -3, 0, 7];
                     for _ in 0..20 {
                         let val = s.get_random();
-                        assert!(
-                            valid.contains(&val),
-                            "got {val}, expected one of {valid:?}"
-                        );
+                        assert!(valid.contains(&val), "got {val}, expected one of {valid:?}");
                     }
                 }
             }

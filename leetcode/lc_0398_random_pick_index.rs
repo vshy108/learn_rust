@@ -38,8 +38,8 @@
 /// Time:  O(n) constructor, O(1) pick
 /// Space: O(n) for the index map
 mod my_solution {
-    use std::collections::HashMap;
     use rand::Rng;
+    use std::collections::HashMap;
 
     /// Pre-indexes all values to their positions for O(1) random pick.
     pub struct Solution {

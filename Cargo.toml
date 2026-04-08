@@ -568,6 +568,306 @@ name = "lc_0424_longest_repeating_character_replacement"
 path = "leetcode/lc_0424_longest_repeating_character_replacement.rs"
 
 [[example]]
+name = "lc_0425_word_squares"
+path = "leetcode/lc_0425_word_squares.rs"
+
+[[example]]
+name = "lc_0426_convert_bst_to_sorted_doubly_linked_list"
+path = "leetcode/lc_0426_convert_bst_to_sorted_doubly_linked_list.rs"
+
+[[example]]
+name = "lc_0427_construct_quad_tree"
+path = "leetcode/lc_0427_construct_quad_tree.rs"
+
+[[example]]
+name = "lc_0428_serialize_and_deserialize_n_ary_tree"
+path = "leetcode/lc_0428_serialize_and_deserialize_n_ary_tree.rs"
+
+[[example]]
+name = "lc_0429_n_ary_tree_level_order_traversal"
+path = "leetcode/lc_0429_n_ary_tree_level_order_traversal.rs"
+
+[[example]]
+name = "lc_0430_flatten_a_multilevel_doubly_linked_list"
+path = "leetcode/lc_0430_flatten_a_multilevel_doubly_linked_list.rs"
+
+[[example]]
+name = "lc_0431_encode_n_ary_tree_to_binary_tree"
+path = "leetcode/lc_0431_encode_n_ary_tree_to_binary_tree.rs"
+
+[[example]]
+name = "lc_0432_all_o_one_data_structure"
+path = "leetcode/lc_0432_all_o_one_data_structure.rs"
+
+[[example]]
+name = "lc_0433_minimum_genetic_mutation"
+path = "leetcode/lc_0433_minimum_genetic_mutation.rs"
+
+[[example]]
+name = "lc_0434_number_of_segments_in_a_string"
+path = "leetcode/lc_0434_number_of_segments_in_a_string.rs"
+
+[[example]]
+name = "lc_0435_non_overlapping_intervals"
+path = "leetcode/lc_0435_non_overlapping_intervals.rs"
+
+[[example]]
+name = "lc_0436_find_right_interval"
+path = "leetcode/lc_0436_find_right_interval.rs"
+
+[[example]]
+name = "lc_0437_path_sum_iii"
+path = "leetcode/lc_0437_path_sum_iii.rs"
+
+[[example]]
+name = "lc_0438_find_all_anagrams_in_a_string"
+path = "leetcode/lc_0438_find_all_anagrams_in_a_string.rs"
+
+[[example]]
+name = "lc_0439_ternary_expression_parser"
+path = "leetcode/lc_0439_ternary_expression_parser.rs"
+
+[[example]]
+name = "lc_0440_kth_smallest_in_lexicographical_order"
+path = "leetcode/lc_0440_kth_smallest_in_lexicographical_order.rs"
+
+[[example]]
+name = "lc_0441_arranging_coins"
+path = "leetcode/lc_0441_arranging_coins.rs"
+
+[[example]]
+name = "lc_0442_find_all_duplicates_in_an_array"
+path = "leetcode/lc_0442_find_all_duplicates_in_an_array.rs"
+
+[[example]]
+name = "lc_0443_string_compression"
+path = "leetcode/lc_0443_string_compression.rs"
+
+[[example]]
+name = "lc_0444_sequence_reconstruction"
+path = "leetcode/lc_0444_sequence_reconstruction.rs"
+
+[[example]]
+name = "lc_0445_add_two_numbers_ii"
+path = "leetcode/lc_0445_add_two_numbers_ii.rs"
+
+[[example]]
+name = "lc_0447_number_of_boomerangs"
+path = "leetcode/lc_0447_number_of_boomerangs.rs"
+
+[[example]]
+name = "lc_0448_find_all_numbers_disappeared_in_an_array"
+path = "leetcode/lc_0448_find_all_numbers_disappeared_in_an_array.rs"
+
+[[example]]
+name = "lc_0449_serialize_and_deserialize_bst"
+path = "leetcode/lc_0449_serialize_and_deserialize_bst.rs"
+
+[[example]]
+name = "lc_0450_delete_node_in_a_bst"
+path = "leetcode/lc_0450_delete_node_in_a_bst.rs"
+
+[[example]]
+name = "lc_0451_sort_characters_by_frequency"
+path = "leetcode/lc_0451_sort_characters_by_frequency.rs"
+
+[[example]]
+name = "lc_0452_minimum_number_of_arrows_to_burst_balloons"
+path = "leetcode/lc_0452_minimum_number_of_arrows_to_burst_balloons.rs"
+
+[[example]]
+name = "lc_0453_minimum_moves_to_equal_array_elements"
+path = "leetcode/lc_0453_minimum_moves_to_equal_array_elements.rs"
+
+[[example]]
+name = "lc_0454_4sum_ii"
+path = "leetcode/lc_0454_4sum_ii.rs"
+
+[[example]]
+name = "lc_0455_assign_cookies"
+path = "leetcode/lc_0455_assign_cookies.rs"
+
+[[example]]
+name = "lc_0456_132_pattern"
+path = "leetcode/lc_0456_132_pattern.rs"
+
+[[example]]
+name = "lc_0457_circular_array_loop"
+path = "leetcode/lc_0457_circular_array_loop.rs"
+
+[[example]]
+name = "lc_0458_poor_pigs"
+path = "leetcode/lc_0458_poor_pigs.rs"
+
+[[example]]
+name = "lc_0459_repeated_substring_pattern"
+path = "leetcode/lc_0459_repeated_substring_pattern.rs"
+
+[[example]]
+name = "lc_0460_lfu_cache"
+path = "leetcode/lc_0460_lfu_cache.rs"
+
+[[example]]
+name = "lc_0461_hamming_distance"
+path = "leetcode/lc_0461_hamming_distance.rs"
+
+[[example]]
+name = "lc_0462_minimum_moves_to_equal_array_elements_ii"
+path = "leetcode/lc_0462_minimum_moves_to_equal_array_elements_ii.rs"
+
+[[example]]
+name = "lc_0463_island_perimeter"
+path = "leetcode/lc_0463_island_perimeter.rs"
+
+[[example]]
+name = "lc_0464_can_i_win"
+path = "leetcode/lc_0464_can_i_win.rs"
+
+[[example]]
+name = "lc_0465_optimal_account_balancing"
+path = "leetcode/lc_0465_optimal_account_balancing.rs"
+
+[[example]]
+name = "lc_0466_count_the_repetitions"
+path = "leetcode/lc_0466_count_the_repetitions.rs"
+
+[[example]]
+name = "lc_0467_unique_substrings_in_wraparound_string"
+path = "leetcode/lc_0467_unique_substrings_in_wraparound_string.rs"
+
+[[example]]
+name = "lc_0468_validate_ip_address"
+path = "leetcode/lc_0468_validate_ip_address.rs"
+
+[[example]]
+name = "lc_0469_convex_polygon"
+path = "leetcode/lc_0469_convex_polygon.rs"
+
+[[example]]
+name = "lc_0470_implement_rand10_using_rand7"
+path = "leetcode/lc_0470_implement_rand10_using_rand7.rs"
+
+[[example]]
+name = "lc_0471_encode_string_with_shortest_length"
+path = "leetcode/lc_0471_encode_string_with_shortest_length.rs"
+
+[[example]]
+name = "lc_0472_concatenated_words"
+path = "leetcode/lc_0472_concatenated_words.rs"
+
+[[example]]
+name = "lc_0473_matchsticks_to_square"
+path = "leetcode/lc_0473_matchsticks_to_square.rs"
+
+[[example]]
+name = "lc_0474_ones_and_zeroes"
+path = "leetcode/lc_0474_ones_and_zeroes.rs"
+
+[[example]]
+name = "lc_0475_heaters"
+path = "leetcode/lc_0475_heaters.rs"
+
+[[example]]
+name = "lc_0476_number_complement"
+path = "leetcode/lc_0476_number_complement.rs"
+
+[[example]]
+name = "lc_0477_total_hamming_distance"
+path = "leetcode/lc_0477_total_hamming_distance.rs"
+
+[[example]]
+name = "lc_0478_generate_random_point_in_a_circle"
+path = "leetcode/lc_0478_generate_random_point_in_a_circle.rs"
+
+[[example]]
+name = "lc_0479_largest_palindrome_product"
+path = "leetcode/lc_0479_largest_palindrome_product.rs"
+
+[[example]]
+name = "lc_0480_sliding_window_median"
+path = "leetcode/lc_0480_sliding_window_median.rs"
+
+[[example]]
+name = "lc_0481_magical_string"
+path = "leetcode/lc_0481_magical_string.rs"
+
+[[example]]
+name = "lc_0482_license_key_formatting"
+path = "leetcode/lc_0482_license_key_formatting.rs"
+
+[[example]]
+name = "lc_0483_smallest_good_base"
+path = "leetcode/lc_0483_smallest_good_base.rs"
+
+[[example]]
+name = "lc_0484_find_permutation"
+path = "leetcode/lc_0484_find_permutation.rs"
+
+[[example]]
+name = "lc_0485_max_consecutive_ones"
+path = "leetcode/lc_0485_max_consecutive_ones.rs"
+
+[[example]]
+name = "lc_0486_predict_the_winner"
+path = "leetcode/lc_0486_predict_the_winner.rs"
+
+[[example]]
+name = "lc_0487_max_consecutive_ones_ii"
+path = "leetcode/lc_0487_max_consecutive_ones_ii.rs"
+
+[[example]]
+name = "lc_0488_zuma_game"
+path = "leetcode/lc_0488_zuma_game.rs"
+
+[[example]]
+name = "lc_0489_robot_room_cleaner"
+path = "leetcode/lc_0489_robot_room_cleaner.rs"
+
+[[example]]
+name = "lc_0490_the_maze"
+path = "leetcode/lc_0490_the_maze.rs"
+
+[[example]]
+name = "lc_0491_non_decreasing_subsequences"
+path = "leetcode/lc_0491_non_decreasing_subsequences.rs"
+
+[[example]]
+name = "lc_0492_construct_the_rectangle"
+path = "leetcode/lc_0492_construct_the_rectangle.rs"
+
+[[example]]
+name = "lc_0493_reverse_pairs"
+path = "leetcode/lc_0493_reverse_pairs.rs"
+
+[[example]]
+name = "lc_0494_target_sum"
+path = "leetcode/lc_0494_target_sum.rs"
+
+[[example]]
+name = "lc_0495_teemo_attacking"
+path = "leetcode/lc_0495_teemo_attacking.rs"
+
+[[example]]
+name = "lc_0496_next_greater_element_i"
+path = "leetcode/lc_0496_next_greater_element_i.rs"
+
+[[example]]
+name = "lc_0497_random_point_in_non_overlapping_rectangles"
+path = "leetcode/lc_0497_random_point_in_non_overlapping_rectangles.rs"
+
+[[example]]
+name = "lc_0498_diagonal_traverse"
+path = "leetcode/lc_0498_diagonal_traverse.rs"
+
+[[example]]
+name = "lc_0499_the_maze_iii"
+path = "leetcode/lc_0499_the_maze_iii.rs"
+
+[[example]]
+name = "lc_0500_keyboard_row"
+path = "leetcode/lc_0500_keyboard_row.rs"
+
+[[example]]
 name = "lc_0392_is_subsequence"
 path = "leetcode/lc_0392_is_subsequence.rs"
 

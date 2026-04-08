@@ -62,9 +62,8 @@ mod my_solution {
                         break;
                     }
                     // Check if we could have arrived at j with jump k-1, k, or k+1
-                    dp[i][k] = dp[j][k.saturating_sub(1)]
-                        || dp[j][k]
-                        || (k + 1 < n && dp[j][k + 1]);
+                    dp[i][k] =
+                        dp[j][k.saturating_sub(1)] || dp[j][k] || (k + 1 < n && dp[j][k + 1]);
                     if i == n - 1 && dp[i][k] {
                         return true;
                     }
@@ -100,11 +99,8 @@ mod ai_solution {
         pub fn can_cross(stones: Vec<i32>) -> bool {
             let n = stones.len();
             // Map stone position -> index for O(1) lookup
-            let pos: HashMap<i32, usize> = stones
-                .iter()
-                .enumerate()
-                .map(|(i, &s)| (s, i))
-                .collect();
+            let pos: HashMap<i32, usize> =
+                stones.iter().enumerate().map(|(i, &s)| (s, i)).collect();
 
             let mut memo = vec![vec![-1i8; n]; n]; // -1=unvisited, 0=false, 1=true
             Self::dfs(0, 0, n, &pos, &stones, &mut memo)
@@ -173,16 +169,12 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert!(Solution::can_cross(
-                        vec![0, 1, 3, 5, 6, 8, 12, 17]
-                    ));
+                    assert!(Solution::can_cross(vec![0, 1, 3, 5, 6, 8, 12, 17]));
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert!(!Solution::can_cross(
-                        vec![0, 1, 2, 3, 4, 8, 9, 11]
-                    ));
+                    assert!(!Solution::can_cross(vec![0, 1, 2, 3, 4, 8, 9, 11]));
                 }
 
                 #[test]
@@ -223,21 +215,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::can_cross(
-                    std::hint::black_box(stones.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::can_cross(
+                std::hint::black_box(stones.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::can_cross(
-                    std::hint::black_box(stones.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::can_cross(
+                std::hint::black_box(stones.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

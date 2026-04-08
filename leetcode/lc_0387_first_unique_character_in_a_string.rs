@@ -103,11 +103,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        ("leetcode", 0),
-        ("loveleetcode", 2),
-        ("aabb", -1),
-    ];
+    let cases = [("leetcode", 0), ("loveleetcode", 2), ("aabb", -1)];
 
     println!("--- My Solution ---");
     for (s, expected) in &cases {
@@ -131,50 +127,32 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        Solution::first_uniq_char("leetcode".to_string()),
-                        0
-                    );
+                    assert_eq!(Solution::first_uniq_char("leetcode".to_string()), 0);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        Solution::first_uniq_char("loveleetcode".to_string()),
-                        2
-                    );
+                    assert_eq!(Solution::first_uniq_char("loveleetcode".to_string()), 2);
                 }
 
                 #[test]
                 fn test_example3() {
-                    assert_eq!(
-                        Solution::first_uniq_char("aabb".to_string()),
-                        -1
-                    );
+                    assert_eq!(Solution::first_uniq_char("aabb".to_string()), -1);
                 }
 
                 #[test]
                 fn test_single_char() {
-                    assert_eq!(
-                        Solution::first_uniq_char("z".to_string()),
-                        0
-                    );
+                    assert_eq!(Solution::first_uniq_char("z".to_string()), 0);
                 }
 
                 #[test]
                 fn test_all_same() {
-                    assert_eq!(
-                        Solution::first_uniq_char("aaaa".to_string()),
-                        -1
-                    );
+                    assert_eq!(Solution::first_uniq_char("aaaa".to_string()), -1);
                 }
 
                 #[test]
                 fn test_last_unique() {
-                    assert_eq!(
-                        Solution::first_uniq_char("aabbc".to_string()),
-                        4
-                    );
+                    assert_eq!(Solution::first_uniq_char("aabbc".to_string()), 4);
                 }
             }
         };

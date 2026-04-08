@@ -136,28 +136,17 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        ("ABAB", 2, 4),
-        ("AABABBA", 1, 4),
-    ];
+    let cases = [("ABAB", 2, 4), ("AABABBA", 1, 4)];
 
     println!("--- My Solution ---");
     for (s, k, expected) in &cases {
-        let result =
-            my_solution::Solution::character_replacement(
-                s.to_string(),
-                *k,
-            );
+        let result = my_solution::Solution::character_replacement(s.to_string(), *k);
         println!("  \"{s}\", k={k} -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (s, k, expected) in &cases {
-        let result =
-            ai_solution::Solution::character_replacement(
-                s.to_string(),
-                *k,
-            );
+        let result = ai_solution::Solution::character_replacement(s.to_string(), *k);
         println!("  \"{s}\", k={k} -> {result} (expected {expected})");
     }
 }
@@ -171,68 +160,35 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        Solution::character_replacement(
-                            "ABAB".to_string(),
-                            2,
-                        ),
-                        4,
-                    );
+                    assert_eq!(Solution::character_replacement("ABAB".to_string(), 2,), 4,);
                 }
 
                 #[test]
                 fn test_example2() {
                     assert_eq!(
-                        Solution::character_replacement(
-                            "AABABBA".to_string(),
-                            1,
-                        ),
+                        Solution::character_replacement("AABABBA".to_string(), 1,),
                         4,
                     );
                 }
 
                 #[test]
                 fn test_all_same() {
-                    assert_eq!(
-                        Solution::character_replacement(
-                            "AAAA".to_string(),
-                            2,
-                        ),
-                        4,
-                    );
+                    assert_eq!(Solution::character_replacement("AAAA".to_string(), 2,), 4,);
                 }
 
                 #[test]
                 fn test_k_zero() {
-                    assert_eq!(
-                        Solution::character_replacement(
-                            "ABCDE".to_string(),
-                            0,
-                        ),
-                        1,
-                    );
+                    assert_eq!(Solution::character_replacement("ABCDE".to_string(), 0,), 1,);
                 }
 
                 #[test]
                 fn test_single_char() {
-                    assert_eq!(
-                        Solution::character_replacement(
-                            "A".to_string(),
-                            0,
-                        ),
-                        1,
-                    );
+                    assert_eq!(Solution::character_replacement("A".to_string(), 0,), 1,);
                 }
 
                 #[test]
                 fn test_k_equals_length() {
-                    assert_eq!(
-                        Solution::character_replacement(
-                            "ABCDE".to_string(),
-                            5,
-                        ),
-                        5,
-                    );
+                    assert_eq!(Solution::character_replacement("ABCDE".to_string(), 5,), 5,);
                 }
             }
         };
@@ -247,30 +203,24 @@ mod tests {
 
         let iterations = 500_000_u32;
         // Build a large input string with mixed characters
-        let s: String = (0..1000)
-            .map(|i| (b'A' + (i % 4) as u8) as char)
-            .collect();
+        let s: String = (0..1000).map(|i| (b'A' + (i % 4) as u8) as char).collect();
         let k = 100;
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::character_replacement(
-                    std::hint::black_box(s.clone()),
-                    std::hint::black_box(k),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::character_replacement(
+                std::hint::black_box(s.clone()),
+                std::hint::black_box(k),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::character_replacement(
-                    std::hint::black_box(s.clone()),
-                    std::hint::black_box(k),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::character_replacement(
+                std::hint::black_box(s.clone()),
+                std::hint::black_box(k),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -282,12 +232,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

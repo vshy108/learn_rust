@@ -38,7 +38,9 @@ mod my_solution {
 
     impl TrieNode {
         fn new() -> Self {
-            Self { children: [None, None] }
+            Self {
+                children: [None, None],
+            }
         }
     }
 
@@ -64,8 +66,7 @@ mod my_solution {
                     if node.children[bit].is_none() {
                         node.children[bit] = Some(Box::new(TrieNode::new()));
                     }
-                    node = node.children[bit].as_mut()
-                        .expect("just inserted");
+                    node = node.children[bit].as_mut().expect("just inserted");
                 }
 
                 // Search for max XOR partner
@@ -76,10 +77,10 @@ mod my_solution {
                     let want = bit ^ 1; // opposite bit maximizes XOR
                     if node.children[want].is_some() {
                         xor_val |= 1 << i;
-                        node = node.children[want].as_ref()
-                            .expect("checked");
+                        node = node.children[want].as_ref().expect("checked");
                     } else {
-                        node = node.children[bit].as_ref()
+                        node = node.children[bit]
+                            .as_ref()
                             .expect("at least one path exists");
                     }
                 }
@@ -124,16 +125,11 @@ mod ai_solution {
                 let candidate = ans | (1 << i);
 
                 // Collect prefixes of all numbers down to bit i
-                let prefixes: HashSet<i32> = nums
-                    .iter()
-                    .map(|&x| x >> i)
-                    .collect();
+                let prefixes: HashSet<i32> = nums.iter().map(|&x| x >> i).collect();
 
                 // Check if any pair XORs to `candidate >> i`
                 let target = candidate >> i;
-                let found = prefixes
-                    .iter()
-                    .any(|&p| prefixes.contains(&(p ^ target)));
+                let found = prefixes.iter().any(|&p| prefixes.contains(&(p ^ target)));
 
                 if found {
                     ans = candidate;
@@ -173,21 +169,15 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        Solution::find_maximum_xor(
-                            vec![3, 10, 5, 25, 2, 8],
-                        ),
-                        28,
-                    );
+                    assert_eq!(Solution::find_maximum_xor(vec![3, 10, 5, 25, 2, 8],), 28,);
                 }
 
                 #[test]
                 fn test_example2() {
                     assert_eq!(
-                        Solution::find_maximum_xor(
-                            vec![14, 70, 53, 83, 49, 91, 36, 80, 92, 51,
-                                 66, 70],
-                        ),
+                        Solution::find_maximum_xor(vec![
+                            14, 70, 53, 83, 49, 91, 36, 80, 92, 51, 66, 70
+                        ],),
                         127,
                     );
                 }
@@ -195,26 +185,17 @@ mod tests {
                 #[test]
                 fn test_single() {
                     // XOR of a number with itself is 0
-                    assert_eq!(
-                        Solution::find_maximum_xor(vec![5]),
-                        0,
-                    );
+                    assert_eq!(Solution::find_maximum_xor(vec![5]), 0,);
                 }
 
                 #[test]
                 fn test_two_elements() {
-                    assert_eq!(
-                        Solution::find_maximum_xor(vec![1, 2]),
-                        3,
-                    );
+                    assert_eq!(Solution::find_maximum_xor(vec![1, 2]), 3,);
                 }
 
                 #[test]
                 fn test_all_zeros() {
-                    assert_eq!(
-                        Solution::find_maximum_xor(vec![0, 0, 0]),
-                        0,
-                    );
+                    assert_eq!(Solution::find_maximum_xor(vec![0, 0, 0]), 0,);
                 }
 
                 #[test]
@@ -222,10 +203,7 @@ mod tests {
                     // 1 XOR 8 = 9, 2 XOR 8 = 10, 4 XOR 8 = 12
                     // max is 1 XOR 2 XOR 4 XOR 8? No, pairs only.
                     // 1^2=3, 1^4=5, 1^8=9, 2^4=6, 2^8=10, 4^8=12
-                    assert_eq!(
-                        Solution::find_maximum_xor(vec![1, 2, 4, 8]),
-                        12,
-                    );
+                    assert_eq!(Solution::find_maximum_xor(vec![1, 2, 4, 8]), 12,);
                 }
             }
         };
@@ -243,21 +221,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::find_maximum_xor(
-                    std::hint::black_box(nums.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::find_maximum_xor(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::find_maximum_xor(
-                    std::hint::black_box(nums.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::find_maximum_xor(
+                std::hint::black_box(nums.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -269,12 +243,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

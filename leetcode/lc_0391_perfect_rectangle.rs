@@ -76,12 +76,7 @@ mod my_solution {
                 area_sum += (x2 - x1) as i64 * (y2 - y1) as i64;
 
                 // Toggle each of the 4 corners in the set
-                for point in [
-                    (x1, y1),
-                    (x1, y2),
-                    (x2, y1),
-                    (x2, y2),
-                ] {
+                for point in [(x1, y1), (x1, y2), (x2, y1), (x2, y2)] {
                     if !corners.remove(&point) {
                         corners.insert(point);
                     }
@@ -89,8 +84,7 @@ mod my_solution {
             }
 
             // Check 1: total area must match bounding box area
-            let bounding_area =
-                (max_x - min_x) as i64 * (max_y - min_y) as i64;
+            let bounding_area = (max_x - min_x) as i64 * (max_y - min_y) as i64;
             if area_sum != bounding_area {
                 return false;
             }
@@ -148,18 +142,12 @@ mod ai_solution {
 
                 area_sum += (x2 - x1) as i64 * (y2 - y1) as i64;
 
-                for point in [
-                    (x1, y1),
-                    (x1, y2),
-                    (x2, y1),
-                    (x2, y2),
-                ] {
+                for point in [(x1, y1), (x1, y2), (x2, y1), (x2, y2)] {
                     *count.entry(point).or_insert(0) += 1;
                 }
             }
 
-            let bounding_area =
-                (max_x - min_x) as i64 * (max_y - min_y) as i64;
+            let bounding_area = (max_x - min_x) as i64 * (max_y - min_y) as i64;
             if area_sum != bounding_area {
                 return false;
             }
@@ -214,15 +202,13 @@ fn main() {
 
     println!("--- My Solution ---");
     for (rects, expected) in &cases {
-        let result =
-            my_solution::Solution::is_perfect_rect(rects.clone());
+        let result = my_solution::Solution::is_perfect_rect(rects.clone());
         println!("  -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (rects, expected) in &cases {
-        let result =
-            ai_solution::Solution::is_perfect_rect(rects.clone());
+        let result = ai_solution::Solution::is_perfect_rect(rects.clone());
         println!("  -> {result} (expected {expected})");
     }
 }
@@ -267,9 +253,7 @@ mod tests {
 
                 #[test]
                 fn test_single_rect() {
-                    assert!(Solution::is_perfect_rect(vec![
-                        vec![0, 0, 1, 1],
-                    ]));
+                    assert!(Solution::is_perfect_rect(vec![vec![0, 0, 1, 1],]));
                 }
 
                 #[test]
@@ -310,21 +294,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::is_perfect_rect(
-                    std::hint::black_box(rects.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::is_perfect_rect(
+                std::hint::black_box(rects.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::is_perfect_rect(
-                    std::hint::black_box(rects.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::is_perfect_rect(
+                std::hint::black_box(rects.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

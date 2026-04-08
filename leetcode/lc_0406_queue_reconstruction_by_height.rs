@@ -46,9 +46,7 @@ mod my_solution {
         /// The reconstructed queue
         pub fn reconstruct_queue(mut people: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
             // Sort by height descending; if same height, k ascending
-            people.sort_unstable_by(|a, b| {
-                b[0].cmp(&a[0]).then(a[1].cmp(&b[1]))
-            });
+            people.sort_unstable_by(|a, b| b[0].cmp(&a[0]).then(a[1].cmp(&b[1])));
 
             let mut result: Vec<Vec<i32>> = Vec::with_capacity(people.len());
             for p in people {
@@ -110,22 +108,38 @@ fn main() {
     let cases = [
         (
             vec![
-                vec![7, 0], vec![4, 4], vec![7, 1],
-                vec![5, 0], vec![6, 1], vec![5, 2],
+                vec![7, 0],
+                vec![4, 4],
+                vec![7, 1],
+                vec![5, 0],
+                vec![6, 1],
+                vec![5, 2],
             ],
             vec![
-                vec![5, 0], vec![7, 0], vec![5, 2],
-                vec![6, 1], vec![4, 4], vec![7, 1],
+                vec![5, 0],
+                vec![7, 0],
+                vec![5, 2],
+                vec![6, 1],
+                vec![4, 4],
+                vec![7, 1],
             ],
         ),
         (
             vec![
-                vec![6, 0], vec![5, 0], vec![4, 0],
-                vec![3, 2], vec![2, 2], vec![1, 4],
+                vec![6, 0],
+                vec![5, 0],
+                vec![4, 0],
+                vec![3, 2],
+                vec![2, 2],
+                vec![1, 4],
             ],
             vec![
-                vec![4, 0], vec![5, 0], vec![2, 2],
-                vec![3, 2], vec![1, 4], vec![6, 0],
+                vec![4, 0],
+                vec![5, 0],
+                vec![2, 2],
+                vec![3, 2],
+                vec![1, 4],
+                vec![6, 0],
             ],
         ),
     ];
@@ -155,12 +169,20 @@ mod tests {
                 #[test]
                 fn test_example1() {
                     let people = vec![
-                        vec![7, 0], vec![4, 4], vec![7, 1],
-                        vec![5, 0], vec![6, 1], vec![5, 2],
+                        vec![7, 0],
+                        vec![4, 4],
+                        vec![7, 1],
+                        vec![5, 0],
+                        vec![6, 1],
+                        vec![5, 2],
                     ];
                     let expected = vec![
-                        vec![5, 0], vec![7, 0], vec![5, 2],
-                        vec![6, 1], vec![4, 4], vec![7, 1],
+                        vec![5, 0],
+                        vec![7, 0],
+                        vec![5, 2],
+                        vec![6, 1],
+                        vec![4, 4],
+                        vec![7, 1],
                     ];
                     assert_eq!(Solution::reconstruct_queue(people), expected);
                 }
@@ -168,12 +190,20 @@ mod tests {
                 #[test]
                 fn test_example2() {
                     let people = vec![
-                        vec![6, 0], vec![5, 0], vec![4, 0],
-                        vec![3, 2], vec![2, 2], vec![1, 4],
+                        vec![6, 0],
+                        vec![5, 0],
+                        vec![4, 0],
+                        vec![3, 2],
+                        vec![2, 2],
+                        vec![1, 4],
                     ];
                     let expected = vec![
-                        vec![4, 0], vec![5, 0], vec![2, 2],
-                        vec![3, 2], vec![1, 4], vec![6, 0],
+                        vec![4, 0],
+                        vec![5, 0],
+                        vec![2, 2],
+                        vec![3, 2],
+                        vec![1, 4],
+                        vec![6, 0],
                     ];
                     assert_eq!(Solution::reconstruct_queue(people), expected);
                 }
@@ -186,12 +216,8 @@ mod tests {
 
                 #[test]
                 fn test_all_same_height() {
-                    let people = vec![
-                        vec![5, 0], vec![5, 1], vec![5, 2],
-                    ];
-                    let expected = vec![
-                        vec![5, 0], vec![5, 1], vec![5, 2],
-                    ];
+                    let people = vec![vec![5, 0], vec![5, 1], vec![5, 2]];
+                    let expected = vec![vec![5, 0], vec![5, 1], vec![5, 2]];
                     assert_eq!(Solution::reconstruct_queue(people), expected);
                 }
             }
@@ -217,21 +243,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::reconstruct_queue(
-                    std::hint::black_box(people.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::reconstruct_queue(
+                std::hint::black_box(people.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::reconstruct_queue(
-                    std::hint::black_box(people.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::reconstruct_queue(
+                std::hint::black_box(people.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

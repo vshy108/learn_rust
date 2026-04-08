@@ -52,8 +52,7 @@ mod my_solution {
 
             for &b in num.as_bytes() {
                 // Pop larger digits from stack while we have removals left
-                while k > 0 && !stack.is_empty() && *stack.last().unwrap() > b
-                {
+                while k > 0 && !stack.is_empty() && *stack.last().unwrap() > b {
                     stack.pop();
                     k -= 1;
                 }
@@ -67,7 +66,11 @@ mod my_solution {
                 .skip_while(|&c| c == '0')
                 .collect();
 
-            if result.is_empty() { "0".to_string() } else { result }
+            if result.is_empty() {
+                "0".to_string()
+            } else {
+                result
+            }
         }
     }
 }
@@ -99,10 +102,7 @@ mod ai_solution {
             let mut removals = k as usize;
 
             for ch in num.chars() {
-                while removals > 0
-                    && !stack.is_empty()
-                    && *stack.last().unwrap() > ch
-                {
+                while removals > 0 && !stack.is_empty() && *stack.last().unwrap() > ch {
                     stack.pop();
                     removals -= 1;
                 }
@@ -124,23 +124,17 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        ("1432219", 3, "1219"),
-        ("10200", 1, "200"),
-        ("10", 2, "0"),
-    ];
+    let cases = [("1432219", 3, "1219"), ("10200", 1, "200"), ("10", 2, "0")];
 
     println!("--- My Solution ---");
     for (num, k, expected) in &cases {
-        let result =
-            my_solution::Solution::remove_kdigits(num.to_string(), *k);
+        let result = my_solution::Solution::remove_kdigits(num.to_string(), *k);
         println!("  \"{num}\", k={k} -> \"{result}\" (expected \"{expected}\")");
     }
 
     println!("--- AI Solution ---");
     for (num, k, expected) in &cases {
-        let result =
-            ai_solution::Solution::remove_kdigits(num.to_string(), *k);
+        let result = ai_solution::Solution::remove_kdigits(num.to_string(), *k);
         println!("  \"{num}\", k={k} -> \"{result}\" (expected \"{expected}\")");
     }
 }
@@ -154,51 +148,33 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        Solution::remove_kdigits("1432219".to_string(), 3),
-                        "1219"
-                    );
+                    assert_eq!(Solution::remove_kdigits("1432219".to_string(), 3), "1219");
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        Solution::remove_kdigits("10200".to_string(), 1),
-                        "200"
-                    );
+                    assert_eq!(Solution::remove_kdigits("10200".to_string(), 1), "200");
                 }
 
                 #[test]
                 fn test_example3() {
-                    assert_eq!(
-                        Solution::remove_kdigits("10".to_string(), 2),
-                        "0"
-                    );
+                    assert_eq!(Solution::remove_kdigits("10".to_string(), 2), "0");
                 }
 
                 #[test]
                 fn test_remove_all() {
-                    assert_eq!(
-                        Solution::remove_kdigits("9".to_string(), 1),
-                        "0"
-                    );
+                    assert_eq!(Solution::remove_kdigits("9".to_string(), 1), "0");
                 }
 
                 #[test]
                 fn test_ascending() {
                     // Already ascending — remove last k digits
-                    assert_eq!(
-                        Solution::remove_kdigits("12345".to_string(), 2),
-                        "123"
-                    );
+                    assert_eq!(Solution::remove_kdigits("12345".to_string(), 2), "123");
                 }
 
                 #[test]
                 fn test_leading_zeros() {
-                    assert_eq!(
-                        Solution::remove_kdigits("10001".to_string(), 1),
-                        "1"
-                    );
+                    assert_eq!(Solution::remove_kdigits("10001".to_string(), 1), "1");
                 }
             }
         };
@@ -220,23 +196,19 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::remove_kdigits(
-                    std::hint::black_box(num.clone()),
-                    std::hint::black_box(k),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::remove_kdigits(
+                std::hint::black_box(num.clone()),
+                std::hint::black_box(k),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::remove_kdigits(
-                    std::hint::black_box(num.clone()),
-                    std::hint::black_box(k),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::remove_kdigits(
+                std::hint::black_box(num.clone()),
+                std::hint::black_box(k),
+            ));
         }
         let ai_duration = start.elapsed();
 

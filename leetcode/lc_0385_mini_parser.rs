@@ -182,9 +182,7 @@ mod ai_solution {
                         if has_num {
                             let val = if neg { -num } else { num };
                             // Push the integer into the list at the top of stack
-                            if let Some(NestedInteger::List(items)) =
-                                stack.last_mut()
-                            {
+                            if let Some(NestedInteger::List(items)) = stack.last_mut() {
                                 items.push(NestedInteger::Int(val));
                             }
                             num = 0;
@@ -194,9 +192,7 @@ mod ai_solution {
                         // On ']', pop and merge into parent (if not the outermost)
                         if b == b']' && stack.len() > 1 {
                             let top = stack.pop().expect("stack non-empty");
-                            if let Some(NestedInteger::List(parent)) =
-                                stack.last_mut()
-                            {
+                            if let Some(NestedInteger::List(parent)) = stack.last_mut() {
                                 parent.push(top);
                             }
                         }
@@ -237,8 +233,8 @@ mod tests {
     macro_rules! test_deserialize {
         ($mod_name:ident, $sol_path:path) => {
             mod $mod_name {
-                use $sol_path as Solution;
                 use crate::NestedInteger;
+                use $sol_path as Solution;
 
                 #[test]
                 fn test_single_integer() {
@@ -258,8 +254,7 @@ mod tests {
 
                 #[test]
                 fn test_nested_list() {
-                    let result =
-                        Solution::deserialize("[123,[456,[789]]]".to_string());
+                    let result = Solution::deserialize("[123,[456,[789]]]".to_string());
                     let expected = NestedInteger::List(vec![
                         NestedInteger::Int(123),
                         NestedInteger::List(vec![
@@ -280,8 +275,7 @@ mod tests {
 
                 #[test]
                 fn test_flat_list() {
-                    let result =
-                        Solution::deserialize("[1,2,3]".to_string());
+                    let result = Solution::deserialize("[1,2,3]".to_string());
                     let expected = NestedInteger::List(vec![
                         NestedInteger::Int(1),
                         NestedInteger::Int(2),
@@ -293,24 +287,20 @@ mod tests {
                 #[test]
                 fn test_single_element_list() {
                     let result = Solution::deserialize("[42]".to_string());
-                    let expected =
-                        NestedInteger::List(vec![NestedInteger::Int(42)]);
+                    let expected = NestedInteger::List(vec![NestedInteger::Int(42)]);
                     assert_eq!(result, expected);
                 }
 
                 #[test]
                 fn test_negative_in_list() {
                     let result = Solution::deserialize("[-1]".to_string());
-                    let expected =
-                        NestedInteger::List(vec![NestedInteger::Int(-1)]);
+                    let expected = NestedInteger::List(vec![NestedInteger::Int(-1)]);
                     assert_eq!(result, expected);
                 }
 
                 #[test]
                 fn test_mixed_nesting() {
-                    let result = Solution::deserialize(
-                        "[1,[2,[3]],4]".to_string(),
-                    );
+                    let result = Solution::deserialize("[1,[2,[3]],4]".to_string());
                     let expected = NestedInteger::List(vec![
                         NestedInteger::Int(1),
                         NestedInteger::List(vec![

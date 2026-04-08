@@ -115,8 +115,8 @@ mod tests {
                     let mut result = Solution::read_binary_watch(1);
                     result.sort();
                     let mut expected = vec![
-                        "0:01", "0:02", "0:04", "0:08", "0:16", "0:32",
-                        "1:00", "2:00", "4:00", "8:00",
+                        "0:01", "0:02", "0:04", "0:08", "0:16", "0:32", "1:00", "2:00", "4:00",
+                        "8:00",
                     ];
                     expected.sort();
                     assert_eq!(result, expected);
@@ -124,10 +124,7 @@ mod tests {
 
                 #[test]
                 fn test_turned_on_0() {
-                    assert_eq!(
-                        Solution::read_binary_watch(0),
-                        vec!["0:00"]
-                    );
+                    assert_eq!(Solution::read_binary_watch(0), vec!["0:00"]);
                 }
 
                 #[test]
@@ -159,11 +156,9 @@ mod tests {
         let start = Instant::now();
         for turned_on in 0..=10 {
             for _ in 0..(iterations / 11) {
-                std::hint::black_box(
-                    crate::my_solution::Solution::read_binary_watch(
-                        std::hint::black_box(turned_on),
-                    ),
-                );
+                std::hint::black_box(crate::my_solution::Solution::read_binary_watch(
+                    std::hint::black_box(turned_on),
+                ));
             }
         }
         let my_duration = start.elapsed();
@@ -171,11 +166,9 @@ mod tests {
         let start = Instant::now();
         for turned_on in 0..=10 {
             for _ in 0..(iterations / 11) {
-                std::hint::black_box(
-                    crate::ai_solution::Solution::read_binary_watch(
-                        std::hint::black_box(turned_on),
-                    ),
-                );
+                std::hint::black_box(crate::ai_solution::Solution::read_binary_watch(
+                    std::hint::black_box(turned_on),
+                ));
             }
         }
         let ai_duration = start.elapsed();

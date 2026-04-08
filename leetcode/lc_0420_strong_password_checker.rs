@@ -246,23 +246,17 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        ("a", 5),
-        ("aA1", 3),
-        ("1337C0d3", 0),
-    ];
+    let cases = [("a", 5), ("aA1", 3), ("1337C0d3", 0)];
 
     println!("--- My Solution ---");
     for (pw, expected) in &cases {
-        let result =
-            my_solution::Solution::strong_password_checker(pw.to_string());
+        let result = my_solution::Solution::strong_password_checker(pw.to_string());
         println!("  \"{pw}\" -> {result} (expected {expected})");
     }
 
     println!("--- AI Solution ---");
     for (pw, expected) in &cases {
-        let result =
-            ai_solution::Solution::strong_password_checker(pw.to_string());
+        let result = ai_solution::Solution::strong_password_checker(pw.to_string());
         println!("  \"{pw}\" -> {result} (expected {expected})");
     }
 }
@@ -276,26 +270,18 @@ mod tests {
 
                 #[test]
                 fn test_too_short() {
-                    assert_eq!(
-                        Solution::strong_password_checker("a".to_string()),
-                        5,
-                    );
+                    assert_eq!(Solution::strong_password_checker("a".to_string()), 5,);
                 }
 
                 #[test]
                 fn test_short_missing_types() {
-                    assert_eq!(
-                        Solution::strong_password_checker("aA1".to_string()),
-                        3,
-                    );
+                    assert_eq!(Solution::strong_password_checker("aA1".to_string()), 3,);
                 }
 
                 #[test]
                 fn test_already_strong() {
                     assert_eq!(
-                        Solution::strong_password_checker(
-                            "1337C0d3".to_string(),
-                        ),
+                        Solution::strong_password_checker("1337C0d3".to_string(),),
                         0,
                     );
                 }
@@ -304,12 +290,7 @@ mod tests {
                 fn test_repeating_short() {
                     // "aaa" -> length 3 < 6, need 3 more chars and 2 more types
                     // max(6-3, 3-1) = max(3, 2) = 3
-                    assert_eq!(
-                        Solution::strong_password_checker(
-                            "aaa".to_string(),
-                        ),
-                        3,
-                    );
+                    assert_eq!(Solution::strong_password_checker("aaa".to_string(),), 3,);
                 }
 
                 #[test]
@@ -317,12 +298,7 @@ mod tests {
                     // "aaaaaa" -> length 6, types=1 (need 2 more)
                     // runs: 6 chars -> 6/3 = 2 replacements
                     // max(2, 2) = 2
-                    assert_eq!(
-                        Solution::strong_password_checker(
-                            "aaaaaa".to_string(),
-                        ),
-                        2,
-                    );
+                    assert_eq!(Solution::strong_password_checker("aaaaaa".to_string(),), 2,);
                 }
 
                 #[test]
@@ -334,22 +310,14 @@ mod tests {
                     // After 1 delete: 20 chars, run=20 -> 20/3=6 replacements
                     //   (21%3==0, so 1 delete saves 1 replace -> 6)
                     // answer: 1 + max(6, 2) = 7
-                    assert_eq!(
-                        Solution::strong_password_checker(pw),
-                        7,
-                    );
+                    assert_eq!(Solution::strong_password_checker(pw), 7,);
                 }
 
                 #[test]
                 fn test_exact_six() {
                     // "Aa1aaa" -> length 6, all types present
                     // run of 3 'a's at end -> 1 replacement
-                    assert_eq!(
-                        Solution::strong_password_checker(
-                            "Aa1aaa".to_string(),
-                        ),
-                        1,
-                    );
+                    assert_eq!(Solution::strong_password_checker("Aa1aaa".to_string(),), 1,);
                 }
             }
         };
@@ -367,21 +335,17 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::strong_password_checker(
-                    std::hint::black_box(pw.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::strong_password_checker(
+                std::hint::black_box(pw.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::strong_password_checker(
-                    std::hint::black_box(pw.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::strong_password_checker(
+                std::hint::black_box(pw.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 
@@ -393,12 +357,10 @@ mod tests {
         println!("AI solution:  {ai_duration:.2?} (avg {ai_avg:.2?})");
 
         if my_avg <= ai_avg {
-            let ratio = ai_avg.as_nanos() as f64
-                / my_avg.as_nanos().max(1) as f64;
+            let ratio = ai_avg.as_nanos() as f64 / my_avg.as_nanos().max(1) as f64;
             println!("-> My solution is {ratio:.2}x faster");
         } else {
-            let ratio = my_avg.as_nanos() as f64
-                / ai_avg.as_nanos().max(1) as f64;
+            let ratio = my_avg.as_nanos() as f64 / ai_avg.as_nanos().max(1) as f64;
             println!("-> AI solution is {ratio:.2}x faster");
         }
     }

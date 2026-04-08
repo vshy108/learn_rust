@@ -118,11 +118,11 @@ mod ai_solution {
                 } else {
                     // Determine character length from leading bits
                     cnt = match byte {
-                        0x00..=0x7F => 0,         // 0xxxxxxx
-                        0xC0..=0xDF => 1,         // 110xxxxx
-                        0xE0..=0xEF => 2,         // 1110xxxx
-                        0xF0..=0xF7 => 3,         // 11110xxx
-                        _ => return false,         // invalid (10xx or 11111xxx)
+                        0x00..=0x7F => 0,  // 0xxxxxxx
+                        0xC0..=0xDF => 1,  // 110xxxxx
+                        0xE0..=0xEF => 2,  // 1110xxxx
+                        0xF0..=0xF7 => 3,  // 11110xxx
+                        _ => return false, // invalid (10xx or 11111xxx)
                     };
                 }
             }
@@ -132,10 +132,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        (vec![197, 130, 1], true),
-        (vec![235, 140, 4], false),
-    ];
+    let cases = [(vec![197, 130, 1], true), (vec![235, 140, 4], false)];
 
     println!("--- My Solution ---");
     for (data, expected) in &cases {
@@ -186,9 +183,7 @@ mod tests {
                 #[test]
                 fn test_four_byte() {
                     // 11110000 10000000 10000000 10000000
-                    assert!(Solution::valid_utf8(
-                        vec![0xF0, 0x80, 0x80, 0x80]
-                    ));
+                    assert!(Solution::valid_utf8(vec![0xF0, 0x80, 0x80, 0x80]));
                 }
 
                 #[test]
@@ -218,30 +213,38 @@ mod tests {
         let mut data = Vec::with_capacity(20_000);
         for i in 0..5_000 {
             match i % 4 {
-                0 => data.push(0x41i32),                           // 1-byte 'A'
-                1 => { data.push(0xC3); data.push(0xA9); }        // 2-byte e-acute
-                2 => { data.push(0xE4); data.push(0xB8); data.push(0xAD); } // 3-byte CJK
-                _ => { data.push(0xF0); data.push(0x9F); data.push(0x98); data.push(0x80); }
+                0 => data.push(0x41i32), // 1-byte 'A'
+                1 => {
+                    data.push(0xC3);
+                    data.push(0xA9);
+                } // 2-byte e-acute
+                2 => {
+                    data.push(0xE4);
+                    data.push(0xB8);
+                    data.push(0xAD);
+                } // 3-byte CJK
+                _ => {
+                    data.push(0xF0);
+                    data.push(0x9F);
+                    data.push(0x98);
+                    data.push(0x80);
+                }
             }
         }
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::valid_utf8(
-                    std::hint::black_box(data.clone()),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::valid_utf8(
+                std::hint::black_box(data.clone()),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::valid_utf8(
-                    std::hint::black_box(data.clone()),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::valid_utf8(
+                std::hint::black_box(data.clone()),
+            ));
         }
         let ai_duration = start.elapsed();
 

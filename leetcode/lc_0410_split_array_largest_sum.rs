@@ -117,9 +117,7 @@ mod ai_solution {
                 prefix[i + 1] = prefix[i] + nums[i] as i64;
             }
             // Helper to get sum of nums[l..r] (0-indexed, exclusive end)
-            let range_sum = |l: usize, r: usize| -> i64 {
-                prefix[r] - prefix[l]
-            };
+            let range_sum = |l: usize, r: usize| -> i64 { prefix[r] - prefix[l] };
 
             // dp[i][j] = min largest-sum splitting first i elements into j parts
             // i in 0..=n, j in 0..=k
@@ -147,10 +145,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let cases = [
-        (vec![7, 2, 5, 10, 8], 2, 18),
-        (vec![1, 2, 3, 4, 5], 2, 9),
-    ];
+    let cases = [(vec![7, 2, 5, 10, 8], 2, 18), (vec![1, 2, 3, 4, 5], 2, 9)];
 
     println!("--- My Solution ---");
     for (nums, k, expected) in &cases {
@@ -174,52 +169,34 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    assert_eq!(
-                        Solution::split_array(vec![7, 2, 5, 10, 8], 2),
-                        18,
-                    );
+                    assert_eq!(Solution::split_array(vec![7, 2, 5, 10, 8], 2), 18,);
                 }
 
                 #[test]
                 fn test_example2() {
-                    assert_eq!(
-                        Solution::split_array(vec![1, 2, 3, 4, 5], 2),
-                        9,
-                    );
+                    assert_eq!(Solution::split_array(vec![1, 2, 3, 4, 5], 2), 9,);
                 }
 
                 #[test]
                 fn test_single_element() {
-                    assert_eq!(
-                        Solution::split_array(vec![10], 1),
-                        10,
-                    );
+                    assert_eq!(Solution::split_array(vec![10], 1), 10,);
                 }
 
                 #[test]
                 fn test_k_equals_n() {
                     // Each element is its own subarray -> answer is max element
-                    assert_eq!(
-                        Solution::split_array(vec![1, 4, 2], 3),
-                        4,
-                    );
+                    assert_eq!(Solution::split_array(vec![1, 4, 2], 3), 4,);
                 }
 
                 #[test]
                 fn test_all_same() {
-                    assert_eq!(
-                        Solution::split_array(vec![5, 5, 5, 5], 2),
-                        10,
-                    );
+                    assert_eq!(Solution::split_array(vec![5, 5, 5, 5], 2), 10,);
                 }
 
                 #[test]
                 fn test_large_single_split() {
                     // k=1 -> answer is total sum
-                    assert_eq!(
-                        Solution::split_array(vec![1, 2, 3, 4, 5], 1),
-                        15,
-                    );
+                    assert_eq!(Solution::split_array(vec![1, 2, 3, 4, 5], 1), 15,);
                 }
             }
         };
@@ -240,23 +217,19 @@ mod tests {
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::my_solution::Solution::split_array(
-                    std::hint::black_box(nums.clone()),
-                    std::hint::black_box(k),
-                ),
-            );
+            std::hint::black_box(crate::my_solution::Solution::split_array(
+                std::hint::black_box(nums.clone()),
+                std::hint::black_box(k),
+            ));
         }
         let my_duration = start.elapsed();
 
         let start = Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(
-                crate::ai_solution::Solution::split_array(
-                    std::hint::black_box(nums.clone()),
-                    std::hint::black_box(k),
-                ),
-            );
+            std::hint::black_box(crate::ai_solution::Solution::split_array(
+                std::hint::black_box(nums.clone()),
+                std::hint::black_box(k),
+            ));
         }
         let ai_duration = start.elapsed();
 

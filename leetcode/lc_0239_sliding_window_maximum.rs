@@ -58,6 +58,7 @@ mod my_solution {
 ///   2. Remove indices from the back whose values are <= the new element
 ///      (they can never be a future window max).
 ///   3. Push the new index to the back.
+///
 /// The front of the deque is always the index of the current window max.
 ///
 /// Time: O(n) — each index is pushed and popped at most once.

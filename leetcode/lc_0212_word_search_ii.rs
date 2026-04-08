@@ -59,6 +59,10 @@ mod my_solution {
             false
         }
 
+        // Clippy warns about >7 params, but DFS needs board, word chars, current
+        // index, row/col, dimensions, and visited state — no clean way to reduce
+        // without a context struct that would hurt readability for this pattern.
+        #[allow(clippy::too_many_arguments)]
         fn dfs(
             board: &[Vec<char>],
             chars: &[char],

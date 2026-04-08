@@ -62,7 +62,7 @@ mod my_solution {
 /// Use a single counter array. For each position:
 /// - If digits match, increment bulls.
 /// - Otherwise: if cnt[s] < 0, a previous guess used this digit -> cow++.
-///              if cnt[g] > 0, a previous secret had this digit -> cow++.
+///   if cnt[g] > 0, a previous secret had this digit -> cow++.
 ///   Then increment cnt[s] and decrement cnt[g].
 ///
 /// Time:  O(n)

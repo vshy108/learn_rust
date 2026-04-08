@@ -34,7 +34,7 @@ mod my_solution {
             .iter()
             .map(|t| (t[0].as_str(), t[1].as_str()))
             .collect();
-        sorted_tickets.sort_unstable_by(|a, b| b.1.cmp(&a.1));
+        sorted_tickets.sort_unstable_by(|a, b| b.1.cmp(a.1));
         for &(from, to) in &sorted_tickets {
             graph.entry(from).or_default().push(to);
         }
@@ -73,7 +73,8 @@ mod ai_solution {
             .map(|t| (t[0].as_str(), t[1].as_str()))
             .collect();
         // Sort in reverse so pop() gives smallest lexicographically
-        sorted_tickets.sort_unstable_by(|a, b| b.1.cmp(&a.1));
+        // clippy::needless_borrow (same as my_solution above)
+        sorted_tickets.sort_unstable_by(|a, b| b.1.cmp(a.1));
         for &(from, to) in &sorted_tickets {
             graph.entry(from).or_default().push(to);
         }

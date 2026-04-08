@@ -45,9 +45,7 @@ mod my_solution {
             let n = nums.len();
             // Pad with 1 on both ends: arr = [1, nums[0], ..., nums[n-1], 1]
             let mut arr = vec![1i32; n + 2];
-            for i in 0..n {
-                arr[i + 1] = nums[i];
-            }
+            arr[1..=n].copy_from_slice(&nums);
 
             // f[i][j] = max coins from bursting all balloons strictly between i and j
             let mut f = vec![vec![0i32; n + 2]; n + 2];
@@ -85,9 +83,7 @@ mod ai_solution {
         pub fn max_coins(nums: Vec<i32>) -> i32 {
             let n = nums.len();
             let mut arr = vec![1i32; n + 2];
-            for i in 0..n {
-                arr[i + 1] = nums[i];
-            }
+            arr[1..=n].copy_from_slice(&nums);
 
             // -1 means "not computed yet"
             let mut memo = vec![vec![-1i32; n + 2]; n + 2];

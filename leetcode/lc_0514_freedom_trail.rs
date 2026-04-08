@@ -83,6 +83,11 @@ mod my_solution {
             Self::dp(0, 0, ring, key, n, &positions, &mut memo)
         }
 
+        // Clippy flags `ring`, `key`, `n`, `positions` as "only used in recursion"
+        // because they're passed unchanged to recursive calls. But they ARE read
+        // in each call (key[key_idx], positions[&target], ring_idx.abs_diff, n - diff)
+        // — clippy's analysis doesn't track indexing into these slices/maps.
+        #[allow(clippy::only_used_in_recursion)]
         fn dp(
             ring_idx: usize,
             key_idx: usize,
@@ -102,11 +107,7 @@ mod my_solution {
             let mut min_steps = i32::MAX;
             // Try every position of the target character on the ring
             for &pos in &positions[&target] {
-                let diff = if pos >= ring_idx {
-                    pos - ring_idx
-                } else {
-                    ring_idx - pos
-                };
+                let diff = pos.abs_diff(ring_idx);
                 // Minimum of clockwise vs counterclockwise, plus 1 for button press
                 let step = diff.min(n - diff) as i32 + 1;
                 let rest = Self::dp(pos, key_idx + 1, ring, key, n, positions, memo);

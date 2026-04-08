@@ -15,7 +15,7 @@
 /// - Values in range [-100, 100]
 /// - Max depth <= 50, no empty lists
 
-/// Shared nested-integer representation.
+// Shared nested-integer representation.
 #[derive(Debug, Clone, PartialEq)]
 enum NestedInt {
     Int(i32),

@@ -17,8 +17,8 @@
 /// - Number of nodes in [0, 10^4]
 /// - -10^6 <= Node.val <= 10^6
 
-/// Linked list represented as Vec<i32> for benchmarking convenience.
-/// The algorithm simulates pointer manipulation on indices.
+// Linked list represented as Vec<i32> for benchmarking convenience.
+// The algorithm simulates pointer manipulation on indices.
 
 /// ## My Solution — Two-pointer index split
 ///
@@ -32,7 +32,7 @@ mod my_solution {
         if head.is_empty() {
             return vec![];
         }
-        let mut odds: Vec<i32> = Vec::with_capacity((head.len() + 1) / 2);
+        let mut odds: Vec<i32> = Vec::with_capacity(head.len().div_ceil(2));
         let mut evens: Vec<i32> = Vec::with_capacity(head.len() / 2);
         for (i, &val) in head.iter().enumerate() {
             // 0-based: index 0 => 1st (odd), index 1 => 2nd (even), etc.

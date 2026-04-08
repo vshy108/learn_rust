@@ -81,11 +81,11 @@ mod ai_solution {
             // Walk non-empty buckets; gap = current_min - previous_max
             let mut max_gap = 0;
             let mut prev_max = min_val;
-            for bucket in &buckets {
-                if let Some((lo, hi)) = bucket {
-                    max_gap = max_gap.max(lo - prev_max);
-                    prev_max = *hi;
-                }
+            // clippy::manual_flatten: `for item in iter { if let Some(x) = item { ... } }`
+            // is exactly what .flatten() does — it skips None and unwraps Some.
+            for (lo, hi) in buckets.iter().flatten() {
+                max_gap = max_gap.max(lo - prev_max);
+                prev_max = *hi;
             }
             max_gap
         }

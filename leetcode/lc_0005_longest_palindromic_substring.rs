@@ -211,6 +211,7 @@ mod ai_solution {
         /// For each index `i`, try expanding a palindrome centered at:
         ///   1. `(i, i)`   — odd-length  (e.g. "aba")
         ///   2. `(i, i+1)` — even-length (e.g. "abba")
+        ///
         /// Track the start and length of the longest found.
         ///
         /// # Arguments

@@ -59,7 +59,11 @@ mod ai_solution {
                 if !bytes[right].is_ascii_alphanumeric() {
                     continue;
                 }
-                if bytes[left].to_ascii_lowercase() != bytes[right].to_ascii_lowercase() {
+                // clippy::manual_case_insensitive_ascii_comparison:
+                // .to_ascii_lowercase() != .to_ascii_lowercase() converts both
+                // sides. eq_ignore_ascii_case() does it in one call, avoiding
+                // two temporary conversions.
+                if !bytes[left].eq_ignore_ascii_case(&bytes[right]) {
                     return false;
                 }
                 left += 1;

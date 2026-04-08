@@ -68,9 +68,11 @@ mod my_solution {
             let mut parent: HashMap<i32, i32> = HashMap::new();
 
             fn find(parent: &mut HashMap<i32, i32>, x: i32) -> i32 {
-                // Path compression: if parent[x] not set, x is its own root
-                if !parent.contains_key(&x) {
-                    parent.insert(x, x);
+                // clippy::map_entry: `if !map.contains_key(&k) { map.insert(k, v); }`
+                // does two hash lookups. The entry API does one lookup, then
+                // inserts only if the key is absent (Vacant). Faster and idiomatic.
+                if let std::collections::hash_map::Entry::Vacant(e) = parent.entry(x) {
+                    e.insert(x);
                     return x;
                 }
                 if parent[&x] != x {

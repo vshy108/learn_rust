@@ -158,7 +158,10 @@ mod ai_solution {
                 }
 
                 // Only add point if it differs from the last emitted height
-                if result.last().map_or(true, |last| last[1] != max_h) {
+                // clippy::map_or_simplification: .map_or(true, |x| pred(x)) is
+                // the same as .is_none_or(|x| pred(x)) — clearer intent that
+                // we want true when None, or check a predicate when Some.
+                if result.last().is_none_or(|last| last[1] != max_h) {
                     result.push(vec![x, max_h]);
                 }
             }
@@ -173,7 +176,8 @@ mod ai_solution {
         /// equal heights.
         fn append_remaining(result: &mut Vec<Vec<i32>>, sky: &[Vec<i32>], start: usize) {
             for point in &sky[start..] {
-                if result.last().map_or(true, |last| last[1] != point[1]) {
+                // clippy::map_or_simplification (same as above)
+                if result.last().is_none_or(|last| last[1] != point[1]) {
                     result.push(point.clone());
                 }
             }

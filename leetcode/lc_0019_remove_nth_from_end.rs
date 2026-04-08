@@ -109,7 +109,9 @@ mod my_solution {
 
             // Unlink the target node: skip over it.
             let target = current.as_mut().expect("node exists");
-            let next_next = target.next.as_mut().map(|n| n.next.take()).flatten();
+            // clippy::map_flatten: .map(f).flatten() is the same as .and_then(f)
+            // for Option. and_then is idiomatic — it maps and flattens in one step.
+            let next_next = target.next.as_mut().and_then(|n| n.next.take());
             target.next = next_next;
 
             head

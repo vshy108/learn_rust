@@ -129,10 +129,10 @@ mod ai_solution {
             while let Some(node) = stack.pop() {
                 result.push(node.val);
                 // Push children in reverse so leftmost is popped first
-                for child in node.children.into_iter().rev() {
-                    if let Some(c) = child {
-                        stack.push(c);
-                    }
+                // clippy::manual_flatten: iterating + if-let-Some is what
+                // .flatten() does — it skips None and unwraps Some values.
+                for c in node.children.into_iter().rev().flatten() {
+                    stack.push(c);
                 }
             }
             result

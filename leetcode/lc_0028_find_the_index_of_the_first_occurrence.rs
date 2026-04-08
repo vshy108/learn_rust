@@ -67,9 +67,10 @@ mod my_solution {
             for i in 0..=(n - m) {
                 // Ruby: haystack[i, m] — substring from index i, length m
                 // Rust: &haystack[i..i + m] — slice with start..end range (end exclusive)
-                // & needed because haystack[..] yields unsized str; &str == String works
-                // via PartialEq<String> for str
-                if &haystack[i..i + m] == needle {
+                // clippy::needless_borrow: haystack[i..i+m] already yields &str,
+                // so the extra & creates &&str. Rust auto-derefs for ==, but the
+                // explicit & is unnecessary noise.
+                if haystack[i..i + m] == needle {
                     return i as i32;
                 }
             }

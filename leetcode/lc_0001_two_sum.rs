@@ -21,6 +21,7 @@
 /// Time: O(n) — two passes over the data:
 ///   1. O(n) to build the entire HashMap from the Vec.
 ///   2. O(n) to iterate with the while loop; each HashMap lookup is O(1) amortized.
+///
 ///   Total: O(n) + O(n) = O(n).
 ///
 /// Space: O(n) — the HashMap stores up to n entries.

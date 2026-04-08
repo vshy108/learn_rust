@@ -86,13 +86,11 @@ mod ai_solution {
             let mut map1: HashMap<char, usize> = HashMap::new();
             let mut map2: HashMap<&str, usize> = HashMap::new();
             for i in 0..chars.len() {
-                // Record first occurrence index for char and word
-                if !map1.contains_key(&chars[i]) {
-                    map1.insert(chars[i], i);
-                }
-                if !map2.contains_key(&words[i]) {
-                    map2.insert(words[i], i);
-                }
+                // clippy::map_entry: `if !map.contains_key(&k) { map.insert(k, v); }`
+                // does two lookups (contains_key + insert). The entry API does one
+                // lookup and inserts only if vacant — both faster and idiomatic.
+                map1.entry(chars[i]).or_insert(i);
+                map2.entry(words[i]).or_insert(i);
                 // If first-occurrence indices differ, bijection fails
                 if map1.get(&chars[i]) != map2.get(&words[i]) {
                     return false;

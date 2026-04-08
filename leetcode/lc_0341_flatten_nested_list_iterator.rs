@@ -14,7 +14,7 @@
 /// - 1 <= nestedList.length <= 500
 /// - Values in [-10^6, 10^6]
 
-/// Reuse NestedInt enum from LC 339.
+// Reuse NestedInt enum from LC 339.
 #[derive(Debug, Clone)]
 enum NestedInt {
     Int(i32),

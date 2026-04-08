@@ -42,7 +42,9 @@ mod my_solution {
             lo = x;
             hi = m - 1;
             while lo < hi {
-                let mid = (lo + hi + 1) / 2;
+                // clippy::manual_div_ceil: (lo + hi + 1) / 2 is ceiling division.
+                // Rust 1.73+ has .div_ceil() which is clearer and overflow-safe.
+                let mid = (lo + hi).div_ceil(2);
                 if image[mid].iter().any(|&c| c == '1') {
                     lo = mid;
                 } else {
@@ -68,7 +70,8 @@ mod my_solution {
             lo = y;
             hi = n - 1;
             while lo < hi {
-                let mid = (lo + hi + 1) / 2;
+                // clippy::manual_div_ceil (same as above)
+                let mid = (lo + hi).div_ceil(2);
                 if (0..m).any(|r| image[r][mid] == '1') {
                     lo = mid;
                 } else {

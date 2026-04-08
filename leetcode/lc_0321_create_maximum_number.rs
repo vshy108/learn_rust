@@ -29,7 +29,7 @@ mod my_solution {
         /// and k-x from nums2 using a monotonic stack, then merge them.
         pub fn max_number(nums1: Vec<i32>, nums2: Vec<i32>, k: i32) -> Vec<i32> {
             let (m, n, k) = (nums1.len(), nums2.len(), k as usize);
-            let lo = if k > n { k - n } else { 0 };
+            let lo = k.saturating_sub(n);
             let hi = k.min(m);
             let mut best = vec![0i32; k];
 
@@ -75,7 +75,10 @@ mod my_solution {
         let mut result = Vec::with_capacity(a.len() + b.len());
         while i < a.len() && j < b.len() {
             // Compare remaining suffixes lexicographically
-            if &a[i..] >= &b[j..] {
+            // clippy::needless_borrow: &a[i..] already yields &[i32], so
+            // writing &a[i..] >= &b[j..] adds an unnecessary & on both sides.
+            // Slice comparison works directly via PartialOrd for [T].
+            if a[i..] >= b[j..] {
                 result.push(a[i]);
                 i += 1;
             } else {
@@ -99,7 +102,8 @@ mod ai_solution {
         /// Same split-merge approach but uses recursive comparison for merge.
         pub fn max_number(nums1: Vec<i32>, nums2: Vec<i32>, k: i32) -> Vec<i32> {
             let (m, n, k) = (nums1.len(), nums2.len(), k as usize);
-            let lo = if k > n { k - n } else { 0 };
+            // clippy::manual_saturating_arithmetic (same as my_solution)
+            let lo = k.saturating_sub(n);
             let hi = k.min(m);
             let mut best = vec![0i32; k];
 

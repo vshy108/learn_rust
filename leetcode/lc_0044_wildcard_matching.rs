@@ -31,7 +31,7 @@
 /// Transition:
 ///   - p[j-1] == s[i-1] or '?' => dp[i][j] = dp[i-1][j-1]
 ///   - p[j-1] == '*' => dp[i][j] = dp[i][j-1] (star matches empty)
-///                                 || dp[i-1][j] (star matches one more char)
+///     || dp[i-1][j] (star matches one more char)
 ///
 /// Time: O(m*n) where m = s.len(), n = p.len().
 /// Space: O(m*n) for the DP table.

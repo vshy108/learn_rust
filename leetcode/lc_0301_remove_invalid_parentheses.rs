@@ -42,6 +42,10 @@ mod my_solution {
             /// Recursive DFS exploring skip/keep decisions for each character.
             /// `l` = remaining '(' to remove, `r` = remaining ')' to remove,
             /// `lcnt`/`rcnt` = running count of '('/')' kept so far.
+            // Clippy warns about >7 params, but backtracking DFS needs all of:
+            // input chars, length, position, remaining '('/') to remove,
+            // running '('/') counts, partial result, and answer set.
+            #[allow(clippy::too_many_arguments)]
             fn dfs(
                 chars: &[char],
                 n: usize,

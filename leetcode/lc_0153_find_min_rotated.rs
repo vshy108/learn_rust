@@ -60,7 +60,10 @@ mod ai_solution {
             while lo < hi {
                 let mid = lo + (hi - lo) / 2;
                 // If mid > mid+1, then mid+1 is the minimum
-                if mid + 1 <= hi && nums[mid] > nums[mid + 1] {
+                // clippy::manual_arithmetic_check: `mid + 1 <= hi` is equivalent
+                // to `mid < hi` (for unsigned types). The simpler form avoids a
+                // potential overflow if mid + 1 wrapped (though unlikely here).
+                if mid < hi && nums[mid] > nums[mid + 1] {
                     return nums[mid + 1];
                 }
                 // If mid < mid-1, then mid is the minimum

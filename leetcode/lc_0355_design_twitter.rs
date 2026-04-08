@@ -16,7 +16,7 @@
 /// - All tweets have unique IDs
 /// - At most 3*10^4 total calls
 
-/// Operations for the simulation
+// Operations for the simulation
 #[derive(Debug, Clone)]
 enum Op {
     Post(i32, i32),     // userId, tweetId

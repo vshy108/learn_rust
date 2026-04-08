@@ -89,6 +89,7 @@ Study any listed problem to see the concept in action.
 | `split_whitespace()` | Splits on any Unicode whitespace, trims edges, collapses runs of spaces | 0151, 0192, 0194, 0290, 0434 |
 | `trim_start()` | Returns `&str` with leading whitespace removed; zero-cost slice adjustment | 0008 |
 | `is_ascii_digit()` | Method on `u8` and `char`; equivalent to `>= b'0' && <= b'9'` | 0008 |
+| `is_ascii_uppercase()` / `is_uppercase()` | Check if byte/char is uppercase; useful for capital detection | 0520 |
 | `eq_ignore_ascii_case(&ch)` | Stdlib case-insensitive char comparison | 1544 |
 | `String::ends_with(char)` | O(1) check on last byte for ASCII | 1047 |
 | `PartialEq<String>` for str | `&str == String` comparison works automatically via auto-deref | 0028 |
@@ -102,7 +103,7 @@ Study any listed problem to see the concept in action.
 | Concept | Description | LeetCode |
 |---------|-------------|----------|
 | `vec![val; n]` init | Creates n copies of val; for `String`, each is independently owned | 0006, 0135, 0238, 0274, 0279, 0446 |
-| `vec![vec![val; n]; m]` 2D init | Creates 2D Vec; each inner Vec is independent (no shared refs) | 0010 |
+| `vec![vec![val; n]; m]` 2D init | Creates 2D Vec; each inner Vec is independent (no shared refs) | 0010, 0516, 0518 |
 | `Vec::with_capacity(n)` | Pre-allocates space when size is known; avoids reallocations | 0006, 0042 |
 | `Vec::dedup()` / `dedup_by()` | Removes consecutive duplicates in-place; only works on sorted data | 0022, 0026, 0083, 0128, 0315, 0327, 0356 |
 | `Vec::retain()` | Predicate-based in-place removal; like Ruby `.select!` | 0027 |
@@ -118,7 +119,7 @@ Study any listed problem to see the concept in action.
 | `.windows(n)` on slice | Overlapping windows of length n; iterator adaptor, no index math | 0031, 0098, 0118, 0122, 0163, 0164, 0180, 0188, 0217, 0249, 0252, 0444 |
 | `.chunks(n)` on slice | Non-overlapping chunks of length n; last chunk may be shorter | 0459 |
 | `.split_at(mid)` | Splits slice into two at index; returns `(&[T], &[T])` | 0327 |
-| `VecDeque` as double-ended queue | O(1) push/pop at both ends; used for BFS and sliding window | 0094, 0102, 0103, 0107, 0116, 0126, 0127, 0130, 0146, 0199, 0207, 0210, 0225, 0226, 0232, 0239, 0269, 0281, 0286, 0297, 0301, 0310, 0317, 0322, 0346, 0353, 0365, 0399, 0417, 0427, 0433, 0444, 0488, 0499, 0505, 0513 |
+| `VecDeque` as double-ended queue | O(1) push/pop at both ends; used for BFS and sliding window | 0094, 0102, 0103, 0107, 0116, 0126, 0127, 0130, 0146, 0199, 0207, 0210, 0225, 0226, 0232, 0239, 0269, 0281, 0286, 0297, 0301, 0310, 0317, 0322, 0346, 0353, 0365, 0399, 0417, 0427, 0433, 0444, 0488, 0499, 0505, 0513, 0515 |
 | Moving out of Vec by index is forbidden | `strs[0]` tries to MOVE String; use `.clone()` or work with refs | 0014 |
 | `&strs[1..]` to borrow a slice | Yields references without transferring ownership | 0014 |
 | `Vec<u8>` as byte stack | push/pop O(1) for character matching; `.last() == Some(&b)` peeks | 1047, 1544 |
@@ -171,8 +172,8 @@ Study any listed problem to see the concept in action.
 
 | Concept | Description | LeetCode |
 |---------|-------------|----------|
-| `VecDeque<T>` | Double-ended queue with O(1) amortized push/pop at both ends | 0094, 0102, 0103, 0107, 0116, 0126, 0127, 0130, 0146, 0199, 0207, 0210, 0225, 0232, 0239, 0269, 0281, 0286, 0297, 0301, 0310, 0322, 0346, 0353, 0365, 0399, 0417, 0427, 0433, 0444, 0488, 0499, 0505, 0513 |
-| `VecDeque` for BFS | Standard BFS queue: `push_back()` to enqueue, `pop_front()` to dequeue | 0094, 0102, 0107, 0116, 0126, 0127, 0130, 0199, 0207, 0210, 0226, 0269, 0286, 0297, 0301, 0310, 0417, 0433, 0444, 0488, 0505, 0513 |
+| `VecDeque<T>` | Double-ended queue with O(1) amortized push/pop at both ends | 0094, 0102, 0103, 0107, 0116, 0126, 0127, 0130, 0146, 0199, 0207, 0210, 0225, 0232, 0239, 0269, 0281, 0286, 0297, 0301, 0310, 0322, 0346, 0353, 0365, 0399, 0417, 0427, 0433, 0444, 0488, 0499, 0505, 0513, 0515 |
+| `VecDeque` for BFS | Standard BFS queue: `push_back()` to enqueue, `pop_front()` to dequeue | 0094, 0102, 0107, 0116, 0126, 0127, 0130, 0199, 0207, 0210, 0226, 0269, 0286, 0297, 0301, 0310, 0417, 0433, 0444, 0488, 0505, 0513, 0515 |
 | `VecDeque` as sliding window deque | Maintain monotonic invariant for O(1) min/max queries | 0239, 0346, 0353 |
 
 ## Option and Result
@@ -219,7 +220,7 @@ Study any listed problem to see the concept in action.
 | `(0..n).rev()` | Reverse range iterator for right-to-left traversal | 0042, 0135 |
 | `(1..=n).map().collect()` | Inclusive range + map + collect for Vec building | 0412 |
 | `.scan(init, \|acc, x\| ...)` | Stateful iterator transform; yields value each step while mutating accumulator | 0238, 1480 |
-| `fold(init, \|acc, x\| ...)` | Accumulates like Ruby's `inject`; `take_while` + `fold` is common | 0008, 0121 |
+| `fold(init, \|acc, x\| ...)` | Accumulates like Ruby's `inject`; `take_while` + `fold` is common | 0008, 0121, 0517 |
 | `.collect::<Vec<_>>()` turbofish | Specifies collection target type | 0151, 0238, 0412 |
 | `peekable()` iterator | Adds `.peek()` — look at next element without consuming | 0008 |
 | `.clamp(min, max)` | Returns value clamped to [min, max]; built-in on all numeric types | 0008 |
@@ -285,7 +286,7 @@ Study any listed problem to see the concept in action.
 
 | Concept | Description | LeetCode |
 |---------|-------------|----------|
-| `Option<Rc<RefCell<TreeNode>>>` | Layered smart pointers: Option=nil, Rc=shared ownership, RefCell=runtime borrow checking | 0094, 0095, 0098, 0099, 0100, 0101, 0102, 0103, 0104, 0105, 0106, 0107, 0108, 0109, 0110, 0111, 0112, 0113, 0114, 0116, 0117, 0124, 0129, 0133, 0144, 0145, 0156, 0173, 0199, 0222, 0226, 0230, 0235, 0236, 0250, 0257, 0270, 0272, 0285, 0297, 0298, 0314, 0404, 0426, 0431, 0437, 0449, 0450, 0501, 0508, 0513 |
+| `Option<Rc<RefCell<TreeNode>>>` | Layered smart pointers: Option=nil, Rc=shared ownership, RefCell=runtime borrow checking | 0094, 0095, 0098, 0099, 0100, 0101, 0102, 0103, 0104, 0105, 0106, 0107, 0108, 0109, 0110, 0111, 0112, 0113, 0114, 0116, 0117, 0124, 0129, 0133, 0144, 0145, 0156, 0173, 0199, 0222, 0226, 0230, 0235, 0236, 0250, 0257, 0270, 0272, 0285, 0297, 0298, 0314, 0404, 0426, 0431, 0437, 0449, 0450, 0501, 0508, 0513, 0515 |
 | `.borrow()` / `.borrow_mut()` | RefCell runtime borrow check; panics on simultaneous read+write | 0222 |
 | `.clone()` on `Option<Rc<...>>` | Cheap ref-count bump; needed to move fields out of borrowed RefCell | 0222 |
 | `Rc::clone(&root)` | Idiomatic explicit clone (vs `root.clone()` which is ambiguous) | 0222 |
@@ -314,10 +315,11 @@ Study any listed problem to see the concept in action.
 | Concept | Description | LeetCode |
 |---------|-------------|----------|
 | Top-down DP with HashMap memo | `HashMap<(state), value>` for recursive memoization | 0010, 0514 |
-| 1D DP space optimization | When row i only depends on row i-1; compress 2D table to 1D | 0010, 0514 |
+| 1D DP space optimization | When row i only depends on row i-1; compress 2D table to 1D | 0010, 0514, 0516, 0518 |
+| Complete knapsack DP | Unlimited items: inner loop goes forward (not reverse like 0/1) | 0518 |
 | Rolling 1D DP with `i16` | Smaller memory footprint; last-position tracking prunes inner loop | 0514 |
 | `Vec<HashMap<i64, i32>>` per-index DP | Each element has its own map of diff -> count | 0446 |
-| Prefix sum | Running sum for range queries; can be combined with modular arithmetic | 0523, 0724, 2256 |
+| Prefix sum | Running sum for range queries; can be combined with modular arithmetic | 0517, 0523, 0724, 2256 |
 | Sentinel seeding | `mod_map.insert(0, -1)` handles subarrays starting at index 0 | 0523 |
 | Delayed insertion | Inserts previous iteration's value; guarantees length constraint | 0523 |
 
@@ -325,7 +327,8 @@ Study any listed problem to see the concept in action.
 
 | Concept | Description | LeetCode |
 |---------|-------------|----------|
-| Struct with private fields + pub methods | Encapsulation pattern for data structure design | 0380 |
+| Struct with private fields + pub methods | Encapsulation pattern for data structure design | 0380, 0519 |
+| `rand` crate | Random number generation; `rng.random_range(0..n)` for uniform sampling | 0519 |
 | `#[inline]` | Compiler hint to inline small functions at call sites | 0222 |
 | `const` slice of tuples | `const ROMAN: &[(i32, &str)]` lives in read-only memory; zero heap allocation | 0012 |
 | `const` arrays of `&str` | `const ONES: [&str; 10]` for direct index lookup | 0012 |
@@ -361,13 +364,13 @@ Study any listed problem to see the concept in action.
 |---------|-------------|----------|
 | Two-pointer convergence | Left/right pointers moving inward | 0003, 0011, 0042, 0345 |
 | Sliding window | Two-pointer window expanding/contracting | 0003, 0076, 0080 |
-| Greedy algorithm | Single-pass with running totals / window tracking | 0045, 0122, 0134, 0135, 0169 |
+| Greedy algorithm | Single-pass with running totals / window tracking | 0045, 0122, 0134, 0135, 0169, 0517 |
 | Boyer-Moore Voting | Single-pass O(1) space majority-finding | 0169 |
 | Backtracking DFS | Push/pop + set/unset for O(n) space reuse | 0017, 0022, 0037, 0039, 0040, 0046, 0047, 0051, 0077, 0078, 0079, 0090, 0093, 0131, 0216, 0254, 0267, 0301, 0491, 3437 |
 | Union-Find with path compression | HashMap-based parent map with `find`/`union` as nested fns | 0128, 0130, 0200, 0261, 0305, 0323, 0399, 0421, 0947 |
 | Floyd's cycle detection | Tortoise and hare two-phase algorithm | 0142 |
 | Monotonic stack | Maintain stack invariant for next-greater-element patterns | 0042, 0084, 0085, 0255, 0316, 0321, 0402, 0456, 0496, 0503 |
-| BFS with level tracking | Use `VecDeque` with `len()` loop for level-order traversal | 0094, 0102, 0103, 0107, 0116, 0127, 0199, 0207, 0210, 0226, 0269, 0286, 0297, 0301, 0310, 0417, 0433, 0513 |
+| BFS with level tracking | Use `VecDeque` with `len()` loop for level-order traversal | 0094, 0102, 0103, 0107, 0116, 0127, 0199, 0207, 0210, 0226, 0269, 0286, 0297, 0301, 0310, 0417, 0433, 0513, 0515 |
 | Topological sort (Kahn's algorithm) | BFS with in-degree tracking for DAG ordering | 0207, 0210, 0269, 0310, 0444 |
 | Interval merging / sweepline | Sort intervals, then merge overlapping or track active set | 0056, 0057, 0218, 0252, 0253, 0435, 0436 |
 | Prefix sum modular arithmetic | Running sum % k with remainder -> first-index map | 0523 |

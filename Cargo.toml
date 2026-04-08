@@ -940,6 +940,30 @@ name = "lc_0514_freedom_trail"
 path = "leetcode/lc_0514_freedom_trail.rs"
 
 [[example]]
+name = "lc_0515_find_largest_value_in_each_tree_row"
+path = "leetcode/lc_0515_find_largest_value_in_each_tree_row.rs"
+
+[[example]]
+name = "lc_0516_longest_palindromic_subsequence"
+path = "leetcode/lc_0516_longest_palindromic_subsequence.rs"
+
+[[example]]
+name = "lc_0517_super_washing_machines"
+path = "leetcode/lc_0517_super_washing_machines.rs"
+
+[[example]]
+name = "lc_0518_coin_change_ii"
+path = "leetcode/lc_0518_coin_change_ii.rs"
+
+[[example]]
+name = "lc_0519_random_flip_matrix"
+path = "leetcode/lc_0519_random_flip_matrix.rs"
+
+[[example]]
+name = "lc_0520_detect_capital"
+path = "leetcode/lc_0520_detect_capital.rs"
+
+[[example]]
 name = "lc_0523_continuous_subarray_sum"
 path = "leetcode/lc_0523_continuous_subarray_sum.rs"
 

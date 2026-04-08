@@ -368,6 +368,10 @@ name = "lc_0238_product_of_array_except_self"
 path = "leetcode/lc_0238_product_of_array_except_self.rs"
 
 [[example]]
+name = "lc_0262_trips_and_users"
+path = "leetcode/lc_0262_trips_and_users.rs"
+
+[[example]]
 name = "lc_0263_ugly_number"
 path = "leetcode/lc_0263_ugly_number.rs"
 
@@ -398,6 +402,26 @@ path = "leetcode/lc_0374_guess_number_higher_or_lower.rs"
 [[example]]
 name = "lc_0380_insert_delete_getrandom_o1"
 path = "leetcode/lc_0380_insert_delete_getrandom_o1.rs"
+
+[[example]]
+name = "lc_0381_insert_delete_getrandom_o1_duplicates_allowed"
+path = "leetcode/lc_0381_insert_delete_getrandom_o1_duplicates_allowed.rs"
+
+[[example]]
+name = "lc_0382_linked_list_random_node"
+path = "leetcode/lc_0382_linked_list_random_node.rs"
+
+[[example]]
+name = "lc_0383_ransom_note"
+path = "leetcode/lc_0383_ransom_note.rs"
+
+[[example]]
+name = "lc_0384_shuffle_an_array"
+path = "leetcode/lc_0384_shuffle_an_array.rs"
+
+[[example]]
+name = "lc_0385_mini_parser"
+path = "leetcode/lc_0385_mini_parser.rs"
 
 [[example]]
 name = "lc_0392_is_subsequence"

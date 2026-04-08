@@ -26,16 +26,6 @@
 // Test: cargo test --example lc_0587_erect_the_fence
 // Bench: cargo test --example lc_0587_erect_the_fence bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - Closure capturing slices: `let cross = |o: &[i32], a: &[i32], b: &[i32]|`
-//   defines a local closure for the cross product computation
-// - `sort_unstable_by` with chained `cmp().then()`: multi-key sort
-//   without allocating a stable temp buffer
-// - `HashSet<usize>` for deduplication: collect hull indices then map
-//   back to coordinates
-//   (Previously covered: closure -> lc_0005, sort_unstable -> lc_0274,
-//    HashSet -> lc_0003, i64 widening for overflow safety -> lc_0374)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  920.40ms (avg 9.20us)
 // AI solution:  470.34ms (avg 4.70us)

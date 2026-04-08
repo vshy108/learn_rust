@@ -18,14 +18,6 @@
 // Test: cargo test --example lc_1342_number_of_steps_to_reduce_to_zero
 // Bench: cargo test --example lc_1342_number_of_steps_to_reduce_to_zero bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - `let mut num = num` parameter rebinding: takes ownership of the
-//   i32 param and rebinds as mutable for in-place modification
-// - Bitwise `& 1` and `>>= 1`: test odd/even and divide-by-2 in a
-//   single pass without branching on even/odd separately
-//   (Previously covered: let mut x = x shadowing -> lc_0009,
-//    >> 1 bit shift -> lc_0278, & bitwise ops -> lc_0222)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  17.25ms (avg 172ns)
 // AI solution:  10.29ms (avg 102ns)

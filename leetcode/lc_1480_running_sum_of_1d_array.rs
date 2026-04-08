@@ -19,14 +19,6 @@
 // Test: cargo test --example lc_1480_running_sum_of_1d_array
 // Bench: cargo test --example lc_1480_running_sum_of_1d_array bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - `mut` parameter: `fn running_sum(mut nums: Vec<i32>)` takes
-//   ownership and makes the Vec mutable for in-place prefix sum
-// - `.scan(init, closure)`: stateful iterator adaptor that carries
-//   an accumulator, yielding each intermediate sum
-//   (Previously covered: .scan() -> lc_0238, in-place mutation -> lc_0027,
-//    .collect() -> lc_0151)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  35.83ms (avg 358ns)
 // AI solution:  78.45ms (avg 784ns)

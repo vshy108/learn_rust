@@ -28,18 +28,6 @@
 // Test: cargo test --example lc_0523_continuous_subarray_sum
 // Bench: cargo test --example lc_0523_continuous_subarray_sum bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - Prefix sum modular arithmetic: track running sum % k and map
-//   remainder -> first index to detect subarray sums divisible by k
-// - Sentinel seeding: `mod_map.insert(0, -1)` handles subarrays starting
-//   at index 0 without special-casing
-// - Adaptive data structure (AI solution): `Vec<bool>` for small k (direct
-//   index lookup, no hashing) vs `HashSet` for large k (bounded memory)
-// - Delayed insertion (`prevsum`): inserts the *previous* iteration's
-//   remainder, guaranteeing subarray length >= 2 without index tracking
-//   (Previously covered: HashMap get -> lc_0001, enumerate -> lc_0045,
-//    entry or_insert -> lc_0380, as i32 cast -> lc_0004)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  760.46ms (avg 7.60us)
 // AI solution:  81.72ms (avg 817ns)

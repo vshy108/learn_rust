@@ -26,16 +26,6 @@
 //   -> AI solution is 1.28x faster
 //   Reason: Early exit on non-overlapping rectangles skips the min/max
 //     chain entirely for 1 of 4 benchmark inputs, saving branch work.
-//
-// --- Rust concepts used ---
-//   - #[allow(clippy::too_many_arguments)]: suppresses clippy warning
-//     for 8-param function (LeetCode's signature, can't change it).
-//   (Previously covered: .min()/.max() on i32 in lc_0003)
-//
-// Run:  cargo run --example lc_0223_rectangle_area
-// Test: cargo test --example lc_0223_rectangle_area
-// Bench: cargo test --example lc_0223_rectangle_area bench -- --nocapture
-
 /// My solution module.
 ///
 /// Inclusion-exclusion: area_A + area_B - overlap.

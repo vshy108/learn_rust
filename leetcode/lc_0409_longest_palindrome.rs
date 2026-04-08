@@ -18,14 +18,6 @@
 // Test: cargo test --example lc_0409_longest_palindrome
 // Bench: cargo test --example lc_0409_longest_palindrome bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - `bool as i32` cast: `has_odd as i32` converts true->1 / false->0,
-//   replacing an if-else branch with branchless arithmetic
-// - Fixed-size array `[0i32; 128]` as frequency table: stack-allocated
-//   lookup indexed by ASCII byte value, no hashing overhead
-//   (Previously covered: HashMap entry API -> lc_0380, as_bytes() -> lc_0005,
-//    HashMap frequency counting -> lc_0076)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  824.51ms (avg 8.24us)
 // AI solution:  451.44ms (avg 4.51us)

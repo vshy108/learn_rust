@@ -18,16 +18,6 @@
 // Test: cargo test --example lc_0876_middle_of_the_linked_list
 // Bench: cargo test --example lc_0876_middle_of_the_linked_list bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - Borrow traversal with `let mut curr = &head`: borrow chain to
-//   count list length without consuming the list
-// - `.and_then(|node| node.next)`: Option chaining to advance by
-//   consuming the current node and returning its next
-// - Rebuild from Vec slice `vals[mid..].iter().rev()`: construct a
-//   linked list from a value slice by iterating in reverse
-//   (Previously covered: Option<Box<ListNode>> -> lc_0002,
-//    while let Some(node) -> lc_0206, Vec::push -> lc_0014)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  118.84ms (avg 1.18us)
 // AI solution:  229.96ms (avg 2.29us)

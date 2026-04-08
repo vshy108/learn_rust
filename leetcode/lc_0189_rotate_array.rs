@@ -28,15 +28,6 @@
 //         is cache-friendly and avoids the overhead of three separate reverse
 //         passes. The three-reverse approach touches every element 2x; the
 //         block-swap moves elements in larger contiguous chunks.
-//
-// --- Rust concepts used ---
-// - `.swap(a, b)`: no parallel assignment (Ruby: `a, b = b, a`) in Rust.
-//   .swap() uses internal temp to avoid overwrite-before-read.
-// - `.rotate_right(k)`: stdlib single-call O(n) rotation using
-//   ptr::rotate internally (block-swap algorithm, cache-friendly)
-//   (Previously covered: usize underflow in lc_0005, mut params in lc_0009,
-//    inner fn vs closure in lc_0079, slice .reverse() in lc_0151)
-
 /// My solution module.
 ///
 /// Three-reverse algorithm: reverse all, reverse first k, reverse rest.

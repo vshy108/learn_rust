@@ -884,6 +884,58 @@ name = "lc_0446_arithmetic_slices_ii_subsequence"
 path = "leetcode/lc_0446_arithmetic_slices_ii_subsequence.rs"
 
 [[example]]
+name = "lc_0501_find_mode_in_binary_search_tree"
+path = "leetcode/lc_0501_find_mode_in_binary_search_tree.rs"
+
+[[example]]
+name = "lc_0502_ipo"
+path = "leetcode/lc_0502_ipo.rs"
+
+[[example]]
+name = "lc_0503_next_greater_element_ii"
+path = "leetcode/lc_0503_next_greater_element_ii.rs"
+
+[[example]]
+name = "lc_0504_base_7"
+path = "leetcode/lc_0504_base_7.rs"
+
+[[example]]
+name = "lc_0505_the_maze_ii"
+path = "leetcode/lc_0505_the_maze_ii.rs"
+
+[[example]]
+name = "lc_0506_relative_ranks"
+path = "leetcode/lc_0506_relative_ranks.rs"
+
+[[example]]
+name = "lc_0507_perfect_number"
+path = "leetcode/lc_0507_perfect_number.rs"
+
+[[example]]
+name = "lc_0508_most_frequent_subtree_sum"
+path = "leetcode/lc_0508_most_frequent_subtree_sum.rs"
+
+[[example]]
+name = "lc_0509_fibonacci_number"
+path = "leetcode/lc_0509_fibonacci_number.rs"
+
+[[example]]
+name = "lc_0510_inorder_successor_in_bst_ii"
+path = "leetcode/lc_0510_inorder_successor_in_bst_ii.rs"
+
+[[example]]
+name = "lc_0511_game_play_analysis_i"
+path = "leetcode/lc_0511_game_play_analysis_i.rs"
+
+[[example]]
+name = "lc_0512_game_play_analysis_ii"
+path = "leetcode/lc_0512_game_play_analysis_ii.rs"
+
+[[example]]
+name = "lc_0513_find_bottom_left_tree_value"
+path = "leetcode/lc_0513_find_bottom_left_tree_value.rs"
+
+[[example]]
 name = "lc_0514_freedom_trail"
 path = "leetcode/lc_0514_freedom_trail.rs"
 

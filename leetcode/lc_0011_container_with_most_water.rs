@@ -27,10 +27,6 @@
 // Test: cargo test --example lc_0011_container_with_most_water
 // Bench: cargo test --example lc_0011_container_with_most_water bench -- --nocapture
 //
-// --- Rust concepts used ---
-//   (Previously covered: two-pointer convergence -> lc_0003,
-//    i32::min/max method syntax -> lc_0003, `as i32` cast -> lc_0004)
-//
 // --- Reference: faster cached-locals approach (LeetCode top submission) ---
 //   Caches height[start] and height[end] into locals `s_h`, `e_h`:
 //

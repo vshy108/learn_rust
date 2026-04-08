@@ -32,13 +32,6 @@
 //   Reason: AI caches the previous two values in local vars (CPU registers),
 //     avoiding repeated array loads + bounds checks in `nums[w - 2]`.
 //     `continue` on 3rd+ duplicates skips the write entirely (no dead store).
-//
-// --- Rust concepts used ---
-//   - Register-cached sliding window: local vars (`n2`, `n1`) avoid array reads
-//   - `continue` to skip writes for 3rd+ duplicates (no dead store to array)
-//   (Previously covered: index-based loop lc_0027, in-place two-pointer lc_0003,
-//    as i32 lc_0004, &mut Vec<i32> lc_0027)
-
 /// My solution module — index-based two-pointer.
 ///
 /// Time:  O(n) — single pass through the array

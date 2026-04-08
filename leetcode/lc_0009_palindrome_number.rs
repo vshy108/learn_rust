@@ -26,22 +26,6 @@
 //   My solution is 1.28x faster
 //   Reason: Reversing only the lower half halts as soon as reversed_half >= remaining, doing roughly
 //   half as many divisions as the two-pointer approach which extracts every digit from both ends.
-//
-// --- Rust concepts used ---
-//
-// Variable shadowing for mutability:
-//   `let mut x = x;` re-binds the parameter as mutable.
-//   The original `x: i32` is immutable (Rust default). Shadowing
-//   avoids needing `mut` in the function signature.
-//
-// Half-reversal vs full comparison:
-//   My solution only reverses half and compares — avoids overflow.
-//   AI solution uses divisor to compare outermost digits inward —
-//   no reversal at all, but slightly more division operations.
-//
-//   (Previously covered: early return with compound condition -> lc_0007,
-//    integer division and modulo -> lc_0004/lc_0007)
-
 /// My solution module — reverse half of the number.
 ///
 /// Only reverses half the digits and compares with the remaining

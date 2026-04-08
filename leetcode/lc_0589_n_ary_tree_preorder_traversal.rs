@@ -22,16 +22,6 @@
 // Test: cargo test --example lc_0589_n_ary_tree_preorder_traversal
 // Bench: cargo test --example lc_0589_n_ary_tree_preorder_traversal bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - `Vec<Option<Box<Node>>>` for n-ary children: each child is
-//   Option<Box<Node>> to handle None/null entries in the children list
-// - Recursive DFS with `&Option<Box<Node>>`: borrows the tree without
-//   consuming it, allowing the tree to be reused
-// - Iterative stack with `into_iter().rev()`: consumes children in
-//   reverse to maintain left-to-right preorder via LIFO
-//   (Previously covered: Box<Node> tree nodes -> lc_0102, Vec::push -> lc_0014,
-//    while let Some(x) = stack.pop() -> lc_0206)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  83.27ms (avg 832ns)
 // AI solution:  116.88ms (avg 1.16us)

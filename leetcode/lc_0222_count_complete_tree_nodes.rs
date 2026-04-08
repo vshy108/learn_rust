@@ -25,26 +25,6 @@
 //   Reason: Both are O(log^2 n). My solution's recursive spine comparison
 //     has simpler per-step work (just follow left/right) vs AI's binary
 //     search + bit masking. Nearly identical on small trees.
-//
-// --- Rust concepts used ---
-//   - Option<Rc<RefCell<TreeNode>>>: layered smart pointers for shared
-//     mutable tree nodes (Option=nil, Rc=shared ownership, RefCell=runtime
-//     borrow checking). Ruby needs none of this — GC + no borrow rules.
-//   - .borrow() / .borrow_mut(): RefCell runtime borrow check (panics on
-//     simultaneous read+write). Ruby: all objects always mutable.
-//   - .clone() on Option<Rc<...>>: cheap ref-count bump, not a deep copy.
-//     Needed because you can't move fields out of a borrowed RefCell.
-//   - Rc::clone(&root) vs root.clone(): idiomatic explicit Rc clone.
-//   - Bit masking (idx & bit): navigate binary tree levels by treating
-//     the node index as a binary path (0=left, 1=right).
-//   - 1 << height: bit shift for 2^height (Ruby: 2**height).
-//   - #[inline]: compiler hint to inline small functions at call sites.
-//   (Previously covered: while let Some in lc_0206)
-//
-// Run:  cargo run --example lc_0222_count_complete_tree_nodes
-// Test: cargo test --example lc_0222_count_complete_tree_nodes
-// Bench: cargo test --example lc_0222_count_complete_tree_nodes bench -- --nocapture
-
 use std::cell::RefCell;
 use std::rc::Rc;
 

@@ -30,17 +30,6 @@
 //   Reason: Counting sort is O(n) vs O(n log n) comparison sort.
 //     Eliminates the sort entirely — just two linear passes (bucket + scan).
 //     Also avoids the in-place swap overhead of sort_unstable.
-//
-// --- Rust concepts used ---
-//   - `sort_unstable()` + `reverse()`: can't chain because sort returns ().
-//     "Unstable" = sorting stability (equal-element order), not API stability.
-//     Prefer sort_unstable for primitives — faster, no extra allocation.
-//   - Counting sort: bucket into `vec![0u32; n + 1]`, scan in reverse.
-//     Trades O(n) space for O(n) time vs O(n log n) comparison sort.
-//   (Previously covered: `let mut x = x` param rebind -> lc_0263,
-//    `(i, &c)` enumerate destructure -> lc_0263, `as i32`/`as usize`
-//    casts -> lc_0219, `vec![val; n]` init -> lc_0238, `.min()` -> lc_0223)
-
 /// My solution module.
 ///
 /// Sort descending, then scan for the largest h where the (h)th paper

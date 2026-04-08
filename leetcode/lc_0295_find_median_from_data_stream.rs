@@ -33,25 +33,6 @@
 //     has per-element Reverse wrapper overhead and more branch-heavy
 //     comparisons. At larger n the O(log n) heap would win over O(n)
 //     Vec::insert.
-//
-// --- Rust concepts used ---
-//   - `BinaryHeap<T>`: Rust's only built-in heap — always a max-heap.
-//     No separate MaxHeap/MinHeap types.
-//   - `BinaryHeap<Reverse<i32>>` for min-heap: `std::cmp::Reverse`
-//     wraps a value and flips its `Ord` comparison. Push with
-//     `Reverse(val)`, extract inner with `.0`.
-//   - `peek()` returns `Option<&T>`: need `*` to dereference — unlike
-//     Ruby's `.max`/`.min` which return the value directly.
-//   - `pop()` returns `Option<T>`: must `.unwrap()` or pattern match.
-//   - `.len()` not `.size`: Rust's convention for collection size.
-//   - `binary_search(&val)` returns `Result<usize, usize>`: Ok(idx) if
-//     found, Err(idx) if not — both give valid insertion point.
-//     `.unwrap_or_else(|i| i)` collapses both cases.
-//   - `Vec::insert(pos, val)`: shifts elements right — O(n) but
-//     cache-friendly due to contiguous memory layout.
-//   (Previously covered: `struct` fields + `impl` methods -> lc_0155,
-//    `Option<&T>` / `.unwrap()` -> lc_0001, `as f64` cast -> lc_0004)
-
 /// My solution module.
 ///
 /// Two-heap approach: keep lower half in a max-heap, upper half in a

@@ -29,13 +29,6 @@
 // Ratio: AI solution is 2.51x faster
 // Reason: AI uses O(1) space with slope-counting (no array allocation or
 //         iteration for sum), avoiding the two-pass + sum overhead of my_solution.
-//
-// --- Rust concepts used ---
-// - saturating_sub(): prevents usize underflow (unsigned can't go negative)
-// - Slope-counting greedy: single-pass O(1) space alternative to two-pass array
-//   (Previously covered: vec![val; n] in lc_0006, (0..n).rev() in lc_0042,
-//    .max() on i32 in lc_0003, into_iter/sum in lc_0134/lc_0005)
-
 /// My solution module.
 ///
 /// Two-pass greedy: left-to-right ensures right-higher neighbors get more,

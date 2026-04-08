@@ -21,14 +21,6 @@
 // Test: cargo test --example lc_0704_binary_search
 // Bench: cargo test --example lc_0704_binary_search bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - `usize` exclusive upper bound pattern: `right = nums.len()` with
-//   `left < right` and `right = mid` avoids underflow when right = 0
-// - i32 inclusive bounds with `as usize` indexing: simpler loop but
-//   requires casting mid to usize for array access
-//   (Previously covered: binary search -> lc_0004, match .cmp() -> lc_0374,
-//    as i32/usize casts -> lc_0004)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  34.35ms (avg 343ns)
 // AI solution:  33.09ms (avg 330ns)

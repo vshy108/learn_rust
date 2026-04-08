@@ -20,26 +20,6 @@
 //   My solution is 1.13x faster
 //   Reason: Iteration avoids the function-call overhead and stack-frame allocation
 //   that recursion incurs for each linked-list node.
-//
-// --- Rust concepts used ---
-//
-// Linked list with Option<Box<T>>:
-//   `Option<Box<ListNode>>` is Rust's idiomatic linked list node pointer.
-//   `Box<T>` is a heap-allocated smart pointer (needed because ListNode is
-//   recursive and the compiler needs a known size).
-//   `None` represents the end of the list (like null in other languages).
-//
-// Pattern matching on Option:
-//   `Some(node)` — the list has a node.
-//   `None` — end of list.
-//   `as_deref()` — converts `&Option<Box<T>>` to `Option<&T>` for borrowing
-//   without consuming the Box.
-//
-// Ownership with linked lists:
-//   Each node owns its `next` via `Box`. When you move `node.next`, the
-//   current node no longer owns it. Use `.take()` to move out of an Option
-//   and leave `None` in its place.
-
 /// Singly-linked list node, matching LeetCode's definition.
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode {

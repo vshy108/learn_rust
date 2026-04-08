@@ -20,14 +20,6 @@
 // Test: cargo test --example lc_0122_best_time_to_buy_and_sell_stock_ii
 // Bench: cargo test --example lc_0122_best_time_to_buy_and_sell_stock_ii bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - .windows(2): iterator adaptor yielding overlapping &[i32] slices of
-//   length 2 — no index variables, no off-by-one risk
-// - Greedy proof: summing all positive consecutive differences equals the
-//   optimal multi-transaction profit (every uphill segment is captured)
-//   (Previously covered: index-based loop with range lc_0027,
-//    iterator chain .filter().map().sum() lc_0005)
-//
 // --- Benchmark (100_000 iterations, 2026-04-02) ---
 // My solution:  53.04ms (avg 530ns)
 // AI solution:  59.30ms (avg 593ns)

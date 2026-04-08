@@ -24,25 +24,6 @@
 //   Reason: My solution's inner `starts_with` short-circuits as soon as the prefix mismatches
 //   a string, which is cheap for short common prefixes; the AI's vertical scan iterates all
 //   columns upfront with extra closure overhead from `take_while` + `all`.
-//
-// --- Rust concepts used ---
-//
-// Moving out of a Vec by index is forbidden:
-//   `strs[0]` alone would try to move the String out of the Vec, which Rust forbids.
-//   Use `.clone()` to get an owned copy, or work with references/slices.
-//
-// &strs[1..] to borrow a slice:
-//   Iterating `&strs[1..]` yields `&String` references without transferring ownership.
-//
-// String::pop() for in-place shrinking:
-//   Removes and returns the last Unicode char. Safer than `truncate(len - 1)` for
-//   non-ASCII strings; avoids allocation unlike Ruby's `str[0...-1]`.
-//
-// str::starts_with(&str):
-//   Ruby `start_with?` without the `?`. Takes a &str; &String auto-derefs to &str.
-//
-//   (Previously covered: as_bytes() for byte indexing -> lc_0005)
-
 /// My solution module.
 ///
 /// Time:  O(S) — S = total characters compared; worst case is all strings identical

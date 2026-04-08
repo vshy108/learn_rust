@@ -29,19 +29,6 @@
 //     search). The 1.06x difference is benchmark noise — CPU caching,
 //     branch prediction, and `>> 1` vs `/ 2` are equivalent after
 //     compiler optimization.
-//
-// --- Rust concepts used ---
-//   - `thread_local!` + `Cell<i32>`: per-thread mutable state without
-//     locks. Simulates LeetCode's external `isBadVersion` API. `Cell`
-//     is for Copy types (no runtime borrow checks, unlike RefCell).
-//   - `const { Cell::new(1) }`: const initializer in thread_local!
-//     avoids a runtime initialization check on each access.
-//   - `>> 1` for midpoint: bit shift equivalent to `/ 2` for unsigned.
-//     Cast to u32 first so `left + right` doesn't overflow i32.
-//   (Previously covered: binary search -> lc_0004, `as` casting -> lc_0004,
-//    bit shift -> lc_0222, overflow-safe midpoint `left + (right - left) / 2`
-//    -> lc_0035)
-
 /// Simulates the `isBadVersion` API. In LeetCode, this is provided
 /// externally. Here we store the bad version in a thread-local so
 /// tests can configure it per-thread without data races.

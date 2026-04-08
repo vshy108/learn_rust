@@ -29,25 +29,6 @@
 /// Note: same big-O as the AI solution, but the constant factor is higher
 /// because two separate passes means more cache misses and the full HashMap
 /// is allocated upfront before any lookups begin.
-///
-/// --- Rust concepts used ---
-//
-// Vec/slice indexing:
-//   nums[0]       — direct access, panics if out of bounds
-//   nums.get(0)   — returns Option<&T>, no panic (None if out of bounds)
-//   index must be usize (not i32, u32, etc.)
-//
-// Vec length:
-//   nums.len()    — returns usize
-//
-// HashMap:
-//   HashMap<K, V> — K is what you look up by, V is what you get back.
-//   Here HashMap<i32, usize> means: look up a number (i32) to find its index (usize).
-//   .get(&key) takes a reference (&K) and returns Option<&V>.
-//
-// Pattern destructuring with &:
-//   Some(&val) destructures &usize into owned usize (works because usize is Copy).
-//   Without &: val would be &usize, requiring *val to dereference.
 mod my_solution {
     use std::collections::HashMap;
 

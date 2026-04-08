@@ -28,14 +28,6 @@
 //         variables (candidate + count). Quickselect does O(n) comparisons
 //         but with heavier partitioning swaps and worse cache access patterns
 //         on these small inputs.
-//
-// --- Rust concepts used ---
-// - Boyer-Moore Voting: single-pass O(1) space majority-finding algorithm
-// - `nums[0]` safe here due to constraint n >= 1 (panics on empty Vec)
-// - Partial sort with `select_nth_unstable`: O(n) avg quickselect, no full sort
-// - Slice indexing with `nums[n / 2]` after partitioning finds the median
-//   (Previously covered: consuming Vec in lc_0134, if-as-expression in lc_0008)
-
 /// My solution module.
 ///
 /// Boyer-Moore Voting Algorithm: maintain a candidate and a count.

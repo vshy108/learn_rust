@@ -19,13 +19,6 @@
 // Test: cargo test --example lc_0121_best_time_to_buy_and_sell_stock
 // Bench: cargo test --example lc_0121_best_time_to_buy_and_sell_stock bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - DST vs fat pointer: [i32] is unsized; &[i32] is a fat pointer that
-//   implements IntoIterator (see Slices section in CHEATSHEET.md)
-// - Tuple destructuring: .1 to extract second element from fold result
-//   (Previously covered: slice borrowing lc_0014, pattern destructuring
-//    in for lc_0001, iterator fold lc_0008, i32::MAX sentinel lc_0004)
-//
 // --- Benchmark (100_000 iterations, 2026-04-02) ---
 // My solution:  47.08ms (avg 470ns)
 // AI solution:  52.35ms (avg 523ns)

@@ -31,17 +31,6 @@
 // Test: cargo test --example lc_0514_freedom_trail
 // Bench: cargo test --example lc_0514_freedom_trail bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - Top-down DP with `HashMap<(usize, usize), i32>` memo: tuple key for
-//   (ring_idx, key_idx) state, recursive with memoization
-// - `positions.entry(b).or_default()`: uses Default trait on Vec to
-//   auto-create empty vec for missing keys
-// - Rolling 1D DP with i16 (AI solution): replaces full 2D table with
-//   a single row; last-position tracking prunes the inner loop;
-//   same-char shortcut skips DP rebuild for repeated characters
-//   (Previously covered: HashMap memoization tuple key -> lc_0010,
-//    i32::MAX sentinel -> lc_0004, .min() chaining -> lc_0003)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  2209.71ms (avg 22.09us)
 // AI solution:  678.06ms (avg 6.78us)

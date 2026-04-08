@@ -28,26 +28,6 @@
 //     theorem + Legendre's three-square theorem to answer in O(sqrt(n))
 //     with no allocation. For n=999 the DP does ~31k iterations vs ~31
 //     for the math check.
-//
-// --- Rust concepts used ---
-//   - `(1..).take_while(|&i| i * i <= n)`: infinite range (1..) with
-//     take_while to generate perfect squares. Ruby has no infinite range
-//     with lazy termination built-in like this.
-//   - Ruby `[]` vs Rust `[]`: Ruby's `[]` is a growable Array; Rust's
-//     `[]` is a fixed-size array — can't push. Use `Vec::new()` or
-//     iterator `.collect()`.
-//   - `for i in 1..=n as usize`: cast on range bound, not loop variable.
-//     `for i as usize in ...` won't compile — Rust's for-loop variable
-//     is a pattern (binding), not an expression.
-//   - `for &sq in &squares`: borrow Vec (not consume) + destructure &i32.
-//     Ruby `.each` borrows implicitly; Rust `for sq in vec` MOVES the Vec.
-//   - `saturating_add(1)`: prevents i32::MAX + 1 overflow/panic.
-//   - Closure `let is_square = |x: i32| -> bool { ... }`: local helper
-//     with explicit type annotations.
-//   (Previously covered: `vec![val; n]` init -> lc_0006,
-//    `.take_while()` -> lc_0008, `as` casting -> lc_0004,
-//    closures -> lc_0005, `i32::MAX` sentinel -> lc_0004)
-
 /// My solution module.
 ///
 /// DP approach: for each value 1..=n, try subtracting each perfect

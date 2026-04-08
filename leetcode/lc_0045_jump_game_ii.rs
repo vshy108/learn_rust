@@ -33,14 +33,6 @@
 //   Reason: AI solution uses usize natively (no i32 casts per iteration),
 //           early-exits when the jump window covers the end, and enumerate()
 //           avoids repeated index-to-usize conversions.
-//
-// --- Rust concepts used ---
-//   - Greedy BFS: track current jump window end + farthest reachable
-//   - enumerate() + iter(): idiomatic indexed iteration without manual casting
-//   - .take(n - 1): limit iterator length instead of range with cast
-//   (Previously covered: i32 vs usize arithmetic -> lc_0005,
-//    `as usize` cast -> lc_0004, early break when goal reached -> lc_0007)
-
 /// My solution module.
 ///
 /// Time:  O(n) -- single pass through the array

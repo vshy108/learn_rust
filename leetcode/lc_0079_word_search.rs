@@ -36,18 +36,6 @@
 //   Reason: flat u8 board avoids double indirection, u64 bitmask visited
 //     replaces heap-allocated Vec<Vec<bool>> (single XOR for backtrack),
 //     and [i8; 128] frequency array avoids HashMap hashing overhead.
-//
-// --- Rust concepts used ---
-//   - .get().copied().unwrap_or(0): safe HashMap lookup returning owned value
-//   - Nested fn vs closure: recursive DFS needs &mut visited, closures can't recurse
-//   - isize for bounds checking: allows negative values without underflow panic
-//   - into_bytes(): owned Vec<u8> from String (vs as_bytes() which borrows)
-//   - u64 bitmask: encodes 6x6 visited grid in a single integer (AI solution)
-//   - Flat indexing: r*cols+c avoids Vec<Vec<>> double indirection (AI solution)
-//   - iter().flatten().filter(): counting chars across 2D grid without nested loops
-//   (Previously covered: HashMap entry API lc_0076, variable shadowing lc_0009,
-//    as_bytes lc_0005)
-
 /// My solution module — HashMap frequency pruning + backtracking DFS.
 ///
 /// Time:  O(m * n * 4^L) — for each cell, DFS branches 4 ways up to word length L

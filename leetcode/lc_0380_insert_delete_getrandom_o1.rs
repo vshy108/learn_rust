@@ -33,16 +33,6 @@
 // Test: cargo test --example lc_0380_insert_delete_getrandom_o1
 // Bench: cargo test --example lc_0380_insert_delete_getrandom_o1 bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - HashMap::entry API (Entry::Occupied / Entry::Vacant): single-lookup
-//   insert-or-skip pattern, avoids double hashing from contains_key + insert
-// - struct with private fields + pub methods: encapsulation pattern for
-//   data structure design
-// - if let Some(&index) destructuring: copies the usize out of the
-//   reference returned by HashMap::get
-//   (Previously covered: HashMap basics -> lc_0001, Vec::push/pop -> lc_0014,
-//    .expect() for invariants -> lc_0142, SystemTime for pseudo-random -> lc_0278)
-//
 // --- Benchmark (10_000 iterations, 2026-04-07) ---
 // My solution:  976.10ms (avg 97.61us)
 // AI solution:  752.83ms (avg 75.28us)

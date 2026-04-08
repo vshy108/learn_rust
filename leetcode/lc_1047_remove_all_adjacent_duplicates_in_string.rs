@@ -22,15 +22,6 @@
 // Test: cargo test --example lc_1047_remove_all_adjacent_duplicates_in_string
 // Bench: cargo test --example lc_1047_remove_all_adjacent_duplicates_in_string bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - `Vec<u8>` as byte stack with `.last() == Some(&b)`: compare top of
-//   stack without removing it, avoiding the `chars()` overhead
-// - `String::from_utf8(vec)`: safe conversion from byte vec back to
-//   String with UTF-8 validation
-// - `String::ends_with(char)`: O(1) check on the last byte for ASCII
-//   (Previously covered: as_bytes() -> lc_0005, String::with_capacity -> lc_0006,
-//    String::push/pop -> lc_0006/lc_0014)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  81.66ms (avg 816ns)
 // AI solution:  131.88ms (avg 1.31us)

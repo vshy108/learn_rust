@@ -29,26 +29,6 @@
 //   AI solution is 1.07x faster
 //   Reason: Both use identical binary-search logic; the small gap comes from i32 comparisons being
 //   marginally cheaper than f64 (the critical comparison path stays in the integer execution unit).
-//
-// --- Rust concepts used ---
-//
-// Binary search:
-//   The O(log(min(m, n))) solution uses binary search on the shorter array
-//   to find a partition where all left elements <= all right elements.
-//   This is a classic divide-and-conquer approach.
-//
-// Floating-point division:
-//   Integer division (`/`) in Rust truncates: `5 / 2 == 2`.
-//   For the median of two elements, cast to `f64` first:
-//   `(left + right) as f64 / 2.0`.
-//
-// i32::MIN and i32::MAX:
-//   Used as sentinel values for empty partitions in the binary search
-//   approach. `i32::MIN` represents negative infinity (left side),
-//   `i32::MAX` represents positive infinity (right side).
-//
-//   (Previously covered: slice operations nums.len()/nums[i] -> lc_0001)
-
 /// My solution module — implement your solution here.
 mod my_solution {
     pub struct Solution;

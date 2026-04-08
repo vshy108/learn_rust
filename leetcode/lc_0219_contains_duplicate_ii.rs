@@ -21,17 +21,6 @@
 //   -> AI solution is 1.25x faster
 //   Reason: with_capacity(k+1) pre-allocates the HashSet, avoiding rehashing
 //     during window growth; early return on k==0 skips all work for that case.
-//
-// --- Rust concepts used ---
-//   - *num dereference: .iter() yields &i32, but HashSet<i32>::insert takes i32
-//   - .remove(&val): HashSet remove takes &T, not T
-//   (Previously covered: HashSet::insert in lc_0142, with_capacity in lc_0142,
-//    .enumerate() in lc_0045, `as usize` casting in lc_0004)
-//
-// Run:  cargo run --example lc_0219_contains_duplicate_ii
-// Test: cargo test --example lc_0219_contains_duplicate_ii
-// Bench: cargo test --example lc_0219_contains_duplicate_ii bench -- --nocapture
-
 /// My solution module.
 ///
 /// Sliding-window HashSet: maintains a window of at most k elements.

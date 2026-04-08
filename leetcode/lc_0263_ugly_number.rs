@@ -22,16 +22,6 @@
 //     The difference is likely benchmark noise at this nanosecond scale —
 //     CPU caching, branch prediction, and run order can easily cause 1.5x
 //     variation. The fold approach is stylistically different, not faster.
-//
-// --- Rust concepts used ---
-//   - `for prime in [2, 3, 5]`: small fixed arrays implement IntoIterator.
-//   (Previously covered: let mut n = n in lc_0009, .fold() in lc_0008,
-//    &ref destructuring in lc_0001)
-//
-// Run:  cargo run --example lc_0263_ugly_number
-// Test: cargo test --example lc_0263_ugly_number
-// Bench: cargo test --example lc_0263_ugly_number bench -- --nocapture
-
 /// My solution module.
 ///
 /// Iteratively divide out factors of 2, 3, 5. If what remains is 1,

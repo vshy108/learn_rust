@@ -27,14 +27,6 @@
 // Reason: Both are O(n) single-pass. Iterative avoids function call overhead
 //         per node, but on small lists the difference is negligible. Recursive
 //         version uses O(n) stack frames vs O(1) for iterative.
-//
-// --- Rust concepts used ---
-// - `while let Some(mut node) = current`: destructure Option + move ownership
-//   (Ruby's `while current` truthy check doesn't work -- Option isn't bool)
-// - `Box::new()` heap allocation for each node (recursive builds stack frames)
-//   (Previously covered: Option<Box<ListNode>> in lc_0002, .take() in lc_0002,
-//    ownership transfer in loops in lc_0002, recursive ownership in lc_0021)
-
 /// Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode {

@@ -33,16 +33,6 @@
 //   -> AI solution is 1.36x faster
 //   Reason: Vec::dedup is implemented in optimized unsafe Rust in the standard library,
 //   using ptr::copy for bulk moves instead of element-by-element assignment.
-//
-// --- Rust concepts used ---
-//
-// Vec::dedup():
-//   Built-in method that removes consecutive duplicate elements in-place.
-//   Only works on sorted or pre-grouped data (just like this problem requires).
-//
-//   (Previously covered: two-pointer read/write pattern -> lc_0003,
-//    `as i32` cast -> lc_0004)
-
 /// My solution module.
 ///
 /// Time:  O(n) — single pass with two pointers

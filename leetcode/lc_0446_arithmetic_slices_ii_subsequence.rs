@@ -25,16 +25,6 @@
 // Test: cargo test --example lc_0446_arithmetic_slices_ii_subsequence
 // Bench: cargo test --example lc_0446_arithmetic_slices_ii_subsequence bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - Vec<HashMap<i64, i32>> per-index DP: each element has its own map
-//   of diff -> count
-// - i64 key for difference: nums[i] as i64 - nums[j] as i64 avoids i32
-//   overflow when nums values span the full i32 range
-// - HashMap::with_capacity(n) pre-allocation: reduces rehashing in the
-//   inner loop
-//   (Previously covered: HashMap entry API -> lc_0380, unwrap_or -> lc_0295,
-//    vec![expr; n] init -> lc_0006)
-//
 // --- Benchmark (10_000 iterations, 2026-04-07) ---
 // My solution:  128.26ms (avg 12.82us)
 // AI solution:  119.37ms (avg 11.93us)

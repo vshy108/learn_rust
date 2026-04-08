@@ -27,18 +27,6 @@
 //   -> AI solution is 21.57x faster
 //   Reason: HashMap::from([...]) heap-allocates on every call — my solution pays that cost 100k times;
 //   the match-based AI solution compiles to a zero-allocation jump table (one branch per character).
-//
-// --- Rust concepts used ---
-// - HashMap::from([...]) inline init: convenient but heap-allocates on every call;
-//   prefer match or const for hot paths (see CHEATSHEET: HashMap section)
-// - map[&key] Index trait: requires &K reference, not K directly
-// - match as zero-cost lookup: compiles to a jump table, no heap allocation
-// - unreachable!() macro: marks impossible branches; panics with message in debug
-// - Subtraction trick: `total += value - 2 * prev_value` corrects for the
-//   previously-added smaller value in one step (no need to undo + redo)
-//
-//   (Previously covered: closure as local function -> lc_0005)
-
 /// My solution module.
 ///
 /// Time:  O(n) — single pass over the string (n <= 15, so effectively O(1))

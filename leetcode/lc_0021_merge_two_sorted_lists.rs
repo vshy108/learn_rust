@@ -25,22 +25,6 @@
 //   -> My solution is 1.11x faster
 //   Reason: For short lists (5 nodes each), recursion overhead is minimal and the compiler
 //   inlines well; the iterative solution pays for extra .take()/.as_mut().unwrap() per node.
-//
-// --- Rust concepts used ---
-//
-// match on (Option, Option) tuple:
-//   Destructures both lists simultaneously. (None, l2) catches (None, None) too,
-//   because `l2` binds to any value. Arms are checked top-to-bottom.
-//
-// Recursive ownership transfer:
-//   `Some(mut l1)` moves the Box out of the Option. After attaching the recursive
-//   result to l1.next, we return Some(l1) — ownership flows back up the call stack.
-//
-// Dummy head / mutable borrow chain:
-//   The iterative AI solution uses a dummy ListNode. `current = &mut dummy` walks
-//   the list via mutable references without moving ownership of the head pointer.
-//   `current.next.as_mut().unwrap()` re-borrows the next node mutably.
-
 /// Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode {

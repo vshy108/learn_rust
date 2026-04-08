@@ -33,16 +33,6 @@
 // Test: cargo test --example lc_1544_make_the_string_great
 // Bench: cargo test --example lc_1544_make_the_string_great bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - XOR 32 case-flip trick: `top ^ b == 32` exploits ASCII layout where
-//   upper/lower pairs differ only in bit 5 (e.g. 'a'=0x61, 'A'=0x41)
-// - `s.as_bytes()` borrow: iterates &[u8] without consuming the String
-// - `Vec<u8>` as byte stack: push/pop O(1) for character matching
-// - `eq_ignore_ascii_case(&ch)`: stdlib method for case-insensitive char
-//   comparison without manual XOR
-//   (Previously covered: String::from_utf8() -> lc_1047,
-//    Vec<u8> byte stack -> lc_1047, .last() -> lc_1047)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  76.89ms (avg 768ns)
 // AI solution:  121.28ms (avg 1.212us)

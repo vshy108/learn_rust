@@ -20,14 +20,6 @@
 // Test: cargo test --example lc_0412_fizz_buzz
 // Bench: cargo test --example lc_0412_fizz_buzz bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - match on tuple: `match (i % 3, i % 5)` pattern-matches two values
-//   simultaneously, cleaner than cascading if-else
-// - `(1..=n).map().collect()`: inclusive range + map + collect to build
-//   Vec<String> in functional style
-//   (Previously covered: .to_string() -> lc_0012, String::push_str -> lc_0006,
-//    .is_empty() -> lc_0014, .collect() turbofish -> lc_0151)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  634.92ms (avg 6.34us)
 // AI solution:  691.46ms (avg 6.91us)

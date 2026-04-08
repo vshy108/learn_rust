@@ -30,15 +30,6 @@
 //         no hashing). HashMap has per-lookup hashing + probing overhead,
 //         plus heap allocations that grow with insertions. On small ASCII
 //         inputs, the hash overhead dominates.
-//
-// --- Rust concepts used ---
-// - match with guard: `Some(&v) if v != ct =>` replaces Ruby's postfix `return false if`
-// - Sentinel value (0): marks "unmapped" slots; valid because mapping values
-//   are offset by +1 to distinguish 0x00 from "not set"
-//   (Previously covered: .zip() in lc_0134, .as_bytes() in lc_0005,
-//    pattern destructuring in lc_0001, HashMap::get() in lc_0001,
-//    fixed-size array lookup in lc_0076)
-
 /// My solution module.
 ///
 /// Dual HashMap approach: map_st tracks s->t mappings, map_ts tracks t->s.

@@ -22,14 +22,6 @@
 //   -> AI solution is 1.42x faster
 //   Reason: str::find uses the stdlib two-way search algorithm (O(n) worst-case),
 //           while the manual slice loop is O((n-m)*m) with per-position m-byte compares.
-//
-// --- Rust concepts used ---
-//   - str::find() returns Option<usize>, converted with map_or(-1, |i| i as i32)
-//   - PartialEq<String> for str: &str == String comparison works automatically
-//   - Option::map_or: transforms Some/None into a single return value
-//   (Previously covered: &str slicing / slice borrowing -> lc_0014,
-//    usize underflow guard -> lc_0005)
-
 /// My solution module.
 ///
 /// Time:  O((n - m) * m) -- sliding window compares m chars at each of n - m + 1 positions

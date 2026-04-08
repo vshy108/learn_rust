@@ -24,37 +24,6 @@
 //   AI solution is 8.87x faster
 //   Reason: Expand-around-center on raw bytes avoids the Vec<char> heap allocation and UTF-8 decoding
 //   Manacher's requires; byte-slice access has better cache locality and zero allocation per call.
-//
-// --- Rust concepts used ---
-//
-// Iterator chaining (once, chain, flat_map, collect):
-//   Building a transformed string by composing iterator adapters.
-//   `std::iter::once` wraps a single value as an iterator.
-//   `chain` concatenates iterators end-to-end.
-//   `flat_map` maps each element to an array and flattens.
-//
-// Vec<char> for O(1) indexing:
-//   `String` doesn't support `s[i]` indexing (compile error).
-//   `Vec<char>` gives O(1) random access by position.
-//
-// usize arithmetic and underflow:
-//   `usize` is unsigned — subtracting past 0 wraps to `usize::MAX`
-//   (panics in debug). Guard arithmetic with conditionals or use
-//   `i32` when negative values are possible.
-//
-// Closures capturing by reference:
-//   `let expand = |left, right| { ... }` captures `b` and `n`
-//   by reference. The closure can read but not modify them.
-//
-// Byte slicing for ASCII strings:
-//   `s.as_bytes()` gives `&[u8]` with O(1) indexing.
-//   `s[start..end]` byte-slices a String (safe for ASCII-only input).
-//   `.to_string()` converts the `&str` slice back to owned String.
-//
-// Pattern destructuring with &:
-//   `(center_index, &max_len)` destructures `&usize` into owned
-//   `usize` (works because usize is Copy).
-
 /// My solution module — Manacher's algorithm.
 ///
 /// Time:  O(n) — each position is visited at most twice (once by the

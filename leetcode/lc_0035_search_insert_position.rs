@@ -29,15 +29,6 @@
 //   Reason: Both use the same algorithm; partition_point adds closure indirection
 //           and generic monomorphization overhead in debug builds. Near-identical
 //           in optimized (release) builds.
-//
-// --- Rust concepts used ---
-//   - Exclusive upper bound binary search: right = len, left < right, right = mid
-//   - mid + 1 overflow safety: mid <= right - 1, so mid + 1 <= right <= len
-//   - slice::partition_point(): stdlib lower-bound binary search
-//   (Previously covered: usize underflow avoidance -> lc_0005,
-//    closure predicate with pattern-binding reference -> lc_0005/lc_0001,
-//    `as i32` cast from usize -> lc_0004)
-
 /// My solution module.
 ///
 /// Time:  O(log n) -- binary search halves the range each iteration

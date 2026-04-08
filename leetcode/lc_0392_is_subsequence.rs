@@ -25,14 +25,6 @@
 // Test: cargo test --example lc_0392_is_subsequence
 // Bench: cargo test --example lc_0392_is_subsequence bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - .bytes() iterator: yields owned `u8` values (no lifetime tie to the
-//   String), unlike .as_bytes() which borrows &[u8]
-// - Option state machine: `let mut current = iter.next()` + `if let
-//   Some(target)` to drive a manual iterator forward only on match
-//   (Previously covered: as_bytes() -> lc_0005, two-pointer scan -> lc_0003,
-//    is_empty() guard -> lc_0014)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  73.27ms (avg 732ns)
 // AI solution:  85.69ms (avg 856ns)

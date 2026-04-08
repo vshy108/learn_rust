@@ -41,13 +41,6 @@
 //   Reason: nearly identical algorithms; my_solution's manual while loop
 //     has marginally less overhead than copy_from_slice on tiny arrays.
 //     On larger inputs copy_from_slice's memcpy would win.
-//
-// --- Rust concepts used ---
-//   - copy_from_slice: bulk memcpy for remaining elements (AI solution)
-//   - Tuple destructuring: `let (mut i, mut j, mut k) = (...)` for compact init
-//   (Previously covered: usize indexing lc_0001, > 0 guard pattern lc_0005,
-//    &mut Vec<i32> lc_0027, as usize lc_0004)
-
 /// My solution module — reverse two-pointer merge.
 ///
 /// Time:  O(m + n) — single reverse pass through both arrays

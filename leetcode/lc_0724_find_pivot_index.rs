@@ -29,14 +29,6 @@
 // Test: cargo test --example lc_0724_find_pivot_index
 // Bench: cargo test --example lc_0724_find_pivot_index bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - `.iter().sum::<i32>()` for total: turbofish on sum disambiguates
-//   the accumulator type
-// - `2 * left + num == total` algebraic simplification: replaces
-//   `left == total - left - num` to avoid subtraction
-//   (Previously covered: .iter().sum() -> lc_0122, enumerate -> lc_0045,
-//    as i32 return -> lc_0004)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  51.79ms (avg 517ns)
 // AI solution:  52.38ms (avg 523ns)

@@ -26,16 +26,6 @@
 // Test: cargo test --example lc_2256_minimum_average_difference
 // Bench: cargo test --example lc_2256_minimum_average_difference bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - i64 widening for sum: `nums.iter().map(|&x| x as i64).sum()` prevents
-//   overflow when nums contains up to 10^5 elements of value 10^5
-// - Integer division truncation: Rust `/` on integers truncates toward zero,
-//   matching the problem's "round down" requirement for non-negative values
-// - `i64::abs()`: absolute value on the difference of averages
-// - `as i64` / `as i32` casts: widen indices for safe division, narrow
-//   result back to i32 for the return type
-//   (Previously covered: prefix sum -> lc_0724, .enumerate() -> lc_0001)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  56.86ms (avg 568ns)
 // AI solution:  57.19ms (avg 571ns)

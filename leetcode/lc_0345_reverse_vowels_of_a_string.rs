@@ -27,29 +27,6 @@
 //     vs my_solution's b"aeiouAEIOU".contains() which does a linear
 //     scan over 10 bytes each time. Also uses unsafe
 //     String::from_utf8_unchecked to skip the UTF-8 validation pass.
-//
-// --- Rust concepts used ---
-//   - `s.into_bytes()`: converts owned String into Vec<u8> — mutable,
-//     indexable. Rust strings are UTF-8 and can't be indexed directly;
-//     for ASCII problems, work with bytes instead.
-//   - `b"aeiouAEIOU"`: byte string literal — &[u8; 10]. The `b` prefix
-//     makes a byte array from ASCII chars. `.contains(&byte)` does
-//     linear scan.
-//   - `fn is_vowel(b: u8)` nested function: Rust allows defining
-//     functions inside other functions — similar scope to Ruby lambdas
-//     but without closure capture.
-//   - `.swap(i, j)` on slice/Vec: swaps two elements in place. Ruby
-//     uses parallel assignment `a, b = b, a`; Rust has a method.
-//   - `String::from_utf8(bytes).unwrap()`: converts Vec<u8> back to
-//     String with UTF-8 validation. Safe when only ASCII was modified.
-//   - `const VOWEL_LUT: [bool; 128]` with const block: compile-time
-//     lookup table — zero runtime cost. The `const { ... }` block runs
-//     at compile time to build the array.
-//   - `unsafe { String::from_utf8_unchecked(bytes) }`: skips UTF-8
-//     validation — faster but caller must guarantee valid UTF-8.
-//   (Previously covered: two-pointer convergence -> lc_0003,
-//    `saturating_sub` -> lc_0279, `.len()` -> lc_0001)
-
 /// My solution module.
 ///
 /// Time:  O(n) — single pass with two pointers

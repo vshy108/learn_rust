@@ -31,21 +31,6 @@
 //   AI solution is 1.77x faster
 //   Reason: The 1D DP row (~20 bools) fits entirely in L1 cache; the 2D table (up to 21×21 bools)
 //   spills to L2. One Vec allocation instead of Vec<Vec<_>> also reduces allocation overhead.
-//
-// --- Rust concepts used ---
-//
-// |= (bitwise OR assign) for bool:
-//   Rust has no `||=` operator. `dp[i][j] |= val` is equivalent
-//   to `dp[i][j] = dp[i][j] || val` for booleans.
-//
-// 1D DP space optimization:
-//   When row `i` only depends on row `i-1` and current row,
-//   compress 2D table to 1D. Save the "diagonal" value in a
-//   `prev` variable before overwriting. O(n) vs O(m*n) space.
-//
-//   (Previously covered: vec![vec![val; n]; m] 2D init -> lc_0006,
-//    as_bytes() for byte indexing -> lc_0005)
-
 /// My solution module -- 2D bottom-up DP.
 ///
 /// `dp[i][j]` = does `s[0..i]` match `p[0..j]`?

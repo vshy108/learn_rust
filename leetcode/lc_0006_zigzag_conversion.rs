@@ -37,27 +37,6 @@
 //   AI solution is 2.93x faster
 //   Reason: Direct index calculation writes straight into a pre-allocated result buffer using arithmetic;
 //   the simulation pays String::push() cost per character across multiple Vec<String> row buckets.
-//
-// --- Rust concepts used ---
-//
-// Vec<String> vs vec![""; n]:
-//   `vec![String::new(); n]` creates n owned, growable Strings.
-//   `vec![""; n]` creates `&str` slices (immutable) — can't `.push()`.
-//
-// String::push(char) vs push_str(&str):
-//   `.push(ch)` appends a single char. `.push_str(s)` appends a slice.
-//   Ruby `<<` is equivalent to `.push()` / `.push_str()`.
-//
-// Vec<String>::concat():
-//   Joins all Strings with no separator. Like Ruby `rows.join`.
-//
-// String::with_capacity(n):
-//   Pre-allocates space for n bytes, avoiding reallocations as
-//   the string grows. Useful when the final size is known.
-//
-//   (Previously covered: usize unsigned subtraction -> lc_0005,
-//    as_bytes() for byte indexing -> lc_0005)
-
 /// My solution module — row-bucket simulation.
 ///
 /// Time:  O(n) — single pass over the string, each char pushed once

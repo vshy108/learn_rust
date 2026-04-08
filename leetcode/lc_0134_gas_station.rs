@@ -32,14 +32,6 @@
 // Reason: enumerate + index avoids the extra tuple destructuring overhead
 //         that zip introduces; both are O(n) but my_solution has slightly
 //         less per-iteration work in unoptimized (debug) builds.
-//
-// --- Rust concepts used ---
-// - Iterator adaptors: .into_iter(), .zip()
-// - Ownership: into_iter() consumes the Vec, avoiding borrows
-// - Greedy algorithm: single-pass O(n) with running totals
-//   (Previously covered: .enumerate() in lc_0045, pattern destructuring
-//    in for loops in lc_0012, `as i32` casting in lc_0004)
-
 /// My solution module.
 ///
 /// Time:  O(n) - single pass through both arrays

@@ -32,15 +32,6 @@
 //   -> AI solution is 1.27x faster
 //   Reason: Vec::retain uses unsafe ptr::copy internally for bulk memory moves,
 //           avoiding per-element index bounds checks that the manual loop incurs.
-//
-// --- Rust concepts used ---
-//   - for range (0..len) vs for-in iterator: borrow-after-move gotcha
-//   - Copy trait: index-based assignment works because i32 is Copy
-//   - Vec::retain(): stdlib predicate-based in-place removal
-//   - &mut Vec<i32> borrowing: one mutable borrow with multiple index accesses
-//   (Previously covered: two-pointer read/write pattern -> lc_0003,
-//    `as i32` cast from usize -> lc_0004)
-
 /// My solution module.
 ///
 /// Time:  O(n) — single pass over all elements

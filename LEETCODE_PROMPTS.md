@@ -215,7 +215,7 @@ that are written during construction but never accessed afterward.
 > 2. **Add benchmark results** to the file header in the format: `// --- Benchmark ({iterations} iterations, {date}) ---` with my solution time, AI solution time, ratio, and a `// Reason:` line explaining *why* the faster solution wins (e.g. fewer allocations, better cache locality, fewer passes, no hashing overhead).
 > 3. **Write an optimized `ai_solution`** using a different/better algorithm or approach. Include full doc comments with Arguments, Returns, Complexity. Add `Time: O(...)` / `Space: O(...)` on the module doc comment.
 > 4. **Update `my_solution` module doc** with actual `Time: O(...)` / `Space: O(...)` based on my implementation.
-> 5. **Add a `// --- Rust concepts used ---` section** to the file header documenting key Rust concepts demonstrated in the file (ownership patterns, trait usage, slice operations, etc.). **Only include concepts that have NOT appeared in any previous file's `Rust concepts used` section.** If a concept was already covered, omit it — do not repeat it. Add a `(Previously covered: ...)` note at the end referencing where each reused concept first appeared (e.g. `let mut x = x` -> lc_0263).
+> 5. **Update `docs/RUST_CONCEPTS.md`** — add any new Rust concepts to the centralized index with this problem's LC number. If a concept already exists, append this LC number to its row. This is the single source of truth for "which LC problem demonstrates which Rust concept". See [Centralized Rust Concepts Index](#centralized-rust-concepts-index) below.
 > 6. **Re-run the benchmark** after adding the AI solution, and update the header with final numbers.
 > 7. Ensure all tests pass (`cargo test --example lc_{number}_{name}`).
 
@@ -349,3 +349,24 @@ When a problem cannot have a full solution, create a file with just `fn main()` 
 | **N-ary / Quad tree** | Define multi-child node types inline (e.g., `Vec<Option<Box<Node>>>`) |
 | **Design (stateful)** | Use a named struct (e.g., `LRUCache`) with `impl` block. `main()` must instantiate and call methods on both implementations. |
 | **Random / non-deterministic** | Use `rand` crate (already in workspace deps). For problems like `rand7() -> rand10()`, define the source fn and test statistical distribution. |
+
+## Centralized Rust Concepts Index
+
+All Rust concepts encountered across LeetCode problems are catalogued in **`docs/RUST_CONCEPTS.md`**.
+
+### Purpose
+
+Instead of checking individual LC files' `// --- Rust concepts used ---` sections to find where a concept was first introduced, use the centralized doc as a single lookup:
+
+- **Learning**: find all LC problems that demonstrate a specific Rust concept
+- **Cross-referencing**: quickly navigate from concept → problem numbers
+
+### Workflow for new files
+
+When creating or completing a new LC file:
+
+1. Check `docs/RUST_CONCEPTS.md` to see which concepts are already indexed.
+2. **Update `docs/RUST_CONCEPTS.md`**:
+   - Add new concepts to the appropriate category table with this LC number.
+   - For existing concepts, append this LC number to the row if the problem provides a notable additional example.
+3. Do NOT add inline `// --- Rust concepts used ---` sections to LC files. All concept tracking is centralized in `docs/RUST_CONCEPTS.md`.

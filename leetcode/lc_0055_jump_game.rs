@@ -26,11 +26,6 @@
 //   Reason: Backward greedy does fewer comparisons on average -- it skips
 //           positions that can't reach the current goal, while forward greedy
 //           always computes max() at every index even after reaching the end.
-//
-// --- Rust concepts used ---
-//   (Previously covered: `as usize` cast -> lc_0004, `(0..n).rev()` -> lc_0042,
-//    `usize::max()` -> lc_0003)
-
 /// My solution module.
 ///
 /// Time:  O(n) -- single forward pass tracking max reachable index

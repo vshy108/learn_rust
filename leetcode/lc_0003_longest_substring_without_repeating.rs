@@ -53,28 +53,6 @@
 //   AI solution is 38.14x faster
 //   Reason: A fixed-size [usize; 128] array replaces HashMap — array lookup is direct index arithmetic
 //   with zero hashing overhead and perfect cache locality; HashMap probing is ~38× slower for a 128-key set.
-//
-// --- Rust concepts used ---
-//
-// Sliding window:
-//   A two-pointer technique where `left` and `right` define a window into
-//   the string. Expand `right` to include new characters; shrink `left`
-//   when a duplicate is found. The window always contains unique characters.
-//
-// HashSet for tracking:
-//   HashSet<char> tracks which characters are in the current window.
-//
-// String iteration:
-//   `s.chars()` yields `char` values (Unicode scalar values).
-//   `s.char_indices()` yields `(usize, char)` — the byte index and char.
-//   Since this problem uses ASCII-range characters, byte index == char index.
-//
-// .max() and cmp::max:
-//   `std::cmp::max(a, b)` returns the larger of two values.
-//   Useful for tracking the running maximum window size.
-//
-//   (Previously covered: HashMap basics -> lc_0001)
-
 /// My solution module — implement your solution here.
 ///
 /// Time: O(n) — single pass with sliding window. Each character is visited

@@ -20,17 +20,6 @@
 // Test: cargo test --example lc_3437_permutations_iii
 // Bench: cargo test --example lc_3437_permutations_iii bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - Backtracking with `Vec<i32>` current + `Vec<bool>` used: classic DFS
-//   pattern; push/pop + set/unset for O(n) space reuse
-// - `current.last()` parity check: `last % 2 == i % 2` prunes branches
-//   where adjacent elements share parity
-// - `map_or(true, |&last| ...)`: provides default for empty current vec,
-//   allowing any starting parity
-// - `1..=n` inclusive range: iterates candidate values [1, n]
-//   (Previously covered: .clone() for snapshot -> lc_0046,
-//    backtracking DFS -> lc_0046, Vec<bool> visited -> lc_0587)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  1047.30ms (avg 10.473us)
 // AI solution:  1113.56ms (avg 11.135us)

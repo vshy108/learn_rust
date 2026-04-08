@@ -24,14 +24,6 @@
 //   Reason: Two-pointer does a single pass with O(1) space and no allocations,
 //           while prefix/suffix max allocates two Vec<i32> of length n (3 passes
 //           + allocation overhead dominates on small inputs).
-//
-// --- Rust concepts used ---
-//   - Prefix/suffix max arrays: precompute running max from both directions
-//   - (0..n).rev(): reverse range iterator for right-to-left traversal
-//   (Previously covered: two-pointer convergence -> lc_0003,
-//    Vec::with_capacity(n) -> lc_0006, iterator chain .map().sum() -> lc_0005,
-//    i32::max()/i32::min() -> lc_0003)
-
 /// My solution module.
 ///
 /// Time:  O(n) -- single pass with two pointers converging from both ends

@@ -36,47 +36,6 @@
 //   My solution is 3.23x faster
 //   Reason: Direct byte-index scanning is a tight pointer-advance loop; the iterator adaptor chain
 //   (trim → peekable → fold) adds indirection and state that the compiler cannot fully optimise away.
-//
-// --- Rust concepts used ---
-//
-// String can't be indexed by usize:
-//   `s[i]` on a `String`/`&str` doesn't compile because UTF-8
-//   chars can be 1-4 bytes. Use `s.as_bytes()[i]` for byte access
-//   or `s.chars().nth(i)` for char access (O(n) though).
-//
-// Byte literals (b'x'):
-//   `b' '`, `b'0'`, `b'-'` are `u8` values (the ASCII byte).
-//   Use with `as_bytes()` indexing: `s[i] == b' '`.
-//   Ruby equivalent: `' '.ord` (32), `'0'.ord` (48).
-//
-// is_ascii_digit():
-//   Method on `u8` and `char`. Equivalent to `>= b'0' && <= b'9'`.
-//   Ruby equivalent: `c.match?(/\d/)` or `c.between?('0', '9')`.
-//
-// No ternary operator:
-//   Ruby `x ? a : b` becomes `if x { a } else { b }` in Rust.
-//   The `if` is an expression and returns a value.
-//
-// trim_start():
-//   Returns `&str` with leading whitespace removed. Zero-cost —
-//   just adjusts the slice pointer, no allocation.
-//
-// peekable() iterator:
-//   Wraps an iterator to add `.peek()` — look at the next
-//   element without consuming it. Useful for conditional advance.
-//
-// take_while() + fold():
-//   `take_while(|c| pred)` yields elements while predicate holds.
-//   `fold(init, |acc, x| ...)` accumulates like Ruby's `inject`.
-//
-// i64 for intermediate overflow detection:
-//   Accumulate in i64, then clamp to i32 range at the end.
-//   Avoids manual boundary checks like `result > (MAX - digit) / 10`.
-//
-// .clamp(min, max):
-//   Returns the value clamped to [min, max]. Built-in on all
-//   numeric types. Like `[min, [val, max].min].max` in Ruby.
-
 /// My solution module — index-based byte scanning.
 ///
 /// Time:  O(n) — single pass over the string bytes

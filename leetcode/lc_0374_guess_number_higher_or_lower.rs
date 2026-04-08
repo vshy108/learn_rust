@@ -33,13 +33,6 @@
 // Test: cargo test --example lc_0374_guess_number_higher_or_lower
 // Bench: cargo test --example lc_0374_guess_number_higher_or_lower bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - i64 widening to avoid i32 midpoint overflow: cast n to i64, compute
-//   mid in 64-bit, cast back to i32 for the API call
-//   (Previously covered: match on Ordering -> lc_0374 (introduced above in
-//    the guess() helper), binary search -> lc_0004, thread_local! + Cell
-//    -> lc_0278, as usize/as i32 casts -> lc_0004)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  51.90ms (avg 519ns)
 // AI solution:  55.03ms (avg 550ns)

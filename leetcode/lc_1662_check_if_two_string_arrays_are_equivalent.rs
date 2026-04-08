@@ -22,15 +22,6 @@
 // Test: cargo test --example lc_1662_check_if_two_string_arrays_are_equivalent
 // Bench: cargo test --example lc_1662_check_if_two_string_arrays_are_equivalent bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - `into_iter().collect::<String>()`: consumes Vec<String> and
-//   concatenates all elements into a single owned String
-// - Multi-index pointer walk: (array_idx, byte_idx) pairs to compare
-//   two Vec<String>s byte-by-byte without allocating joined strings
-// - `str::is_empty()` guard: skip zero-length strings to avoid
-//   out-of-bounds on `as_bytes()[0]`
-//   (Previously covered: .as_bytes() -> lc_1047, into_iter() -> lc_0151)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  239.59ms (avg 2.395us)
 // AI solution:  217.97ms (avg 2.179us)

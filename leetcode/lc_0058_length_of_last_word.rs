@@ -27,13 +27,6 @@
 //   Reason: Byte-level backward scan with as_bytes() avoids UTF-8 validation
 //           overhead. trim_end + rsplit_once operate on str (UTF-8 aware) and
 //           involve pattern matching machinery that's slower for simple ASCII.
-//
-// --- Rust concepts used ---
-//   - str::rsplit_once(' '): split at last occurrence, returns Option<(&str, &str)>
-//   (Previously covered: as_bytes lc_0005, byte literals lc_0008,
-//    usize underflow avoidance lc_0005, str::trim_end lc_0008,
-//    match on Option lc_0002)
-
 /// My solution module.
 ///
 /// Time:  O(n) -- at most one full backward pass over the string

@@ -31,16 +31,6 @@
 // Test: cargo test --example lc_0835_image_overlap
 // Bench: cargo test --example lc_0835_image_overlap bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - Nested `for` with i32 ranges including negative: `-(n-1)..n`
-//   iterates signed ranges for translation offsets
-// - HashMap<(i32, i32), i32> counting: tuple key for (dx, dy) offset
-//   with increment via `entry().or_insert(0) += 1`
-// - `.values().copied().max().unwrap_or(0)`: chain to extract max
-//   from HashMap values with a default for empty maps
-//   (Previously covered: HashMap entry -> lc_0380, nested loops -> lc_0042,
-//    flat_map -> lc_0005)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  548.70ms (avg 5.48us)
 // AI solution:  1069.13ms (avg 10.69us)

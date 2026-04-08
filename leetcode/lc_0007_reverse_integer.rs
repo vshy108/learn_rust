@@ -26,29 +26,6 @@
 //   My solution is 2.31x faster
 //   Reason: checked_mul/checked_add each emit an overflow-check instruction + branch per digit;
 //   plain manual arithmetic lets the compiler reduce the hot loop to branchless operations.
-//
-// --- Rust concepts used ---
-//
-// i32::MIN.abs() panics:
-//   i32::MIN = -2_147_483_648 but i32::MAX = 2_147_483_647.
-//   `.abs()` tries to produce 2_147_483_648 which overflows i32.
-//   Guard with `if x == i32::MIN` before calling `.abs()`.
-//   Ruby integers are unbounded so this never happens there.
-//
-// Remainder preserves sign in Rust:
-//   `-123 % 10 == -3` (not 7). This lets you process negative
-//   numbers directly without converting to absolute value.
-//
-// checked_mul / checked_add:
-//   Return `Option<i32>` — `Some(val)` on success, `None` on overflow.
-//   Chained via `.and_then()` for concise overflow detection.
-//   Avoids manual boundary math like `result > (MAX - digit) / 10`.
-//
-// match with early return:
-//   `match expr { Some(v) => v, None => return 0 }` is idiomatic
-//   for unwrapping-or-bailing. Alternative: `expr.unwrap_or(return 0)`
-//   is NOT valid — `return` is a statement, not an expression.
-
 /// My solution module — abs + sign approach with manual overflow check.
 ///
 /// Time:  O(d) — d is the number of digits (at most 10 for i32)

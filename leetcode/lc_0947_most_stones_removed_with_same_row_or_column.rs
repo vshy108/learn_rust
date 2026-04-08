@@ -25,16 +25,6 @@
 // Test: cargo test --example lc_0947_most_stones_removed_with_same_row_or_column
 // Bench: cargo test --example lc_0947_most_stones_removed_with_same_row_or_column bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - `!y` (bitwise NOT) for namespace separation: maps column index to
-//   a distinct negative value so rows and columns never collide in the
-//   union-find parent map
-// - Nested `fn` inside `impl`: `find` and `union` as standalone functions
-//   taking `&mut HashMap` instead of closures (avoids borrow issues)
-// - DFS with `vec![bool]` visited: iterative stack-based graph traversal
-//   (Previously covered: HashMap -> lc_0001, HashSet -> lc_0003,
-//    Union-Find -> already introduced here, path compression pattern)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  4817.93ms (avg 48.17us)
 // AI solution:  380.19ms (avg 3.80us)

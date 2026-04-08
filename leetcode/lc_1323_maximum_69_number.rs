@@ -19,16 +19,6 @@
 // Test: cargo test --example lc_1323_maximum_69_number
 // Bench: cargo test --example lc_1323_maximum_69_number bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - `.into_bytes()` on String: consumes the String into owned Vec<u8>,
-//   used here to get mutable digit bytes
-// - `&mut` iteration over Vec<u8>: `for d in &mut digits` yields `&mut u8`
-//   allowing in-place modification of bytes
-// - Arithmetic digit manipulation: `num + 3 * power` flips 6 to 9 (6+3=9)
-//   without any string conversion
-//   (Previously covered: .to_string() -> lc_0012, .parse() -> lc_0008,
-//    into_bytes() -> lc_0079, String::from_utf8 -> lc_0151)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  75.08ms (avg 750ns)
 // AI solution:  9.27ms (avg 92ns)

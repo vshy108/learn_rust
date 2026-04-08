@@ -31,16 +31,6 @@
 // Reason: Byte-level manipulation avoids iterator + Vec<&str> + join overhead;
 //         direct in-place reversal with a single compacted Vec<u8> is cheaper
 //         than split_whitespace -> collect -> join which allocates a Vec + String.
-//
-// --- Rust concepts used ---
-// - split_whitespace(): splits on any Unicode whitespace, trims edges,
-//   collapses runs of spaces — handles leading/trailing/multiple spaces
-// - .collect::<Vec<_>>().join(" "): materialise then concatenate with separator
-// - Slice .reverse() is in-place O(n) with no allocation
-// - String::from_utf8() safely converts Vec<u8> back to String
-// - In-place word compaction: single-pass trim + collapse spaces into a byte vec
-//   (Previously covered: .rev() in lc_0042, .into_bytes() in lc_0079)
-
 /// My solution module.
 ///
 /// Iterator chain: split on whitespace, reverse, rejoin.

@@ -23,14 +23,6 @@
 // Test: cargo test --example lc_1672_richest_customer_wealth
 // Bench: cargo test --example lc_1672_richest_customer_wealth bench -- --nocapture
 //
-// --- Rust concepts used ---
-// - `i32::max(self, other)`: method-style max comparison, equivalent to
-//   `std::cmp::max(a, b)` but reads more naturally in a chain
-// - `.iter().map(|r| r.iter().sum::<i32>()).max()`: nested iterator chain
-//   that sums each row then finds the global maximum
-// - `.unwrap_or(0)` on Option<i32>: handles empty iterator case safely
-//   (Previously covered: .iter().sum() -> lc_0724, .max() -> lc_0121)
-//
 // --- Benchmark (100_000 iterations, 2026-04-07) ---
 // My solution:  124.41ms (avg 1.244us)
 // AI solution:  129.58ms (avg 1.295us)

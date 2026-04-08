@@ -29,21 +29,6 @@
 //   Reason: My solution modifies result in-place (one allocation). AI solution
 //     creates separate prefix/suffix Vecs then zips them (3 allocations +
 //     extra iterator overhead).
-//
-// --- Rust concepts used ---
-//   - result[i] = val: direct index assignment (overwrite existing element).
-//     NOT result.insert(i, val) — that inserts a new element, shifting right.
-//   - result[i] *= suffix: augmented assignment works on Vec elements.
-//   - .scan(init, |acc, x| ...): stateful iterator transform — yields a value
-//     each step while mutating an accumulator. No direct Ruby equivalent.
-//   - .collect::<Vec<_>>(): turbofish to specify collection target type.
-//   (Previously covered: vec![val; n] in lc_0006, (0..n).rev() in lc_0042,
-//    .zip() in lc_0134)
-//
-// Run:  cargo run --example lc_0238_product_of_array_except_self
-// Test: cargo test --example lc_0238_product_of_array_except_self
-// Bench: cargo test --example lc_0238_product_of_array_except_self bench -- --nocapture
-
 /// My solution module.
 ///
 /// Two-pass prefix/suffix product. First pass fills result with prefix

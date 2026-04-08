@@ -76,17 +76,75 @@ Every completed file follows this header format (from `lc_0001_two_sum.rs`):
 > - Follow the same `my_solution` sourcing priority above.
 > - If doocs README_EN.md is missing or has no description, create the file but note in the header: `// Note: Problem description unavailable on doocs — sourced from {alternative} or left as best-effort`.
 >
-> ### Skip files (non-solvable problems):
+> ### SQL/Shell problems (Rust equivalents, no benchmarks):
 >
-> Create a minimal file with `fn main()` only, stating the skip reason in the header:
+> SQL and Shell problems cannot use the standard `my_solution`/`ai_solution` dual-module pattern.
+> Instead, implement a **single Rust equivalent** that demonstrates the same relational/text
+> operations using standard library collections. No benchmarks required.
+>
+> **SQL problem file pattern:**
+> ```rust
+> // LeetCode N: Title [Difficulty]
+> // https://leetcode.com/problems/...
+> //
+> // This is a SQL problem. Below is the Rust equivalent using standard library
+> // collections to demonstrate the relational operations.
+> //
+> // In production Rust, you would use crates like:
+> //   - `polars` for DataFrame-style data manipulation
+> //   - `rusqlite` or `sqlx` for running actual SQL queries
+> //   - `sea-orm` or `diesel` for ORM-based database access
+> //
+> // SQL Solution:
+> //   SELECT ... FROM ... WHERE ...;
+> //
+> // Run:  cargo run --example lc_NNNN_name
+> // Test: cargo test --example lc_NNNN_name
+> ```
+>
+> - Define `struct` types for each table (e.g. `Employee`, `Department`).
+> - Implement the query logic using `HashMap`, `HashSet`, `BTreeMap`, iterators.
+> - Map SQL concepts to Rust: `JOIN` → HashMap lookup, `GROUP BY` → `HashMap::entry`,
+>   `WHERE` → `.filter()`, `DISTINCT` → `HashSet`, `ORDER BY` → `.sort_by()`,
+>   `LEFT JOIN` → `Option<T>`, `DENSE_RANK()` → sorted dedup + position lookup.
+> - Include `fn main()` demonstrating the example output and `#[cfg(test)] mod tests`
+>   with edge cases.
+>
+> **Shell problem file pattern:**
+> ```rust
+> // LeetCode N: Title [Difficulty]
+> // https://leetcode.com/problems/...
+> //
+> // This is a Shell problem. Below is the Rust equivalent using standard library
+> // I/O and text processing to demonstrate the same operations.
+> //
+> // In production Rust, you would use:
+> //   - `regex` crate for pattern matching
+> //   - `std::io::BufRead` for line-by-line file reading
+> //   - `std::collections::HashMap` for counting/aggregation
+> //
+> // Bash Solution:
+> //   cat words.txt | tr -s ' ' '\n' | sort | uniq -c | sort -nr | awk '{print $2, $1}'
+> //
+> // Run:  cargo run --example lc_NNNN_name
+> // Test: cargo test --example lc_NNNN_name
+> ```
+>
+> - Use `str::split_whitespace()`, `lines()`, `HashMap` for word counting.
+> - Use `regex::Regex` (already in `Cargo.toml`) for pattern matching problems.
+> - Use `lines().nth(n)` for line extraction problems.
+>
+> ### Skip files (truly non-solvable problems):
+>
+> Only create a minimal skip file when the problem description is completely unavailable:
 >
 > | Skip Reason | Example |
 > |-------------|---------|
-> | SQL/Shell problem | `// Skipped: This is a {SQL\|Shell} problem — not applicable for Rust` |
 > | Missing content | `// Skipped: Problem description not available on doocs or LeetCode` |
 >
 > **Note**: Tree/LL, design, and random problems are all solvable — define node types inline,
 > use `struct` + `impl` for stateful designs, and use the `rand` crate for randomness.
+> SQL and Shell problems are also solvable as Rust equivalents (see above).
 >
 > ### For each solvable problem file:
 >

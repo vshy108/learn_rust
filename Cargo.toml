@@ -424,6 +424,150 @@ name = "lc_0385_mini_parser"
 path = "leetcode/lc_0385_mini_parser.rs"
 
 [[example]]
+name = "lc_0386_lexicographical_numbers"
+path = "leetcode/lc_0386_lexicographical_numbers.rs"
+
+[[example]]
+name = "lc_0387_first_unique_character_in_a_string"
+path = "leetcode/lc_0387_first_unique_character_in_a_string.rs"
+
+[[example]]
+name = "lc_0388_longest_absolute_file_path"
+path = "leetcode/lc_0388_longest_absolute_file_path.rs"
+
+[[example]]
+name = "lc_0389_find_the_difference"
+path = "leetcode/lc_0389_find_the_difference.rs"
+
+[[example]]
+name = "lc_0390_elimination_game"
+path = "leetcode/lc_0390_elimination_game.rs"
+
+[[example]]
+name = "lc_0391_perfect_rectangle"
+path = "leetcode/lc_0391_perfect_rectangle.rs"
+
+[[example]]
+name = "lc_0393_utf8_validation"
+path = "leetcode/lc_0393_utf8_validation.rs"
+
+[[example]]
+name = "lc_0394_decode_string"
+path = "leetcode/lc_0394_decode_string.rs"
+
+[[example]]
+name = "lc_0395_longest_substring_with_at_least_k_repeating_characters"
+path = "leetcode/lc_0395_longest_substring_with_at_least_k_repeating_characters.rs"
+
+[[example]]
+name = "lc_0396_rotate_function"
+path = "leetcode/lc_0396_rotate_function.rs"
+
+[[example]]
+name = "lc_0397_integer_replacement"
+path = "leetcode/lc_0397_integer_replacement.rs"
+
+[[example]]
+name = "lc_0398_random_pick_index"
+path = "leetcode/lc_0398_random_pick_index.rs"
+
+[[example]]
+name = "lc_0399_evaluate_division"
+path = "leetcode/lc_0399_evaluate_division.rs"
+
+[[example]]
+name = "lc_0400_nth_digit"
+path = "leetcode/lc_0400_nth_digit.rs"
+
+[[example]]
+name = "lc_0401_binary_watch"
+path = "leetcode/lc_0401_binary_watch.rs"
+
+[[example]]
+name = "lc_0402_remove_k_digits"
+path = "leetcode/lc_0402_remove_k_digits.rs"
+
+[[example]]
+name = "lc_0403_frog_jump"
+path = "leetcode/lc_0403_frog_jump.rs"
+
+[[example]]
+name = "lc_0404_sum_of_left_leaves"
+path = "leetcode/lc_0404_sum_of_left_leaves.rs"
+
+[[example]]
+name = "lc_0405_convert_a_number_to_hexadecimal"
+path = "leetcode/lc_0405_convert_a_number_to_hexadecimal.rs"
+
+[[example]]
+name = "lc_0406_queue_reconstruction_by_height"
+path = "leetcode/lc_0406_queue_reconstruction_by_height.rs"
+
+[[example]]
+name = "lc_0407_trapping_rain_water_ii"
+path = "leetcode/lc_0407_trapping_rain_water_ii.rs"
+
+[[example]]
+name = "lc_0408_valid_word_abbreviation"
+path = "leetcode/lc_0408_valid_word_abbreviation.rs"
+
+[[example]]
+name = "lc_0410_split_array_largest_sum"
+path = "leetcode/lc_0410_split_array_largest_sum.rs"
+
+[[example]]
+name = "lc_0411_minimum_unique_word_abbreviation"
+path = "leetcode/lc_0411_minimum_unique_word_abbreviation.rs"
+
+[[example]]
+name = "lc_0413_arithmetic_slices"
+path = "leetcode/lc_0413_arithmetic_slices.rs"
+
+[[example]]
+name = "lc_0414_third_maximum_number"
+path = "leetcode/lc_0414_third_maximum_number.rs"
+
+[[example]]
+name = "lc_0415_add_strings"
+path = "leetcode/lc_0415_add_strings.rs"
+
+[[example]]
+name = "lc_0416_partition_equal_subset_sum"
+path = "leetcode/lc_0416_partition_equal_subset_sum.rs"
+
+[[example]]
+name = "lc_0417_pacific_atlantic_water_flow"
+path = "leetcode/lc_0417_pacific_atlantic_water_flow.rs"
+
+[[example]]
+name = "lc_0418_sentence_screen_fitting"
+path = "leetcode/lc_0418_sentence_screen_fitting.rs"
+
+[[example]]
+name = "lc_0419_battleships_in_a_board"
+path = "leetcode/lc_0419_battleships_in_a_board.rs"
+
+[[example]]
+name = "lc_0420_strong_password_checker"
+path = "leetcode/lc_0420_strong_password_checker.rs"
+
+[[example]]
+name = "lc_0421_maximum_xor_of_two_numbers_in_an_array"
+path = "leetcode/lc_0421_maximum_xor_of_two_numbers_in_an_array.rs"
+
+[[example]]
+name = "lc_0422_valid_word_square"
+path = "leetcode/lc_0422_valid_word_square.rs"
+
+[[example]]
+name = "lc_0423_reconstruct_original_digits_from_english"
+path = "leetcode/lc_0423_reconstruct_original_digits_from_english.rs"
+
+[[example]]
+name = "lc_0424_longest_repeating_character_replacement"
+path = "leetcode/lc_0424_longest_repeating_character_replacement.rs"
+
+[[example]]
 name = "lc_0392_is_subsequence"
 path = "leetcode/lc_0392_is_subsequence.rs"
 

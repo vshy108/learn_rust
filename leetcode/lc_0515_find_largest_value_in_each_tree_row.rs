@@ -170,15 +170,7 @@ mod ai_solution {
 }
 
 fn main() {
-    let tree1 = build_tree(&[
-        Some(1),
-        Some(3),
-        Some(2),
-        Some(5),
-        Some(3),
-        None,
-        Some(9),
-    ]);
+    let tree1 = build_tree(&[Some(1), Some(3), Some(2), Some(5), Some(3), None, Some(9)]);
     let tree2 = build_tree(&[Some(1), Some(2), Some(3)]);
 
     println!(
@@ -210,15 +202,8 @@ mod tests {
 
                 #[test]
                 fn test_example1() {
-                    let root = build_tree(&[
-                        Some(1),
-                        Some(3),
-                        Some(2),
-                        Some(5),
-                        Some(3),
-                        None,
-                        Some(9),
-                    ]);
+                    let root =
+                        build_tree(&[Some(1), Some(3), Some(2), Some(5), Some(3), None, Some(9)]);
                     assert_eq!(<$solution>::largest_values(root), vec![1, 3, 9]);
                 }
 
@@ -259,31 +244,23 @@ mod tests {
 
     #[test]
     fn bench_comparison() {
-        let root = build_tree(&[
-            Some(1),
-            Some(3),
-            Some(2),
-            Some(5),
-            Some(3),
-            None,
-            Some(9),
-        ]);
+        let root = build_tree(&[Some(1), Some(3), Some(2), Some(5), Some(3), None, Some(9)]);
 
         let iterations = 100_000;
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(my_solution::Solution::largest_values(
-                std::hint::black_box(root.clone()),
-            ));
+            std::hint::black_box(my_solution::Solution::largest_values(std::hint::black_box(
+                root.clone(),
+            )));
         }
         let my_dur = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(ai_solution::Solution::largest_values(
-                std::hint::black_box(root.clone()),
-            ));
+            std::hint::black_box(ai_solution::Solution::largest_values(std::hint::black_box(
+                root.clone(),
+            )));
         }
         let ai_dur = start.elapsed();
 

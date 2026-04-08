@@ -186,17 +186,17 @@ mod tests {
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(my_solution::Solution::find_min_moves(
-                std::hint::black_box(machines.clone()),
-            ));
+            std::hint::black_box(my_solution::Solution::find_min_moves(std::hint::black_box(
+                machines.clone(),
+            )));
         }
         let my_dur = start.elapsed();
 
         let start = std::time::Instant::now();
         for _ in 0..iterations {
-            std::hint::black_box(ai_solution::Solution::find_min_moves(
-                std::hint::black_box(machines.clone()),
-            ));
+            std::hint::black_box(ai_solution::Solution::find_min_moves(std::hint::black_box(
+                machines.clone(),
+            )));
         }
         let ai_dur = start.elapsed();
 

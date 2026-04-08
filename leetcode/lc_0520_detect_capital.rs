@@ -48,9 +48,7 @@ mod my_solution {
         pub fn detect_capital_use(word: String) -> bool {
             let cnt = word.chars().filter(|c| c.is_uppercase()).count();
             // All uppercase, all lowercase, or only first letter uppercase
-            cnt == 0
-                || cnt == word.len()
-                || (cnt == 1 && word.as_bytes()[0].is_ascii_uppercase())
+            cnt == 0 || cnt == word.len() || (cnt == 1 && word.as_bytes()[0].is_ascii_uppercase())
         }
     }
 }

@@ -165,10 +165,7 @@ mod tests {
 
                 #[test]
                 fn test_single_char() {
-                    assert_eq!(
-                        <$solution>::longest_palindrome_subseq("a".to_string()),
-                        1
-                    );
+                    assert_eq!(<$solution>::longest_palindrome_subseq("a".to_string()), 1);
                 }
 
                 #[test]
@@ -198,18 +195,12 @@ mod tests {
 
                 #[test]
                 fn test_two_chars_same() {
-                    assert_eq!(
-                        <$solution>::longest_palindrome_subseq("aa".to_string()),
-                        2
-                    );
+                    assert_eq!(<$solution>::longest_palindrome_subseq("aa".to_string()), 2);
                 }
 
                 #[test]
                 fn test_two_chars_diff() {
-                    assert_eq!(
-                        <$solution>::longest_palindrome_subseq("ab".to_string()),
-                        1
-                    );
+                    assert_eq!(<$solution>::longest_palindrome_subseq("ab".to_string()), 1);
                 }
             }
         };

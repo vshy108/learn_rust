@@ -5,10 +5,11 @@ Curated changelog of Rust releases focusing on **language changes**, common
 
 Source: [releases.rs](https://releases.rs/)
 
-> Versions covered: 1.85.0 (Edition 2024) through 1.94.1 (current as of April 2026).
+> Versions covered: 1.85.0 (Edition 2024) through 1.95.0 (current as of April 2026).
 
 ## Table of Contents
 
+- [1.95.0](#1950--2026-04-16)
 - [1.94.1](#1941--2026-03-26-patch)
 - [1.94.0](#1940--2026-03-05)
 - [1.93.0](#1930--2026-01-22)
@@ -22,6 +23,73 @@ Source: [releases.rs](https://releases.rs/)
 - [1.85.0](#1850--2025-02-20) (Edition 2024)
 - [Edition Migration Quick Reference](#edition-migration-quick-reference)
 - [How to Update](#how-to-update)
+
+---
+
+## 1.95.0 — 2026-04-16
+
+### Language
+
+- **Stabilize `if let` guards on match arms** — you can now write
+  `match x { Some(v) if let Ok(n) = v.parse::<i32>() => ... }`
+- `irrefutable_let_patterns` lint no longer fires on let-chains
+- Support importing path-segment keywords with renaming
+- Stabilize inline assembly for **PowerPC / PowerPC64**
+- `const`-eval: padding is now handled more consistently during typed copies
+- Const blocks are no longer evaluated to determine if expressions involving
+  fallible operations can implicitly be constant-promoted
+- Make operational semantics of pattern matching independent of crate and module
+
+### Compiler
+
+- Stabilize `--remap-path-scope` for controlling how paths are remapped in
+  the resulting binary
+- Apply patches for CVE-2026-6042 and CVE-2026-40200 to vendored musl
+
+### Stabilized APIs (highlights)
+
+- `bool::TryFrom<{integer}>` — convert integers to `bool`
+- `AtomicBool::update` / `AtomicBool::try_update`
+- `AtomicPtr::update` / `AtomicPtr::try_update`
+- `Atomic{Isize,Usize}::update` / `Atomic{Isize,Usize}::try_update`
+- `cfg_select!` macro
+- `core::range::RangeInclusive` / `core::range::RangeInclusiveIter`
+- `core::hint::cold_path` — hint for unlikely branches
+- `<*const T>::as_ref_unchecked` / `<*mut T>::as_ref_unchecked` /
+  `<*mut T>::as_mut_unchecked`
+- `Vec::push_mut` — push and return `&mut T`
+- `Layout::dangling_ptr` / `Layout::repeat` / `Layout::repeat_packed` /
+  `Layout::extend_packed`
+- `MaybeUninit<[T; N]>` conversions (`From`, `AsRef`, `AsMut`)
+- `Cell<[T; N]>` / `Cell<[T]>` `AsRef` impls
+- `fmt::from_fn` now const
+- `ControlFlow::is_break` / `ControlFlow::is_continue` now const
+
+### Rustdoc
+
+- Unstable items now rank lower in search results
+- New "hide deprecated items" setting
+
+### Breaking / Compatibility
+
+- Array coercions may now result in fewer inference constraints than before
+- Importing `$crate` without renaming (`use $crate::{self}`) is no longer
+  permitted
+- Future-incompatibility lint `ambiguous_glob_imported_traits` now reported
+  when using an ambiguously glob-imported trait
+- Deprecate `Eq::assert_receiver_is_total_eq` with future-compat warnings on
+  manual impls
+- Matching on a `#[non_exhaustive]` enum now reads the discriminant even if
+  the enum has only one variant (may affect closure captures)
+- `mut ref` / `mut ref mut` patterns accidentally allowed on stable in struct
+  field shorthand are now correctly feature-gated
+- JSON target specs destabilized — now require `-Z unstable-options`
+- Future-compat warning for derive helper attributes conflicting with built-in
+  attributes
+
+### Internal
+
+- Update to **LLVM 22**
 
 ---
 

@@ -28,19 +28,15 @@ fn demo_allow() {
 // Similar to C's `#ifdef`, but type-checked and more powerful.
 // The item is only compiled when the condition is true.
 
-#[cfg(target_os = "macos")]
+// Pre-1.95: three separate `#[cfg]` functions for each platform.
+// Since 1.95: `cfg_select!` consolidates platform-conditional logic
+// into a single function body — less repetition, easier to read.
 fn platform_message() -> &'static str {
-    "Running on macOS"
-}
-
-#[cfg(target_os = "linux")]
-fn platform_message() -> &'static str {
-    "Running on Linux"
-}
-
-#[cfg(target_os = "windows")]
-fn platform_message() -> &'static str {
-    "Running on Windows"
+    cfg_select! {
+        target_os = "macos" => { "Running on macOS" }
+        target_os = "linux" => { "Running on Linux" }
+        target_os = "windows" => { "Running on Windows" }
+    }
 }
 
 // `cfg!()` macro returns a bool at runtime (the item is always compiled).
@@ -80,9 +76,23 @@ fn square(x: i32) -> i32 {
 }
 
 /// A function that's rarely called (helps branch prediction).
+/// `#[cold]` marks the entire function as unlikely to be called.
 #[cold]
 fn handle_error(msg: &str) {
     eprintln!("Error: {msg}");
+}
+
+/// Demonstrates `core::hint::cold_path` (stabilized in Rust 1.95).
+/// Unlike `#[cold]` which marks a whole function, `cold_path()` hints
+/// that a particular *branch* within a function is unlikely.
+/// This helps the optimizer lay out code so the hot path stays inline.
+fn validate_input(s: &str) -> Result<&str, String> {
+    if s.is_empty() {
+        // Tell the compiler this branch is rarely taken.
+        core::hint::cold_path();
+        return Err("input cannot be empty".to_string());
+    }
+    Ok(s)
 }
 
 /// Returns a value that should not be ignored.
@@ -144,6 +154,12 @@ fn main() {
         handle_error("this won't run");
     }
 
+    // cold_path (1.95) — inline branch hint
+    match validate_input("hello") {
+        Ok(s) => println!("validated: {s}"),
+        Err(e) => println!("error: {e}"),
+    }
+
     // --- Common attributes summary ---
     println!();
     println!("Common attributes:");
@@ -156,6 +172,8 @@ fn main() {
     println!("  #[must_use]:        warn if return value ignored");
     println!("  #[inline]:          suggest inlining");
     println!("  #[doc = \"...\"]]:    documentation (/// syntax)");
+    println!("  cold_path():          hint that a branch is unlikely (1.95)");
+    println!("  cfg_select!:          inline conditional compilation (1.95)");
 
     // --- Gotcha: inner vs outer attributes ---
     // `#![...]` (with `!`) applies to the *parent* (file, module, crate).
@@ -196,5 +214,15 @@ mod tests {
     #[test]
     fn test_new_function() {
         assert_eq!(new_function(), 42);
+    }
+
+    #[test]
+    fn test_validate_input_ok() {
+        assert_eq!(validate_input("hello"), Ok("hello"));
+    }
+
+    #[test]
+    fn test_validate_input_empty() {
+        assert!(validate_input("").is_err());
     }
 }

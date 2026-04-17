@@ -47,6 +47,9 @@ struct User {
 /// Returns `UserError` if any field is invalid.
 fn create_user(name: &str, age_str: &str, email: &str) -> Result<User, UserError> {
     if name.is_empty() {
+        // `cold_path()` (Rust 1.95): hints to the optimizer that this
+        // error branch is unlikely, keeping the happy path inline.
+        core::hint::cold_path();
         return Err(UserError::EmptyName);
     }
 
@@ -54,10 +57,12 @@ fn create_user(name: &str, age_str: &str, email: &str) -> Result<User, UserError
     let age: u32 = age_str.parse()?;
 
     if age > 150 {
+        core::hint::cold_path();
         return Err(UserError::InvalidAge(age));
     }
 
     if !email.contains('@') {
+        core::hint::cold_path();
         return Err(UserError::InvalidEmail(email.to_string()));
     }
 

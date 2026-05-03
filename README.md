@@ -4,6 +4,48 @@ A comprehensive Rust learning project with **323 standalone examples** across **
 
 The topic list and section structure are based on the Udemy course [Learn to Code with Rust](https://www.udemy.com/course/learn-to-code-with-rust/). Thanks to the course author for the excellent curriculum.
 
+## Why Rust?
+
+Rust is the first language to prove that memory safety and zero-cost abstraction
+are not opposites. The borrow checker rejects dangling pointers and data races
+at *compile time* — not with a GC at runtime, not with sanitisers at test time.
+You get C-level performance with the guarantee that your code cannot segfault or
+have undefined behaviour from memory misuse. That is why AWS, Cloudflare, the
+Linux kernel, and Windows are all adopting Rust for new systems code.
+
+```rust
+// The borrow checker: only one owner at a time — use-after-free is a compile error
+let s1 = String::from("hello");
+let s2 = s1;          // ownership moved: s1 is no longer valid
+// println!("{s1}"); // ERROR: value borrowed after move
+
+// Fearless concurrency: Arc<Mutex<T>> makes the sharing contract explicit
+let counter = Arc::new(Mutex::new(0));
+let c = Arc::clone(&counter);
+thread::spawn(move || { *c.lock().unwrap() += 1; });
+
+// Result<T, E>: errors are values — you cannot ignore them silently
+fn parse(s: &str) -> Result<i32, ParseIntError> {
+    s.trim().parse()  // propagate with ? instead of try/catch
+}
+```
+
+*vs C++*: C++ trusts you; Rust verifies you. Both produce the same machine code;
+only Rust makes it impossible to ship memory bugs. *vs Go*: Go's GC trades
+some latency and memory for simplicity; Rust's ownership model trades a steeper
+learning curve for deterministic, GC-free resource management.
+
+### Showcase coverage
+
+| Must-have | Covered by |
+|-----------|------------|
+| Ownership / move semantics | `examples/s06_clone.rs`, `examples/s06_drop_function.rs` |
+| Borrow checker (mutable borrow rules) | `examples/s20_capture_mut_refs.rs`, `examples/s19_elision_rules.rs` |
+| `Result<T, E>` / `?` operator | `examples/s12_result_parse.rs`, `examples/s17_question_mark_option.rs` |
+| `Arc<Mutex<T>>` (shared mutable state across threads) | `examples/s26_smart_pointers.rs` |
+| Traits / generics | `examples/s18_copy_trait.rs`, `examples/s21_collect.rs` |
+| Unsafe / raw pointers | `examples/s26_raw_pointers_unsafe.rs` |
+
 ## Quick Start
 
 ```bash

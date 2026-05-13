@@ -1,5 +1,7 @@
 # Learn Rust
 
+> First commit: 2026-03-23
+
 A comprehensive Rust learning project with **323 standalone examples** across **28 sections**, progressing from basics to smart pointers and web APIs, plus **72 LeetCode solutions** with benchmarks. Each topic is a self-contained file with `fn main()`, inline comments explaining Rust-specific nuances, and unit tests.
 
 The topic list and section structure are based on the Udemy course [Learn to Code with Rust](https://www.udemy.com/course/learn-to-code-with-rust/). Thanks to the course author for the excellent curriculum.

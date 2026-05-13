@@ -81,6 +81,7 @@ learn_rust/
 ├── docs/                            # Interview prep & reference docs
 ├── src/main.rs
 ├── PLAN.md                          # Full roadmap with all 340 topics + 72 LC
+├── CHEATSHEET.md                    # Quick reference
 └── README.md
 ```
 

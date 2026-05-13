@@ -46,6 +46,22 @@ learning curve for deterministic, GC-free resource management.
 | Traits / generics | `examples/s18_copy_trait.rs`, `examples/s21_collect.rs` |
 | Unsafe / raw pointers | `examples/s26_raw_pointers_unsafe.rs` |
 
+## macOS Environment Setup
+
+```sh
+# Install Homebrew first if needed: https://brew.sh
+brew install rustup-init
+rustup-init -y
+source "$HOME/.cargo/env"
+
+# Install the toolchain pinned by rust-toolchain.toml and common checks.
+rustup show
+rustc --version
+cargo --version
+```
+
+`cargo test --workspace` downloads crates on first run. Add `rustup component add clippy rustfmt` if you want lint/format checks locally.
+
 ## Quick Start
 
 ```bash

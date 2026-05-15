@@ -6,6 +6,11 @@ A comprehensive Rust learning project with **323 standalone examples** across **
 
 The topic list and section structure are based on the Udemy course [Learn to Code with Rust](https://www.udemy.com/course/learn-to-code-with-rust/). Thanks to the course author for the excellent curriculum.
 
+## Repo Metadata
+
+- Repo start date: 2026-04-24
+- Related tech stack versions: Rust stable
+
 ## Why Rust?
 
 Rust is the first language to prove that memory safety and zero-cost abstraction

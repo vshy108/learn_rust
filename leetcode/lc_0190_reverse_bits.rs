@@ -16,10 +16,11 @@
 // Test: cargo test --example lc_0190_reverse_bits
 // Bench: cargo test --example lc_0190_reverse_bits bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — iterate 32 times: shift result left, append the
+/// LSB of the input, then shift the input right.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(1) — exactly 32 iterations.
+/// Space: O(1).
 mod my_solution {
     pub struct Solution;
 

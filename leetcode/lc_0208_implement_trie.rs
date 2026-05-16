@@ -19,10 +19,11 @@
 // Test: cargo test --example lc_0208_implement_trie
 // Bench: cargo test --example lc_0208_implement_trie bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — HashMap-based trie: each TrieNode owns a
+/// HashMap<u8, Box<TrieNode>> for children and an is_end flag.
 ///
-/// Time: O(m) per operation (m = word length).
-/// Space: O(total characters inserted).
+/// Time: O(n) per insert/search/startsWith where n is the word length.
+/// Space: O(n * m) total where m is the number of inserted words.
 mod my_solution {
     use std::collections::HashMap;
 

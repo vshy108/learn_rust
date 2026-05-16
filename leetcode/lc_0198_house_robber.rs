@@ -16,10 +16,10 @@
 // Test: cargo test --example lc_0198_house_robber
 // Bench: cargo test --example lc_0198_house_robber bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — DP with a full array: dp[i] = max(dp[i-1], dp[i-2] + nums[i]).
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n).
+/// Space: O(n) for the dp array.
 mod my_solution {
     pub struct Solution;
 

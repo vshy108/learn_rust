@@ -16,10 +16,12 @@
 // Test: cargo test --example lc_0188_best_time_stock_iv
 // Bench: cargo test --example lc_0188_best_time_stock_iv bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — if k >= n/2 use greedy (sum all positive diffs);
+/// otherwise use O(k) DP with buy[j] and sell[j] arrays tracking the
+/// best profit after the j-th buy and j-th sell respectively.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n · k) in general; O(n) when k >= n/2.
+/// Space: O(k).
 mod my_solution {
     pub struct Solution;
 

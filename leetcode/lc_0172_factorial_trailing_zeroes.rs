@@ -16,10 +16,11 @@
 // Test: cargo test --example lc_0172_factorial_trailing_zeroes
 // Bench: cargo test --example lc_0172_factorial_trailing_zeroes bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — count factors of 5 in 1..=n using repeated division:
+/// floor(n/5) + floor(n/25) + floor(n/125) + ...
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(log₅ n).
+/// Space: O(1).
 mod my_solution {
     pub struct Solution;
 

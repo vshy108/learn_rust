@@ -68,10 +68,11 @@ fn build_tree(vals: &[Option<i32>]) -> Option<Rc<RefCell<TreeNode>>> {
     Some(root)
 }
 
-/// My solution — todo.
+/// My solution — DFS visiting the right child first; the first node
+/// encountered at each depth level is the rightmost visible node.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n) — every node visited once.
+/// Space: O(h) recursion stack where h is the tree height.
 mod my_solution {
     use super::*;
 

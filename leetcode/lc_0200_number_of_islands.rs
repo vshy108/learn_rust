@@ -16,10 +16,11 @@
 // Test: cargo test --example lc_0200_number_of_islands
 // Bench: cargo test --example lc_0200_number_of_islands bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — DFS flood-fill: when a '1' cell is found, increment
+/// the count and recursively mark all connected '1' cells as '0'.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(m * n) — each cell visited at most once.
+/// Space: O(m * n) for the recursion stack in the worst case.
 mod my_solution {
     pub struct Solution;
 

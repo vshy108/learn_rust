@@ -16,10 +16,12 @@
 // Test: cargo test --example lc_0210_course_schedule_ii
 // Bench: cargo test --example lc_0210_course_schedule_ii bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — DFS topological sort with 3-state colouring;
+/// nodes are appended to the order Vec after all descendants are
+/// processed, then the Vec is reversed.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(V + E).
+/// Space: O(V + E) for the adjacency list, state array, and result.
 mod my_solution {
     pub struct Solution;
 

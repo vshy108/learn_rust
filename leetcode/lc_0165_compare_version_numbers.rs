@@ -18,10 +18,11 @@
 // Test: cargo test --example lc_0165_compare_version_numbers
 // Bench: cargo test --example lc_0165_compare_version_numbers bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — split each version by '.', parse revisions as i32,
+/// then compare revision-by-revision, treating missing revisions as 0.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n + m) where n, m are the lengths of the two version strings.
+/// Space: O(n + m) for the parsed revision vectors.
 mod my_solution {
     pub struct Solution;
 

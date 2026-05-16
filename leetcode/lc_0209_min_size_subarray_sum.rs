@@ -17,10 +17,12 @@
 // Test: cargo test --example lc_0209_min_size_subarray_sum
 // Bench: cargo test --example lc_0209_min_size_subarray_sum bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — sliding window: expand the right pointer accumulating
+/// sum; once sum >= target, record the window length and shrink from
+/// the left to find the minimum.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n).
+/// Space: O(1).
 mod my_solution {
     pub struct Solution;
 

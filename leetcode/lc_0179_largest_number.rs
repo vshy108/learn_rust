@@ -16,10 +16,12 @@
 // Test: cargo test --example lc_0179_largest_number
 // Bench: cargo test --example lc_0179_largest_number bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — custom sort: for two strings a and b, compare the
+/// concatenation "ab" vs "ba" to determine which should come first.
+/// Edge case: if the largest element is "0" the entire result is "0".
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n log n · k) where k is the max digit length.
+/// Space: O(n · k) for the string representations.
 mod my_solution {
     pub struct Solution;
 

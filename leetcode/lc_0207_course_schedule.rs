@@ -16,10 +16,12 @@
 // Test: cargo test --example lc_0207_course_schedule
 // Bench: cargo test --example lc_0207_course_schedule bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — DFS cycle detection with 3-state node colouring:
+/// 0 = unvisited, 1 = currently on the DFS stack, 2 = fully processed.
+/// A back-edge (visiting a node in state 1) means a cycle.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(V + E).
+/// Space: O(V + E) for the adjacency list and state array.
 mod my_solution {
     pub struct Solution;
 

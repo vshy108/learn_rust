@@ -18,22 +18,52 @@
 // Test: cargo test --example lc_0164_maximum_gap
 // Bench: cargo test --example lc_0164_maximum_gap bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — bucket / pigeonhole gap scan.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n).
+/// Space: O(n).
 mod my_solution {
     pub struct Solution;
 
     impl Solution {
         /// Return the maximum gap between successive elements in sorted order.
-        pub fn maximum_gap(mut nums: Vec<i32>) -> i32 {
-            if nums.len() < 2 {
+        pub fn maximum_gap(nums: Vec<i32>) -> i32 {
+            let n = nums.len();
+            if n < 2 {
                 return 0;
             }
-            // Simple approach: sort and scan for max gap — O(n log n)
-            nums.sort_unstable();
-            nums.windows(2).map(|w| w[1] - w[0]).max().unwrap_or(0)
+
+            let min_value = *nums.iter().min().expect("non-empty");
+            let max_value = *nums.iter().max().expect("non-empty");
+            if min_value == max_value {
+                return 0;
+            }
+
+            let range = (max_value - min_value) as usize;
+            let bucket_size = range.div_ceil(n - 1).max(1);
+            let bucket_count = range / bucket_size + 1;
+            let mut buckets: Vec<Option<(i32, i32)>> = vec![None; bucket_count];
+
+            for num in nums {
+                let idx = (num - min_value) as usize / bucket_size;
+                buckets[idx] = Some(match buckets[idx] {
+                    Some((low, high)) => (low.min(num), high.max(num)),
+                    None => (num, num),
+                });
+            }
+
+            let mut best_gap = 0;
+            let mut previous_max = min_value;
+            for bucket in buckets.into_iter().flatten() {
+                let (bucket_min, bucket_max) = bucket;
+                // FIX: Sorting passes the sample cases but violates the required O(n) time.
+                // The pigeonhole bucket scan only compares gaps between non-empty buckets,
+                // where the maximum sorted-adjacent gap must occur.
+                best_gap = best_gap.max(bucket_min - previous_max);
+                previous_max = bucket_max;
+            }
+
+            best_gap
         }
     }
 }

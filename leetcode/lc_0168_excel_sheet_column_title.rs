@@ -16,10 +16,11 @@
 // Test: cargo test --example lc_0168_excel_sheet_column_title
 // Bench: cargo test --example lc_0168_excel_sheet_column_title bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — repeatedly subtract 1 (to shift A..Z → 0..25),
+/// take mod 26 to get the current character, divide by 26, and prepend.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(log₂₆ n).
+/// Space: O(log₂₆ n) for the result characters.
 mod my_solution {
     pub struct Solution;
 

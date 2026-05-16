@@ -50,10 +50,11 @@ fn to_vec(mut head: Option<Box<ListNode>>) -> Vec<i32> {
     result
 }
 
-/// My solution — todo.
+/// My solution — recursive removal: recurse on node.next first,
+/// then skip the current node if its value equals val.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n).
+/// Space: O(n) recursion stack.
 mod my_solution {
     use super::ListNode;
 

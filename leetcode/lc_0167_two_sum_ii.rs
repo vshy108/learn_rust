@@ -17,10 +17,11 @@
 // Test: cargo test --example lc_0167_two_sum_ii
 // Bench: cargo test --example lc_0167_two_sum_ii bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — for each element, binary-search the remaining
+/// sorted suffix for its complement.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n log n).
+/// Space: O(1).
 mod my_solution {
     pub struct Solution;
 

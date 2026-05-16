@@ -17,10 +17,12 @@
 // Test: cargo test --example lc_0174_dungeon_game
 // Bench: cargo test --example lc_0174_dungeon_game bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — 2D DP from bottom-right to top-left.
+/// dp[i][j] = minimum health needed on entry to cell (i,j),
+/// computed as max(1, min(dp[i+1][j], dp[i][j+1]) - dungeon[i][j]).
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(m * n).
+/// Space: O(m * n) for the DP table.
 mod my_solution {
     pub struct Solution;
 

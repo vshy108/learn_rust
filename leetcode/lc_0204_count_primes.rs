@@ -15,10 +15,11 @@
 // Test: cargo test --example lc_0204_count_primes
 // Bench: cargo test --example lc_0204_count_primes bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — Sieve of Eratosthenes: mark each prime's multiples
+/// as composite starting from p*p.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n log log n).
+/// Space: O(n) for the boolean sieve array.
 mod my_solution {
     pub struct Solution;
 

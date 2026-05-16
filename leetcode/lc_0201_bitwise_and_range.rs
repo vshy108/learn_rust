@@ -15,10 +15,12 @@
 // Test: cargo test --example lc_0201_bitwise_and_range
 // Bench: cargo test --example lc_0201_bitwise_and_range bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — right-shift both left and right until they are equal
+/// (finding the common binary prefix), then left-shift back by the
+/// number of shifts performed.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(1) — at most 31 shifts.
+/// Space: O(1).
 mod my_solution {
     pub struct Solution;
 

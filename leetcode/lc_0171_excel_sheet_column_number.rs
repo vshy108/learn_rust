@@ -16,10 +16,11 @@
 // Test: cargo test --example lc_0171_excel_sheet_column_number
 // Bench: cargo test --example lc_0171_excel_sheet_column_number bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — treat the title as a base-26 number with A=1..Z=26,
+/// accumulating result = result * 26 + digit for each character.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n) where n is the length of the column title.
+/// Space: O(1).
 mod my_solution {
     pub struct Solution;
 

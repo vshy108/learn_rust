@@ -16,10 +16,11 @@
 // Test: cargo test --example lc_0166_fraction_to_recurring_decimal
 // Bench: cargo test --example lc_0166_fraction_to_recurring_decimal bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — long division with a HashMap to detect the first
+/// position where a remainder repeats; insert parentheses at that index.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(d) where d is the length of the repeating block (bounded by denominator).
+/// Space: O(d) for the HashMap and result string.
 mod my_solution {
     pub struct Solution;
 

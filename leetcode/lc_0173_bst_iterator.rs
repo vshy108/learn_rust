@@ -52,10 +52,11 @@ fn sorted_to_bst(vals: &[i32]) -> Option<Rc<RefCell<TreeNode>>> {
     Some(Rc::new(RefCell::new(node)))
 }
 
-/// My solution — todo.
+/// My solution — flatten the BST into a sorted Vec via recursive
+/// in-order traversal at construction; next() and has_next() are O(1).
 ///
-/// Time: O(1) amortized per next().
-/// Space: O(h).
+/// Time: O(n) to construct; O(1) per next/has_next call.
+/// Space: O(n) for the flattened Vec.
 mod my_solution {
     use super::*;
 

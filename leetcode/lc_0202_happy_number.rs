@@ -16,10 +16,11 @@
 // Test: cargo test --example lc_0202_happy_number
 // Bench: cargo test --example lc_0202_happy_number bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — compute digit-square-sum repeatedly; use a HashSet
+/// to detect a cycle (non-happy) before reaching 1.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(log n) per step, bounded total iterations.
+/// Space: O(k) for the HashSet where k is the cycle length.
 mod my_solution {
     pub struct Solution;
 

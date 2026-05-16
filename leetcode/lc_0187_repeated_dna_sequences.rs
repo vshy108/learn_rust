@@ -15,10 +15,11 @@
 // Test: cargo test --example lc_0187_repeated_dna_sequences
 // Bench: cargo test --example lc_0187_repeated_dna_sequences bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — slide a 10-character window across the string and
+/// count each substring in a HashMap; collect those with count > 1.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(n) — each 10-char window is a &str slice, O(1) to hash.
+/// Space: O(n) for the HashMap.
 mod my_solution {
     pub struct Solution;
 

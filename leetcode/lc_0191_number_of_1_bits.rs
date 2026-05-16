@@ -15,10 +15,11 @@
 // Test: cargo test --example lc_0191_number_of_1_bits
 // Bench: cargo test --example lc_0191_number_of_1_bits bench -- --nocapture
 
-/// My solution — todo.
+/// My solution — shift-and-count: check the LSB with `n & 1`,
+/// accumulate, then right-shift until n reaches 0.
 ///
-/// Time: O(?).
-/// Space: O(?).
+/// Time: O(1) — at most 32 iterations.
+/// Space: O(1).
 mod my_solution {
     pub struct Solution;
 

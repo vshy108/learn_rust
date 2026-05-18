@@ -483,6 +483,10 @@ cargo fmt --all --check
 
 - [x] 340. `s28_axum_api` — Full CRUD REST API (in-memory store, CORS)
 
+## Section 30: Rust 1.90-1.92 Latest Stable Features
+
+- [x] 341. `s30_rust_190_192_features` — unsigned signed-sub helpers, `NonZero::div_ceil`, `BTreeMap::insert_entry`, const slice rotation
+
 ---
 
 ## LeetCode Solutions (72 problems)

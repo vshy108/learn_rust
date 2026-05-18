@@ -483,9 +483,13 @@ cargo fmt --all --check
 
 - [x] 340. `s28_axum_api` — Full CRUD REST API (in-memory store, CORS)
 
+## Section 29: Rust 2024 Edition
+
+- [x] 341. `s29_edition2024` — let-chains, unsafe extern blocks, precise `use<'_>` RPIT lifetime capture
+
 ## Section 30: Rust 1.90-1.92 Latest Stable Features
 
-- [x] 341. `s30_rust_190_192_features` — unsigned signed-sub helpers, `NonZero::div_ceil`, `BTreeMap::insert_entry`, const slice rotation
+- [x] 342. `s30_rust_190_192_features` — unsigned signed-sub helpers, `NonZero::div_ceil`, `BTreeMap::insert_entry`, const slice rotation
 
 ---
 

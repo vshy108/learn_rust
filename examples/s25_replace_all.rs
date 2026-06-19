@@ -17,6 +17,7 @@ fn main() {
     println!("replaced: {result}");
 
     // --- 2. Replace with capture groups ---
+    // can name the group with ?<xxx>  and later represent by $xxx
     let re = Regex::new(r"(\w+)@(\w+)\.(\w+)").expect("invalid");
     let result = re.replace_all("alice@example.com bob@test.org", "$1 at $2 dot $3");
     println!("emails: {result}");
@@ -67,6 +68,13 @@ mod tests {
     fn test_replace_with_groups() {
         let re = Regex::new(r"(\w+)-(\w+)").unwrap();
         let result = re.replace("foo-bar", "$2-$1");
+        assert_eq!(result, "bar-foo");
+    }
+
+    #[test]
+    fn test_replace_with_named_groups() {
+        let re = Regex::new(r"(?<first>\w+)-(?<second>\w+)").unwrap();
+        let result = re.replace("foo-bar", "$second-$first");
         assert_eq!(result, "bar-foo");
     }
 }

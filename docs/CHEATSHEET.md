@@ -19,6 +19,7 @@
 - [Type Conversions: From / Into / TryInto / as](#type-conversions-from--into--tryinto--as)
 - [Generics](#generics)
 - [Lifetimes](#lifetimes)
+- [Advanced Type System](#advanced-type-system)
 - [Collections](#collections)
   - [Vec\<T\>](#vect)
   - [HashMap\<K, V\>](#hashmapk-v)
@@ -43,6 +44,8 @@
 - [Useful str Methods](#useful-str-methods)
 - [Checked & Saturating Arithmetic](#checked--saturating-arithmetic)
 - [Benchmarking Pattern](#benchmarking-pattern)
+- [Unsafe & FFI](#unsafe--ffi)
+- [Performance & Memory Layout](#performance--memory-layout)
 - [LeetCode Algorithm Patterns](#leetcode-algorithm-patterns)
 - [BTreeMap & BTreeSet](#btreemap--btreeset)
 - [Trait Objects (dyn)](#trait-objects-dyn)
@@ -55,6 +58,79 @@
 - [LeetCode Algorithm Patterns (Extended)](#leetcode-algorithm-patterns-extended)
 
 ---
+
+## Learning Sequence
+
+Follow this order if the goal is to become productive quickly and then move into advanced Rust systems work.
+
+### Foundation
+
+Start with the language core and the ownership model:
+
+1. [Variables & Mutability](#variables--mutability)
+1. [Scalar Types](#scalar-types)
+1. [Numeric Methods](#numeric-methods)
+1. [Compound Types](#compound-types)
+1. [Strings](#strings)
+1. [Ownership Rules](#ownership-rules)
+1. [References & Borrowing](#references--borrowing)
+1. [Slices](#slices)
+1. [Functions](#functions)
+1. [Control Flow](#control-flow)
+1. [Structs](#structs)
+1. [Enums](#enums)
+1. [Type Conversions: From / Into / TryInto / as](#type-conversions-from--into--tryinto--as)
+1. [Generics](#generics)
+1. [Lifetimes](#lifetimes)
+
+### Production
+
+Move here once the ownership model feels automatic:
+
+1. [Error Handling](#error-handling)
+1. [Traits](#traits)
+1. [Collections](#collections)
+1. [Iterators](#iterators)
+1. [Smart Pointers](#smart-pointers)
+1. [Closures & Higher-Order Functions](#closures--higher-order-functions)
+1. [Modules & Visibility](#modules--visibility)
+1. [Common Patterns](#common-patterns)
+1. [std Utility Functions](#std-utility-functions)
+1. [Testing](#testing)
+1. [Cargo Commands](#cargo-commands)
+1. [Concurrency](#concurrency)
+1. [Async / Await](#async--await)
+1. [Useful Macros](#useful-macros)
+
+### Advanced Systems
+
+Use this phase to understand how advanced Rust codebases are built and optimized:
+
+1. [Advanced Type System](#advanced-type-system)
+1. [Unsafe & FFI](#unsafe--ffi)
+1. [Performance & Memory Layout](#performance--memory-layout)
+
+### Practice
+
+Use these sections to build problem-solving speed and pattern recognition:
+
+1. [Common Gotchas](#common-gotchas)
+1. [Byte-Level String Processing](#byte-level-string-processing)
+1. [HashMap Advanced Patterns](#hashmap-advanced-patterns)
+1. [Useful Vec Methods](#useful-vec-methods)
+1. [Useful str Methods](#useful-str-methods)
+1. [Checked & Saturating Arithmetic](#checked--saturating-arithmetic)
+1. [Benchmarking Pattern](#benchmarking-pattern)
+1. [LeetCode Algorithm Patterns](#leetcode-algorithm-patterns)
+1. [BTreeMap & BTreeSet](#btreemap--btreeset)
+1. [Trait Objects (dyn)](#trait-objects-dyn)
+1. [Display Trait](#display-trait)
+1. [Pattern Matching Advanced](#pattern-matching-advanced)
+1. [Bit Manipulation](#bit-manipulation)
+1. [Iterator: scan (Stateful Transform)](#iterator-scan-stateful-transform)
+1. [Array Initialization: from_fn](#array-initialization-from_fn)
+1. [LeetCode Data Structures](#leetcode-data-structures)
+1. [LeetCode Algorithm Patterns (Extended)](#leetcode-algorithm-patterns-extended)
 
 ## Variables & Mutability
 
@@ -642,6 +718,58 @@ struct Excerpt<'a> {
 let s: &'static str = "I live forever";
 ```
 
+## Advanced Type System
+
+```rust
+// Higher-ranked trait bounds (HRTBs) let a function work for any input lifetime.
+fn call_with_str<F>(f: F)
+where
+    F: for<'a> Fn(&'a str),
+{
+    f("hello");
+}
+
+// Associated types make traits easier to use than extra generic parameters.
+trait IteratorLike {
+    type Item;
+    fn next(&mut self) -> Option<Self::Item>;
+}
+
+// Generic associated types (GATs) allow an associated type to depend on a lifetime.
+trait LendingIterator {
+    type Item<'a>
+    where
+        Self: 'a;
+
+    fn next<'a>(&'a mut self) -> Option<Self::Item<'a>>;
+}
+
+// Phantom types encode extra compile-time meaning without runtime cost.
+use std::marker::PhantomData;
+
+struct Meter;
+struct Second;
+
+struct Quantity<Unit> {
+    value: f64,
+    _unit: PhantomData<Unit>,
+}
+
+// Type-state pattern: make invalid states unrepresentable.
+struct Closed;
+struct Open;
+
+struct Door<State> {
+    _state: PhantomData<State>,
+}
+
+impl Door<Closed> {
+    fn open(self) -> Door<Open> {
+        Door { _state: PhantomData }
+    }
+}
+```
+
 ## Collections
 
 ### Vec\<T\>
@@ -972,13 +1100,17 @@ std::thread::spawn(move || {
 ```rust
 use std::thread;
 use std::sync::{Arc, Mutex};
-use std::sync::mpsc;
+use std::sync::{mpsc, RwLock};
 
 // Spawn a thread
 let handle = thread::spawn(|| {
     println!("Hello from thread");
 });
 handle.join().unwrap();
+
+// `move` is required when the spawned thread may outlive the current scope.
+let name = String::from("rust");
+thread::spawn(move || println!("{name}"));
 
 // Share data with Arc + Mutex
 let counter = Arc::new(Mutex::new(0));
@@ -988,10 +1120,25 @@ let h = thread::spawn(move || {
 });
 h.join().unwrap();
 
+// Use RwLock when reads dominate writes.
+let config = Arc::new(RwLock::new(String::from("default")));
+{
+    let guard = config.read().unwrap();
+    println!("{guard}");
+}
+
 // Message passing with channels
 let (tx, rx) = mpsc::channel();
 thread::spawn(move || tx.send(42).unwrap());
 let val = rx.recv().unwrap();   // blocks until message arrives
+
+// `Send` means a value can move to another thread; `Sync` means `&T` can be shared.
+// Most thread-safe shared state combines `Arc` with `Mutex` or `RwLock`.
+
+// Scoped threads are useful when you want to borrow from the current stack frame.
+thread::scope(|scope| {
+    scope.spawn(|| println!("borrowed data stays valid in scope"));
+});
 ```
 
 ## Async / Await
@@ -999,10 +1146,12 @@ let val = rx.recv().unwrap();   // blocks until message arrives
 ```rust
 // Requires tokio (or another async runtime)
 use tokio;
+use tokio::time::{sleep, Duration};
 
 #[tokio::main]
 async fn main() {
     let result = fetch_data().await;
+    println!("{result}");
 }
 
 async fn fetch_data() -> String {
@@ -1013,11 +1162,27 @@ async fn fetch_data() -> String {
 // Run two futures concurrently
 let (a, b) = tokio::join!(task_a(), task_b());
 
-// Spawn background task
-tokio::spawn(async { long_work().await });
+// `tokio::spawn` runs a future on the runtime and returns a JoinHandle.
+let handle = tokio::spawn(async {
+    sleep(Duration::from_millis(10)).await;
+    7
+});
+let value = handle.await.unwrap();
+
+// Spawn background task that can be cancelled later.
+let task = tokio::spawn(async { long_work().await });
+task.abort();
 
 // CPU-bound work — don't block the async reactor
 tokio::task::spawn_blocking(|| heavy_computation()).await.unwrap();
+
+// `select!` waits for the first future that completes.
+tokio::select! {
+    _ = task_a() => println!("task_a finished first"),
+    _ = task_b() => println!("task_b finished first"),
+}
+
+// Async code should avoid long blocking calls; move blocking work to `spawn_blocking`.
 ```
 
 ## Modules & Visibility
@@ -1090,6 +1255,7 @@ min_heap.pop();                        // Some(Reverse(2)) — smallest first
 ## Useful Macros
 
 ```rust
+// Built-in macros
 println!("{}", x)           // print with newline
 eprintln!("{}", x)          // print to stderr
 format!("{:?}", x)          // format to String
@@ -1101,6 +1267,38 @@ panic!("message")           // unrecoverable error
 todo!()                     // marks unfinished code (panics if reached)
 unreachable!()              // marks code that should never run
 dbg!(expr)                  // prints file/line + value, returns value
+
+// `macro_rules!` is declarative macro syntax: it rewrites tokens before type checking.
+macro_rules! say_hello {
+    () => {
+        println!("hello");
+    };
+}
+
+say_hello!();
+
+// Repetition: capture a variable number of expressions.
+macro_rules! sum {
+    ($($value:expr),* $(,)?) => {
+        0 $(+ $value)*
+    };
+}
+
+let total = sum!(1, 2, 3, 4);
+
+// Hygiene: use `$crate` when a macro needs to refer to items from its own crate.
+// This keeps the macro working even when re-exported from another module.
+macro_rules! newtype {
+    ($name:ident) => {
+        pub struct $name(pub i32);
+    };
+}
+
+// Procedural macros are separate crates that operate on Rust syntax trees.
+// - derive macros: `#[derive(Debug, Clone, Serialize)]`
+// - attribute macros: `#[tokio::main]`, `#[test]`
+// - function-like macros: `sql!(...)`, `serde_json::json!(...)`
+// They are used when declarative macros are not expressive enough.
 ```
 
 ## Testing
@@ -1366,6 +1564,100 @@ for _ in 0..iterations {
 }
 let duration = start.elapsed();
 println!("avg {:?}", duration / iterations);
+```
+
+## Unsafe & FFI
+
+```rust
+// `unsafe` allows operations the compiler cannot fully verify.
+// Keep the unsafe block small and document the safety invariant around it.
+
+// Raw pointers can be null and do not obey Rust's borrow checker.
+let mut value = 5;
+let ptr: *mut i32 = &mut value;
+unsafe {
+    *ptr += 1;
+}
+
+// `Box::into_raw` hands ownership to raw pointer land; `from_raw` takes it back.
+let boxed = Box::new(10);
+let raw = Box::into_raw(boxed);
+unsafe {
+    *raw += 1;
+    let boxed_again = Box::from_raw(raw);
+    println!("{boxed_again}");
+}
+
+// `repr(C)` gives a stable layout for FFI with C.
+#[repr(C)]
+struct Point {
+    x: f32,
+    y: f32,
+}
+
+// `extern "C"` declares foreign functions.
+extern "C" {
+    fn abs(input: i32) -> i32;
+}
+
+unsafe {
+    let positive = abs(-5);
+    println!("{positive}");
+}
+
+// Slice creation from raw parts is unsafe because the pointer and length must be valid.
+let data = [1u8, 2, 3, 4];
+let ptr = data.as_ptr();
+unsafe {
+    let slice = std::slice::from_raw_parts(ptr, data.len());
+    println!("{}", slice[0]);
+}
+
+// Use `MaybeUninit` for partial initialization when building arrays or buffers manually.
+// It avoids reading uninitialized memory, which would be undefined behavior.
+```
+
+## Performance & Memory Layout
+
+```rust
+use std::mem::{align_of, size_of};
+
+// `size_of` and `align_of` help explain layout and padding costs.
+let size = size_of::<(u8, u32)>();
+let align = align_of::<(u8, u32)>();
+
+// `repr(C)` makes layout predictable for interop and layout-sensitive code.
+#[repr(C)]
+struct Packet {
+    tag: u8,
+    id: u32,
+}
+
+// `repr(transparent)` keeps wrapper overhead at zero for newtypes.
+#[repr(transparent)]
+struct UserId(u64);
+
+// Prefer contiguous storage and pre-allocation when you know the size.
+let mut values = Vec::with_capacity(1024);
+values.extend(0..1024);
+
+// Copying small `Copy` values is cheap; cloning heap types can allocate.
+let bytes = [0u8; 1024];
+let cloned = bytes.clone();
+
+// Allocation-heavy work should be measured with a profiler rather than guessed.
+// Common tools: `cargo bench`, `cargo flamegraph`, and `perf`/Instruments.
+
+// `#[inline]` is a hint, not a guarantee; use it sparingly and only when measured.
+#[inline]
+fn hot_path(x: u64) -> u64 {
+    x.wrapping_mul(2)
+}
+
+// For shared-state performance, choose the lightest synchronization primitive that fits.
+// - `Atomic*` for simple counters/flags
+// - `Mutex` for exclusive mutation
+// - `RwLock` when reads dominate writes
 ```
 
 ## LeetCode Algorithm Patterns

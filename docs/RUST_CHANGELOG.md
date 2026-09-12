@@ -5,11 +5,13 @@ Curated changelog of Rust releases focusing on **language changes**, common
 
 Source: [releases.rs](https://releases.rs/)
 
-> Versions covered: 1.85.0 (Edition 2024) through 1.95.0 (current as of April 2026).
+> Versions covered: 1.85.0 (Edition 2024) through 1.98.1 (current as of
+> September 2026).
 
 ## Table of Contents
 
 - [1.95.0](#1950--2026-04-16)
+- [Rust 1.98.1 compatibility check](#rust-1981-compatibility-check)
 - [1.94.1](#1941--2026-03-26-patch)
 - [1.94.0](#1940--2026-03-05)
 - [1.93.0](#1930--2026-01-22)
@@ -23,6 +25,32 @@ Source: [releases.rs](https://releases.rs/)
 - [1.85.0](#1850--2025-02-20) (Edition 2024)
 - [Edition Migration Quick Reference](#edition-migration-quick-reference)
 - [How to Update](#how-to-update)
+
+---
+
+## Rust 1.98.1 Compatibility Check
+
+`learn_rust` was upgraded from Rust 1.95.0 to the explicit 1.98.1 toolchain.
+The repository uses Rust edition 2024, so the edition did not change.
+
+### Observed Breaking Change
+
+The newly enabled `suspicious_runtime_symbol_definitions` lint rejects an FFI
+declaration named `strlen` when its type differs from the standard library's C
+ABI declaration. The example declared `*const u8`, but C `strlen` takes
+`*const c_char`. Rust 1.98.1 reports this as a warning during tests and as an
+error under this repository's `cargo clippy -- -D warnings` command.
+
+The lesson now declares `strlen` using `std::ffi::c_char` and passes the
+`CString` pointer directly. This preserves the real C ABI and requires no
+caller-facing behavior change.
+
+### Validation
+
+- `cargo +1.98.1 fmt --all --check`: passed after formatting four existing
+  examples that were missing a final newline.
+- `cargo +1.98.1 test --workspace`: passed.
+- `cargo +1.98.1 clippy --workspace -- -D warnings`: passed after the FFI fix.
 
 ---
 

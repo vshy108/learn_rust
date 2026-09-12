@@ -83,7 +83,9 @@ fn verified_email(user: Option<&User>) -> Option<String> {
 // SAFETY: `strlen` is a standard C function with a well-known ABI.
 // The caller must ensure `ptr` points to a valid null-terminated C string.
 unsafe extern "C" {
-    fn strlen(ptr: *const u8) -> usize;
+    // FIX: `u8` did not match the C `char` ABI expected by the runtime symbol,
+    // which Rust 1.98 rejects. `c_char` preserves the platform C ABI type.
+    fn strlen(ptr: *const std::ffi::c_char) -> usize;
 }
 
 fn c_string_len(s: &str) -> usize {
@@ -93,7 +95,7 @@ fn c_string_len(s: &str) -> usize {
     // CString to guarantee the null terminator.
     let cstring = std::ffi::CString::new(s).expect("no interior nuls");
     // SAFETY: `cstring.as_ptr()` is a valid null-terminated C string.
-    unsafe { strlen(cstring.as_ptr() as *const u8) }
+    unsafe { strlen(cstring.as_ptr()) }
 }
 
 // ---------------------------------------------------------------------------

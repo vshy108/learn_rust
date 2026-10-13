@@ -1,0 +1,14 @@
+[package]
+name = "rf_procedural_macros"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+proc-macro = true
+
+[dependencies]
+quote = "1"
+syn = "2"
+
+[workspace]

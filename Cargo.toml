@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-tokio = { version = "1", features = ["full"] }
+tokio = { version = "1", features = ["full", "test-util"] }
 rand = "0.9"
 chrono = "0.4"
 regex = "1"
@@ -2159,7 +2159,688 @@ path = "leetcode/lc_0378_kth_smallest_element_in_a_sorted_matrix.rs"
 name = "lc_0379_design_phone_directory"
 path = "leetcode/lc_0379_design_phone_directory.rs"
 
+[[example]]
+name = "rf_number_formatting"
+path = "rustfinity/rf_number_formatting.rs"
+
+[[example]]
+name = "rf_fizz_buzz"
+path = "rustfinity/rf_fizz_buzz.rs"
+
+[[example]]
+name = "rf_advanced_match_patterns"
+path = "rustfinity/rf_advanced_match_patterns.rs"
+
+[[example]]
+name = "rf_advanced_traits"
+path = "rustfinity/rf_advanced_traits.rs"
+
+[[example]]
+name = "rf_animal_sanctuary_registry"
+path = "rustfinity/rf_animal_sanctuary_registry.rs"
+
+[[example]]
+name = "rf_arc_thread_safety"
+path = "rustfinity/rf_arc_thread_safety.rs"
+
+[[example]]
+name = "rf_asref_asmut"
+path = "rustfinity/rf_asref_asmut.rs"
+
+[[example]]
+name = "rf_associated_types"
+path = "rustfinity/rf_associated_types.rs"
+
+[[example]]
+name = "rf_async_channels"
+path = "rustfinity/rf_async_channels.rs"
+
+[[example]]
+name = "rf_async_mutex"
+path = "rustfinity/rf_async_mutex.rs"
+
+[[example]]
+name = "rf_atomic_counters"
+path = "rustfinity/rf_atomic_counters.rs"
+
+[[example]]
+name = "rf_barrier_synchronization"
+path = "rustfinity/rf_barrier_synchronization.rs"
+
+[[example]]
+name = "rf_binary_heap_priority"
+path = "rustfinity/rf_binary_heap_priority.rs"
+
+[[example]]
+name = "rf_borrow_toowned"
+path = "rustfinity/rf_borrow_toowned.rs"
+
+[[example]]
+name = "rf_box_heap_allocation"
+path = "rustfinity/rf_box_heap_allocation.rs"
+
+[[example]]
+name = "rf_box_t"
+path = "rustfinity/rf_box_t.rs"
+
+[[example]]
+name = "rf_btreemap_basics"
+path = "rustfinity/rf_btreemap_basics.rs"
+
+[[example]]
+name = "rf_btreeset_ranges"
+path = "rustfinity/rf_btreeset_ranges.rs"
+
+[[example]]
+name = "rf_building_a_thread_pool"
+path = "rustfinity/rf_building_a_thread_pool.rs"
+
+[[example]]
+name = "rf_cell_refcell"
+path = "rustfinity/rf_cell_refcell.rs"
+
+[[example]]
+name = "rf_channels"
+path = "rustfinity/rf_channels.rs"
+
+[[example]]
+name = "rf_character_counting_string"
+path = "rustfinity/rf_character_counting_string.rs"
+
+[[example]]
+name = "rf_clone_copy_traits"
+path = "rustfinity/rf_clone_copy_traits.rs"
+
+[[example]]
+name = "rf_closure_types"
+path = "rustfinity/rf_closure_types.rs"
+
+[[example]]
+name = "rf_closures"
+path = "rustfinity/rf_closures.rs"
+
+[[example]]
+name = "rf_collecting_thread_results"
+path = "rustfinity/rf_collecting_thread_results.rs"
+
+[[example]]
+name = "rf_collection_conversions"
+path = "rustfinity/rf_collection_conversions.rs"
+
+[[example]]
+name = "rf_complex_enums"
+path = "rustfinity/rf_complex_enums.rs"
+
+[[example]]
+name = "rf_concurrency"
+path = "rustfinity/rf_concurrency.rs"
+
+[[example]]
+name = "rf_condvar_signaling"
+path = "rustfinity/rf_condvar_signaling.rs"
+
+[[example]]
+name = "rf_constants"
+path = "rustfinity/rf_constants.rs"
+
+[[example]]
+name = "rf_constructors"
+path = "rustfinity/rf_constructors.rs"
+
+[[example]]
+name = "rf_control_flow"
+path = "rustfinity/rf_control_flow.rs"
+
+[[example]]
+name = "rf_converting_numerical_types"
+path = "rustfinity/rf_converting_numerical_types.rs"
+
+[[example]]
+name = "rf_countdown"
+path = "rustfinity/rf_countdown.rs"
+
+[[example]]
+name = "rf_cow_copy_on_write"
+path = "rustfinity/rf_cow_copy_on_write.rs"
+
+[[example]]
+name = "rf_custom_iterators"
+path = "rustfinity/rf_custom_iterators.rs"
+
+[[example]]
+name = "rf_debug_display_derive"
+path = "rustfinity/rf_debug_display_derive.rs"
+
+[[example]]
+name = "rf_declaring_variables"
+path = "rustfinity/rf_declaring_variables.rs"
+
+[[example]]
+name = "rf_default_trait_patterns"
+path = "rustfinity/rf_default_trait_patterns.rs"
+
+[[example]]
+name = "rf_deref_derefmut"
+path = "rustfinity/rf_deref_derefmut.rs"
+
+[[example]]
+name = "rf_derive_debug_for_structs"
+path = "rustfinity/rf_derive_debug_for_structs.rs"
+
+[[example]]
+name = "rf_derive_partial_eq"
+path = "rustfinity/rf_derive_partial_eq.rs"
+
+[[example]]
+name = "rf_determine_number_characteristics"
+path = "rustfinity/rf_determine_number_characteristics.rs"
+
+[[example]]
+name = "rf_directory_traversal"
+path = "rustfinity/rf_directory_traversal.rs"
+
+[[example]]
+name = "rf_duration_operations"
+path = "rustfinity/rf_duration_operations.rs"
+
+[[example]]
+name = "rf_entry_api"
+path = "rustfinity/rf_entry_api.rs"
+
+[[example]]
+name = "rf_enums"
+path = "rustfinity/rf_enums.rs"
+
+[[example]]
+name = "rf_env_variables"
+path = "rustfinity/rf_env_variables.rs"
+
+[[example]]
+name = "rf_error_propagation"
+path = "rustfinity/rf_error_propagation.rs"
+
+[[example]]
+name = "rf_factorial_calculator"
+path = "rustfinity/rf_factorial_calculator.rs"
+
+[[example]]
+name = "rf_fibonacci"
+path = "rustfinity/rf_fibonacci.rs"
+
+[[example]]
+name = "rf_file_metadata"
+path = "rustfinity/rf_file_metadata.rs"
+
+[[example]]
+name = "rf_find_the_first_palindrome"
+path = "rustfinity/rf_find_the_first_palindrome.rs"
+
+[[example]]
+name = "rf_finite_state_automaton"
+path = "rustfinity/rf_finite_state_automaton.rs"
+
+[[example]]
+name = "rf_first_async_function"
+path = "rustfinity/rf_first_async_function.rs"
+
+[[example]]
+name = "rf_floating_point"
+path = "rustfinity/rf_floating_point.rs"
+
+[[example]]
+name = "rf_fold_and_scan"
+path = "rustfinity/rf_fold_and_scan.rs"
+
+[[example]]
+name = "rf_from_into_traits"
+path = "rustfinity/rf_from_into_traits.rs"
+
+[[example]]
+name = "rf_functions"
+path = "rustfinity/rf_functions.rs"
+
+[[example]]
+name = "rf_generics"
+path = "rustfinity/rf_generics.rs"
+
+[[example]]
+name = "rf_graceful_error_handling"
+path = "rustfinity/rf_graceful_error_handling.rs"
+
+[[example]]
+name = "rf_graceful_error_handling_2"
+path = "rustfinity/rf_graceful_error_handling_2.rs"
+
+[[example]]
+name = "rf_handling_thread_panics"
+path = "rustfinity/rf_handling_thread_panics.rs"
+
+[[example]]
+name = "rf_hash_trait"
+path = "rustfinity/rf_hash_trait.rs"
+
+[[example]]
+name = "rf_hashmap_advanced"
+path = "rustfinity/rf_hashmap_advanced.rs"
+
+[[example]]
+name = "rf_hashmaps"
+path = "rustfinity/rf_hashmaps.rs"
+
+[[example]]
+name = "rf_hashset_operations"
+path = "rustfinity/rf_hashset_operations.rs"
+
+[[example]]
+name = "rf_if_else"
+path = "rustfinity/rf_if_else.rs"
+
+[[example]]
+name = "rf_if_let_enums"
+path = "rustfinity/rf_if_let_enums.rs"
+
+[[example]]
+name = "rf_integer_parsing"
+path = "rustfinity/rf_integer_parsing.rs"
+
+[[example]]
+name = "rf_interior_mutability"
+path = "rustfinity/rf_interior_mutability.rs"
+
+[[example]]
+name = "rf_is_prime"
+path = "rustfinity/rf_is_prime.rs"
+
+[[example]]
+name = "rf_iterator_combinators"
+path = "rustfinity/rf_iterator_combinators.rs"
+
+[[example]]
+name = "rf_iterator_filtering"
+path = "rustfinity/rf_iterator_filtering.rs"
+
+[[example]]
+name = "rf_iterator_flattening"
+path = "rustfinity/rf_iterator_flattening.rs"
+
+[[example]]
+name = "rf_iterator_inspection"
+path = "rustfinity/rf_iterator_inspection.rs"
+
+[[example]]
+name = "rf_iterators"
+path = "rustfinity/rf_iterators.rs"
+
+[[example]]
+name = "rf_joining_futures"
+path = "rustfinity/rf_joining_futures.rs"
+
+[[example]]
+name = "rf_joinset_concurrent_tasks"
+path = "rustfinity/rf_joinset_concurrent_tasks.rs"
+
+[[example]]
+name = "rf_lifetimes"
+path = "rustfinity/rf_lifetimes.rs"
+
+[[example]]
+name = "rf_linkedlist_basics"
+path = "rustfinity/rf_linkedlist_basics.rs"
+
+[[example]]
+name = "rf_macros"
+path = "rustfinity/rf_macros.rs"
+
+[[example]]
+name = "rf_macros_2"
+path = "rustfinity/rf_macros_2.rs"
+
+[[example]]
+name = "rf_mathematical_operations"
+path = "rustfinity/rf_mathematical_operations.rs"
+
+[[example]]
+name = "rf_maze_solver"
+path = "rustfinity/rf_maze_solver.rs"
+
+[[example]]
+name = "rf_median_and_mode"
+path = "rustfinity/rf_median_and_mode.rs"
+
+[[example]]
+name = "rf_methods_on_enums"
+path = "rustfinity/rf_methods_on_enums.rs"
+
+[[example]]
+name = "rf_methods_on_structs"
+path = "rustfinity/rf_methods_on_structs.rs"
+
+[[example]]
+name = "rf_move_closures_threads"
+path = "rustfinity/rf_move_closures_threads.rs"
+
+[[example]]
+name = "rf_mpsc_fan_in"
+path = "rustfinity/rf_mpsc_fan_in.rs"
+
+[[example]]
+name = "rf_mutable_references"
+path = "rustfinity/rf_mutable_references.rs"
+
+[[example]]
+name = "rf_mutable_slices"
+path = "rustfinity/rf_mutable_slices.rs"
+
+[[example]]
+name = "rf_mutable_struct_references"
+path = "rustfinity/rf_mutable_struct_references.rs"
+
+[[example]]
+name = "rf_mutable_variables"
+path = "rustfinity/rf_mutable_variables.rs"
+
+[[example]]
+name = "rf_mutex_poisoning"
+path = "rustfinity/rf_mutex_poisoning.rs"
+
+[[example]]
+name = "rf_number_conversions"
+path = "rustfinity/rf_number_conversions.rs"
+
+[[example]]
+name = "rf_oncelock_lazy_init"
+path = "rustfinity/rf_oncelock_lazy_init.rs"
+
+[[example]]
+name = "rf_option_propagation"
+path = "rustfinity/rf_option_propagation.rs"
+
+[[example]]
+name = "rf_option_to_result"
+path = "rustfinity/rf_option_to_result.rs"
+
+[[example]]
+name = "rf_optional_values"
+path = "rustfinity/rf_optional_values.rs"
+
+[[example]]
+name = "rf_osstring_basics"
+path = "rustfinity/rf_osstring_basics.rs"
+
+[[example]]
+name = "rf_ownership"
+path = "rustfinity/rf_ownership.rs"
+
+[[example]]
+name = "rf_ownership_rules"
+path = "rustfinity/rf_ownership_rules.rs"
+
+[[example]]
+name = "rf_panic"
+path = "rustfinity/rf_panic.rs"
+
+[[example]]
+name = "rf_partialeq_eq"
+path = "rustfinity/rf_partialeq_eq.rs"
+
+[[example]]
+name = "rf_partialord_ord"
+path = "rustfinity/rf_partialord_ord.rs"
+
+[[example]]
+name = "rf_path_operations"
+path = "rustfinity/rf_path_operations.rs"
+
+[[example]]
+name = "rf_playing_cards"
+path = "rustfinity/rf_playing_cards.rs"
+
+[[example]]
+name = "rf_plugin_system"
+path = "rustfinity/rf_plugin_system.rs"
+
+[[example]]
+name = "rf_primitive_data_types"
+path = "rustfinity/rf_primitive_data_types.rs"
+
+[[example]]
+name = "rf_printing_hello_world"
+path = "rustfinity/rf_printing_hello_world.rs"
+
+[[example]]
+name = "rf_process_exit"
+path = "rustfinity/rf_process_exit.rs"
+
+[[example]]
+name = "rf_racing_with_select"
+path = "rustfinity/rf_racing_with_select.rs"
+
+[[example]]
+name = "rf_rc"
+path = "rustfinity/rf_rc.rs"
+
+[[example]]
+name = "rf_rc_reference_counting"
+path = "rustfinity/rf_rc_reference_counting.rs"
+
+[[example]]
+name = "rf_reading_files"
+path = "rustfinity/rf_reading_files.rs"
+
+[[example]]
+name = "rf_result_to_option"
+path = "rustfinity/rf_result_to_option.rs"
+
+[[example]]
+name = "rf_return_impl_trait"
+path = "rustfinity/rf_return_impl_trait.rs"
+
+[[example]]
+name = "rf_return_trait_objects"
+path = "rustfinity/rf_return_trait_objects.rs"
+
+[[example]]
+name = "rf_rwlock_readers_writers"
+path = "rustfinity/rf_rwlock_readers_writers.rs"
+
+[[example]]
+name = "rf_scoped_threads"
+path = "rustfinity/rf_scoped_threads.rs"
+
+[[example]]
+name = "rf_send_and_sync_bounds"
+path = "rustfinity/rf_send_and_sync_bounds.rs"
+
+[[example]]
+name = "rf_shared_state_concurrency"
+path = "rustfinity/rf_shared_state_concurrency.rs"
+
+[[example]]
+name = "rf_slice_manipulation"
+path = "rustfinity/rf_slice_manipulation.rs"
+
+[[example]]
+name = "rf_slices"
+path = "rustfinity/rf_slices.rs"
+
+[[example]]
+name = "rf_spawn_blocking"
+path = "rustfinity/rf_spawn_blocking.rs"
+
+[[example]]
+name = "rf_spawning_async_tasks"
+path = "rustfinity/rf_spawning_async_tasks.rs"
+
+[[example]]
+name = "rf_spawning_threads"
+path = "rustfinity/rf_spawning_threads.rs"
+
+[[example]]
+name = "rf_stdio_operations"
+path = "rustfinity/rf_stdio_operations.rs"
+
+[[example]]
+name = "rf_string_basics"
+path = "rustfinity/rf_string_basics.rs"
+
+[[example]]
+name = "rf_string_building"
+path = "rustfinity/rf_string_building.rs"
+
+[[example]]
+name = "rf_string_iterators"
+path = "rustfinity/rf_string_iterators.rs"
+
+[[example]]
+name = "rf_string_manipulation"
+path = "rustfinity/rf_string_manipulation.rs"
+
+[[example]]
+name = "rf_string_parsing"
+path = "rustfinity/rf_string_parsing.rs"
+
+[[example]]
+name = "rf_string_patterns"
+path = "rustfinity/rf_string_patterns.rs"
+
+[[example]]
+name = "rf_structs"
+path = "rustfinity/rf_structs.rs"
+
+[[example]]
+name = "rf_structs_and_references"
+path = "rustfinity/rf_structs_and_references.rs"
+
+[[example]]
+name = "rf_student_grades_tracker"
+path = "rustfinity/rf_student_grades_tracker.rs"
+
+[[example]]
+name = "rf_student_grades_tracker_2"
+path = "rustfinity/rf_student_grades_tracker_2.rs"
+
+[[example]]
+name = "rf_sum_of_array"
+path = "rustfinity/rf_sum_of_array.rs"
+
+[[example]]
+name = "rf_sum_of_even_numbers"
+path = "rustfinity/rf_sum_of_even_numbers.rs"
+
+[[example]]
+name = "rf_supertraits"
+path = "rustfinity/rf_supertraits.rs"
+
+[[example]]
+name = "rf_sync_channel_backpressure"
+path = "rustfinity/rf_sync_channel_backpressure.rs"
+
+[[example]]
+name = "rf_systemtime_usage"
+path = "rustfinity/rf_systemtime_usage.rs"
+
+[[example]]
+name = "rf_temperature_converter"
+path = "rustfinity/rf_temperature_converter.rs"
+
+[[example]]
+name = "rf_tempfile_operations"
+path = "rustfinity/rf_tempfile_operations.rs"
+
+[[example]]
+name = "rf_the_as_ref_trait"
+path = "rustfinity/rf_the_as_ref_trait.rs"
+
+[[example]]
+name = "rf_the_default_trait"
+path = "rustfinity/rf_the_default_trait.rs"
+
+[[example]]
+name = "rf_the_drop_trait"
+path = "rustfinity/rf_the_drop_trait.rs"
+
+[[example]]
+name = "rf_the_from_trait"
+path = "rustfinity/rf_the_from_trait.rs"
+
+[[example]]
+name = "rf_the_unit_type"
+path = "rustfinity/rf_the_unit_type.rs"
+
+[[example]]
+name = "rf_thread_local_state"
+path = "rustfinity/rf_thread_local_state.rs"
+
+[[example]]
+name = "rf_timeouts_and_sleep"
+path = "rustfinity/rf_timeouts_and_sleep.rs"
+
+[[example]]
+name = "rf_tostring_display"
+path = "rustfinity/rf_tostring_display.rs"
+
+[[example]]
+name = "rf_trait_bounds"
+path = "rustfinity/rf_trait_bounds.rs"
+
+[[example]]
+name = "rf_trait_objects"
+path = "rustfinity/rf_trait_objects.rs"
+
+[[example]]
+name = "rf_traits"
+path = "rustfinity/rf_traits.rs"
+
+[[example]]
+name = "rf_tryfrom_tryinto"
+path = "rustfinity/rf_tryfrom_tryinto.rs"
+
+[[example]]
+name = "rf_tuple_structs"
+path = "rustfinity/rf_tuple_structs.rs"
+
+[[example]]
+name = "rf_tuples"
+path = "rustfinity/rf_tuples.rs"
+
+[[example]]
+name = "rf_unicode_operations"
+path = "rustfinity/rf_unicode_operations.rs"
+
+[[example]]
+name = "rf_unique_items"
+path = "rustfinity/rf_unique_items.rs"
+
+[[example]]
+name = "rf_unit_structs"
+path = "rustfinity/rf_unit_structs.rs"
+
+[[example]]
+name = "rf_unwrap_and_expect"
+path = "rustfinity/rf_unwrap_and_expect.rs"
+
+[[example]]
+name = "rf_validate_user_input"
+path = "rustfinity/rf_validate_user_input.rs"
+
+[[example]]
+name = "rf_vecdeque_queue"
+path = "rustfinity/rf_vecdeque_queue.rs"
+
+[[example]]
+name = "rf_vectors"
+path = "rustfinity/rf_vectors.rs"
+
+[[example]]
+name = "rf_weekday_from_number"
+path = "rustfinity/rf_weekday_from_number.rs"
+
+[[example]]
+name = "rf_writing_files"
+path = "rustfinity/rf_writing_files.rs"
+
 [dev-dependencies]
+tempfile = "3.23.0"
 mockall = "0.14"
 pretty_assertions = "1"
 rstest = "0.26"

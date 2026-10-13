@@ -1,0 +1,83 @@
+//! # Rustfinity: Mutable References
+//!
+//! Source: https://github.com/rustfinity/rustfinity/tree/main/challenges/mutable-references
+//!
+//! Rust's ownership model ensures memory safety without needing a garbage collector. In the previous challenge, you learned about **immutable references**. Now, let's dive into **mutable references**.
+//!
+//! ## Mutable References
+//!
+//! **Mutable references** allow you to **modify** the value you are **borrowing**. **You can only have one mutable reference to a particular piece of data in a particular scope.** This prevents data races at compile time.
+//!
+//! In Rust, `&mut` is used to create a **mutable reference**. This means that you can borrow a value and make changes to it without taking ownership. However, Rust enforces that there can only be one mutable reference to a particular piece of data in a particular scope. This ensures that no data races occur, as only one part of the code can modify the data at a time.
+//!
+//! ### Example
+//!
+//! ```rust
+//! fn main() {
+//!     let mut s = String::from("hello");
+//!
+//!     change(&mut s); // borrow s as mutable
+//!     println!("{}", s);
+//! }
+//!
+//! fn change(some_string: &mut String) {
+//!     some_string.push_str(", world");
+//! }
+//! ```
+//!
+//! ## Challenge
+//!
+//! Create a function `append_suffix` that takes a mutable reference to a `String` and appends a given suffix to it.
+//!
+//! ## Requirements
+//!
+//! - The `append_suffix` function should take **a mutable reference** to the input `String` and append the given suffix to it.
+//!
+//! ## Example
+//!
+//! ```rust
+//! let mut s2 = String::from("hello");
+//! append_suffix(&mut s2, " world");
+//! assert_eq!(s2, "hello world");
+//! ```
+//!
+//! ## Hints
+//!
+//! - The `String` type in Rust has methods like `push_str` which can be useful for modifying strings.
+//!
+//! Run: `cargo run --example rf_mutable_references`
+//! Test: `cargo test --example rf_mutable_references`
+//! Filter: `cargo test --example rf_mutable_references <test-name>`
+
+#![allow(unused)]
+
+#![allow(unused_variables)]
+
+pub fn append_suffix(s: &mut String, suffix: &str) {
+    // Your code here...
+}
+
+fn main() {
+    println!("Implement the Mutable References challenge.");
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::append_suffix;
+
+    #[test]
+    fn test_append_suffix() {
+        let mut s = String::from("hello");
+        append_suffix(&mut s, " world");
+        assert_eq!(s, "hello world");
+
+        append_suffix(&mut s, "!");
+        assert_eq!(s, "hello world!");
+
+        append_suffix(&mut s, "??");
+        assert_eq!(s, "hello world!??");
+
+        append_suffix(&mut s, " I love Rust!");
+        assert_eq!(s, "hello world!?? I love Rust!");
+    }
+}

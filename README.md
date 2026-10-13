@@ -97,6 +97,10 @@ learn_rust/
 │   ├── s01_*.rs  ..  s27_*.rs       # 323 standalone example files
 ├── leetcode/
 │   ├── lc_0001_*.rs .. lc_3437_*.rs # 72 LeetCode solutions with benchmarks
+├── rustfinity/
+│   ├── rf_*.rs                      # 170 standalone challenge examples
+│   ├── README.md                     # How to add and test challenges
+│   ├── rf_procedural_macros/        # Proc-macro challenge crate
 ├── crates/
 │   ├── s14_project_structure/       # Multi-file module demos
 │   ├── s21_wordle/                  # Wordle game project
@@ -108,7 +112,10 @@ learn_rust/
 └── README.md
 ```
 
-**Convention**: one file per topic, named `s{NN}_{topic}.rs`. LeetCode files use `lc_{NNNN}_{slug}.rs`. All are registered as Cargo examples.
+**Convention**: one file per topic, named `s{NN}_{topic}.rs`. LeetCode files use
+`lc_{NNNN}_{slug}.rs`. Rustfinity examples use `rf_{slug}.rs` and include the challenge
+description, starter, and tests. Procedural macros use a separate crate because they cannot be
+defined in a Cargo example.
 
 ## Sections
 
@@ -161,6 +168,25 @@ cargo test --example lc_0001_two_sum bench -- --nocapture
 **Companion docs:**
 - [RUBY_TO_RUST_PITFALLS.md](RUBY_TO_RUST_PITFALLS.md) — Rust idioms for LeetCode (coming from Ruby)
 - [LEETCODE_PROMPTS.md](LEETCODE_PROMPTS.md) — Prompt templates used to scaffold each file
+
+## Rustfinity Challenges
+
+See [rustfinity/README.md](rustfinity/README.md) for the workflow to add a new challenge, register
+it with Cargo, and run all or filtered tests.
+
+Each standard challenge is independently runnable and testable as a Cargo example:
+
+```bash
+cargo test --example rf_fizz_buzz
+cargo test --example rf_fizz_buzz should_return_fizz
+```
+
+The procedural-macro challenge has its own test crate:
+
+```bash
+cargo test --manifest-path rustfinity/rf_procedural_macros/Cargo.toml
+```
+
 
 <details>
 <summary>Full problem list (72 problems: 28 Easy, 33 Medium, 11 Hard)</summary>

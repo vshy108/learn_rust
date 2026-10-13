@@ -18,6 +18,9 @@ learn_rust/
 │   ├── lc_0001_*.rs         # LeetCode solutions (registered as [[example]] in Cargo.toml)
 │   ├── ...
 │   └── lc_3437_*.rs
+├── rustfinity/
+│   ├── rf_*.rs              # 170 standalone Cargo challenge examples
+│   ├── rf_procedural_macros/ # Proc-macro challenge crate
 ├── crates/
 │   ├── s14_project_structure/   # Section 14 multi-file topics
 │   │   ├── Cargo.toml
@@ -39,6 +42,10 @@ learn_rust/
 
 - **File naming**: `examples/s{NN}_{topic}.rs` — Cargo auto-discovers these as runnable examples
 - **LeetCode naming**: `leetcode/lc_{NNNN}_{slug}.rs` — registered as `[[example]]` in `Cargo.toml`
+- **Rustfinity examples**: `rustfinity/rf_{slug}.rs` — standard challenges registered as
+	`[[example]]` in `Cargo.toml`; each file contains its description, starter, and tests
+- **Rustfinity proc macro**: `rustfinity/rf_procedural_macros/` — separate crate because proc
+	macros cannot be defined as Cargo examples
 - **No consolidation**: every topic = one file, independently runnable
 - **Section 14** multi-file module topics → `crates/s14_project_structure/`
 - **Section 21** Wordle project → `crates/s21_wordle/`
@@ -50,6 +57,7 @@ learn_rust/
 cargo build --example <name>           # compiles without warnings
 cargo run --example <name>             # runs and produces expected output
 cargo test --example <name>            # tests pass (if topic has tests)
+cargo test --example rf_number_formatting format_padded  # filter one Rustfinity test group
 cargo clippy --workspace -- -D warnings
 cargo fmt --all --check
 ```

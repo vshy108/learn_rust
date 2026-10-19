@@ -209,7 +209,6 @@
 //! Filter: `cargo test --example rf_asref_asmut <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::path::Path;

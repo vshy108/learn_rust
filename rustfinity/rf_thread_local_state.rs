@@ -102,7 +102,6 @@
 //! Filter: `cargo test --example rf_thread_local_state <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::cell::{Cell, RefCell};

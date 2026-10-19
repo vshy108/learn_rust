@@ -25,7 +25,6 @@
 //! Filter: `cargo test --example rf_optional_values <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn find_first_even(numbers: &[i32]) -> Option<i32> {

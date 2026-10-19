@@ -124,7 +124,6 @@
 //! Filter: `cargo test --example rf_number_conversions <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Safely converts an i32 to an i16.

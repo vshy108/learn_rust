@@ -44,7 +44,6 @@
 //! Filter: `cargo test --example rf_animal_sanctuary_registry <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::collections::HashMap;

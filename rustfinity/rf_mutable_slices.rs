@@ -51,7 +51,6 @@
 //! Filter: `cargo test --example rf_mutable_slices <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn transform_even_odd(slice: &mut [i32]) {

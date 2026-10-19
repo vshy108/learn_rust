@@ -50,7 +50,6 @@
 //! Filter: `cargo test --example rf_mutable_references <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn append_suffix(s: &mut String, suffix: &str) {

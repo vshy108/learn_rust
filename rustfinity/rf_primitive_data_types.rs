@@ -40,7 +40,6 @@
 //! Filter: `cargo test --example rf_primitive_data_types <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn data_types() -> (u8, f64, bool, char) {

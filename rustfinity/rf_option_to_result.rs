@@ -38,7 +38,6 @@
 //! Filter: `cargo test --example rf_option_to_result <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn get_first_element(numbers: Vec<i32>, min_value: i32) -> Result<i32, String> {

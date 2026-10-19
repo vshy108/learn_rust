@@ -122,7 +122,6 @@
 //! Filter: `cargo test --example rf_from_into_traits <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// A temperature in Celsius.

@@ -90,7 +90,6 @@
 //! Filter: `cargo test --example rf_mutex_poisoning <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::sync::Mutex;

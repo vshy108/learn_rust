@@ -47,7 +47,6 @@
 //! Filter: `cargo test --example rf_unique_items <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 // 1. Finish the function

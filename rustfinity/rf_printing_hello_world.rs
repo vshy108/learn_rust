@@ -37,7 +37,6 @@
 //! Filter: `cargo test --example rf_printing_hello_world <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn hello_world() {
@@ -57,5 +56,4 @@ mod tests {
     fn test_compiles() {
         hello_world();
     }
-
 }

@@ -185,7 +185,6 @@
 //! Filter: `cargo test --example rf_file_metadata <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::cmp::Ordering;

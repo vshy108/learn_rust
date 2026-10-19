@@ -122,7 +122,6 @@
 //! Filter: `cargo test --example rf_string_manipulation <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Remove leading and trailing whitespace, then convert to lowercase.

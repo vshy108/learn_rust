@@ -35,7 +35,6 @@
 //! Filter: `cargo test --example rf_generics <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 // TODO: Define a generic struct with a single field `item: T`.

@@ -22,7 +22,6 @@
 //! Filter: `cargo test --example rf_student_grades_tracker_2 <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::collections::HashMap;

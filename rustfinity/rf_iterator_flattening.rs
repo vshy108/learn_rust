@@ -153,7 +153,6 @@
 //! Filter: `cargo test --example rf_iterator_flattening <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Flattens a vector of vectors into a single vector.

@@ -142,7 +142,6 @@
 //! Filter: `cargo test --example rf_binary_heap_priority <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::cmp::Reverse;

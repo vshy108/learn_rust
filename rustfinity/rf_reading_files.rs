@@ -98,7 +98,6 @@
 //! Filter: `cargo test --example rf_reading_files <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::fs::{self, File};

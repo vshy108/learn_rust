@@ -163,7 +163,6 @@
 //! Filter: `cargo test --example rf_tempfile_operations <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::fs::{self, File};

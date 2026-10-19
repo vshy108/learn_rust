@@ -27,7 +27,6 @@
 //! Filter: `cargo test --example rf_graceful_error_handling <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn parse_percentage(input: &str) -> Result<u8, String> {

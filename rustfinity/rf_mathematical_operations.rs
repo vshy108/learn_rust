@@ -38,7 +38,6 @@
 //! Filter: `cargo test --example rf_mathematical_operations <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn math_operations(a: i32, b: i32) -> (i32, i32, i32, i32) {

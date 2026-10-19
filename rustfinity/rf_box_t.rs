@@ -27,7 +27,6 @@
 //! Filter: `cargo test --example rf_box_t <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub struct Animal {

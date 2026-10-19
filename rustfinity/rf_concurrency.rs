@@ -34,7 +34,6 @@
 //! Filter: `cargo test --example rf_concurrency <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::thread;

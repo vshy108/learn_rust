@@ -57,7 +57,6 @@
 //! Filter: `cargo test --example rf_trait_objects <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub trait Renderable {

@@ -72,7 +72,6 @@
 //! Filter: `cargo test --example rf_median_and_mode <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::collections::HashMap;

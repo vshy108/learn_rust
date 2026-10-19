@@ -228,7 +228,6 @@
 //! Filter: `cargo test --example rf_borrow_toowned <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::borrow::{Borrow, Cow};

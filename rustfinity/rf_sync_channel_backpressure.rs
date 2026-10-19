@@ -90,7 +90,6 @@
 //! Filter: `cargo test --example rf_sync_channel_backpressure <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::sync::mpsc;

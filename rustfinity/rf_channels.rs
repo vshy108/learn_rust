@@ -55,7 +55,6 @@
 //! Filter: `cargo test --example rf_channels <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::sync::mpsc::{self, Receiver, Sender};

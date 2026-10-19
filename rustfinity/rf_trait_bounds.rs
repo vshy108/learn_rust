@@ -67,7 +67,6 @@
 //! Filter: `cargo test --example rf_trait_bounds <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 // TODO: Define the generic function `compare_and_display` with appropriate trait bounds.

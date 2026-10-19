@@ -53,7 +53,6 @@
 //! Filter: `cargo test --example rf_iterators <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn filter_even_numbers(iter: impl Iterator<Item = i32>) -> Vec<i32> {

@@ -27,7 +27,6 @@
 //! Filter: `cargo test --example rf_return_trait_objects <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub trait Speakable {

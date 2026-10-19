@@ -39,7 +39,6 @@
 //! Filter: `cargo test --example rf_supertraits <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub trait Person {
@@ -243,5 +242,4 @@ mod tests {
     fn test_implements_student_trait() {
         implements_student::<Undergraduate>();
     }
-
 }

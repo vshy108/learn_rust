@@ -142,7 +142,6 @@
 //! Filter: `cargo test --example rf_systemtime_usage <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::time::{Duration, SystemTime, UNIX_EPOCH};

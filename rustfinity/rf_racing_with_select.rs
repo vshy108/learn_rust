@@ -91,7 +91,6 @@
 //! Filter: `cargo test --example rf_racing_with_select <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::future::Future;

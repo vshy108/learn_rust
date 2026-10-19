@@ -39,7 +39,6 @@
 //! Filter: `cargo test --example rf_control_flow <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn check_number_sign(number: i32) -> String {

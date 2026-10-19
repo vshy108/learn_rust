@@ -82,14 +82,14 @@ mod tests {
     fn test_use_shared_data_with_numbers() {
         let data = Rc::new(vec![10, 20, 30]);
         use_shared_data(Rc::clone(&data)); // Expect output: 10, 20, 30
-                                           // Since this function prints to stdout, manual verification is required for correctness.
+        // Since this function prints to stdout, manual verification is required for correctness.
     }
 
     #[test]
     fn test_use_shared_data_empty_vector() {
         let data: Rc<Vec<i32>> = Rc::new(vec![]);
         use_shared_data(Rc::clone(&data)); // Expect no output
-                                           // Since this function prints to stdout, manual verification is required for correctness.
+        // Since this function prints to stdout, manual verification is required for correctness.
     }
 
     #[test]

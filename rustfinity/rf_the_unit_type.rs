@@ -27,7 +27,6 @@
 //! Filter: `cargo test --example rf_the_unit_type <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn print_message() -> () {

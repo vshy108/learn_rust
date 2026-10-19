@@ -168,7 +168,6 @@
 //! Filter: `cargo test --example rf_floating_point <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Checks if a number is a valid, finite number (not NaN or infinite).

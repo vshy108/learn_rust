@@ -147,7 +147,6 @@
 //! Filter: `cargo test --example rf_unicode_operations <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Count the number of Unicode characters in a string.

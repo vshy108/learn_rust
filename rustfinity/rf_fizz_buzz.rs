@@ -42,7 +42,6 @@
 //! Filter: `cargo test --example rf_fizz_buzz <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn fizz_buzz(num: u32) -> String {

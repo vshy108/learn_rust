@@ -97,7 +97,6 @@
 //! Filter: `cargo test --example rf_joining_futures <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::time::Duration;

@@ -39,7 +39,6 @@
 //! Filter: `cargo test --example rf_functions <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn add(a: i32, b: i32) -> i32 {

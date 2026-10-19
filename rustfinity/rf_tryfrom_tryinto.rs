@@ -130,7 +130,6 @@
 //! Filter: `cargo test --example rf_tryfrom_tryinto <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// A wrapper around `i32` that only accepts positive numbers (greater than 0).

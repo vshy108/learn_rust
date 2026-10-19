@@ -56,7 +56,6 @@
 //! Filter: `cargo test --example rf_mutable_variables <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn mutating_variables() -> String {

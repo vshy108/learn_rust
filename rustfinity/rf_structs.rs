@@ -72,7 +72,6 @@
 //! Filter: `cargo test --example rf_structs <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub struct Person {

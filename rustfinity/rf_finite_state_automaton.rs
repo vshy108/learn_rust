@@ -56,7 +56,6 @@
 //! Filter: `cargo test --example rf_finite_state_automaton <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn recognize_pattern(input: &str) -> bool {

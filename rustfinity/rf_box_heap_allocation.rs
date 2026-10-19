@@ -93,7 +93,6 @@
 //! Filter: `cargo test --example rf_box_heap_allocation <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Creates a boxed value on the heap.

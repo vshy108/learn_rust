@@ -34,7 +34,6 @@
 //! Filter: `cargo test --example rf_sum_of_even_numbers <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn sum_of_evens(start: i32, end: i32) -> i32 {

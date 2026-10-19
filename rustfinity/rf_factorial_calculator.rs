@@ -41,7 +41,6 @@
 //! Filter: `cargo test --example rf_factorial_calculator <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn factorial(n: u32) -> u128 {

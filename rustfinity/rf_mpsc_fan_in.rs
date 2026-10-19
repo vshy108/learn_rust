@@ -101,7 +101,6 @@
 //! Filter: `cargo test --example rf_mpsc_fan_in <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::sync::mpsc;

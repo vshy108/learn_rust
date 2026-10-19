@@ -121,7 +121,6 @@
 //! Filter: `cargo test --example rf_string_parsing <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::str::FromStr;

@@ -170,7 +170,6 @@
 //! Filter: `cargo test --example rf_iterator_filtering <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Filters a slice to return only even numbers.

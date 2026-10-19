@@ -46,7 +46,6 @@
 //! Filter: `cargo test --example rf_plugin_system <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub trait Plugin {

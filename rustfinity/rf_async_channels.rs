@@ -81,7 +81,6 @@
 //! Filter: `cargo test --example rf_async_channels <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use tokio::sync::mpsc;

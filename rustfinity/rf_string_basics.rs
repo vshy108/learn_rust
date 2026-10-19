@@ -97,7 +97,6 @@
 //! Filter: `cargo test --example rf_string_basics <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Convert a string slice to an owned String.

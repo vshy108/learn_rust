@@ -40,7 +40,6 @@
 //! Filter: `cargo test --example rf_the_from_trait <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub struct Minutes(pub i32);

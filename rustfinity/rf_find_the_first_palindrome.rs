@@ -82,7 +82,6 @@
 //! Filter: `cargo test --example rf_find_the_first_palindrome <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn find_first_palindrome(start: i32, end: i32) -> Option<i32> {

@@ -21,7 +21,6 @@
 //! Filter: `cargo test --example rf_mutable_struct_references <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub struct MutableTextFinder<'a> {

@@ -187,7 +187,6 @@
 //! Filter: `cargo test --example rf_tostring_display <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::fmt;

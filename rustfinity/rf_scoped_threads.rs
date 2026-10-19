@@ -64,7 +64,6 @@
 //! Filter: `cargo test --example rf_scoped_threads <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::thread;

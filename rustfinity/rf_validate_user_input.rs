@@ -51,7 +51,6 @@
 //! Filter: `cargo test --example rf_validate_user_input <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn validate_user(age: i32, email: &str) -> Result<(), String> {

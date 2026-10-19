@@ -21,7 +21,6 @@
 //! Filter: `cargo test --example rf_result_to_option <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn read_file(file_path: &str) -> Option<String> {

@@ -135,7 +135,6 @@
 //! Filter: `cargo test --example rf_path_operations <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::path::{Path, PathBuf};

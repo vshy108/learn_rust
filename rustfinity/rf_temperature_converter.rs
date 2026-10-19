@@ -50,7 +50,6 @@
 //! Filter: `cargo test --example rf_temperature_converter <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn convert_temperature(value: f64, from_unit: &str, to_unit: &str) -> Result<f64, String> {

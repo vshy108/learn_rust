@@ -21,7 +21,6 @@
 //! Filter: `cargo test --example rf_derive_debug_for_structs <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 // 1. Complete the definitions of the structs Person, Point, and Rectangle.

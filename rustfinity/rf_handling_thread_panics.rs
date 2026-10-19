@@ -76,7 +76,6 @@
 //! Filter: `cargo test --example rf_handling_thread_panics <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::thread;

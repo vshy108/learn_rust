@@ -47,7 +47,6 @@
 //! Filter: `cargo test --example rf_unit_structs <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub struct Logger;

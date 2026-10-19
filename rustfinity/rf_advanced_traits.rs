@@ -45,7 +45,6 @@
 //! Filter: `cargo test --example rf_advanced_traits <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub struct Millimeters(pub u32);

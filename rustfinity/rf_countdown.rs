@@ -29,7 +29,6 @@
 //! Filter: `cargo test --example rf_countdown <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn countdown(n: u32) -> Vec<u32> {

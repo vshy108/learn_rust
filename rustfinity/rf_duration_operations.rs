@@ -193,7 +193,6 @@
 //! Filter: `cargo test --example rf_duration_operations <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::time::Duration;

@@ -63,7 +63,6 @@
 //! Filter: `cargo test --example rf_methods_on_structs <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub struct Counter {

@@ -31,7 +31,6 @@
 //! Filter: `cargo test --example rf_converting_numerical_types <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn numerical_type_conversion(n: i32) -> u32 {

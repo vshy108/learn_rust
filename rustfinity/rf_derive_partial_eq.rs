@@ -38,7 +38,6 @@
 //! Filter: `cargo test --example rf_derive_partial_eq <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 #[derive(Debug, PartialEq)]

@@ -161,7 +161,6 @@
 //! Filter: `cargo test --example rf_fold_and_scan <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Sums all numbers using fold().

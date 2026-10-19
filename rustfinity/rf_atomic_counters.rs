@@ -96,7 +96,6 @@
 //! Filter: `cargo test --example rf_atomic_counters <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::sync::atomic::{AtomicUsize, Ordering};

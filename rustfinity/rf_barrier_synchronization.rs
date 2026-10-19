@@ -88,7 +88,6 @@
 //! Filter: `cargo test --example rf_barrier_synchronization <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::sync::Barrier;

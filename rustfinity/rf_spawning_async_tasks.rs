@@ -110,7 +110,6 @@
 //! Filter: `cargo test --example rf_spawning_async_tasks <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Runs every delay concurrently and returns them in input order.

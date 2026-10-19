@@ -179,7 +179,6 @@
 //! Filter: `cargo test --example rf_custom_iterators <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// A Fibonacci sequence iterator that yields Fibonacci numbers indefinitely.

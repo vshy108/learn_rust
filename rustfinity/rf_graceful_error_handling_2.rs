@@ -34,7 +34,6 @@
 //! Filter: `cargo test --example rf_graceful_error_handling_2 <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 #[derive(Debug, PartialEq)]

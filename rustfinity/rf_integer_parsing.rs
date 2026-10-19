@@ -112,7 +112,6 @@
 //! Filter: `cargo test --example rf_integer_parsing <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Parses a string as a decimal (base 10) i32.

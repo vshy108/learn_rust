@@ -96,7 +96,6 @@
 //! Filter: `cargo test --example rf_timeouts_and_sleep <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::future::Future;

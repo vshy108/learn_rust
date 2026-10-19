@@ -38,7 +38,6 @@
 //! Filter: `cargo test --example rf_structs_and_references <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub struct TextFinder<'a> {

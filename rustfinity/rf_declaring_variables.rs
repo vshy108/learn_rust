@@ -34,7 +34,6 @@
 //! Filter: `cargo test --example rf_declaring_variables <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn calculate_area() -> u32 {
@@ -70,5 +69,4 @@ mod tests {
             "The `calculate_area` function must return a value greater than 0"
         )
     }
-
 }

@@ -107,7 +107,6 @@
 //! Filter: `cargo test --example rf_osstring_basics <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::ffi::{OsStr, OsString};

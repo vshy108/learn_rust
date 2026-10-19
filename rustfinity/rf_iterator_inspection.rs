@@ -168,7 +168,6 @@
 //! Filter: `cargo test --example rf_iterator_inspection <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Returns elements with their indices using enumerate().

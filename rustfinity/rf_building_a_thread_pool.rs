@@ -125,7 +125,6 @@
 //! Filter: `cargo test --example rf_building_a_thread_pool <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::sync::mpsc::{self, Receiver, Sender};

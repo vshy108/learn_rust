@@ -65,7 +65,6 @@
 //! Filter: `cargo test --example rf_ownership_rules <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn calculate_and_modify() -> (String, usize) {

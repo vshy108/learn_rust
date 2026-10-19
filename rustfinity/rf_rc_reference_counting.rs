@@ -123,7 +123,6 @@
 //! Filter: `cargo test --example rf_rc_reference_counting <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::cell::RefCell;

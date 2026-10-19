@@ -165,7 +165,6 @@
 //! Filter: `cargo test --example rf_btreemap_basics <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::collections::BTreeMap;

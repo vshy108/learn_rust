@@ -34,7 +34,6 @@
 //! Filter: `cargo test --example rf_enums <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub enum TrafficLight {

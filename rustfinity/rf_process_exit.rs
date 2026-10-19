@@ -111,7 +111,6 @@
 //! Filter: `cargo test --example rf_process_exit <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::process::ExitCode;

@@ -26,7 +26,6 @@
 //! Filter: `cargo test --example rf_character_counting_string <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn count_characters(s: &str) -> u32 {

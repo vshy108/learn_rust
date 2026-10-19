@@ -144,7 +144,6 @@
 //! Filter: `cargo test --example rf_stdio_operations <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::io::{self, BufRead, Write};

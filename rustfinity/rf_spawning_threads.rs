@@ -67,7 +67,6 @@
 //! Filter: `cargo test --example rf_spawning_threads <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::thread::{self, JoinHandle};

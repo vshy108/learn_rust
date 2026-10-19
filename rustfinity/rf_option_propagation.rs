@@ -23,7 +23,6 @@
 //! Filter: `cargo test --example rf_option_propagation <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn find_and_multiply(numbers: Vec<i32>, index1: usize, index2: usize) -> Option<i32> {

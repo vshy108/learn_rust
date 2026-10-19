@@ -97,7 +97,6 @@
 //! Filter: `cargo test --example rf_oncelock_lazy_init <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::sync::atomic::{AtomicUsize, Ordering};

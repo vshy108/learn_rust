@@ -106,7 +106,6 @@
 //! Filter: `cargo test --example rf_condvar_signaling <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::collections::VecDeque;

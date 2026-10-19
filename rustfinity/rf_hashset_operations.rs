@@ -128,7 +128,6 @@
 //! Filter: `cargo test --example rf_hashset_operations <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::collections::HashSet;

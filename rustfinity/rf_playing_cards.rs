@@ -39,7 +39,6 @@
 //! Filter: `cargo test --example rf_playing_cards <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub enum Card {

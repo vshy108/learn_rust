@@ -100,7 +100,6 @@
 //! Filter: `cargo test --example rf_first_async_function <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::sync::atomic::AtomicUsize;

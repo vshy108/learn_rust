@@ -163,7 +163,6 @@
 //! Filter: `cargo test --example rf_directory_traversal <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::fs;

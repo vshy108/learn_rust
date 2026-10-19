@@ -38,7 +38,6 @@
 //! Filter: `cargo test --example rf_lifetimes <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn longest<'a>(first: &'a str, second: &'a str) -> &'a str {

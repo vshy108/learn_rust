@@ -110,7 +110,6 @@
 //! Filter: `cargo test --example rf_vecdeque_queue <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::collections::VecDeque;

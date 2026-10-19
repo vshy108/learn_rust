@@ -58,7 +58,6 @@
 //! Filter: `cargo test --example rf_spawn_blocking <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::time::Duration;

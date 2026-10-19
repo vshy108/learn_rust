@@ -32,7 +32,6 @@
 //! Filter: `cargo test --example rf_return_impl_trait <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn filter_starts_with<'a>(

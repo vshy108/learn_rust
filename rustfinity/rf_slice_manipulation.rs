@@ -49,7 +49,6 @@
 //! Filter: `cargo test --example rf_slice_manipulation <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn update_slice(slice: &mut [i32], indices: &[usize], value: i32) {

@@ -30,7 +30,6 @@
 //! Filter: `cargo test --example rf_if_else <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn is_even(n: i32) -> bool {

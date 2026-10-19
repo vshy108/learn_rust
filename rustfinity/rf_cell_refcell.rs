@@ -176,7 +176,6 @@
 //! Filter: `cargo test --example rf_cell_refcell <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::cell::{Cell, Ref, RefCell, RefMut};

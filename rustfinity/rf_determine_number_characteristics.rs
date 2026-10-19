@@ -52,7 +52,6 @@
 //! Filter: `cargo test --example rf_determine_number_characteristics <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn describe_number(n: i32) -> String {

@@ -45,7 +45,6 @@
 //! Filter: `cargo test --example rf_macros_2 <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub trait ConfigDefault {

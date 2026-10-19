@@ -33,7 +33,6 @@
 //! Filter: `cargo test --example rf_sum_of_array <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn sum_array(arr: &[i32]) -> i32 {

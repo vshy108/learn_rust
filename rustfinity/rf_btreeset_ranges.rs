@@ -173,7 +173,6 @@
 //! Filter: `cargo test --example rf_btreeset_ranges <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::collections::BTreeSet;

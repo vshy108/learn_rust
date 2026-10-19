@@ -171,7 +171,6 @@
 //! Filter: `cargo test --example rf_cow_copy_on_write <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::borrow::Cow;

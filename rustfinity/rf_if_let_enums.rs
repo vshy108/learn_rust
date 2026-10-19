@@ -56,7 +56,6 @@
 //! Filter: `cargo test --example rf_if_let_enums <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub enum Message {

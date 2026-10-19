@@ -32,7 +32,6 @@
 //! Filter: `cargo test --example rf_fibonacci <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn fibonacci(n: u32) -> u32 {

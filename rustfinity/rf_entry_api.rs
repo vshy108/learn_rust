@@ -142,7 +142,6 @@
 //! Filter: `cargo test --example rf_entry_api <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::collections::HashMap;

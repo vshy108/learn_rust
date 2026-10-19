@@ -99,7 +99,6 @@
 //! Filter: `cargo test --example rf_rwlock_readers_writers <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::collections::HashMap;

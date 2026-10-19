@@ -128,7 +128,6 @@
 //! Filter: `cargo test --example rf_string_iterators <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Convert a string into a vector of its characters.

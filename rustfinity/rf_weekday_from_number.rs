@@ -44,7 +44,6 @@
 //! Filter: `cargo test --example rf_weekday_from_number <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn weekday_from_number(day: u8) -> &'static str {

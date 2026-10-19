@@ -65,7 +65,6 @@
 //! Filter: `cargo test --example rf_collecting_thread_results <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::thread;

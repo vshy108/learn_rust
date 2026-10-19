@@ -163,7 +163,6 @@
 //! Filter: `cargo test --example rf_arc_thread_safety <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::sync::atomic::{AtomicUsize, Ordering};

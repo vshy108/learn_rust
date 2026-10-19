@@ -76,7 +76,6 @@
 //! Filter: `cargo test --example rf_maze_solver <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn solve_maze(

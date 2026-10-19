@@ -67,7 +67,6 @@
 //! Filter: `cargo test --example rf_the_default_trait <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 #[derive(Debug)]

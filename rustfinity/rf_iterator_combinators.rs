@@ -135,7 +135,6 @@
 //! Filter: `cargo test --example rf_iterator_combinators <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Combines two slices into a single Vec using chain().

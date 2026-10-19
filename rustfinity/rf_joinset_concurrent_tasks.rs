@@ -64,7 +64,6 @@
 //! Filter: `cargo test --example rf_joinset_concurrent_tasks <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::time::Duration;

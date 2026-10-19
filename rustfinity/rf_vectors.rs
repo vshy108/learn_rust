@@ -31,7 +31,6 @@
 //! Filter: `cargo test --example rf_vectors <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn add_elements(vec: &mut Vec<i32>, elements: &[i32]) {

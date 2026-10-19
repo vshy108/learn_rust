@@ -79,7 +79,6 @@
 //! Filter: `cargo test --example rf_ownership <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn calculate_length(s: &String) -> usize {

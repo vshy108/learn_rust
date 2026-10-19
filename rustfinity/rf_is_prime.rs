@@ -41,7 +41,6 @@
 //! Filter: `cargo test --example rf_is_prime <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn is_prime(n: u32) -> bool {

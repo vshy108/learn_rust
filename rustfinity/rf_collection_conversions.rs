@@ -167,7 +167,6 @@
 //! Filter: `cargo test --example rf_collection_conversions <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};

@@ -139,7 +139,6 @@
 //! Filter: `cargo test --example rf_string_building <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 use std::fmt::{self, Display, Formatter, Write};

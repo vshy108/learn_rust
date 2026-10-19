@@ -28,7 +28,6 @@
 //! Filter: `cargo test --example rf_the_as_ref_trait <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 pub fn print_message<T: AsRef<str>>(message: T) {

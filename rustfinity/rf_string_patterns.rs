@@ -144,7 +144,6 @@
 //! Filter: `cargo test --example rf_string_patterns <test-name>`
 
 #![allow(unused)]
-
 #![allow(unused_variables)]
 
 /// Check if a string starts with the given prefix.

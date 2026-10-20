@@ -1,3 +1,7 @@
 /target/
 **/target/
 /.context/
+
+.DS_Store
+
+copilot-instructions.md

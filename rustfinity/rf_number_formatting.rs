@@ -69,6 +69,7 @@ pub fn format_base_less_than_ten(num: u32, base: u32) -> Result<String, &'static
         return Err("base must not be zero");
     }
 
+    // TODO: Reject base 1; this algorithm would not reduce the quotient and can loop forever.
     // if return in if, then better use if instead of else if for idiomatic guard clauses
     if base >= 10 {
         return Err("base must be less than ten");
@@ -82,6 +83,7 @@ pub fn format_base_less_than_ten(num: u32, base: u32) -> Result<String, &'static
     let mut r = num % base;
     let mut result = String::new();
     while q > 0 {
+        // TODO: Append digits in reverse order, then reverse once to avoid shifting each iteration.
         result.insert_str(0, &(r.to_string()));
         // need to get remainder 1st
         r = q % base;
@@ -104,6 +106,7 @@ pub fn format_base_less_than_ten(num: u32, base: u32) -> Result<String, &'static
 pub fn format_binary(num: u32) -> String {
     match format_base_less_than_ten(num, 2) {
         Ok(result) => result,
+        // TODO: Avoid hiding conversion errors by returning an empty string.
         Err(err_message) => String::from(""),
     }
 }
@@ -125,6 +128,7 @@ fn decimal_to_hex_lower(num: u32) -> String {
         13 => String::from("d"),
         14 => String::from("e"),
         15 => String::from("f"),
+        // TODO: Make the valid digit range explicit instead of silently returning an empty string.
         16.. => String::new(),
     }
 }
@@ -145,6 +149,7 @@ pub fn format_hex_lower(num: u32) -> String {
     let mut result = String::new();
 
     while q > 0 {
+        // TODO: Append digits in reverse order, then reverse once to avoid shifting each iteration.
         result.insert_str(0, &decimal_to_hex_lower(r));
         // need to get remainder 1st
         r = q % HEXADECIMAL_LENGTH;
@@ -165,6 +170,7 @@ fn decimal_to_hex_upper(num: u32) -> String {
         13 => String::from("D"),
         14 => String::from("E"),
         15 => String::from("F"),
+        // TODO: Make the valid digit range explicit instead of silently returning an empty string.
         16.. => String::new(),
     }
 }
@@ -185,6 +191,7 @@ pub fn format_hex_upper_prefixed(num: u32) -> String {
     let mut result = String::new();
 
     while q > 0 {
+        // TODO: Append digits in reverse order, then reverse once to avoid shifting each iteration.
         result.insert_str(0, &decimal_to_hex_upper(r));
         // need to get remainder 1st
         r = q % HEXADECIMAL_LENGTH;
@@ -201,6 +208,7 @@ pub fn format_octal(num: u32) -> String {
     // Learn: the `o` format specifier selects base 8.
     match format_base_less_than_ten(num, 8) {
         Ok(result) => result,
+        // TODO: Avoid hiding conversion errors by returning an empty string.
         Err(err_message) => String::from(""),
     }
 }
@@ -257,6 +265,7 @@ pub fn format_float_precision(num: f64, precision: usize) -> String {
                     let factor = 10_f64.powi(precision as i32);
                     // .round() to round up
                     might_need_plus_one_string.push(last_removed_char);
+                    // TODO: Round the kept decimal digits with a carry instead of parsing and rounding through f64.
                     let might_need_zero_padding =
                         ((might_need_plus_one_string.parse::<f64>().unwrap() * factor).round()
                             / factor);
